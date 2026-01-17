@@ -108,17 +108,17 @@
 
             <!-- Leyenda -->
             <div class="flex flex-wrap gap-6 mb-8 text-sm">
-                <div class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
+                <div id="btn-total" class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-all"
                     onclick="toggleSeries('total')">
                     <div class="w-3 h-3 rounded-sm bg-[#2000D6]"></div>
                     <span class="font-semibold text-gray-700">Total</span>
                 </div>
-                <div class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
+                <div id="btn-answered" class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-all"
                     onclick="toggleSeries('answered')">
                     <div class="w-3 h-3 rounded-sm bg-[#29ABE2]"></div>
                     <span class="font-semibold text-gray-700">Contestadas</span>
                 </div>
-                <div class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
+                <div id="btn-wait" class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-all"
                     onclick="toggleSeries('wait')">
                     <div class="w-8 h-1 rounded-full bg-[#141F4C] flex items-center justify-center">
                         <div class="w-2 h-2 bg-white rounded-full border-2 border-[#141F4C]"></div>
@@ -214,13 +214,12 @@
 
     </div>
 
+
     <script>
         // --- MOCK DATA ---
-        // Generador simple de datos aleatorios para que "parezca" real al cambiar fecha
         function generateData(seed) {
             const times = ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00'];
             return times.map((time, i) => {
-                // Pseudo-random basado en fecha + índice para consistencia visual
                 const randomFactor = Math.sin(seed * (i + 1)) * 0.5 + 0.5;
                 const total = Math.floor(20 + randomFactor * 50);
                 const answered = Math.floor(total * (0.8 + Math.random() * 0.15));
@@ -232,6 +231,8 @@
 
         // --- STATE ---
         let currentData = [];
+        let visibleSeries = { total: true, answered: true, wait: true };
+
         const chartConfig = {
             height: 100, // SVG Units
             maxVal: 80,  // Scale for bars
@@ -251,6 +252,26 @@
         const statMissed = document.getElementById('statMissed');
         const statEfficiency = document.getElementById('statEfficiency');
 
+        // --- VISIBILITY TOGGLE ---
+        function toggleSeries(key) {
+            visibleSeries[key] = !visibleSeries[key];
+
+            // Update visual state of buttons
+            const btnMap = { 'total': 'btn-total', 'answered': 'btn-answered', 'wait': 'btn-wait' };
+            const btn = document.getElementById(btnMap[key]);
+
+            if (btn) {
+                if (visibleSeries[key]) {
+                    btn.classList.remove('opacity-40', 'grayscale');
+                } else {
+                    btn.classList.add('opacity-40', 'grayscale');
+                }
+            }
+
+            // Re-render chart without regenerating data
+            renderChart(currentData);
+        }
+
         // --- RENDER FUNCTIONS ---
 
         function renderChart(data) {
@@ -268,42 +289,50 @@
                 const barWidth = 4;
 
                 // Bars Total
-                const hTotal = (d.total / chartConfig.maxVal) * chartConfig.height;
-                const yTotal = chartConfig.height - hTotal;
-                barsLayer.appendChild(createRect(xPos - 2, yTotal, barWidth, hTotal, '#2000D6'));
+                if (visibleSeries.total) {
+                    const hTotal = (d.total / chartConfig.maxVal) * chartConfig.height;
+                    const yTotal = chartConfig.height - hTotal;
+                    barsLayer.appendChild(createRect(xPos - 2, yTotal, barWidth, hTotal, '#2000D6'));
+                }
 
                 // Bars Answered
-                const hAns = (d.answered / chartConfig.maxVal) * chartConfig.height;
-                const yAns = chartConfig.height - hAns;
-                barsLayer.appendChild(createRect(xPos + 2, yAns, barWidth, hAns, '#29ABE2', 0.9));
+                if (visibleSeries.answered) {
+                    const hAns = (d.answered / chartConfig.maxVal) * chartConfig.height;
+                    const yAns = chartConfig.height - hAns;
+                    barsLayer.appendChild(createRect(xPos + 2, yAns, barWidth, hAns, '#29ABE2', 0.9));
+                }
 
                 // Labels
                 const label = document.createElement('div');
                 label.textContent = d.time;
                 xAxisLabels.appendChild(label);
 
-                // Line Points
-                const yLine = chartConfig.height - ((d.wait / chartConfig.maxWait) * chartConfig.height);
-                lineDataPoints.push({ x: xPos, y: yLine });
+                // Line Points & Dots
+                if (visibleSeries.wait) {
+                    const yLine = chartConfig.height - ((d.wait / chartConfig.maxWait) * chartConfig.height);
+                    lineDataPoints.push({ x: xPos, y: yLine });
 
-                // Dots
-                const dot = document.createElement('div');
-                dot.className = 'absolute w-3 h-3 bg-white border-2 border-[#141F4C] rounded-full transform -translate-x-1/2 -translate-y-1/2 shadow-sm z-10 transition-all duration-500';
-                dot.style.left = `${xPos}%`;
-                dot.style.top = `${yLine}%`;
-                dotsLayer.appendChild(dot);
+                    // Dots
+                    const dot = document.createElement('div');
+                    dot.className = 'absolute w-3 h-3 bg-white border-2 border-[#141F4C] rounded-full transform -translate-x-1/2 -translate-y-1/2 shadow-sm z-10 transition-all duration-500';
+                    dot.style.left = `${xPos}%`;
+                    dot.style.top = `${yLine}%`;
+                    dotsLayer.appendChild(dot);
+                }
             });
 
             // Draw Line
-            const pathD = getSmoothPath(lineDataPoints);
-            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-            path.setAttribute('d', pathD);
-            path.setAttribute('fill', 'none');
-            path.setAttribute('stroke', '#141F4C');
-            path.setAttribute('stroke-width', '2');
-            path.setAttribute('vector-effect', 'non-scaling-stroke');
-            path.classList.add('line-path');
-            lineLayer.insertBefore(path, lineLayer.firstChild);
+            if (visibleSeries.wait && lineDataPoints.length > 0) {
+                const pathD = getSmoothPath(lineDataPoints);
+                const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                path.setAttribute('d', pathD);
+                path.setAttribute('fill', 'none');
+                path.setAttribute('stroke', '#141F4C');
+                path.setAttribute('stroke-width', '2');
+                path.setAttribute('vector-effect', 'non-scaling-stroke');
+                path.classList.add('line-path');
+                lineLayer.insertBefore(path, lineLayer.firstChild);
+            }
         }
 
         // --- HELPER: Smooth Path Generator (Cubic Bezier) ---
@@ -321,7 +350,6 @@
                 const p3 = points[i + 2] || points[i + 1]; // Next Next (clamp)
 
                 // Control points for p1 -> p2 segment
-                // Very basic smoothing algorithm (Catmull-Rom to Bezier conversion factor 6 is common for tightness)
                 const cp1x = p1.x + (p2.x - p0.x) / 6;
                 const cp1y = p1.y + (p2.y - p0.y) / 6;
 
@@ -343,13 +371,6 @@
             rect.setAttribute('rx', '1');
             rect.setAttribute('opacity', opacity);
             rect.classList.add('bar-rect');
-
-            // Simple Entry Animation: Start height 0
-            // rect.setAttribute('y', 100); 
-            // rect.setAttribute('height', 0);
-            // setTimeout(() => { ... }, 10);
-            // Pero para demo "cambio de fecha", queremos ver cómo cambian.
-
             return rect;
         }
 
@@ -358,22 +379,22 @@
             const dateStr = datePicker.value;
             const seed = dateStr.split('-').reduce((a, c) => a + parseInt(c), 0);
 
-            const newData = generateData(seed);
+            // Update global data
+            currentData = generateData(seed);
 
             // 1. Calculate Stats from Data
-            const totalCalls = newData.reduce((sum, item) => sum + item.total, 0);
-            const totalAnswered = newData.reduce((sum, item) => sum + item.answered, 0);
+            const totalCalls = currentData.reduce((sum, item) => sum + item.total, 0);
+            const totalAnswered = currentData.reduce((sum, item) => sum + item.answered, 0);
             const totalMissed = totalCalls - totalAnswered; // Simple math
             const efficiency = totalCalls > 0 ? Math.round((totalAnswered / totalCalls) * 100) : 0;
 
             // 2. Update Info Card DOM
-            // Simple counting animation effect could be added here, but direct update for now
             statTotal.textContent = totalCalls;
             statAnswered.textContent = totalAnswered;
             statMissed.textContent = totalMissed;
             statEfficiency.textContent = `${efficiency}%`;
 
-            renderChart(newData);
+            renderChart(currentData);
         }
 
         // Event Listeners
@@ -383,6 +404,4 @@
         updateChart();
 
     </script>
-</body>
-
-</html>
+</body></html>
