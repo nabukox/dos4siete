@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dos Siete - Demos</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -23,11 +24,36 @@
                 <div class="font-bold text-gray-800 group-hover:text-blue-600">Estadísticas Visuales</div>
                 <div class="text-sm text-gray-500">Gráfico interactivo de llamadas</div>
             </a>
-            <a href="centralita-virtual/gestion_inteligente_llamadas.html"
-                class="block p-4 border rounded-xl hover:bg-blue-50 hover:border-blue-500 transition-all group">
-                <div class="font-bold text-gray-800 group-hover:text-blue-600">Gestión de Transferencias</div>
-                <div class="text-sm text-gray-500">Simulación de centralita virtual</div>
-            </a>
+            <!-- Centralita Virtual Dropdown -->
+            <div class="group border rounded-xl hover:bg-blue-50 hover:border-blue-500 transition-all cursor-default">
+                <div class="p-4 pb-2">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="font-bold text-gray-800 group-hover:text-blue-600">Centralita Virtual</div>
+                            <div class="text-sm text-gray-500">Gestión de llamadas</div>
+                        </div>
+                        <i
+                            class="fas fa-chevron-down text-gray-400 group-hover:text-blue-500 transition-transform group-hover:rotate-180"></i>
+                    </div>
+                </div>
+
+                <!-- Submenu Links -->
+                <div class="max-h-0 overflow-hidden group-hover:max-h-40 transition-all duration-500 ease-in-out">
+                    <div class="px-4 pb-4 space-y-2">
+                        <a href="centralita-virtual/gestion_inteligente_llamadas.html"
+                            class="block p-2 rounded-lg bg-white/50 hover:bg-white text-sm text-gray-600 hover:text-blue-600 hover:shadow-sm border border-transparent hover:border-gray-100 transition-all flex items-center justify-between group">
+                            <span>Transferencia Manual</span>
+                            <i
+                                class="fas fa-arrow-right opacity-0 group-hover:opacity-100 text-xs transition-opacity"></i>
+                        </a>
+                        <a href="centralita-virtual/gestion_inteligente_llamadas_auto.html"
+                            class="block p-2 rounded-lg bg-white/50 hover:bg-white text-sm text-gray-600 hover:text-blue-600 hover:shadow-sm border border-transparent hover:border-gray-100 transition-all flex items-center justify-between group">
+                            <span>Transferencia Auto</span>
+                            <i class="fas fa-magic text-xs group-hover:text-blue-500 transition-colors"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
