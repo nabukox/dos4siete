@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dos Siete - Escena Transferencia (Auto)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for Icons (Abstracted usage) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- DESIGN TOKENS --- */
+        :root {
+            /* Colores de Estructura */
+            --wild-sand: #F2F2F2;
+            --white: #FFFFFF;
+            --bunting: #141F4C;
+
+            /* Colores de Acción */
+            --picton-blue: #29ABE2;
+            --dark-blue: #2000D6;
+            --mariner: #2376C9;
+        }
+
+        body {
+            font-family: 'Futura', 'Helvetica Neue', sans-serif;
+            /* Proxy para Futura */
+            background-color: var(--wild-sand);
+            color: var(--bunting);
+            overflow: hidden;
+            /* Para el efecto de escena contenida */
+        }
+
+        /* --- SIMPLIFIED UI UTILS --- */
+
+        /* Sombras Flotantes */
+        .elevation-low {
+            box-shadow: 0px 4px 12px rgba(20, 31, 76, 0.08);
+        }
+
+        .elevation-high {
+            box-shadow: 0px 12px 24px rgba(20, 31, 76, 0.15);
+        }
+
+        /* Abstracción de Texto (Greeking) */
+        .greeking-title {
+            background-color: var(--bunting);
+            border-radius: 4px;
+            height: 12px;
+            display: inline-block;
+            opacity: 0.8;
+        }
+
+        .greeking-line {
+            background-color: var(--mariner);
+            height: 2px;
+            border-radius: 1px;
+            display: block;
+            margin-top: 6px;
+            opacity: 0.6;
+        }
+
+        /* Formas Geométricas */
+        .shape-circle {
+            border-radius: 50%;
+        }
+
+        .shape-pill {
+            border-radius: 999px;
+        }
+
+        .shape-card {
+            border-radius: 24px;
+        }
+
+        /* --- ANIMACIONES --- */
+
+        /* Pulso llamada entrante */
+        @keyframes pulse-blue {
+            0% {
+                box-shadow: 0 0 0 0 rgba(41, 171, 226, 0.7);
+                transform: scale(1);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(41, 171, 226, 0);
+                transform: scale(1.05);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(41, 171, 226, 0);
+                transform: scale(1);
+            }
+        }
+
+        .animate-pulse-call {
+            animation: pulse-blue 2s infinite;
+        }
+
+        /* Transiciones de UI */
+        .transition-all-smooth {
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .bounce-in {
+            animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            60% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body class="flex items-center justify-center min-h-screen bg-[#F2F2F2] p-4 lg:p-12 relative">
+
+    <!-- CURSOR Demo (Global) -->
+    <div id="demo-cursor"
+        class="absolute top-0 left-0 z-[9999] opacity-0 pointer-events-none transition-all duration-700 ease-in-out transform origin-top-left drop-shadow-xl text-black">
+        <i class="fas fa-hand-pointer text-3xl"
+            style="text-shadow: 2px 2px 0px white, -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;"></i>
+    </div>
+
+    <!-- CONTENEDOR HERO (50% Split Style) -->
+    <div class="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+        <!-- COLUMNA IZQUIERDA: Texto Contexto -->
+        <div class="space-y-6 text-left order-2 lg:order-1 relative z-10">
+            <span
+                class="inline-block px-3 py-1 rounded-full bg-[#29ABE2]/10 text-[#29ABE2] text-sm font-bold tracking-wider">
+                GESTIÓN INTELIGENTE
+            </span>
+            <h1 class="text-4xl lg:text-5xl font-bold text-[#141F4C] leading-tight">
+                Continuidad diseñada para tu PYME.
+            </h1>
+            <p class="text-lg text-[#2376C9] max-w-md leading-relaxed">
+                Transfiere llamadas entre departamentos con un solo clic. Sin hardware, sin esperas. La interfaz que
+                potencia tu equipo.
+            </p>
+
+            <!-- Indicador de estado para el usuario -->
+            <div class="pt-8 flex items-center gap-3 text-sm text-[#141F4C]/50">
+                <div class="w-2 h-2 rounded-full bg-[#29ABE2] animate-pulse"></div>
+                <span>Demostración automática</span>
+            </div>
+        </div>
+
+        <!-- COLUMNA DERECHA: Escena Simplified UI -->
+        <div id="scene-container"
+            class="relative w-full h-[500px] flex items-center justify-center order-1 lg:order-2 perspective-1000">
+
+            <!-- Fondo decorativo abstracto (Vesica sutil) -->
+            <div
+                class="absolute w-96 h-96 bg-white rounded-full opacity-40 blur-3xl -top-10 -right-10 pointer-events-none">
+            </div>
+
+            <!-- UI CONTAINER: Call Card -->
+            <!-- Initial State: Incoming Call -->
+            <div id="call-card"
+                class="relative bg-white w-72 h-auto shape-card elevation-low flex flex-col items-center text-center transition-all-smooth z-20 overflow-hidden min-h-[350px] justify-center">
+
+                <!-- Header (Collapsible) -->
+                <div id="card-header"
+                    class="absolute top-0 left-0 w-full h-0 bg-[#2000D6] transition-all duration-500 z-0"></div>
+
+                <!-- CONTENIDO: ESTADO 1 (INCOMING) -->
+                <div id="state-incoming"
+                    class="w-full flex flex-col items-center p-6 z-10 transition-all duration-500 absolute inset-0 justify-center">
+                    <!-- Avatar Pulsante -->
+                    <div class="w-24 h-24 rounded-full bg-[#F2F2F2] flex items-center justify-center mb-6 relative">
+                        <div class="absolute inset-0 rounded-full bg-[#29ABE2]/20 animate-pulse-call"></div>
+                        <div
+                            class="w-20 h-20 rounded-full bg-[#E5E7EB] overflow-hidden flex items-center justify-center">
+                            <!-- Geometric Abstract Avatar -->
+                            <div class="w-full h-full bg-[#2376C9] opacity-20 relative">
+                                <div
+                                    class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-12 h-12 bg-[#2376C9] rounded-full">
+                                </div>
+                                <div
+                                    class="absolute top-4 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-[#2376C9] rounded-full">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Icono llamada entrante -->
+                        <div
+                            class="absolute -bottom-2 -right-2 w-10 h-10 bg-[#29ABE2] rounded-full flex items-center justify-center border-4 border-white shadow-sm z-20">
+                            <i class="fas fa-phone text-white text-sm"></i>
+                        </div>
+                    </div>
+
+                    <!-- Datos (Excepción: Texto real) -->
+                    <h2 class="text-[#141F4C] text-xl font-bold mb-1">Roberto Núñez</h2>
+                    <p class="text-[#2376C9] text-sm mb-8">Cliente Nuevo • +56 9 8543 2100</p>
+
+                    <!-- Botón Action -->
+                    <button id="btn-answer" onclick="answerCall()"
+                        class="w-full py-3 bg-[#29ABE2] hover:bg-[#2376C9] text-white rounded-full font-semibold shadow-lg transition-transform transform active:scale-95 flex items-center justify-center gap-2 group">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>Contestar</span>
+                    </button>
+                </div>
+
+                <!-- CONTENIDO: ESTADO 2 (ACTIVE CALL) -->
+                <div id="state-active"
+                    class="w-full hidden flex-col items-center justify-start pt-8 z-10 opacity-0 transition-opacity duration-500 absolute inset-0">
+
+                    <!-- Avatar Pequeño (Moved up) -->
+                    <div class="flex flex-col items-center mb-6 mt-4">
+                        <div
+                            class="w-16 h-16 rounded-full border-4 border-white bg-[#E5E7EB] overflow-hidden shadow-sm mb-3">
+                            <div class="w-full h-full bg-[#2376C9] opacity-20 relative">
+                                <div
+                                    class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-10 h-10 bg-[#2376C9] rounded-full">
+                                </div>
+                                <div
+                                    class="absolute top-3 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-[#2376C9] rounded-full">
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="text-white font-bold relative z-10">Roberto Núñez</h3>
+                        <div class="flex items-center gap-2 mt-1 relative z-10">
+                            <div class="w-2 h-2 rounded-full bg-[#29ABE2] animate-pulse"></div>
+                            <span class="text-xs text-blue-200">00:14</span>
+                        </div>
+                    </div>
+
+                    <!-- Grid de Acciones -->
+                    <div class="grid grid-cols-3 gap-4 w-full px-6 mb-6">
+                        <!-- Mute -->
+                        <div
+                            class="flex flex-col items-center gap-2 cursor-pointer opacity-50 hover:opacity-100 transition-opacity">
+                            <div
+                                class="w-12 h-12 rounded-full bg-[#F2F2F2] flex items-center justify-center text-[#141F4C]">
+                                <i class="fas fa-microphone-slash"></i>
+                            </div>
+                            <!-- Greeking label -->
+                            <div class="greeking-title w-8 bg-[#141F4C]"></div>
+                        </div>
+                        <!-- Keypad -->
+                        <div
+                            class="flex flex-col items-center gap-2 cursor-pointer opacity-50 hover:opacity-100 transition-opacity">
+                            <div
+                                class="w-12 h-12 rounded-full bg-[#F2F2F2] flex items-center justify-center text-[#141F4C]">
+                                <i class="fas fa-th"></i>
+                            </div>
+                            <div class="greeking-title w-10 bg-[#141F4C]"></div>
+                        </div>
+                        <!-- Transfer (Highlighted) -->
+                        <div id="btn-transfer" onclick="openTransferModal()"
+                            class="flex flex-col items-center gap-2 cursor-pointer transform hover:scale-105 transition-transform">
+                            <div
+                                class="w-12 h-12 rounded-full bg-[#29ABE2] text-white flex items-center justify-center shadow-md ring-4 ring-[#29ABE2]/20">
+                                <i class="fas fa-share"></i>
+                            </div>
+                            <span class="text-xs font-bold text-[#29ABE2]">Transferir</span>
+                        </div>
+                    </div>
+
+                    <button
+                        class="w-full max-w-[200px] py-3 bg-[#FF4D4D] text-white rounded-full font-semibold shadow-sm mt-auto mb-6 opacity-90 hover:opacity-100">
+                        <i class="fas fa-phone-slash"></i>
+                    </button>
+                </div>
+
+                <!-- ESTADO: SUCCESS (Clean State) -->
+                <!-- Removed background color/blur to sit cleanly on white card -->
+                <div id="state-success"
+                    class="absolute inset-0 z-50 hidden flex flex-col items-center justify-center opacity-0 transition-all duration-500">
+                    <div
+                        class="w-[68px] h-[68px] rounded-full bg-[#29ABE2] flex items-center justify-center text-white text-3xl shadow-lg mb-6 leading-none">
+                        <i class="fas fa-check leading-none"></i>
+                    </div>
+                    <h3 class="text-[#141F4C] font-bold text-xl mb-1">Transferencia Exitosa</h3>
+                    <p class="text-[#2376C9] text-sm">Has conectado con Soporte TI</p>
+
+                    <button id="btn-reset" onclick="resetScene()"
+                        class="mt-8 px-8 py-3 rounded-full bg-[#29ABE2] text-white text-sm font-semibold hover:bg-[#2376C9] shadow-lg transition-all transform hover:scale-105">
+                        Reiniciar interacción
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- MODAL FLOTANTE (Transfer List) -->
+            <div id="transfer-modal"
+                class="absolute top-1/2 left-1/2 transform -translate-x-1/2 translate-y-20 opacity-0 pointer-events-none w-64 bg-white shape-card elevation-high p-4 z-30 transition-all-smooth">
+                <!-- Header Modal -->
+                <div class="flex items-center justify-between mb-4 border-b border-gray-100 pb-2">
+                    <span class="text-xs font-bold text-[#141F4C] uppercase tracking-wide">Contactos</span>
+                    <div class="w-2 h-2 rounded-full bg-[#29ABE2]"></div>
+                </div>
+
+                <!-- Lista de Contactos -->
+                <div class="space-y-2">
+                    <!-- Contacto 1 -->
+                    <div
+                        class="flex items-center gap-3 p-2 rounded-lg hover:bg-[#F2F2F2] cursor-pointer transition-colors group">
+                        <div
+                            class="w-8 h-8 rounded-full bg-[#2376C9]/20 flex items-center justify-center text-[#2376C9] text-xs font-bold">
+                            AL
+                        </div>
+                        <div class="flex-1">
+                            <div class="text-sm font-medium text-[#141F4C]">Ana López</div>
+                            <div class="greeking-line w-12 bg-[#2376C9]"></div>
+                        </div>
+                        <div class="w-2 h-2 rounded-full bg-green-400"></div>
+                    </div>
+
+                    <!-- Contacto 2 (Target) -->
+                    <div id="btn-target-contact" onclick="completeTransfer()"
+                        class="flex items-center gap-3 p-2 rounded-lg hover:bg-[#F2F2F2] cursor-pointer transition-colors group ring-1 ring-transparent hover:ring-[#29ABE2]/30">
+                        <div
+                            class="w-8 h-8 rounded-full bg-[#29ABE2] text-white flex items-center justify-center text-xs font-bold shadow-sm">
+                            ST
+                        </div>
+                        <div class="flex-1">
+                            <div class="text-sm font-medium text-[#141F4C]">Soporte TI</div>
+                            <div class="text-[10px] text-[#29ABE2]">Disponible</div>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-300 group-hover:text-[#29ABE2] text-xs"></i>
+                    </div>
+
+                    <!-- Contacto 3 -->
+                    <div
+                        class="flex items-center gap-3 p-2 rounded-lg hover:bg-[#F2F2F2] cursor-pointer transition-colors group">
+                        <div
+                            class="w-8 h-8 rounded-full bg-[#2376C9]/20 flex items-center justify-center text-[#2376C9] text-xs font-bold">
+                            VT
+                        </div>
+                        <div class="flex-1">
+                            <div class="text-sm font-medium text-[#141F4C]">Ventas</div>
+                            <div class="greeking-line w-10 bg-[#2376C9]"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // --- LOGIC FOR THE SCENE ---
+
+        const callCard = document.getElementById('call-card');
+        const cardHeader = document.getElementById('card-header');
+
+        const stateIncoming = document.getElementById('state-incoming');
+        const stateActive = document.getElementById('state-active');
+        const stateSuccess = document.getElementById('state-success');
+
+        const transferModal = document.getElementById('transfer-modal');
+
+        // --- DEMO AUTOMATION LOGIC ---
+        const cursor = document.getElementById('demo-cursor');
+
+        // Helper: Wait for Ms
+        const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+        // Helper: Move Cursor to Element
+        async function moveCursorTo(selector) {
+            const el = document.querySelector(selector);
+            if (!el) return;
+
+            const rect = el.getBoundingClientRect();
+            // Center of the element
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+
+            // Apply slight offset for realism
+            cursor.style.left = `${x}px`;
+            cursor.style.top = `${y}px`;
+
+            // Show cursor if hidden
+            cursor.style.opacity = '1';
+
+            // Wait for movement to finish (transition duration)
+            await wait(800);
+        }
+
+        // Helper: Click Animation
+        async function clickCursor() {
+            cursor.style.transform = "scale(0.8)";
+            await wait(150);
+            cursor.style.transform = "scale(1)";
+            await wait(150);
+        }
+
+        // --- ORIGINAL FUNCTIONS (Modified to be called by demo) ---
+
+        function answerCall() {
+            // 1. Hide Incoming
+            stateIncoming.style.opacity = '0';
+            setTimeout(() => {
+                stateIncoming.classList.add('hidden');
+                stateActive.classList.remove('hidden');
+
+                // 2. Expand Header (Morph effect)
+                cardHeader.style.height = '175px';
+
+                // 3. Show Active controls
+                setTimeout(() => {
+                    stateActive.style.opacity = '1';
+                }, 100);
+            }, 300);
+        }
+
+        function openTransferModal() {
+            // Float the modal in
+            transferModal.classList.remove('pointer-events-none', 'translate-y-20', 'opacity-0', 'hidden');
+            transferModal.classList.add('translate-y-12', 'opacity-100'); // Slightly offset
+        }
+
+        function completeTransfer() {
+            // 1. Ocultar Modal (Desaparece)
+            transferModal.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+            transferModal.classList.remove('translate-y-12');
+
+            setTimeout(() => {
+                transferModal.classList.add('hidden');
+            }, 500);
+
+            // 2. Limpiar la tarjeta (Fade out controles activos y retraer header)
+            stateActive.style.opacity = '0';
+            cardHeader.style.height = '0'; // Vuelve a blanco
+
+            setTimeout(() => {
+                // Ocultar estructura activa para asegurar limpieza
+                stateActive.classList.add('hidden');
+
+                // 3. Mostrar Success Overlay Centrado
+                stateSuccess.classList.remove('hidden');
+                // Forzar reflow
+                void stateSuccess.offsetWidth;
+
+                stateSuccess.style.opacity = '1';
+                // Animación de entrada para el icono
+                const icon = stateSuccess.querySelector('div');
+                icon.classList.add('bounce-in');
+            }, 300);
+        }
+
+        function resetScene() {
+            // Reset everything to initial state
+            stateSuccess.style.opacity = '0';
+            transferModal.classList.add('pointer-events-none', 'translate-y-20', 'opacity-0');
+
+            const icon = stateSuccess.querySelector('div');
+            icon.classList.remove('bounce-in');
+
+            setTimeout(() => {
+                stateSuccess.classList.add('hidden');
+
+                stateActive.style.opacity = '0';
+                cardHeader.style.height = '0';
+                stateActive.classList.add('hidden');
+
+                // Volver a Incoming
+                stateIncoming.classList.remove('hidden');
+                setTimeout(() => {
+                    stateIncoming.style.opacity = '1';
+                }, 50);
+            }, 300);
+        }
+
+        // --- DEMO SEQUENCE ---
+        async function runDemo() {
+            // Initial Wait
+            await wait(1000);
+
+            // 1. Answer Call
+            await moveCursorTo('#btn-answer');
+            await clickCursor();
+            answerCall();
+
+            // Wait for answer animation + holding
+            await wait(2500);
+
+            // 2. Open Transfer
+            await moveCursorTo('#btn-transfer');
+            await clickCursor();
+            openTransferModal();
+
+            // Wait for modal
+            await wait(1500);
+
+            // 3. Select Contact
+            await moveCursorTo('#btn-target-contact');
+            await clickCursor();
+            completeTransfer();
+
+            // Wait for success
+            await wait(3500);
+
+            // 4. Reset
+            await moveCursorTo('#btn-reset');
+            await clickCursor();
+            resetScene();
+
+            // Loop
+            setTimeout(runDemo, 1000);
+        }
+
+        // Setup resize listener to correct cursor position if window changes
+        // (Simplified: just rely on next moveCursorTo call)
+
+        // Start Demo
+        window.addEventListener('load', runDemo);
+
+    </script>
+</body>
+
+</html>

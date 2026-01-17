@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas Visuales</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Futura Proxy -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --wild-sand: #F2F2F2;
+            --white: #FFFFFF;
+            --bunting: #141F4C;
+            --picton-blue: #29ABE2;
+            --dark-blue: #2000D6;
+            --mariner: #2376C9;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--wild-sand);
+            color: var(--bunting);
+        }
+
+        /* Custom Date Input Styling */
+        .custom-date-trigger {
+            background-color: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 999px;
+            padding: 0.5rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .custom-date-trigger:hover {
+            border-color: var(--picton-blue);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(41, 171, 226, 0.1);
+        }
+
+        .custom-date-trigger:focus-within {
+            ring: 2px solid var(--picton-blue);
+        }
+
+        input[type="date"] {
+            border: none;
+            outline: none;
+            background: transparent;
+            color: var(--bunting);
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+        }
+
+        /* Chart Animations */
+        .bar-rect {
+            transition: height 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), y 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+            transform-origin: bottom;
+        }
+
+        .line-path {
+            transition: d 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dot-circle {
+            transition: cy 0.8s cubic-bezier(0.4, 0, 0.2, 1), cx 0.8s ease;
+        }
+    </style>
+</head>
+
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <!-- Wrapper Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 w-full max-w-6xl items-start">
+
+        <!-- Card Principal (Chart) - Spans 2 cols -->
+        <div class="lg:col-span-2 bg-white rounded-[32px] shadow-xl w-full p-8 lg:p-12 relative overflow-hidden">
+
+            <!-- Header: Título y Filtro -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
+                <!-- Título Visual -->
+                <div class="space-y-2">
+                    <h1 class="text-2xl font-bold text-[#141F4C]">Rendimiento de Llamadas</h1>
+                    <div class="flex items-center gap-2 text-sm text-[#2376C9]/80">
+                        <span class="w-2 h-2 rounded-full bg-[#29ABE2] animate-pulse"></span>
+                        Actualizado en tiempo real
+                    </div>
+                </div>
+                <!-- Selector de Fecha -->
+                <label class="custom-date-trigger group">
+                    <i class="far fa-calendar-alt text-[#29ABE2] text-lg"></i>
+                    <input type="date" id="datePicker" value="2026-01-09">
+                    <i
+                        class="fas fa-chevron-down text-gray-400 text-xs ml-1 group-hover:text-[#29ABE2] transition-colors"></i>
+                </label>
+            </div>
+
+            <!-- Leyenda -->
+            <div class="flex flex-wrap gap-6 mb-8 text-sm">
+                <div class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
+                    onclick="toggleSeries('total')">
+                    <div class="w-3 h-3 rounded-sm bg-[#2000D6]"></div>
+                    <span class="font-semibold text-gray-700">Total</span>
+                </div>
+                <div class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
+                    onclick="toggleSeries('answered')">
+                    <div class="w-3 h-3 rounded-sm bg-[#29ABE2]"></div>
+                    <span class="font-semibold text-gray-700">Contestadas</span>
+                </div>
+                <div class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
+                    onclick="toggleSeries('wait')">
+                    <div class="w-8 h-1 rounded-full bg-[#141F4C] flex items-center justify-center">
+                        <div class="w-2 h-2 bg-white rounded-full border-2 border-[#141F4C]"></div>
+                    </div>
+                    <span class="font-semibold text-gray-700">Tiempo de Espera</span>
+                </div>
+            </div>
+
+            <!-- Área del Gráfico -->
+            <div class="relative w-full h-[300px] bg-gray-50/50 rounded-2xl border border-dashed border-gray-200 p-4">
+                <svg id="chartSvg" class="w-full h-full overflow-visible" preserveAspectRatio="none"
+                    viewBox="0 0 100 100">
+                    <g class="opacity-10">
+                        <line x1="0" y1="0" x2="100" y2="0" stroke="#141F4C" stroke-width="0.5"
+                            vector-effect="non-scaling-stroke"></line>
+                        <line x1="0" y1="25" x2="100" y2="25" stroke="#141F4C" stroke-width="0.5"
+                            vector-effect="non-scaling-stroke"></line>
+                        <line x1="0" y1="50" x2="100" y2="50" stroke="#141F4C" stroke-width="0.5"
+                            vector-effect="non-scaling-stroke"></line>
+                        <line x1="0" y1="75" x2="100" y2="75" stroke="#141F4C" stroke-width="0.5"
+                            vector-effect="non-scaling-stroke"></line>
+                        <line x1="0" y1="100" x2="100" y2="100" stroke="#141F4C" stroke-width="0.5"
+                            vector-effect="non-scaling-stroke"></line>
+                    </g>
+                    <!-- Data Layers -->
+                    <g id="barsLayer"></g>
+                    <g id="lineLayer"></g>
+                </svg>
+                <!-- HTML Overlay for Dots -->
+                <div id="dotsLayer" class="absolute inset-0 pointer-events-none"></div>
+                <!-- Eje X (Etiquetas) -->
+                <div id="xAxisLabels"
+                    class="absolute bottom-0 left-0 w-full flex justify-between px-4 transform translate-y-6 text-xs text-gray-400 font-medium">
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW: Info Card (Floating side panel) -->
+        <div
+            class="bg-white rounded-[32px] shadow-xl w-full p-8 flex flex-col items-start space-y-6 h-full relative overflow-hidden transition-all duration-500 hover:-translate-y-1 ring-1 ring-gray-100">
+
+            <!-- Icon & Abstract Header -->
+            <div class="flex items-center gap-4 mb-2">
+                <div class="w-12 h-12 rounded-full bg-[#E6F4FA] flex items-center justify-center text-[#29ABE2]">
+                    <i class="fas fa-phone-volume text-xl"></i>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <div class="w-24 h-4 rounded bg-[#141F4C]"></div>
+                    <div class="w-16 h-1 rounded bg-[#2376C9] opacity-40"></div>
+                </div>
+            </div>
+
+            <!-- Big Metric -->
+            <div>
+                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Total Entrantes</span>
+                <div id="statTotal" class="text-6xl font-extrabold text-[#141F4C] leading-none mt-2">125</div>
+            </div>
+
+            <div class="w-full h-px bg-gray-100"></div>
+
+            <!-- List Metrics -->
+            <div class="w-full space-y-4">
+                <!-- Row 1 -->
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-2 h-2 rounded-full bg-[#29ABE2]"></div> <!-- Picton Blue -->
+                        <span class="text-sm font-semibold text-gray-600">Atendidas</span>
+                    </div>
+                    <span id="statAnswered" class="text-xl font-bold text-[#141F4C]">120</span>
+                </div>
+
+                <!-- Row 2 -->
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-2 h-2 rounded-full bg-gray-300"></div>
+                        <span class="text-sm font-semibold text-gray-600">Perdidas</span>
+                    </div>
+                    <span id="statMissed" class="text-xl font-bold text-[#141F4C]">5</span>
+                </div>
+            </div>
+
+            <!-- Efficiency Block -->
+            <div
+                class="w-full mt-auto bg-[#F2F2F2] rounded-2xl p-4 flex items-center justify-between group cursor-pointer hover:bg-[#E6F4FA] transition-colors">
+                <span class="text-sm font-bold text-[#141F4C]">Eficiencia</span>
+                <div class="flex items-center gap-2 text-[#2000D6]">
+                    <span id="statEfficiency" class="text-lg font-bold">96%</span>
+                    <i class="fas fa-arrow-up transform rotate-45 text-xs"></i>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // --- MOCK DATA ---
+        // Generador simple de datos aleatorios para que "parezca" real al cambiar fecha
+        function generateData(seed) {
+            const times = ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00'];
+            return times.map((time, i) => {
+                // Pseudo-random basado en fecha + índice para consistencia visual
+                const randomFactor = Math.sin(seed * (i + 1)) * 0.5 + 0.5;
+                const total = Math.floor(20 + randomFactor * 50);
+                const answered = Math.floor(total * (0.8 + Math.random() * 0.15));
+                const wait = Math.floor(2 + Math.random() * 8); // Segundos
+
+                return { time, total, answered, wait };
+            });
+        }
+
+        // --- STATE ---
+        let currentData = [];
+        const chartConfig = {
+            height: 100, // SVG Units
+            maxVal: 80,  // Scale for bars
+            maxWait: 15  // Scale for line
+        };
+
+        // --- DOM ELEMENTS ---
+        const barsLayer = document.getElementById('barsLayer');
+        const lineLayer = document.getElementById('lineLayer');
+        const dotsLayer = document.getElementById('dotsLayer');
+        const xAxisLabels = document.getElementById('xAxisLabels');
+        const datePicker = document.getElementById('datePicker');
+
+        // Stats Elements
+        const statTotal = document.getElementById('statTotal');
+        const statAnswered = document.getElementById('statAnswered');
+        const statMissed = document.getElementById('statMissed');
+        const statEfficiency = document.getElementById('statEfficiency');
+
+        // --- RENDER FUNCTIONS ---
+
+        function renderChart(data) {
+            // 1. Limpiar
+            barsLayer.innerHTML = '';
+            lineLayer.innerHTML = '';
+            dotsLayer.innerHTML = '';
+            xAxisLabels.innerHTML = '';
+
+            // Generate Path for Line Chart
+            const lineDataPoints = [];
+
+            data.forEach((d, i) => {
+                const xPos = (i / (data.length - 1)) * 100;
+                const barWidth = 4;
+
+                // Bars Total
+                const hTotal = (d.total / chartConfig.maxVal) * chartConfig.height;
+                const yTotal = chartConfig.height - hTotal;
+                barsLayer.appendChild(createRect(xPos - 2, yTotal, barWidth, hTotal, '#2000D6'));
+
+                // Bars Answered
+                const hAns = (d.answered / chartConfig.maxVal) * chartConfig.height;
+                const yAns = chartConfig.height - hAns;
+                barsLayer.appendChild(createRect(xPos + 2, yAns, barWidth, hAns, '#29ABE2', 0.9));
+
+                // Labels
+                const label = document.createElement('div');
+                label.textContent = d.time;
+                xAxisLabels.appendChild(label);
+
+                // Line Points
+                const yLine = chartConfig.height - ((d.wait / chartConfig.maxWait) * chartConfig.height);
+                lineDataPoints.push({ x: xPos, y: yLine });
+
+                // Dots
+                const dot = document.createElement('div');
+                dot.className = 'absolute w-3 h-3 bg-white border-2 border-[#141F4C] rounded-full transform -translate-x-1/2 -translate-y-1/2 shadow-sm z-10 transition-all duration-500';
+                dot.style.left = `${xPos}%`;
+                dot.style.top = `${yLine}%`;
+                dotsLayer.appendChild(dot);
+            });
+
+            // Draw Line
+            const pathD = getSmoothPath(lineDataPoints);
+            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            path.setAttribute('d', pathD);
+            path.setAttribute('fill', 'none');
+            path.setAttribute('stroke', '#141F4C');
+            path.setAttribute('stroke-width', '2');
+            path.setAttribute('vector-effect', 'non-scaling-stroke');
+            path.classList.add('line-path');
+            lineLayer.insertBefore(path, lineLayer.firstChild);
+        }
+
+        // --- HELPER: Smooth Path Generator (Cubic Bezier) ---
+        function getSmoothPath(points) {
+            if (points.length === 0) return "";
+            if (points.length === 1) return `M ${points[0].x} ${points[0].y}`;
+
+            // Start
+            let d = `M ${points[0].x} ${points[0].y}`;
+
+            for (let i = 0; i < points.length - 1; i++) {
+                const p0 = points[i - 1] || points[i]; // Previous (clamp to current if first)
+                const p1 = points[i];   // Current
+                const p2 = points[i + 1]; // Next
+                const p3 = points[i + 2] || points[i + 1]; // Next Next (clamp)
+
+                // Control points for p1 -> p2 segment
+                // Very basic smoothing algorithm (Catmull-Rom to Bezier conversion factor 6 is common for tightness)
+                const cp1x = p1.x + (p2.x - p0.x) / 6;
+                const cp1y = p1.y + (p2.y - p0.y) / 6;
+
+                const cp2x = p2.x - (p3.x - p1.x) / 6;
+                const cp2y = p2.y - (p3.y - p1.y) / 6;
+
+                d += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2.x} ${p2.y}`;
+            }
+            return d;
+        }
+
+        function createRect(x, y, w, h, fill, opacity = 1) {
+            const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+            rect.setAttribute('x', x);
+            rect.setAttribute('y', y);
+            rect.setAttribute('width', w);
+            rect.setAttribute('height', h);
+            rect.setAttribute('fill', fill);
+            rect.setAttribute('rx', '1');
+            rect.setAttribute('opacity', opacity);
+            rect.classList.add('bar-rect');
+
+            // Simple Entry Animation: Start height 0
+            // rect.setAttribute('y', 100); 
+            // rect.setAttribute('height', 0);
+            // setTimeout(() => { ... }, 10);
+            // Pero para demo "cambio de fecha", queremos ver cómo cambian.
+
+            return rect;
+        }
+
+        // --- HANDLERS ---
+        function updateChart() {
+            const dateStr = datePicker.value;
+            const seed = dateStr.split('-').reduce((a, c) => a + parseInt(c), 0);
+
+            const newData = generateData(seed);
+
+            // 1. Calculate Stats from Data
+            const totalCalls = newData.reduce((sum, item) => sum + item.total, 0);
+            const totalAnswered = newData.reduce((sum, item) => sum + item.answered, 0);
+            const totalMissed = totalCalls - totalAnswered; // Simple math
+            const efficiency = totalCalls > 0 ? Math.round((totalAnswered / totalCalls) * 100) : 0;
+
+            // 2. Update Info Card DOM
+            // Simple counting animation effect could be added here, but direct update for now
+            statTotal.textContent = totalCalls;
+            statAnswered.textContent = totalAnswered;
+            statMissed.textContent = totalMissed;
+            statEfficiency.textContent = `${efficiency}%`;
+
+            renderChart(newData);
+        }
+
+        // Event Listeners
+        datePicker.addEventListener('change', updateChart);
+
+        // Init
+        updateChart();
+
+    </script>
+</body>
+
+</html>
