@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dos Siete - Demos</title>
+    <title>Dos Siete - Widgets</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -16,44 +16,77 @@
 </head>
 
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <div class="bg-white p-8 rounded-2xl shadow-xl max-w-md w-full">
-        <h1 class="text-2xl font-bold text-gray-800 mb-6">Demos Dos Siete</h1>
-        <div class="space-y-4">
-            <a href="estadisticas-llamadas/grafico_visual.html"
-                class="block p-4 border rounded-xl hover:bg-blue-50 hover:border-blue-500 transition-all group">
-                <div class="font-bold text-gray-800 group-hover:text-blue-600">Estadísticas Visuales</div>
-                <div class="text-sm text-gray-500">Gráfico interactivo de llamadas</div>
-            </a>
-            <!-- Centralita Virtual Dropdown -->
-            <div class="group border rounded-xl hover:bg-blue-50 hover:border-blue-500 transition-all cursor-default">
-                <div class="p-4 pb-2">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <div class="font-bold text-gray-800 group-hover:text-blue-600">Centralita Virtual</div>
-                            <div class="text-sm text-gray-500">Gestión de llamadas</div>
-                        </div>
-                        <i
-                            class="fas fa-chevron-down text-gray-400 group-hover:text-blue-500 transition-transform group-hover:rotate-180"></i>
-                    </div>
-                </div>
+    <div class="bg-white p-8 rounded-2xl shadow-xl max-w-2xl w-full">
+        <h1 class="text-2xl font-bold text-gray-800 mb-2">Widgets Dos Siete</h1>
+        <p class="text-gray-500 text-sm mb-6">Componentes modulares listos para integrar.</p>
 
-                <!-- Submenu Links -->
-                <div class="max-h-0 overflow-hidden group-hover:max-h-40 transition-all duration-500 ease-in-out">
-                    <div class="px-4 pb-4 space-y-2">
-                        <a href="centralita-virtual/gestion_inteligente_llamadas.html"
-                            class="block p-2 rounded-lg bg-white/50 hover:bg-white text-sm text-gray-600 hover:text-blue-600 hover:shadow-sm border border-transparent hover:border-gray-100 transition-all flex items-center justify-between group">
-                            <span>Transferencia Manual</span>
-                            <i
-                                class="fas fa-arrow-right opacity-0 group-hover:opacity-100 text-xs transition-opacity"></i>
-                        </a>
-                        <a href="centralita-virtual/gestion_inteligente_llamadas_auto.html"
-                            class="block p-2 rounded-lg bg-white/50 hover:bg-white text-sm text-gray-600 hover:text-blue-600 hover:shadow-sm border border-transparent hover:border-gray-100 transition-all flex items-center justify-between group">
-                            <span>Transferencia Auto</span>
-                            <i class="fas fa-magic text-xs group-hover:text-blue-500 transition-colors"></i>
-                        </a>
-                    </div>
+        <div class="space-y-3">
+
+            <a href="widgets/widget-colas-panel.html"
+                class="flex items-center gap-4 p-4 rounded-xl border border-gray-100 bg-gray-50 hover:border-blue-500 hover:bg-blue-50 transition-all group">
+                <div
+                    class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold">
+                    1</div>
+                <div>
+                    <div class="font-bold text-gray-800 group-hover:text-blue-600">Gestión de Colas (Panel)</div>
+                    <div class="text-sm text-gray-500">Dashboard de agentes y estado.</div>
                 </div>
-            </div>
+                <i class="fas fa-chevron-right ml-auto text-gray-300 group-hover:text-blue-500"></i>
+            </a>
+
+            <a href="widgets/widget-colas-demo.html"
+                class="flex items-center gap-4 p-4 rounded-xl border border-gray-100 bg-gray-50 hover:border-purple-500 hover:bg-purple-50 transition-all group">
+                <div
+                    class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center font-bold">
+                    2</div>
+                <div>
+                    <div class="font-bold text-gray-800 group-hover:text-purple-600">Gestión de Colas (Auto Demo)</div>
+                    <div class="text-sm text-gray-500">Versión con automatización de cursor.</div>
+                </div>
+                <i class="fas fa-magic ml-auto text-gray-300 group-hover:text-purple-500"></i>
+            </a>
+
+            <a href="widgets/widget-transferencia-demo.html"
+                class="flex items-center gap-4 p-4 rounded-xl border border-gray-100 bg-gray-50 hover:border-green-500 hover:bg-green-50 transition-all group">
+                <div
+                    class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center font-bold">
+                    3</div>
+                <div>
+                    <div class="font-bold text-gray-800 group-hover:text-green-600">Transferencia Inteligente</div>
+                    <div class="text-sm text-gray-500">Animación de llamada entrante.</div>
+                </div>
+                <i class="fas fa-phone ml-auto text-gray-300 group-hover:text-green-500"></i>
+            </a>
+
+            <a href="widgets/widget-stats-visual.html"
+                class="flex items-center gap-4 p-4 rounded-xl border border-gray-100 bg-gray-50 hover:border-cyan-500 hover:bg-cyan-50 transition-all group">
+                <div
+                    class="w-10 h-10 rounded-full bg-cyan-100 text-cyan-600 flex items-center justify-center font-bold">
+                    4</div>
+                <div>
+                    <div class="font-bold text-gray-800 group-hover:text-cyan-600">Estadísticas Visuales</div>
+                    <div class="text-sm text-gray-500">Gráfico interactivo (HTML/JS).</div>
+                </div>
+                <i class="fas fa-chart-bar ml-auto text-gray-300 group-hover:text-cyan-500"></i>
+            </a>
+
+            <a href="widgets/widget-stats-simple.html"
+                class="flex items-center gap-4 p-4 rounded-xl border border-gray-100 bg-gray-50 hover:border-orange-500 hover:bg-orange-50 transition-all group">
+                <div
+                    class="w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold">
+                    5</div>
+                <div>
+                    <div class="font-bold text-gray-800 group-hover:text-orange-600">Estadísticas Simple</div>
+                    <div class="text-sm text-gray-500">Componente React aislado.</div>
+                </div>
+                <i class="fab fa-react ml-auto text-gray-300 group-hover:text-orange-500"></i>
+            </a>
+
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-gray-100 text-center">
+            <a href="WIDGET_INTEGRATION.md" class="text-blue-600 hover:underline text-sm font-semibold">Ver Guía de
+                Integración</a>
         </div>
     </div>
 </body>
