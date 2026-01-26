@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas de Colas - Dos Siete</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
+    <script src="../assets/js/dos4siete-widgets.js"></script>
+</head>
+
+<body class="bg-[#F2F2F2] flex items-center justify-center min-h-screen p-8">
+
+    <!-- APP CONTAINER (Floating Canvas) -->
+    <div
+        class="app-container w-full max-w-5xl h-[80vh] flex flex-col bg-white overflow-hidden shadow-2xl rounded-3xl border border-gray-100 relative">
+
+        <!-- HEADER -->
+        <div class="app-header flex justify-between items-center px-6 py-4 bg-white border-b border-gray-100 z-10">
+            <div class="header-title flex items-center gap-3">
+                <img src="../assets/img/logo.svg" alt="Dos Siete" class="h-6 w-auto">
+                <span class="text-[#141F4C] font-bold text-lg">Resumen de Colas</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <button
+                    class="w-8 h-8 rounded-full bg-[#E0E7FF] text-[#29ABE2] hover:bg-[#29ABE2] hover:text-white transition-colors flex items-center justify-center">
+                    <i class="fas fa-expand text-xs"></i>
+                </button>
+                <button
+                    class="w-8 h-8 rounded-full bg-[#EF4444]/10 text-[#EF4444] hover:bg-[#EF4444] hover:text-white transition-colors flex items-center justify-center">
+                    <i class="fas fa-times text-xs"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- MAIN SCROLLABLE CONTENT -->
+        <div class="flex-1 overflow-y-auto p-6 bg-[#F9FAFB] space-y-6 relative">
+
+            <!-- TABS NAVIGATION -->
+            <div class="flex items-center gap-2 mb-2 sticky top-0 bg-[#F9FAFB] z-20 py-2">
+                <button id="btn-tab-summary" onclick="Dos4Siete.switchStatsTab('summary')"
+                    class="px-6 py-2 rounded-full text-sm font-bold shadow-sm transition-all bg-[#141F4C] text-white">
+                    Resumen
+                </button>
+                <button id="btn-tab-agentes" onclick="Dos4Siete.switchStatsTab('agentes')"
+                    class="px-6 py-2 rounded-full text-sm font-bold shadow-sm transition-all bg-white text-gray-500 hover:text-[#141F4C]">
+                    Distribución Agentes
+                </button>
+                <button id="btn-tab-detalle" onclick="Dos4Siete.switchStatsTab('detalle')"
+                    class="px-6 py-2 rounded-full text-sm font-bold shadow-sm transition-all bg-white text-gray-500 hover:text-[#141F4C]">
+                    Detalle Métricas
+                </button>
+            </div>
+
+            <!-- TAB 1: SUMMARY (Existing Dashboard) -->
+            <div id="tab-summary" class="space-y-6 transition-opacity duration-300">
+                <!-- FILTER & KPI HEADER -->
+                <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+                    <!-- Filter -->
+                    <div
+                        class="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border border-gray-100">
+                        <div class="w-2 h-2 rounded-full bg-[#22C55E]"></div>
+                        <span class="text-[#141F4C] font-semibold text-sm">Todas las colas</span>
+                        <i class="fas fa-chevron-down text-gray-400 text-xs ml-2"></i>
+                    </div>
+
+                    <!-- KPI Cards -->
+                    <div class="flex gap-4">
+                        <div
+                            class="flex items-center gap-3 px-5 py-2 bg-white rounded-xl shadow-sm border-l-4 border-[#22C55E]">
+                            <div
+                                class="w-8 h-8 rounded-full bg-[#22C55E]/10 flex items-center justify-center text-[#22C55E]">
+                                <i class="far fa-clock"></i>
+                            </div>
+                            <div>
+                                <div class="text-[10px] uppercase text-gray-400 font-bold tracking-wider">Tiempo Medio
+                                </div>
+                                <div class="text-lg font-bold text-[#141F4C]" id="kpi-wait-time">0s</div>
+                            </div>
+                        </div>
+                        <div
+                            class="flex items-center gap-3 px-5 py-2 bg-white rounded-xl shadow-sm border-l-4 border-[#EF4444]">
+                            <div
+                                class="w-8 h-8 rounded-full bg-[#EF4444]/10 flex items-center justify-center text-[#EF4444]">
+                                <i class="far fa-clock"></i>
+                            </div>
+                            <div>
+                                <div class="text-[10px] uppercase text-gray-400 font-bold tracking-wider">Siguiente
+                                </div>
+                                <div class="text-lg font-bold text-[#141F4C]" id="kpi-next-call">0s</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OCCUPANCY BARS -->
+                <div class="grid grid-cols-2 gap-8">
+                    <div>
+                        <div class="flex justify-between text-xs font-semibold text-gray-500 mb-2">
+                            <span><i class="fas fa-chart-pie mr-1"></i> Ocupación</span>
+                            <span id="val-occupancy">0%</span>
+                        </div>
+                        <div class="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+                            <div id="bar-occupancy" class="h-full bg-[#141F4C] transition-all duration-1000"
+                                style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-xs font-semibold text-gray-500 mb-2">
+                            <span><i class="fas fa-check-circle mr-1"></i> Disponibilidad</span>
+                            <span id="val-availability">0%</span>
+                        </div>
+                        <div class="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+                            <div id="bar-availability" class="h-full bg-[#29ABE2] transition-all duration-1000"
+                                style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LIVE STATUS GRID -->
+                <!-- Using Masonry/Grid logic but flattened for simplicity -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+
+                    <!-- COL 1: CALLS -->
+                    <div class="space-y-4">
+                        <!-- Incoming -->
+                        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-[#29ABE2] text-white flex items-center justify-center text-lg shadow-md">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div class="flex-1 grid grid-cols-2 gap-2 text-center">
+                                <div>
+                                    <span class="text-[#2000D6] font-bold text-xl block"
+                                        id="stat-incoming-ring">0</span>
+                                    <span class="text-[10px] text-gray-400 uppercase">Sonando</span>
+                                </div>
+                                <div>
+                                    <span class="text-[#29ABE2] font-bold text-xl block"
+                                        id="stat-incoming-talk">0</span>
+                                    <span class="text-[10px] text-gray-400 uppercase">En conv.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Outgoing -->
+                        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-[#141F4C] text-white flex items-center justify-center text-lg shadow-md">
+                                <i class="fas fa-share"></i>
+                            </div>
+                            <div class="flex-1 grid grid-cols-2 gap-2 text-center">
+                                <div>
+                                    <span class="text-[#2000D6] font-bold text-xl block"
+                                        id="stat-outgoing-ring">0</span>
+                                    <span class="text-[10px] text-gray-400 uppercase">Llamando</span>
+                                </div>
+                                <div>
+                                    <span class="text-[#29ABE2] font-bold text-xl block"
+                                        id="stat-outgoing-talk">0</span>
+                                    <span class="text-[10px] text-gray-400 uppercase">En conv.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- COL 2: AGENTS -->
+                    <div
+                        class="bg-gradient-to-br from-[#22C55E] to-[#16A34A] rounded-2xl shadow-md p-4 text-white flex flex-col justify-between h-full min-h-[140px]">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fas fa-headset text-2xl opacity-80"></i>
+                            <span class="font-bold text-sm opacity-90">Total Agentes Activos</span>
+                        </div>
+                        <div class="text-4xl font-bold" id="stat-agents-active">0</div>
+                        <div class="mt-2 text-xs bg-white/20 px-2 py-1 rounded inline-block self-start">
+                            <i class="fas fa-comments mr-1"></i> <span id="stat-agents-talk">0</span> hablando
+                        </div>
+                    </div>
+
+                    <!-- COL 3: WARNING (Abandoned/Wait) -->
+                    <div class="space-y-4">
+                        <div
+                            class="bg-white p-4 rounded-2xl shadow-sm border-l-4 border-[#F59E0B] flex items-center justify-between">
+                            <div>
+                                <div class="text-[10px] text-gray-400 uppercase font-bold">Abandonadas</div>
+                                <div class="text-2xl font-bold text-[#F59E0B]" id="stat-abandoned">0</div>
+                            </div>
+                            <i class="fas fa-phone-slash text-[#F59E0B] opacity-20 text-3xl"></i>
+                        </div>
+                        <div
+                            class="bg-white p-4 rounded-2xl shadow-sm border-l-4 border-[#EF4444] flex items-center justify-between">
+                            <div>
+                                <div class="text-[10px] text-gray-400 uppercase font-bold">En Espera</div>
+                                <div class="text-2xl font-bold text-[#EF4444]" id="stat-wait">0</div>
+                            </div>
+                            <i class="fas fa-hourglass-half text-[#EF4444] opacity-20 text-3xl"></i>
+                        </div>
+                    </div>
+
+                    <!-- COL 4: STATUS (Pause/Offline) -->
+                    <div class="space-y-4">
+                        <div
+                            class="bg-gray-100 p-4 rounded-2xl border border-gray-200 flex items-center justify-between opacity-80">
+                            <div>
+                                <div class="text-[10px] text-gray-500 uppercase font-bold">En Pausa</div>
+                                <div class="text-xl font-bold text-gray-700" id="stat-pause">0</div>
+                            </div>
+                            <i class="fas fa-pause text-gray-400 text-2xl"></i>
+                        </div>
+                        <div
+                            class="bg-gray-50 p-4 rounded-2xl border border-gray-200 flex items-center justify-between opacity-60">
+                            <div>
+                                <div class="text-[10px] text-gray-400 uppercase font-bold">Offline</div>
+                                <div class="text-xl font-bold text-gray-500" id="stat-offline">0</div>
+                            </div>
+                            <i class="fas fa-power-off text-gray-300 text-2xl"></i>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- TOTALS FOOTER -->
+                <div class="mt-8">
+                    <h3 class="text-[#141F4C] font-bold text-sm mb-4"><i class="fas fa-chart-line mr-2"></i>Totales
+                        Diarios
+                    </h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <!-- Metric Card -->
+                        <div class="bg-[#2376C9] p-4 rounded-2xl text-white shadow-lg relative overflow-hidden group">
+                            <div
+                                class="absolute -right-4 -bottom-4 w-24 h-24 bg-white opacity-10 rounded-full group-hover:scale-110 transition-transform">
+                            </div>
+                            <div class="text-xs opacity-80 mb-1">Entrantes</div>
+                            <div class="text-3xl font-bold" id="total-incoming">0</div>
+                        </div>
+                        <!-- Metric Card -->
+                        <div class="bg-[#29ABE2] p-4 rounded-2xl text-white shadow-lg relative overflow-hidden group">
+                            <div
+                                class="absolute -right-4 -bottom-4 w-24 h-24 bg-white opacity-10 rounded-full group-hover:scale-110 transition-transform">
+                            </div>
+                            <div class="text-xs opacity-80 mb-1">Contestadas</div>
+                            <div class="text-3xl font-bold" id="total-answered">0</div>
+                        </div>
+                        <!-- Metric Card -->
+                        <div class="bg-[#F59E0B] p-4 rounded-2xl text-white shadow-lg relative overflow-hidden group">
+                            <div
+                                class="absolute -right-4 -bottom-4 w-24 h-24 bg-white opacity-10 rounded-full group-hover:scale-110 transition-transform">
+                            </div>
+                            <div class="text-xs opacity-80 mb-1">Sin contestar</div>
+                            <div class="text-3xl font-bold" id="total-missed">0</div>
+                        </div>
+                        <!-- Metric Card -->
+                        <div class="bg-[#141F4C] p-4 rounded-2xl text-white shadow-lg relative overflow-hidden group">
+                            <div
+                                class="absolute -right-4 -bottom-4 w-24 h-24 bg-white opacity-10 rounded-full group-hover:scale-110 transition-transform">
+                            </div>
+                            <div class="text-xs opacity-80 mb-1">Eficiencia</div>
+                            <div class="text-3xl font-bold" id="total-efficiency">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: AGENT DISTRIBUTION (Chart) -->
+            <div id="tab-agentes" class="hidden transition-opacity duration-300 h-full flex flex-col">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-[#141F4C] font-bold text-lg">Distribución de tiempo en conversación entrante por
+                        agente</h3>
+                    <div class="text-xs text-gray-400 font-medium bg-gray-100 px-3 py-1 rounded-full">
+                        <i class="fas fa-sync-alt mr-1"></i> Tiempo Real
+                    </div>
+                </div>
+
+                <!-- Chart Container -->
+                <div
+                    class="flex-1 bg-white rounded-3xl border border-gray-100 p-8 shadow-sm relative flex flex-col justify-end">
+
+                    <!-- Grid Lines Reference (Background) -->
+                    <div class="absolute inset-x-8 inset-y-8 flex flex-col justify-between pointer-events-none z-0">
+                        <div class="border-t border-gray-100 w-full h-0"></div>
+                        <div class="border-t border-gray-100 w-full h-0"></div>
+                        <div class="border-t border-gray-100 w-full h-0"></div>
+                        <div class="border-t border-gray-100 w-full h-0"></div>
+                        <div class="border-t border-gray-100 w-full h-0"></div>
+                    </div>
+
+                    <!-- Bars Container -->
+                    <div id="agent-chart-bars" class="flex justify-around items-end h-[400px] z-10 w-full gap-4">
+                        <!-- Bars will be injected here by JS -->
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- INITIALIZATION -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.Dos4Siete && window.Dos4Siete.initQueueStats) {
+                window.Dos4Siete.initQueueStats();
+            }
+        });
+    </script>
+</body>
+
+</html>

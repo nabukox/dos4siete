@@ -132,7 +132,7 @@ window.Dos4Siete = (function () {
                         const options = this.data.staffDirectory.map(s => `<option ${s === a.name ? 'selected' : ''}>${s}</option>`).join('');
 
                         agentsHtml += `
-                            <div class="config-item">
+                            <div class="config-item ${a._isNew ? 'slide-in-new' : ''}">
                                 <div style="width:32px; height:32px; background:#E0E7FF; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#4F46E5; font-size:12px; font-weight:bold;">${a.name.charAt(0)}</div>
                                 <div style="flex:1;">
                                     <select class="config-select" onchange="updateDraftName(${lvl.id}, ${a.id}, this.value)">${options}</select>
@@ -198,8 +198,10 @@ window.Dos4Siete = (function () {
             const lvl = this.data.draftLevels.find(l => l.id === lvlId);
             if (lvl) {
                 const newId = Math.floor(Math.random() * 10000);
-                lvl.agents.push({ id: newId, name: "0000 - Nuevo Agente", pos: 1, status: "offline", time: "0m" });
+                const newAgent = { id: newId, name: "0000 - Nuevo Agente", pos: 1, status: "offline", time: "0m", _isNew: true };
+                lvl.agents.push(newAgent);
                 this.renderModalMembers();
+                delete newAgent._isNew; // Clear flag for next re-render
             }
         },
         addLevel: function () {
@@ -270,6 +272,28 @@ window.Dos4Siete = (function () {
             await this.clickCursor();
             QueueModule.addAgentToDraft(101);
             await this.wait(1500);
+
+            // 2.5 Change Member (Interact with dropdown)
+            // Selector for the LAST added item in the first level
+            const dropdownSelector = '#levels-container .level-section:first-child .config-list .config-item:last-child select';
+            const dropdown = document.querySelector(dropdownSelector);
+
+            if (dropdown) {
+                await this.moveCursorTo(dropdownSelector);
+                await this.clickCursor();
+
+                // Simulate selection
+                dropdown.value = "2006 - Maria Garcia"; // Change to a valid staff member
+                dropdown.dispatchEvent(new Event('change')); // Trigger logic
+
+                // Visual Feedback
+                const row = dropdown.closest('.config-item');
+                if (row) row.classList.add('flash-change');
+
+                await this.wait(500); // Visual pause
+            }
+
+            await this.wait(1000);
 
             // 3. Save
             await this.moveCursorTo('#btn-save-changes');
@@ -443,10 +467,298 @@ window.Dos4Siete = (function () {
         }
     };
 
+    // --- 4. QUEUE STATS DASHBOARD MODULE (COHERENT LOGIC) ---
+    const QueueStatsModule = {
+        // State for cumulative metrics
+        state: {
+            incoming: 250,
+            answered: 235,
+            missed: 15,
+            waitTimeTotal: 1200, // in seconds, to calc average
+            waitTimeCount: 40
+        },
+
+        init: function () {
+            this.updateStats(); // Initial Draw
+            // Live loop: Update every 3 seconds
+            setInterval(() => this.simulateLiveActivity(), 3000);
+        },
+
+        getRandom: (min, max) => Math.floor(Math.random() * (max - min + 1)) + min,
+
+        // Simulate activity over time (incremental)
+        simulateLiveActivity: function () {
+            // 1. Chance of new call incoming
+            if (Math.random() > 0.3) {
+                this.state.incoming++;
+
+                // 90% chance it gets answered eventually
+                if (Math.random() > 0.1) {
+                    this.state.answered++;
+                    // Add some wait time to the average (between 5s and 60s)
+                    this.state.waitTimeTotal += this.getRandom(5, 60);
+                    this.state.waitTimeCount++;
+                } else {
+                    this.state.missed++;
+                }
+            }
+            this.updateStats();
+        },
+
+        updateStats: function () {
+            const s = this.state;
+            const set = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
+            const setWidth = (id, percent) => { const el = document.getElementById(id); if (el) el.style.width = percent + '%'; };
+
+            // --- 1. DAILY TOTALS (Cumulative) ---
+            const efficiency = Math.round((s.answered / s.incoming) * 100);
+            set('total-incoming', s.incoming);
+            set('total-answered', s.answered);
+            set('total-missed', s.missed);
+            set('total-efficiency', efficiency + '%');
+
+            // --- 2. LIVE METRICS (Fluctuating but coherent) ---
+
+            // Agents logic - LINKED TO STAFF DIRECTORY
+            // We use the count from QueueModule if available, otherwise default to 35
+            const registeredAgents = QueueModule.data.staffDirectory ? QueueModule.data.staffDirectory.length : 7;
+            // Scale it up for the "Big Stats" feel, or use real count? 
+            // The screenshot showed large numbers (Total Agentes), so let's simulate a larger center based on the directory
+            const totalAgents = registeredAgents * 5; // Simulating a larger floor based on the 7 demo users
+
+            const agentsOffline = this.getRandom(Math.floor(totalAgents * 0.05), Math.floor(totalAgents * 0.1));
+            const agentsPaused = this.getRandom(Math.floor(totalAgents * 0.1), Math.floor(totalAgents * 0.2));
+            const agentsActive = totalAgents - agentsOffline - agentsPaused;
+
+            // Calls in conversation (cannot exceed active agents)
+            // Let's say utilization is high, between 60% and 90% of active agents
+            const agentsTalking = Math.floor(agentsActive * (this.getRandom(60, 90) / 100));
+            const agentsAvailable = agentsActive - agentsTalking;
+
+            set('stat-agents-active', agentsActive);
+            set('stat-agents-talk', agentsTalking);
+
+            // Occupancy (Talking / Active)
+            const occupancy = agentsActive > 0 ? Math.round((agentsTalking / agentsActive) * 100) : 0;
+            const availability = 100 - occupancy;
+
+            set('val-occupancy', occupancy + '%');
+            set('val-availability', availability + '%');
+            setWidth('bar-occupancy', occupancy);
+            setWidth('bar-availability', availability);
+
+            // Live Calls (Incoming/Outgoing)
+            // Ringing is usually low
+            set('stat-incoming-ring', this.getRandom(0, 4));
+            set('stat-incoming-talk', Math.floor(agentsTalking * 0.7)); // Most talking agents are on inbound
+            set('stat-outgoing-ring', this.getRandom(0, 2));
+            set('stat-outgoing-talk', Math.floor(agentsTalking * 0.3)); // Rest on outbound
+
+            // Warnings
+            set('stat-abandoned', s.missed);
+            set('stat-wait', this.getRandom(0, 5)); // Calls currently waiting
+
+            // Pause/Status
+            set('stat-pause', agentsPaused);
+            set('stat-offline', agentsOffline);
+
+            // --- 3. KPIs ---
+            // Average Wait Time (Cumulative)
+            const avgWait = Math.round(s.waitTimeTotal / s.waitTimeCount);
+            set('kpi-wait-time', avgWait + 's');
+
+            // Longest Wait / Next Call (Random fluctuation around average)
+            const nextCallWait = Math.floor(avgWait * (0.5 + Math.random()));
+            set('kpi-next-call', nextCallWait + 's');
+        },
+
+        // --- NEW: TABS LOGIC ---
+        switchStatsTab: function (tabId) {
+            // Update Buttons
+            document.querySelectorAll('[id^="btn-tab-"]').forEach(btn => {
+                if (btn.id === 'btn-tab-' + tabId) {
+                    btn.classList.add('bg-[#141F4C]', 'text-white');
+                    btn.classList.remove('bg-white', 'text-gray-500');
+                } else {
+                    btn.classList.remove('bg-[#141F4C]', 'text-white');
+                    btn.classList.add('bg-white', 'text-gray-500');
+                }
+            });
+
+            // Update Panels
+            const summary = document.getElementById('tab-summary');
+            const agentes = document.getElementById('tab-agentes');
+            const detalle = document.getElementById('tab-detalle');
+
+            summary.classList.add('hidden');
+            agentes.classList.add('hidden');
+            if (detalle) detalle.classList.add('hidden'); // Safety check
+
+            if (tabId === 'summary') {
+                summary.classList.remove('hidden');
+            } else if (tabId === 'agentes') {
+                agentes.classList.remove('hidden');
+                this.renderAgentChart();
+            } else if (tabId === 'detalle') {
+                if (detalle) detalle.classList.remove('hidden');
+                this.renderDetailedStats();
+            }
+        },
+
+        // --- NEW: DETAILED STATS (TAB 3) ---
+        renderDetailedStats: function () {
+            // 1. Render Pie Charts (Simplistic Gradients)
+            // No complex JS needed here since we use inline styles in HTML for the gradients
+            // But we could animate them or update them if we wanted dynamic data.
+            // For now, let's focus on the BAR CHARTS which use the existing Queue Data.
+
+            this.renderDualBarChart('bars-calls-count', 'count');
+            this.renderDualBarChart('bars-calls-time', 'time');
+        },
+
+        renderDualBarChart: function (containerId, mode) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = '';
+
+            // Use the same staff data
+            let agents = QueueModule.data.staffDirectory.map(a => {
+                const id = a.split(' - ')[0];
+                return {
+                    id: id,
+                    name: a,
+                    // Random values based on mode
+                    value: mode === 'count' ? this.getRandom(5, 45) : this.getRandom(500, 6000)
+                };
+            });
+
+            // Sort by Value Descending (like screenshot)
+            agents.sort((a, b) => b.value - a.value);
+
+            const maxValue = Math.max(...agents.map(a => a.value));
+
+            agents.forEach((agent, i) => {
+                // Colors: Blue for Count, Green for Time (or mix to match screenshot?)
+                // Screenshot left (Count) -> Blue Bars (#51C3E5) + Green Bars (#9EF5A8) mixed? 
+                // Actually screenshot shows: Left chart uses Blue(#51C3E5) and Green(#9EF5A8) alternating.
+                // Right chart uses same.
+
+                const isBlue = i % 2 === 0; // Alternating
+                const color = isBlue ? '#51C3E5' : '#9EF5A8';
+                const heightPercent = (agent.value / maxValue) * 100;
+
+                const barGroup = document.createElement('div');
+                barGroup.className = 'flex flex-col items-center justify-end h-full group relative w-8'; // Thinner bars
+                barGroup.style.height = '100%';
+
+                barGroup.innerHTML = `
+                   <!-- Tooltip -->
+                    <div class="opacity-0 group-hover:opacity-100 transition-opacity absolute bottom-[${heightPercent}%] mb-1 z-20 pointer-events-none">
+                        <div class="bg-gray-800 text-white text-[10px] rounded px-2 py-1 whitespace-nowrap">
+                            ${agent.value}${mode === 'time' ? 's' : ''}
+                        </div>
+                    </div>
+
+                    <!-- Bar -->
+                    <div class="w-full rounded-t-sm transition-all duration-500 ease-out hover:opacity-80"
+                         style="background-color: ${color}; height: 0%;"
+                         data-height="${heightPercent}%"></div>
+                    
+                    <!-- X-Axis Label (Rotated if needed, or just ID) -->
+                    <div class="absolute bottom-0 translate-y-full w-full text-center text-[9px] text-gray-400 pt-1 -rotate-45 origin-left" style="left:50%;">${agent.id}</div>
+                `;
+                container.appendChild(barGroup);
+
+                // Animate
+                setTimeout(() => {
+                    const bar = barGroup.querySelector('[data-height]');
+                    if (bar) bar.style.height = bar.getAttribute('data-height');
+                }, 100 + (i * 30));
+            });
+        },
+
+        // --- NEW: CHART LOGIC (Reference Match) ---
+        renderAgentChart: function () {
+            const container = document.getElementById('agent-chart-bars');
+            const axisContainer = document.getElementById('agent-chart-axis'); // Need to create this in HTML if missing
+
+            if (!container) return;
+            container.innerHTML = '';
+
+            // Use the staff directory as data source
+            let agents = QueueModule.data.staffDirectory.map(a => {
+                const id = a.split(' - ')[0]; // "2001"
+                return { id: id, name: a, value: this.getRandom(500, 1600) }; // Values roughly 0-1600 like screenshot
+            });
+
+            // Sort by ID to look organized like screenshot
+            agents.sort((a, b) => a.id - b.id);
+
+            // Find Max for scaling (Fixed snaps like 1600, 1400...)
+            const rawMax = Math.max(...agents.map(a => a.value));
+            const maxVal = Math.ceil(rawMax / 200) * 200; // Snap to nearest 200
+
+            // 1. Generate Y-Axis Labels (HTML injection if we had a container, but for now specific bars)
+            // Note: In the HTML structure, we might need a separate container for Y-axis. 
+            // Let's adjust the HTML structure slightly in the next tool call if needed.
+            // For now, assume we just render the bars and the grid is static or handled elsewhere.
+
+            agents.forEach((agent, i) => {
+                // Exact Screenshot Colors
+                const colorCyan = '#51C3E5'; // Muted Cyan
+                const colorGreen = '#9EF5A8'; // Pale Green
+                const colorHover = '#00BFFF'; // Bright Blue Highlight
+
+                const isCyan = i % 2 === 0;
+                const baseColor = isCyan ? colorCyan : colorGreen;
+                const heightPercent = (agent.value / maxVal) * 100;
+
+                const barGroup = document.createElement('div');
+                barGroup.className = 'flex flex-col items-center justify-end h-full group relative w-12';
+                barGroup.style.height = '100%';
+
+                barGroup.innerHTML = `
+                    <!-- Tooltip (Hidden by default, standard Dos Siete Dark) -->
+                    <div class="opacity-0 group-hover:opacity-100 transition-opacity absolute bottom-[${heightPercent}%] mb-2 z-20 pointer-events-none transform translate-y-1 group-hover:translate-y-0 transition-transform duration-200">
+                        <div class="bg-[#1F2937] text-white text-xs rounded-lg px-3 py-2 shadow-lg flex flex-col items-center">
+                            <span class="font-bold text-sm">${agent.value}</span>
+                            <span class="text-[10px] text-gray-400 whitespace-nowrap">${agent.name}</span>
+                            <!-- Little arrow -->
+                            <div class="w-2 h-2 bg-[#1F2937] transform rotate-45 absolute -bottom-1"></div>
+                        </div>
+                    </div>
+
+                    <!-- Bar Container for Alignment -->
+                    <div class="w-full flex items-end justify-center flex-1 pb-6"> <!-- Padding bottom for labels -->
+                         <div class="w-10 rounded-t-sm transition-all duration-300 ease-out hover:brightness-110 relative"
+                              style="background-color: ${baseColor}; height: 0%;"
+                              data-height="${heightPercent}%">
+                            
+                            <!-- Highlight Border on Hover (Box Shadow to avoid layout shift) -->
+                            <div class="absolute inset-0 border-2 border-transparent group-hover:border-[#0099CC] transition-colors rounded-t-sm"></div>
+                         </div>
+                    </div>
+
+                    <!-- X-Axis Label -->
+                    <div class="absolute bottom-0 w-full text-center text-xs text-gray-500 font-medium pb-0">${agent.id}</div>
+                `;
+                container.appendChild(barGroup);
+
+                // Animate
+                setTimeout(() => {
+                    const bar = barGroup.querySelector('[data-height]');
+                    if (bar) bar.style.height = bar.getAttribute('data-height');
+                }, 100 + (i * 50));
+            });
+        }
+    };
+
     // --- PUBLIC API ---
     return {
         initQueuePanel: () => QueueModule.init(),
         initQueueDemo: () => DemoModule.init(),
-        initStats: () => StatsModule.init()
+        initStats: () => StatsModule.init(),
+        initQueueStats: () => QueueStatsModule.init(),
+        switchStatsTab: (tab) => QueueStatsModule.switchStatsTab(tab)
     };
 })();
