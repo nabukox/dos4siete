@@ -474,11 +474,7 @@ window.Dos4Siete = (function () {
             incoming: 250,
             answered: 235,
             missed: 15,
-            // New Outgoing Stats
-            outgoing: 180,
-            outgoingAnswered: 150,
-            outgoingMissed: 30,
-            waitTimeTotal: 1200,
+            waitTimeTotal: 1200, // in seconds, to calc average
             waitTimeCount: 40
         },
 
@@ -495,22 +491,15 @@ window.Dos4Siete = (function () {
             // 1. Chance of new call incoming
             if (Math.random() > 0.3) {
                 this.state.incoming++;
+
+                // 90% chance it gets answered eventually
                 if (Math.random() > 0.1) {
                     this.state.answered++;
+                    // Add some wait time to the average (between 5s and 60s)
                     this.state.waitTimeTotal += this.getRandom(5, 60);
                     this.state.waitTimeCount++;
                 } else {
                     this.state.missed++;
-                }
-            }
-
-            // 1.5 Chance of new call outgoing
-            if (Math.random() > 0.35) {
-                this.state.outgoing++;
-                if (Math.random() > 0.15) {
-                    this.state.outgoingAnswered++;
-                } else {
-                    this.state.outgoingMissed++;
                 }
             }
             this.updateStats();
@@ -521,8 +510,12 @@ window.Dos4Siete = (function () {
             const set = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
             const setWidth = (id, percent) => { const el = document.getElementById(id); if (el) el.style.width = percent + '%'; };
 
-            // --- 1. COMPARATIVE CHARTS ---
-            this.renderComparativeCharts();
+            // --- 1. DAILY TOTALS (Cumulative) ---
+            const efficiency = Math.round((s.answered / s.incoming) * 100);
+            set('total-incoming', s.incoming);
+            set('total-answered', s.answered);
+            set('total-missed', s.missed);
+            set('total-efficiency', efficiency + '%');
 
             // --- 2. LIVE METRICS (Fluctuating but coherent) ---
 
@@ -756,68 +749,6 @@ window.Dos4Siete = (function () {
                     const bar = barGroup.querySelector('[data-height]');
                     if (bar) bar.style.height = bar.getAttribute('data-height');
                 }, 100 + (i * 50));
-            });
-        },
-
-        // --- NEW: COMPARATIVE CHARTS RENDERER ---
-        renderComparativeCharts: function () {
-            const s = this.state;
-
-            // Chart 1: Incoming vs Outgoing
-            this.drawDonut('chart-volumen', [
-                { label: 'Entrantes', value: s.incoming, color: '#9dff86' }, // Light Green
-                { label: 'Salientes', value: s.outgoing, color: '#757575' }  // Grey
-            ]);
-
-            // Chart 2: Incoming Answered vs Unanswered
-            const incUnanswered = s.incoming - s.answered; // Recalc purely from totals
-            this.drawDonut('chart-entrantes', [
-                { label: 'Contestadas', value: s.answered, color: '#4dc9f6' }, // Light Blue
-                { label: 'Sin contestar', value: incUnanswered, color: '#D34535' } // Red
-            ]);
-
-            // Chart 3: Outgoing Answered vs Unanswered
-            const outUnanswered = s.outgoing - s.outgoingAnswered;
-            this.drawDonut('chart-salientes', [
-                { label: 'Contestadas', value: s.outgoingAnswered, color: '#4dc9f6' }, // Light Blue
-                { label: 'Sin Contestar', value: outUnanswered, color: '#D34535' } // Red
-            ]);
-        },
-
-        drawDonut: function (containerId, slices) {
-            const container = document.getElementById(containerId);
-            if (!container) return;
-
-            const total = slices.reduce((sum, slice) => sum + slice.value, 0);
-            const radius = 15.9155; // Radius where circumference is approx 100
-            const circumference = 100; // Simplifies percentage calc
-
-            let html = `<svg viewBox="0 0 42 42" class="donut" style="width:120px; height:120px;">`;
-
-            // Background Circle
-            html += `<circle cx="21" cy="21" r="${radius}" fill="transparent" stroke="#f2f2f2" stroke-width="8"></circle>`;
-
-            if (total > 0) {
-                let offset = 25; // Start at top (12 o'clock approx)
-
-                slices.forEach(slice => {
-                    const percent = (slice.value / total) * 100;
-                    if (percent > 0) {
-                        html += `<circle cx="21" cy="21" r="${radius}" fill="transparent" stroke="${slice.color}" stroke-width="8" 
-                                  stroke-dasharray="${percent} ${100 - percent}" stroke-dashoffset="${offset}" 
-                                  style="transition: stroke-dasharray 0.5s ease-out;"></circle>`;
-                        offset -= percent;
-                    }
-                });
-            }
-
-            html += `</svg>`;
-            container.innerHTML = html;
-
-            // Update Legend numbers
-            slices.forEach((slice, i) => {
-                const el = document.getElementById(`${containerId}-val-${i}`);
-                if (el) el.innerText = slice.value;
             });
         }
     };
