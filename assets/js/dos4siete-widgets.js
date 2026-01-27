@@ -1063,6 +1063,186 @@ window.Dos4Siete = (function () {
         }
     };
 
+    // --- 7. COMPARATIVE STATS MODULE ---
+    // --- 7. COMPARATIVE STATS MODULE ---
+    const ComparativeStatsModule = {
+        init: function () {
+            console.log("ComparativeStatsModule initialized");
+            this.renderChart();
+        },
+
+        renderChart: function () {
+            console.log("Rendering comparative chart...");
+
+            // Mock Data: Hourly breakdown (09:00 - 18:00)
+            const hours = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
+
+            // Helper for randoms
+            const rnd = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+            const timeData = hours.map(h => {
+                // Mock trends: Peak at 10-12 and 16-17
+                const multiplier = (h === '10:00' || h === '11:00' || h === '16:00') ? 1.5 : 1.0;
+
+                const incoming = Math.floor(rnd(30, 60) * multiplier);
+                const answered = Math.floor(incoming * rnd(0.85, 0.98)); // High answer rate
+                const missed = incoming - answered;
+                const outgoing = Math.floor(rnd(20, 50) * multiplier);
+                const wait = rnd(15, 60); // Seconds
+
+                return {
+                    time: h,
+                    metrics: [
+                        { label: 'Entrantes', value: incoming, color: '#29ABE2' },     // Blue
+                        { label: 'Contestadas', value: answered, color: '#22C55E' },   // Green
+                        { label: 'Sin Contestar', value: missed, color: '#EF4444' },   // Red
+                        { label: 'Salientes', value: outgoing, color: '#141F4C' },     // Dark Blue
+                        { label: 'Espera (s)', value: wait, color: '#F59E0B' }         // Orange
+                    ]
+                };
+            });
+
+            this.drawChart('chart-comparative', timeData);
+        },
+
+        drawChart: function (containerId, data) {
+            const container = document.getElementById(containerId);
+            if (!container) {
+                console.warn("Container not found:", containerId);
+                return;
+            }
+
+            // Force clear and minimal style
+            container.innerHTML = '';
+
+            // Determine dimensions
+            const width = container.clientWidth || 800;
+            const height = container.clientHeight || 320;
+            const padding = { top: 40, bottom: 50, left: 50, right: 20 };
+
+            // Find Max Value for Scale
+            let maxVal = 0;
+            data.forEach(slot => {
+                slot.metrics.forEach(m => {
+                    if (m.value > maxVal) maxVal = m.value;
+                });
+            });
+            const gridMax = Math.ceil(maxVal / 20) * 20 || 100; // Snap to 20s for Bars
+            // Scale for Line (Seconds) might be different, but for simplicity/request let's share scale or use secondary?
+            // User didn't ask for secondary axis, but "wait time" (seconds) vs "calls" (count) might differ.
+            // Screenshot implies single axis comparing magnitudes. Let's keep single axis for now as per "compare" request.
+
+            const chartWidth = width - padding.left - padding.right;
+            const chartHeight = height - padding.top - padding.bottom;
+
+            // Calculations for Grouped Bars
+            const numGroups = data.length;
+            const groupWidth = chartWidth / numGroups;
+            const groupPadding = groupWidth * 0.2;
+            const contentWidth = groupWidth - groupPadding;
+
+            // 4 bars per group (Excluding Wait Time)
+            const numBars = 4;
+            const barWidth = (contentWidth / numBars) * 0.9;
+
+            let html = `<svg viewBox="0 0 ${width} ${height}" style="width:100%; height:100%; overflow:visible;">`;
+
+            // 1. Grid Lines (Y-Axis)
+            for (let i = 0; i <= 5; i++) {
+                const ratio = i / 5;
+                const val = Math.round(gridMax * ratio);
+                const y = padding.top + (chartHeight * (1 - ratio));
+
+                html += `<line x1="${padding.left}" y1="${y}" x2="${width - padding.right}" y2="${y}" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4 4" />`;
+                html += `<text x="${padding.left - 10}" y="${y + 4}" text-anchor="end" fill="#9CA3AF" font-size="10">${val}</text>`;
+            }
+
+            // 2. Data Rendering Loop (Bars)
+            // Collect Line Points simultaneously
+            let linePoints = [];
+
+            data.forEach((slot, i) => {
+                // X Position of this Group
+                const groupX = padding.left + (i * groupWidth) + (groupPadding / 2);
+
+                // Filter out Wait Time for Bars
+                const barMetrics = slot.metrics.filter(m => !m.label.includes('Espera'));
+                const waitMetric = slot.metrics.find(m => m.label.includes('Espera'));
+
+                barMetrics.forEach((metric, j) => {
+                    const barHeight = (metric.value / gridMax) * chartHeight;
+                    const x = groupX + (j * barWidth);
+                    const y = padding.top + (chartHeight - barHeight);
+
+                    // Bar
+                    html += `<rect x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" rx="2" fill="${metric.color}" class="hover:opacity-80 transition-opacity">
+                        <title>${slot.time} - ${metric.label}: ${metric.value}</title>
+                    </rect>`;
+                });
+
+                // Calculate Line Point (Center of group)
+                if (waitMetric) {
+                    const x = groupX + (contentWidth / 2);
+                    const y = padding.top + (chartHeight - ((waitMetric.value / gridMax) * chartHeight));
+                    linePoints.push({ x, y, value: waitMetric.value, label: waitMetric.label });
+                }
+
+                // X-Axis Label (Hour)
+                const labelX = groupX + (contentWidth / 2);
+                html += `<text x="${labelX}" y="${height - 15}" text-anchor="middle" fill="#6B7280" font-size="11" font-weight="600">${slot.time}</text>`;
+            });
+
+            // 3. Render Curved Line
+            if (linePoints.length > 0) {
+                // Generate Path Command (Catmull-Rom or Cubic Bezier)
+                // Simple Smoothing helper
+                const getControlPoint = (p1, p2, p3, t = 0.2) => {
+                    // Very simple smoothing logic for demo
+                    const dx = p3.x - p1.x;
+                    const dy = p3.y - p1.y;
+                    return { x: p2.x - dx * t, y: p2.y - dy * t, x2: p2.x + dx * t, y2: p2.y + dy * t };
+                };
+
+                let d = `M ${linePoints[0].x} ${linePoints[0].y}`;
+
+                for (let i = 0; i < linePoints.length - 1; i++) {
+                    const p0 = linePoints[i - 1] || linePoints[i];
+                    const p1 = linePoints[i];
+                    const p2 = linePoints[i + 1];
+                    const p3 = linePoints[i + 2] || p2;
+
+                    // Simple cubic bezier using mock control points for smoothness
+                    // Or just standard C command if we manual calc control points
+                    // Let's use simple Q (Quadratic) or C (Cubic) if we had a library.
+                    // Fallback: Simple Line with nice stroke
+                    // Better: "S" command for smooth polyline?
+
+                    // Implementing basic Catmull-Rom to Bezier conversion for smoothness
+                    const cp1x = i === 0 ? p1.x : p1.x + (p2.x - p0.x) * 0.15;
+                    const cp1y = i === 0 ? p1.y : p1.y + (p2.y - p0.y) * 0.15;
+                    const cp2x = i === linePoints.length - 2 ? p2.x : p2.x - (p3.x - p1.x) * 0.15;
+                    const cp2y = i === linePoints.length - 2 ? p2.y : p2.y - (p3.y - p1.y) * 0.15;
+
+                    d += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2.x} ${p2.y}`;
+                }
+
+                // Drop Shadow for Line
+                // html += `<path d="${d}" fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="4" transform="translate(0, 2)" />`; // Manual shadow
+
+                html += `<path d="${d}" fill="none" stroke="#F59E0B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="drop-shadow-md" />`;
+
+                // Add Dots
+                linePoints.forEach(p => {
+                    html += `<circle cx="${p.x}" cy="${p.y}" r="4" fill="white" stroke="#F59E0B" stroke-width="2" class="hover:scale-125 transition-transform cursor-pointer">
+                        <title>${p.label}: ${p.value}s</title>
+                    </circle>`;
+                });
+            }
+
+            html += `</svg>`;
+            container.innerHTML = html;
+        }
+    };
 
     // --- PUBLIC API ---
     return {
@@ -1076,6 +1256,7 @@ window.Dos4Siete = (function () {
         },
         initCallWidget: () => CallWidgetModule.init(),
         initTransferFlow: () => CallTransferModule.init(),
+        initComparativeStats: () => ComparativeStatsModule.init(),
         switchStatsTab: (tab) => QueueStatsModule.switchStatsTab(tab)
     };
 })();
