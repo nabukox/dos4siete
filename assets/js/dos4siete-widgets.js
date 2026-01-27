@@ -1068,11 +1068,28 @@ window.Dos4Siete = (function () {
     const ComparativeStatsModule = {
         init: function () {
             console.log("ComparativeStatsModule initialized");
-            this.renderChart();
+            this.renderChart(1.0); // Default multiplier
+
+            // Bind Date Change
+            const selector = document.getElementById('date-selector');
+            if (selector) {
+                selector.addEventListener('change', (e) => {
+                    const val = e.target.value;
+                    let multiplier = 1.0;
+                    // Simulate different data profiles based on selection
+                    if (val === 'yesterday') multiplier = 0.8;
+                    else if (val === '25jan') multiplier = 1.2;
+                    else if (val === '24jan') multiplier = 0.6;
+                    else if (val === '23jan') multiplier = 0.9;
+
+                    console.log(`Date changed to ${val}, refreshing chart...`);
+                    this.renderChart(multiplier);
+                });
+            }
         },
 
-        renderChart: function () {
-            console.log("Rendering comparative chart...");
+        renderChart: function (multiplier = 1.0) {
+            console.log("Rendering comparative chart with multiplier:", multiplier);
 
             // Mock Data: Hourly breakdown (09:00 - 18:00)
             const hours = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
@@ -1082,13 +1099,14 @@ window.Dos4Siete = (function () {
 
             const timeData = hours.map(h => {
                 // Mock trends: Peak at 10-12 and 16-17
-                const multiplier = (h === '10:00' || h === '11:00' || h === '16:00') ? 1.5 : 1.0;
+                const timeTrend = (h === '10:00' || h === '11:00' || h === '16:00') ? 1.5 : 1.0;
 
-                const incoming = Math.floor(rnd(30, 60) * multiplier);
+                // Apply date multiplier to vary the "day"
+                const incoming = Math.floor(rnd(30, 60) * timeTrend * multiplier);
                 const answered = Math.floor(incoming * rnd(0.85, 0.98)); // High answer rate
                 const missed = incoming - answered;
-                const outgoing = Math.floor(rnd(20, 50) * multiplier);
-                const wait = rnd(15, 60); // Seconds
+                const outgoing = Math.floor(rnd(20, 50) * timeTrend * multiplier);
+                const wait = Math.floor(rnd(15, 60) * (2 - multiplier)); // Inverse trend for wait time (less traffic/more efficieny?)
 
                 return {
                     time: h,
@@ -1146,6 +1164,9 @@ window.Dos4Siete = (function () {
             const barWidth = (contentWidth / numBars) * 0.9;
 
             let html = `<svg viewBox="0 0 ${width} ${height}" style="width:100%; height:100%; overflow:visible;">`;
+
+            // Y-Axis Title
+            html += `<text x="${-height / 2}" y="15" transform="rotate(-90)" text-anchor="middle" fill="#9CA3AF" font-size="10" font-weight="500">N° de Llamadas</text>`;
 
             // 1. Grid Lines (Y-Axis)
             for (let i = 0; i <= 5; i++) {
