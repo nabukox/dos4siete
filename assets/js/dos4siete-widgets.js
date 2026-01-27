@@ -819,8 +819,132 @@ window.Dos4Siete = (function () {
                 const el = document.getElementById(`${containerId}-val-${i}`);
                 if (el) el.innerText = slice.value;
             });
+        },
+
+        // --- NEW: AGENT TIME DISTRIBUTION CHART ---
+        renderAgentTimeChart: function () {
+            // Get agents from directory
+            const agents = QueueModule.data.staffDirectory.map(name => {
+                const parts = name.split(' - ');
+                return {
+                    id: parts[0], // ID for X-axis
+                    label: parts[1], // Name for tooltip
+                    value: this.getRandom(5, 120) // Random minutes
+                };
+            });
+
+            // Sort by time descending
+            agents.sort((a, b) => b.value - a.value);
+
+            // Limited to top 10 for better width/density match
+            const topAgents = agents.slice(0, 10);
+
+            this.drawBarChart('chart-agent-time', topAgents, 'Minutos en Conversación');
+        },
+
+        drawBarChart: function (containerId, data, yLabel = '') {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            const width = container.clientWidth || 400;
+            const height = 250; // Taller for better "reach"
+            // Increased left padding for Y-axis values
+            const padding = { top: 30, bottom: 30, left: 40, right: 10 };
+
+            const maxVal = Math.max(...data.map(d => d.value));
+            // Round up maxVal to nice number for grid
+            const gridMax = Math.ceil(maxVal / 10) * 10;
+
+            const chartWidth = width - padding.left - padding.right;
+            const chartHeight = height - padding.top - padding.bottom;
+
+            const barWidth = (chartWidth / data.length) * 0.5; // Thinner bars
+            const gap = (chartWidth / data.length) * 0.5;
+
+            let html = `<svg viewBox="0 0 ${width} ${height}" style="width:100%; height:100%;">`;
+
+            // Y-Axis Label
+            if (yLabel) {
+                html += `<text x="10" y="15" fill="#6B7280" font-size="10" font-weight="bold">${yLabel}</text>`;
+            }
+
+            // Grid lines & Y-Axis Values (4 lines)
+            for (let i = 0; i <= 4; i++) {
+                const ratio = i / 4;
+                const y = padding.top + (chartHeight * (1 - ratio)); // Bottom to Top
+                const value = Math.round(gridMax * ratio);
+
+                // Grid Line
+                html += `<line x1="${padding.left}" y1="${y}" x2="${width}" y2="${y}" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4 4" />`;
+
+                // Y-Value Text
+                html += `<text x="${padding.left - 8}" y="${y + 3}" text-anchor="end" fill="#9CA3AF" font-size="10">${value}</text>`;
+            }
+
+            // Bars
+            data.forEach((d, i) => {
+                const h = (d.value / gridMax) * chartHeight;
+                const x = padding.left + (i * (barWidth + gap)) + (gap / 2);
+                const y = padding.top + (chartHeight - h);
+
+                // Rounded Bar
+                html += `<rect x="${x}" y="${y}" width="${barWidth}" height="${h}" rx="2" fill="#E5E7EB" class="hover:fill-[#2000D6] transition-colors duration-300">
+                    <title>[${d.id}] ${d.label}: ${d.value} min</title>
+                </rect>`;
+
+                // Active/High volume styling
+                if (d.value > (gridMax * 0.7)) {
+                    html += `<rect x="${x}" y="${y}" width="${barWidth}" height="${h}" rx="2" fill="#2000D6" opacity="0.9"></rect>`;
+                }
+
+                // X-Axis ID Label
+                html += `<text x="${x + barWidth / 2}" y="${height - 10}" text-anchor="middle" fill="#6B7280" font-size="10" font-weight="500">${d.id}</text>`;
+            });
+
+            html += `</svg>`;
+            container.innerHTML = html;
         }
     };
+
+    // --- 5. CALL WIDGET MODULE ---
+    const CallWidgetModule = {
+        timerInterval: null,
+        seconds: 65, // Start at 1:05
+
+        init: function () {
+            this.startTimer();
+            this.bindControls();
+        },
+
+        startTimer: function () {
+            const timerEl = document.getElementById('call-timer');
+            if (!timerEl) return;
+
+            this.timerInterval = setInterval(() => {
+                this.seconds++;
+                const m = Math.floor(this.seconds / 60).toString().padStart(2, '0');
+                const s = (this.seconds % 60).toString().padStart(2, '0');
+                timerEl.innerText = `${m}:${s}`;
+            }, 1000);
+        },
+
+        bindControls: function () {
+            // Toggle buttons visual state
+            document.querySelectorAll('button').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    if (this.classList.contains('bg-gray-50')) {
+                        const icon = this.querySelector('i');
+                        if (icon && !this.classList.contains('opacity-50')) {
+                            this.classList.toggle('bg-blue-50');
+                            this.classList.toggle('border-blue-200');
+                            icon.classList.toggle('text-blue-600');
+                        }
+                    }
+                });
+            });
+        }
+    };
+
 
     // --- PUBLIC API ---
     return {
@@ -828,6 +952,11 @@ window.Dos4Siete = (function () {
         initQueueDemo: () => DemoModule.init(),
         initStats: () => StatsModule.init(),
         initQueueStats: () => QueueStatsModule.init(),
+        initAgentStats: () => {
+            QueueStatsModule.renderAgentTimeChart();
+            setInterval(() => QueueStatsModule.renderAgentTimeChart(), 5000);
+        },
+        initCallWidget: () => CallWidgetModule.init(),
         switchStatsTab: (tab) => QueueStatsModule.switchStatsTab(tab)
     };
 })();

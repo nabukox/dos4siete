@@ -15,7 +15,7 @@
 
     <!-- APP CONTAINER (Floating Canvas) -->
     <div
-        class="app-container w-full max-w-5xl h-[80vh] flex flex-col bg-white overflow-hidden shadow-2xl rounded-3xl border border-gray-100 relative">
+        class="app-container w-full max-w-5xl h-auto flex flex-col bg-white overflow-hidden shadow-2xl rounded-3xl border border-gray-100 relative">
 
         <!-- HEADER -->
         <div class="app-header flex justify-between items-center px-6 py-4 bg-white border-b border-gray-100 z-10">
@@ -36,7 +36,7 @@
         </div>
 
         <!-- MAIN SCROLLABLE CONTENT -->
-        <div class="flex-1 overflow-y-auto p-6 bg-[#F9FAFB] space-y-6 relative">
+        <div class="p-6 bg-[#F9FAFB] space-y-6 relative">
 
             <!-- NO TABS ONLY SUMMARY -->
             <div class="mb-4">
@@ -268,21 +268,22 @@
 
                     </div>
                 </div>
+
+
+
+
+
             </div>
-
-
-
         </div>
-    </div>
 
-    <!-- INITIALIZATION -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            if (window.Dos4Siete && window.Dos4Siete.initQueueStats) {
-                window.Dos4Siete.initQueueStats();
-            }
-        });
-    </script>
+        <!-- INITIALIZATION -->
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                if (window.Dos4Siete && window.Dos4Siete.initQueueStats) {
+                    window.Dos4Siete.initQueueStats();
+                }
+            });
+        </script>
 </body>
 
 </html>
