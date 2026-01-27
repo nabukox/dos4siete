@@ -945,6 +945,124 @@ window.Dos4Siete = (function () {
         }
     };
 
+    // --- 6. TRANSFER FLOW MODULE ---
+    const CallTransferModule = {
+        init: function () {
+            // Re-use timer from CallWidget but independent instance logic
+            this.startTimer();
+            this.bindEvents();
+        },
+
+        startTimer: function () {
+            let seconds = 65;
+            const timerEl = document.getElementById('call-timer');
+            if (timerEl) {
+                setInterval(() => {
+                    seconds++;
+                    const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+                    const s = (seconds % 60).toString().padStart(2, '0');
+                    timerEl.innerText = `${m}:${s}`;
+                }, 1000);
+            }
+        },
+
+        bindEvents: function () {
+            const btnTransfer = document.getElementById('btn-transfer');
+            const modal = document.getElementById('transfer-modal');
+            const modalContent = document.getElementById('transfer-modal-content');
+            const btnClose = document.getElementById('modal-close');
+            const contacts = document.querySelectorAll('.transfer-contact');
+
+            // Open Modal
+            if (btnTransfer && modal) {
+                btnTransfer.addEventListener('click', () => {
+                    modal.classList.remove('hidden');
+                    // Small delay for transition
+                    setTimeout(() => {
+                        modal.classList.remove('opacity-0');
+                        modalContent.classList.remove('translate-y-full');
+                    }, 10);
+                });
+            }
+
+            // Close Logic
+            const closeModal = () => {
+                modalContent.classList.add('translate-y-full');
+                modal.classList.add('opacity-0');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
+            };
+
+            if (btnClose) btnClose.addEventListener('click', closeModal);
+
+            // Handle Contact Selection
+            contacts.forEach(contact => {
+                contact.addEventListener('click', () => {
+                    // 1. Get Data
+                    const name = contact.dataset.name;
+                    const avatar = contact.dataset.avatar;
+                    // 2. Close Modal
+                    closeModal();
+
+                    // 3. Update Main Stage to "Transferring"
+                    this.setTransferState(name, avatar);
+                });
+            });
+        },
+
+        setTransferState: function (name, avatarText) {
+            const stageStatusText = document.getElementById('stage-status-text');
+            const stageNumber = document.getElementById('stage-number');
+            const stageAvatarText = document.getElementById('stage-avatar-text');
+            const stagePulse = document.getElementById('stage-pulse');
+            const stageControls = document.getElementById('stage-controls');
+            const stageVolume = document.getElementById('stage-volume');
+            const stageFlag = document.getElementById('stage-flag');
+            const stageStatusDot = document.getElementById('stage-status-dot');
+
+            // Hide controls/volume to focus on state change
+            if (stageControls) stageControls.style.opacity = '0';
+            if (stageVolume) stageVolume.style.opacity = '0';
+            if (stageFlag) stageFlag.style.display = 'none';
+
+            // Change Status
+            if (stageStatusText) {
+                stageStatusText.innerText = 'Transfiriendo llamada...';
+                stageStatusText.className = 'text-sm font-bold text-blue-500 mb-2 animate-pulse';
+            }
+            if (stageNumber) stageNumber.innerText = name;
+
+            // Avatar Update
+            if (stageAvatarText) {
+                stageAvatarText.innerText = avatarText;
+                // Temporarily stop pulse or change color
+                stagePulse.style.display = 'none';
+            }
+
+            if (stageStatusDot) stageStatusDot.className = 'w-1.5 h-1.5 rounded-full bg-yellow-500 animate-pulse';
+
+            // Simulate Connected after 3s
+            setTimeout(() => {
+                if (stageStatusText) {
+                    stageStatusText.innerText = 'Llamada Transferida';
+                    stageStatusText.className = 'text-sm font-bold text-green-500 mb-2';
+                }
+                if (stageStatusDot) stageStatusDot.className = 'w-1.5 h-1.5 rounded-full bg-green-500';
+
+                // Show "Hang up" only? Or restore controls?
+                // For demo, just fade controls back in partialy disabled or different state
+                if (stageControls) {
+                    stageControls.style.opacity = '0.5';
+                    stageControls.style.pointerEvents = 'none';
+                }
+
+                // Pulse back?
+                // stagePulse.style.display = 'block';
+            }, 3000);
+        }
+    };
+
 
     // --- PUBLIC API ---
     return {
@@ -957,6 +1075,7 @@ window.Dos4Siete = (function () {
             setInterval(() => QueueStatsModule.renderAgentTimeChart(), 5000);
         },
         initCallWidget: () => CallWidgetModule.init(),
+        initTransferFlow: () => CallTransferModule.init(),
         switchStatsTab: (tab) => QueueStatsModule.switchStatsTab(tab)
     };
 })();
