@@ -1395,94 +1395,95 @@ window.Dos4Siete = (function () {
 
     // --- 8. TRANSFER DEMO MODULE (AUTOMATION) ---
     const TransferDemoModule = {
+        // Standard Init Pattern
         init: function () {
             console.log("Transfer Demo Initialized");
-            window.addEventListener('load', () => {
-                setTimeout(() => this.runSequence(), 1000);
-            });
+            if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                this.runSequence();
+            } else {
+                window.addEventListener('DOMContentLoaded', () => this.runSequence());
+            }
         },
 
+        // Helper: Promisified Wait
         wait: ms => new Promise(r => setTimeout(r, ms)),
 
-        // Cursor Helpers (Duplicated for standalone reliability)
+        // Helper: Move Cursor (Standard)
         async moveCursorTo(selector) {
             const cursor = document.getElementById('demo-cursor');
             const el = document.querySelector(selector);
 
-            if (!el) { console.warn(`Element not found: ${selector}`); return; }
+            if (!el) { console.warn(`Target not found: ${selector}`); return; }
             if (!cursor) { console.warn("Cursor not found"); return; }
 
+            // Ensure Visibility
+            cursor.classList.remove('opacity-0');
+            cursor.style.opacity = '1';
+
+            // Calculate Position
             const rect = el.getBoundingClientRect();
             // Target center
             const x = rect.left + (rect.width / 2);
             const y = rect.top + (rect.height / 2);
 
+            // Move
             cursor.style.transform = `translate(${x}px, ${y}px)`;
-            cursor.style.opacity = '1';
 
-            await this.wait(800); // Travel time
+            // Wait for transition to finish
+            await this.wait(800);
         },
 
+        // Helper: Simulate Click (Standard)
         async clickCursor() {
             const cursor = document.getElementById('demo-cursor');
-            if (!cursor) return;
-            const icon = cursor.querySelector('i');
+            const icon = cursor?.querySelector('i');
             const effect = document.getElementById('click-effect');
 
-            // Visual Click
+            // Visual Down
             if (icon) icon.style.transform = "scale(0.8) rotate(-15deg)";
             if (effect) {
                 effect.classList.remove('hidden');
                 setTimeout(() => effect.classList.add('hidden'), 300);
             }
-
             await this.wait(150);
+
+            // Visual Up
             if (icon) icon.style.transform = "scale(1) rotate(-15deg)";
             await this.wait(150);
         },
 
         async runSequence() {
-            // 1. Initial Wait
+            console.log("Starting Demo Sequence...");
             await this.wait(1000);
 
-            // 2. Click Transfer Button
+            // 1. Click Transfer Button
             await this.moveCursorTo('#btn-transfer');
             await this.clickCursor();
-
-            // Trigger actual click
-            document.getElementById('btn-transfer').click();
+            document.getElementById('btn-transfer')?.click();
             await this.wait(1500); // Wait for modal animation
 
-            // 3. Click "Directa" Tab
+            // 2. Click "Directa" Tab
             await this.moveCursorTo('#btn-mode-directa');
             await this.clickCursor();
-
-            // Trigger click
-            document.getElementById('btn-mode-directa').click();
+            document.getElementById('btn-mode-directa')?.click();
             await this.wait(1000);
 
-            // 4. Select Agent "Jean Gomez" (JG)
-            // Selector relying on the structure again. JG is the 2nd item in the first group.
-            // ".overflow-y-auto > div:first-child > div:nth-child(3)" (Item 2 is Jean, check HTML structure)
-            // Let's use a more robust selector if possible or inspect the HTML. 
-            // In the replace_content earlier:
-            // Group 1 (Extensiones) is div.mb-2
-            // Items are children starting from index 1 (0 is the label)
-            // Edgar, Jean...
-            // So: #transfer-modal-content .overflow-y-auto .mb-2 > div:nth-child(3) (Label, Edgar, Jean)
-
+            // 3. Select Agent "Jean Gomez"
+            // Using a more specific selector if possible, or keeping the nth-child approach
             const agentSelector = '#transfer-modal-content .overflow-y-auto .mb-2 > div:nth-child(3)';
-            await this.moveCursorTo(agentSelector);
-            await this.clickCursor();
-
-            // Trigger click event on the row
             const agentRow = document.querySelector(agentSelector);
-            if (agentRow) agentRow.click();
+
+            if (agentRow) {
+                await this.moveCursorTo(agentSelector);
+                await this.clickCursor();
+                agentRow.click();
+            } else {
+                console.warn("Agent row for Jean Gomez not found");
+            }
 
             await this.wait(4000);
 
-            // 5. Reset / Loop?
-            // Optional: Reload to loop
+            // Loop (Optional)
             // window.location.reload();
         }
     };
