@@ -947,6 +947,8 @@ window.Dos4Siete = (function () {
 
     // --- 6. TRANSFER FLOW MODULE ---
     const CallTransferModule = {
+        transferMode: 'Atendida', // Default mode
+
         init: function () {
             // Re-use timer from CallWidget but independent instance logic
             this.startTimer();
@@ -971,7 +973,7 @@ window.Dos4Siete = (function () {
             const modal = document.getElementById('transfer-modal');
             const modalContent = document.getElementById('transfer-modal-content');
             const btnClose = document.getElementById('modal-close');
-            const contacts = document.querySelectorAll('.transfer-contact');
+            const contacts = document.querySelectorAll('.transfer-contact'); // Keep compatibility if strictly needed, but we use new structure now
 
             // Open Modal
             if (btnTransfer && modal) {
@@ -980,34 +982,93 @@ window.Dos4Siete = (function () {
                     // Small delay for transition
                     setTimeout(() => {
                         modal.classList.remove('opacity-0');
-                        modalContent.classList.remove('translate-y-full');
+                        modalContent.classList.remove('scale-95'); // Updated for new transition
+                        modalContent.classList.add('scale-100');
                     }, 10);
                 });
             }
 
             // Close Logic
             const closeModal = () => {
-                modalContent.classList.add('translate-y-full');
+                modalContent.classList.remove('scale-100');
+                modalContent.classList.add('scale-95');
                 modal.classList.add('opacity-0');
                 setTimeout(() => {
                     modal.classList.add('hidden');
-                }, 300);
+                }, 200);
             };
 
             if (btnClose) btnClose.addEventListener('click', closeModal);
 
-            // Handle Contact Selection
-            contacts.forEach(contact => {
-                contact.addEventListener('click', () => {
-                    // 1. Get Data
-                    const name = contact.dataset.name;
-                    const avatar = contact.dataset.avatar;
-                    // 2. Close Modal
-                    closeModal();
+            // Handle Contact Selection (Dynamic delegation for better support)
+            // We use the new structure where the whole row or the button can trigger it? 
+            // The request implies "click agent". Let's bind to the rows.
+            // We used specific IDs or classes in the new HTML? 
+            // In the replace_content we used: class="... cursor-pointer group ..." (lines 288 etc)
+            // But we didn't give them a common class like 'transfer-contact' explicitly in the new HTML.
+            // Let's add listeners to the list items by looking for their structure or parent.
 
-                    // 3. Update Main Stage to "Transferring"
-                    this.setTransferState(name, avatar);
+            // Re-selecting based on new structure (div inside flex-1 overflow-y-auto)
+            // Ideally we should have added a class. Let's select by attribute or behavior.
+            const contactRows = document.querySelectorAll('#transfer-modal-content .overflow-y-auto > div > div.group'); // Selects the rows inside the groups
+
+            contactRows.forEach(row => {
+                row.addEventListener('click', () => {
+                    // Extract data
+                    const nameDiv = row.querySelector('.text-\\[\\#141F4C\\]');
+                    const name = nameDiv ? nameDiv.innerText : 'Desconocido';
+                    const avatarDiv = row.querySelector('.rounded-full.text-white'); // The avatar circle
+                    const avatarText = avatarDiv ? avatarDiv.innerText : 'XX';
+
+                    // Close and Transfer
+                    closeModal();
+                    this.setTransferState(name, avatarText);
                 });
+            });
+
+
+            // MODE SWITCHING LOGIC
+            const modes = ['atendida', 'directa', 'llamadas', 'salas'];
+            modes.forEach(mode => {
+                const btn = document.getElementById(`btn-mode-${mode}`);
+                if (btn) {
+                    btn.addEventListener('click', () => this.setMode(mode));
+                }
+            });
+        },
+
+        setMode: function (mode) {
+            // Update State
+            // Map to Capitalized for display
+            const map = { 'atendida': 'Atendida', 'directa': 'Directa', 'llamadas': 'Llamada en curso', 'salas': 'Sala de conferencia' };
+            this.transferMode = map[mode] || 'Atendida';
+
+            // Update UI
+            const modes = ['atendida', 'directa', 'llamadas', 'salas'];
+            modes.forEach(m => {
+                const btn = document.getElementById(`btn-mode-${m}`);
+                if (!btn) return;
+
+                const indicator = btn.querySelector('.indicator');
+                const label = btn; // The button itself controls text color via classes
+
+                if (m === mode) {
+                    // Active
+                    btn.classList.remove('text-gray-400');
+                    btn.classList.add('text-blue-500');
+                    if (indicator) {
+                        indicator.classList.remove('bg-transparent');
+                        indicator.classList.add('bg-blue-500');
+                    }
+                } else {
+                    // Inactive
+                    btn.classList.add('text-gray-400');
+                    btn.classList.remove('text-blue-500');
+                    if (indicator) {
+                        indicator.classList.add('bg-transparent');
+                        indicator.classList.remove('bg-blue-500');
+                    }
+                }
             });
         },
 
@@ -1028,7 +1089,8 @@ window.Dos4Siete = (function () {
 
             // Change Status
             if (stageStatusText) {
-                stageStatusText.innerText = 'Transfiriendo llamada...';
+                // Use the selected MODE here
+                stageStatusText.innerText = `Transfiriendo (${this.transferMode})...`;
                 stageStatusText.className = 'text-sm font-bold text-blue-500 mb-2 animate-pulse';
             }
             if (stageNumber) stageNumber.innerText = name;
@@ -1045,7 +1107,7 @@ window.Dos4Siete = (function () {
             // Simulate Connected after 3s
             setTimeout(() => {
                 if (stageStatusText) {
-                    stageStatusText.innerText = 'Llamada Transferida';
+                    stageStatusText.innerText = `Llamada Transferida (${this.transferMode})`;
                     stageStatusText.className = 'text-sm font-bold text-green-500 mb-2';
                 }
                 if (stageStatusDot) stageStatusDot.className = 'w-1.5 h-1.5 rounded-full bg-green-500';
@@ -1265,6 +1327,166 @@ window.Dos4Siete = (function () {
         }
     };
 
+    const VoiceoverModalModule = {
+        init: function () {
+            console.log("Voiceover Manager initialized");
+            this.bindEvents();
+        },
+
+        bindEvents: function () {
+            const btnNew = document.getElementById('btn-new-voiceover');
+            const modal = document.getElementById('locucion-modal');
+            const modalContent = document.getElementById('locucion-modal-content');
+            const btnClose = document.getElementById('btn-close-modal');
+            const btnCancel = document.getElementById('btn-cancel-modal');
+
+            if (!btnNew) console.error("Btn New Voiceover not found!");
+            if (!modal) console.error("Modal not found!");
+
+            const openModal = () => {
+                console.log("Opening modal...");
+                if (!modal) return;
+                modal.classList.remove('hidden');
+                // Small timeout to allow display:block to apply before opacity transition
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    if (modalContent) modalContent.classList.remove('scale-95');
+                }, 10);
+            };
+
+            const closeModal = () => {
+                console.log("Closing modal...");
+                if (!modal) return;
+                modal.classList.add('opacity-0');
+                if (modalContent) modalContent.classList.add('scale-95');
+
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 200); // Match transition duration
+            };
+
+            if (btnNew) {
+                console.log("Binding click to New Voiceover button");
+                btnNew.addEventListener('click', openModal);
+            }
+            if (btnClose) btnClose.addEventListener('click', closeModal);
+            if (btnCancel) btnCancel.addEventListener('click', closeModal);
+
+            // Close on click outside
+            if (modal) {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) closeModal();
+                });
+            }
+
+            // Char counter
+            if (ttsInput && charCount) {
+                ttsInput.addEventListener('input', (e) => {
+                    charCount.textContent = e.target.value.length;
+                    if (e.target.value.length > 2000) {
+                        charCount.classList.add('text-red-500');
+                    } else {
+                        charCount.classList.remove('text-red-500');
+                    }
+                });
+            }
+        }
+    };
+
+    // --- 8. TRANSFER DEMO MODULE (AUTOMATION) ---
+    const TransferDemoModule = {
+        init: function () {
+            console.log("Transfer Demo Initialized");
+            window.addEventListener('load', () => {
+                setTimeout(() => this.runSequence(), 1000);
+            });
+        },
+
+        wait: ms => new Promise(r => setTimeout(r, ms)),
+
+        // Cursor Helpers (Duplicated for standalone reliability)
+        async moveCursorTo(selector) {
+            const cursor = document.getElementById('demo-cursor');
+            const el = document.querySelector(selector);
+
+            if (!el) { console.warn(`Element not found: ${selector}`); return; }
+            if (!cursor) { console.warn("Cursor not found"); return; }
+
+            const rect = el.getBoundingClientRect();
+            // Target center
+            const x = rect.left + (rect.width / 2);
+            const y = rect.top + (rect.height / 2);
+
+            cursor.style.transform = `translate(${x}px, ${y}px)`;
+            cursor.style.opacity = '1';
+
+            await this.wait(800); // Travel time
+        },
+
+        async clickCursor() {
+            const cursor = document.getElementById('demo-cursor');
+            if (!cursor) return;
+            const icon = cursor.querySelector('i');
+            const effect = document.getElementById('click-effect');
+
+            // Visual Click
+            if (icon) icon.style.transform = "scale(0.8) rotate(-15deg)";
+            if (effect) {
+                effect.classList.remove('hidden');
+                setTimeout(() => effect.classList.add('hidden'), 300);
+            }
+
+            await this.wait(150);
+            if (icon) icon.style.transform = "scale(1) rotate(-15deg)";
+            await this.wait(150);
+        },
+
+        async runSequence() {
+            // 1. Initial Wait
+            await this.wait(1000);
+
+            // 2. Click Transfer Button
+            await this.moveCursorTo('#btn-transfer');
+            await this.clickCursor();
+
+            // Trigger actual click
+            document.getElementById('btn-transfer').click();
+            await this.wait(1500); // Wait for modal animation
+
+            // 3. Click "Directa" Tab
+            await this.moveCursorTo('#btn-mode-directa');
+            await this.clickCursor();
+
+            // Trigger click
+            document.getElementById('btn-mode-directa').click();
+            await this.wait(1000);
+
+            // 4. Select Agent "Jean Gomez" (JG)
+            // Selector relying on the structure again. JG is the 2nd item in the first group.
+            // ".overflow-y-auto > div:first-child > div:nth-child(3)" (Item 2 is Jean, check HTML structure)
+            // Let's use a more robust selector if possible or inspect the HTML. 
+            // In the replace_content earlier:
+            // Group 1 (Extensiones) is div.mb-2
+            // Items are children starting from index 1 (0 is the label)
+            // Edgar, Jean...
+            // So: #transfer-modal-content .overflow-y-auto .mb-2 > div:nth-child(3) (Label, Edgar, Jean)
+
+            const agentSelector = '#transfer-modal-content .overflow-y-auto .mb-2 > div:nth-child(3)';
+            await this.moveCursorTo(agentSelector);
+            await this.clickCursor();
+
+            // Trigger click event on the row
+            const agentRow = document.querySelector(agentSelector);
+            if (agentRow) agentRow.click();
+
+            await this.wait(4000);
+
+            // 5. Reset / Loop?
+            // Optional: Reload to loop
+            // window.location.reload();
+        }
+    };
+
     // --- PUBLIC API ---
     return {
         initQueuePanel: () => QueueModule.init(),
@@ -1278,6 +1500,8 @@ window.Dos4Siete = (function () {
         initCallWidget: () => CallWidgetModule.init(),
         initTransferFlow: () => CallTransferModule.init(),
         initComparativeStats: () => ComparativeStatsModule.init(),
-        switchStatsTab: (tab) => QueueStatsModule.switchStatsTab(tab)
+        initVoiceoverManager: () => VoiceoverModalModule.init(),
+        switchStatsTab: (tab) => QueueStatsModule.switchStatsTab(tab),
+        initTransferDemo: () => TransferDemoModule.init()
     };
 })();

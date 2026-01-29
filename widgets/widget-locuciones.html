@@ -15,7 +15,7 @@
 
     <!-- APP CONTAINER -->
     <div
-        class="app-container w-full max-w-6xl h-[85vh] flex flex-col bg-white overflow-hidden shadow-2xl rounded-3xl border border-gray-100 relative">
+        class="app-container w-full max-w-[800px] h-[800px] flex flex-col bg-white overflow-hidden shadow-2xl rounded-3xl border border-gray-100 relative">
 
         <!-- HEADER -->
         <div
@@ -28,8 +28,8 @@
                 <span class="text-xs text-gray-400 pl-6">Gestiona los audios del sistema</span>
             </div>
 
-            <button
-                class="bg-[#22C55E] hover:bg-green-600 text-white text-sm font-bold py-2 px-4 rounded-md shadow-sm hover:shadow-md transition-all flex items-center gap-2 group">
+            <button id="btn-new-voiceover"
+                class="bg-[#29ABE2] hover:bg-[#2376C9] text-white text-sm font-bold py-2 px-6 rounded-full shadow-sm hover:shadow-md transition-all flex items-center gap-2 group">
                 <i class="fas fa-plus text-xs group-hover:scale-110 transition-transform"></i>
                 Nueva locución
             </button>
@@ -252,7 +252,109 @@
             </div>
         </div>
 
-    </div>
+        <!-- MODAL OVERLAY -->
+        <div id="locucion-modal"
+            class="hidden absolute inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm transition-opacity opacity-0">
+            <!-- Modal Content -->
+            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 transform scale-95 transition-transform duration-200"
+                id="locucion-modal-content">
+
+                <!-- Modal Header -->
+                <div class="flex justify-between items-center px-6 py-4 border-b border-gray-100">
+                    <h3 class="text-[#141F4C] font-bold text-lg">Locución</h3>
+                    <button class="text-gray-400 hover:text-gray-600 transition-colors" id="btn-close-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="p-6 space-y-5">
+
+                    <!-- Name Input -->
+                    <div class="space-y-1.5">
+                        <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide">Nombre</label>
+                        <input type="text"
+                            class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                            placeholder="Ej: Bienvenida Navidad">
+                    </div>
+
+                    <!-- TTS Section -->
+                    <div class="space-y-1.5">
+                        <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide">Texto
+                            automático</label>
+                        <div class="relative">
+                            <textarea id="tts-input" rows="4"
+                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none"
+                                placeholder="Escribe el texto que se convertirá en audio..."></textarea>
+                            <div class="absolute bottom-2 right-3 text-[10px] text-gray-400 font-medium">
+                                <span id="char-count">0</span> / 2000
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Voice Selector & Preview -->
+                    <div class="flex items-center gap-3">
+                        <button
+                            class="w-10 h-10 rounded-lg bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                            <i class="fas fa-play text-xs pl-0.5"></i>
+                        </button>
+                        <div class="flex-1">
+                            <select
+                                class="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 focus:ring-2 focus:ring-blue-500 outline-none cursor-pointer">
+                                <option>Castilian Spanish [neural] - Female - Lucia</option>
+                                <option>Castilian Spanish [neural] - Male - Enrique</option>
+                                <option>Mexican Spanish [neural] - Female - Dalia</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Alternative Actions -->
+                    <div class="flex flex-col gap-2 pt-2 border-t border-gray-50">
+                        <button
+                            class="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 font-medium py-1 w-fit group">
+                            <i class="fas fa-microphone text-xs group-hover:scale-110 transition-transform"></i>
+                            Grabar con el micrófono
+                        </button>
+                        <button
+                            class="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 font-medium py-1 w-fit group">
+                            <i class="fas fa-upload text-xs group-hover:scale-110 transition-transform"></i>
+                            Subir un fichero de audio
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="px-6 py-4 bg-gray-50 rounded-b-2xl border-t border-gray-100 flex justify-end gap-3">
+                    <button id="btn-cancel-modal"
+                        class="px-4 py-2 text-sm font-semibold text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors">
+                        Cancelar
+                    </button>
+                    <button
+                        class="px-6 py-2 text-sm font-bold text-white bg-[#29ABE2] hover:bg-[#2376C9] rounded-full shadow-md hover:shadow-lg transition-all transform active:scale-95">
+                        <i class="fas fa-check mr-1.5"></i> Guardar
+                    </button>
+                </div>
+
+            </div>
+        </div>
+        <script>
+            // Ensure init runs even if DOMContentLoaded already fired
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initApp);
+            } else {
+                initApp();
+            }
+
+            function initApp() {
+                console.log("Initializing App...");
+                if (window.Dos4Siete && window.Dos4Siete.initVoiceoverManager) {
+                    window.Dos4Siete.initVoiceoverManager();
+                } else {
+                    console.error("Dos4Siete global object not found!");
+                }
+            }
+        </script>
 </body>
 
 </html>
