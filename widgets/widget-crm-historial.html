@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Integración - Historial</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Skeleton Pulse Animation */
+        @keyframes pulse-skeleton {
+
+            0%,
+            100% {
+                opacity: 0.4;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        .skeleton-bar {
+            background-color: #CBD5E1;
+            /* Slate-300 */
+            border-radius: 4px;
+            animation: pulse-skeleton 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        .skeleton-bar-dark {
+            background-color: #475569;
+            /* Slate-600 */
+            border-radius: 4px;
+            opacity: 0.5;
+        }
+
+        /* Timeline Connector Line */
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            top: 24px;
+            bottom: -24px;
+            left: 20px;
+            width: 2px;
+            background-color: #E2E8F0;
+            z-index: 0;
+        }
+
+        .timeline-item:last-child .timeline-line::before {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-8">
+
+    <!-- WIDGET CONTAINER -->
+    <div
+        class="w-full max-w-6xl h-[800px] bg-white rounded-lg overflow-hidden shadow-2xl flex flex-col border border-gray-200">
+
+        <!-- 1. TOP NAVBAR -->
+        <div class="h-14 bg-[#1E293B] flex items-center px-4 justify-between shrink-0">
+            <!-- Left: Logo + Skeleton Menu -->
+            <div class="flex items-center gap-6">
+                <!-- Logo Zoho -->
+                <div class="flex items-center gap-2">
+                    <img src="crm-zoho.svg" alt="Zoho CRM" class="h-10 w-auto opacity-90">
+                    <span class="text-white font-bold text-lg tracking-tight ml-[-4px]">CRM</span>
+                </div>
+
+                <!-- Skeleton Menu Items -->
+                <div class="flex items-center gap-4 ml-4">
+                    <div class="w-16 h-3 skeleton-bar-dark"></div>
+                    <div class="w-20 h-3 skeleton-bar-dark"></div>
+
+                    <!-- REAL ITEM -->
+                    <div class="text-white font-medium border-b-2 border-[#29ABE2] pb-4 pt-4 px-1 cursor-pointer">
+                        Contactos
+                    </div>
+
+                    <div class="w-14 h-3 skeleton-bar-dark"></div>
+                    <div class="w-18 h-3 skeleton-bar-dark"></div>
+                    <div class="w-16 h-3 skeleton-bar-dark"></div>
+                </div>
+            </div>
+
+            <!-- Right: Skeleton Actions -->
+            <div class="flex items-center gap-3">
+                <div class="w-24 h-8 skeleton-bar-dark rounded-md"></div>
+                <div class="w-8 h-8 rounded-full skeleton-bar-dark"></div>
+            </div>
+        </div>
+
+        <!-- 2. MAIN LAYOUT -->
+        <div class="flex flex-1 overflow-hidden">
+
+            <!-- COL 1: LEFT SIDEBAR (Skeleton List) -->
+            <div class="w-64 bg-gray-50 border-r border-gray-200 p-4 flex flex-col gap-4 shrink-0">
+
+                <!-- Back arrow + Title Skeleton -->
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-4 h-4 skeleton-bar"></div>
+                    <div class="w-32 h-4 skeleton-bar"></div>
+                </div>
+
+                <!-- List Items -->
+                <div class="space-y-3">
+                    <!-- Item 1 -->
+                    <div
+                        class="flex justify-between items-center p-2 rounded bg-white border border-gray-100 shadow-sm">
+                        <div class="space-y-2">
+                            <div class="w-24 h-3 skeleton-bar"></div>
+                            <div class="w-16 h-2 skeleton-bar opacity-60"></div>
+                        </div>
+                        <div class="w-8 h-3 skeleton-bar"></div>
+                    </div>
+                    <!-- Item 2 -->
+                    <div
+                        class="flex justify-between items-center p-2 rounded bg-white border border-gray-100 shadow-sm opacity-60">
+                        <div class="space-y-2">
+                            <div class="w-20 h-3 skeleton-bar"></div>
+                            <div class="w-12 h-2 skeleton-bar opacity-60"></div>
+                        </div>
+                        <div class="w-8 h-3 skeleton-bar"></div>
+                    </div>
+                    <!-- Item 3 -->
+                    <div
+                        class="flex justify-between items-center p-2 rounded bg-white border border-gray-100 shadow-sm opacity-60">
+                        <div class="space-y-2">
+                            <div class="w-22 h-3 skeleton-bar"></div>
+                            <div class="w-14 h-2 skeleton-bar opacity-60"></div>
+                        </div>
+                        <div class="w-8 h-3 skeleton-bar"></div>
+                    </div>
+                    <!-- Item 4 -->
+                    <div
+                        class="flex justify-between items-center p-2 rounded bg-white border border-gray-100 shadow-sm opacity-60">
+                        <div class="space-y-2">
+                            <div class="w-24 h-3 skeleton-bar"></div>
+                            <div class="w-10 h-2 skeleton-bar opacity-60"></div>
+                        </div>
+                        <div class="w-8 h-3 skeleton-bar"></div>
+                    </div>
+
+                    <!-- More skeleton items to resemble the "Lista relacionada" vertical menu -->
+                    <div class="pt-4 border-t border-gray-200 mt-4 space-y-3">
+                        <div class="w-32 h-3 skeleton-bar"></div>
+                        <div class="w-28 h-3 skeleton-bar"></div>
+                        <div class="w-24 h-3 skeleton-bar"></div>
+                        <div class="w-30 h-3 skeleton-bar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COL 2: MAIN CONTENT (Timeline) -->
+            <div class="flex-1 bg-white p-6 overflow-y-auto">
+
+                <!-- Header Info -->
+                <div class="mb-6 flex justify-between items-start">
+                    <div class="flex items-center gap-4">
+                        <!-- Avatar M Red -->
+                        <div
+                            class="w-12 h-12 rounded-full bg-[#D64040] flex items-center justify-center text-white text-xl font-medium shadow-md">
+                            M
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <h1 class="text-2xl font-bold text-[#1e293b]">Mr. Daniel Estrada Personal</h1>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-gray-400">
+                                <i class="fas fa-tag"></i> <span>Agregar etiquetas</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex gap-2">
+                        <button
+                            class="bg-[#29ABE2] text-white px-4 py-1.5 rounded text-sm font-medium hover:bg-blue-500 transition-colors shadow-sm">
+                            Enviar correo electrónico
+                        </button>
+                        <button
+                            class="bg-[#29ABE2] text-white px-4 py-1.5 rounded text-sm font-medium hover:bg-blue-500 transition-colors shadow-sm">
+                            Llamada
+                        </button>
+                        <button
+                            class="border border-gray-300 px-4 py-1.5 rounded text-sm text-gray-600 hover:bg-gray-50 font-medium">
+                            Editar
+                        </button>
+                        <button class="border border-gray-300 px-3 py-1.5 rounded text-gray-600 hover:bg-gray-50">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="flex gap-4 border-b border-gray-200 mb-6 relative">
+                    <button class="px-4 py-2 text-gray-500 hover:text-gray-700">
+                        Visión general
+                    </button>
+                    <button
+                        class="px-4 py-2 bg-blue-50 text-[#29ABE2] font-semibold rounded-t-lg border-b-2 border-[#29ABE2]">
+                        Cronología
+                    </button>
+                    <div class="ml-auto text-xs text-gray-400 self-center">
+                        <i class="far fa-clock"></i> Última actualización: 14:31
+                    </div>
+                </div>
+
+                <!-- Timeline Section -->
+                <div class="pl-2">
+
+                    <div class="mb-4">
+                        <h3 class="font-bold text-gray-800 text-sm border-b-2 border-transparent inline-block pb-1">
+                            Historial</h3>
+                    </div>
+
+                    <div class="mb-6 flex items-center justify-between">
+                        <div class="flex items-center gap-2 text-sm font-bold text-gray-700">
+                            Historial de linea de tiempo <button
+                                class="px-2 py-0.5 border border-gray-300 rounded hover:bg-gray-50"><i
+                                    class="fas fa-filter text-xs"></i></button>
+                        </div>
+                        <div class="text-xs text-[#29ABE2] cursor-pointer">0 Acciones automatizadas próximas <i
+                                class="fas fa-chevron-down"></i></div>
+                    </div>
+
+                    <!-- Date Tag -->
+                    <div
+                        class="inline-block bg-gray-100 text-gray-600 text-xs font-semibold px-3 py-1 rounded-full mb-6 border border-gray-200">
+                        Ene 14, 2026
+                    </div>
+
+                    <div class="space-y-8 relative">
+
+                        <!-- Timeline Item 1 -->
+                        <div class="relative pl-14 timeline-item timeline-line">
+                            <!-- Icon -->
+                            <div
+                                class="absolute left-0 top-0 w-10 h-10 rounded-full border border-red-200 bg-white flex items-center justify-center z-10">
+                                <i class="fas fa-phone-slash text-red-400 transform rotate-90"></i>
+                            </div>
+
+                            <div class="flex gap-4 items-start">
+                                <span class="text-gray-500 text-xs font-medium w-10 pt-1 text-right">14:31</span>
+                                <div>
+                                    <div class="text-sm text-gray-800">
+                                        <span class="font-bold">Llamada añadido</span> - <span
+                                            class="text-[#29ABE2] hover:underline cursor-pointer">Llamada perdida de
+                                            Daniel Estrada Personal (+34641294624)</span>
+                                    </div>
+                                    <div class="text-xs text-gray-500">por Rubén Tarantino Ene 14, 2026</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Timeline Item 2 -->
+                        <div class="relative pl-14 timeline-item timeline-line">
+                            <!-- Icon -->
+                            <div
+                                class="absolute left-0 top-0 w-10 h-10 rounded-full border border-red-200 bg-white flex items-center justify-center z-10">
+                                <i class="fas fa-phone-slash text-red-400 transform rotate-90"></i>
+                            </div>
+
+                            <div class="flex gap-4 items-start">
+                                <span class="text-gray-500 text-xs font-medium w-10 pt-1 text-right">14:31</span>
+                                <div>
+                                    <div class="text-sm text-gray-800">
+                                        <span class="font-bold">Llamada añadido</span> - <span
+                                            class="text-[#29ABE2] hover:underline cursor-pointer">Llamada perdida de
+                                            Daniel Estrada Personal (+34641294624)</span>
+                                    </div>
+                                    <div class="text-xs text-gray-500">por Rubén Tarantino Ene 14, 2026</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Timeline Item 3 -->
+                        <div class="relative pl-14 timeline-item timeline-line">
+                            <!-- Icon -->
+                            <div
+                                class="absolute left-0 top-0 w-10 h-10 rounded-full border border-blue-200 bg-white flex items-center justify-center z-10">
+                                <i class="fas fa-phone text-blue-400 transform rotate-90"></i>
+                            </div>
+
+                            <div class="flex gap-4 items-start">
+                                <span class="text-gray-500 text-xs font-medium w-10 pt-1 text-right">14:25</span>
+                                <div>
+                                    <div class="text-sm text-gray-800">
+                                        <span class="font-bold">Llamada perdida</span>
+                                    </div>
+                                    <div class="text-xs text-gray-500">por Ene 14, 2026</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Timeline Item 4 -->
+                        <div class="relative pl-14 timeline-item timeline-line">
+                            <!-- Icon -->
+                            <div
+                                class="absolute left-0 top-0 w-10 h-10 rounded-full border border-blue-200 bg-white flex items-center justify-center z-10">
+                                <i class="fas fa-phone text-blue-400 transform rotate-90"></i>
+                            </div>
+
+                            <div class="flex gap-4 items-start">
+                                <span class="text-gray-500 text-xs font-medium w-10 pt-1 text-right">14:23</span>
+                                <div>
+                                    <div class="text-sm text-gray-800">
+                                        <span class="font-bold">Llamada perdida</span>
+                                    </div>
+                                    <div class="text-xs text-gray-500">por Ene 14, 2026</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Date Tag -->
+                    <div
+                        class="inline-block bg-gray-100 text-gray-600 text-xs font-semibold px-3 py-1 rounded-full mb-6 border border-gray-200 mt-8">
+                        Nov 14, 2025
+                    </div>
+
+                    <div class="space-y-8 relative">
+                        <!-- Timeline Item 5 -->
+                        <div class="relative pl-14 timeline-item">
+                            <!-- Icon -->
+                            <div
+                                class="absolute left-0 top-0 w-10 h-10 rounded-full border border-blue-200 bg-white flex items-center justify-center z-10">
+                                <i class="fas fa-phone-alt text-blue-400"></i>
+                            </div>
+
+                            <div class="flex gap-4 items-start">
+                                <span class="text-gray-500 text-xs font-medium w-10 pt-1 text-right">10:33</span>
+                                <div>
+                                    <div class="text-sm text-gray-800">
+                                        <span class="font-bold">Llamada añadido</span> - <span
+                                            class="text-[#29ABE2] hover:underline cursor-pointer">Llamada saliente a
+                                            Daniel Estrada Personal (+34641294624)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

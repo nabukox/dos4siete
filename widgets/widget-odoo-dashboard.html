@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odoo Integración - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        /* Odoo-like Background Gradient */
+        .odoo-bg {
+            background: linear-gradient(135deg, #EFEBF4 0%, #E2DDF0 100%);
+        }
+
+        /* App Icon Hover Effect */
+        .app-icon {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .app-icon:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-8">
+
+    <!-- WIDGET CONTAINER (Screen representation) -->
+    <div
+        class="w-full max-w-6xl h-[700px] odoo-bg rounded-lg overflow-hidden shadow-2xl relative flex flex-col border border-gray-200">
+
+        <!-- 1. TOP NAVBAR -->
+        <div class="h-10 flex items-center justify-between px-4 shrink-0">
+            <!-- Left: Breadcrumbs/Menu (Abstracted) -->
+            <div class="flex items-center gap-3">
+                <!-- Abstract Menu Icon -->
+                <div class="space-y-1 cursor-pointer opacity-50 hover:opacity-100">
+                    <div class="w-4 h-0.5 bg-gray-600"></div>
+                    <div class="w-4 h-0.5 bg-gray-600"></div>
+                    <div class="w-4 h-0.5 bg-gray-600"></div>
+                </div>
+            </div>
+
+            <!-- Right: Status & Logo -->
+            <div class="flex items-center gap-4 text-gray-600 text-xs">
+                <i class="fas fa-comment opacity-60"></i>
+                <i class="fas fa-clock opacity-60"></i>
+                <div class="w-px h-4 bg-gray-300 mx-1"></div>
+                <!-- Dos4Siete Logo -->
+                <div class="flex items-center gap-2 opacity-80">
+                    <img src="../assets/img/logo.svg" alt="Dos4Siete" class="h-5 w-auto">
+                    <span class="font-bold text-gray-700">Dos4Siete Services S.L.</span>
+                </div>
+                <!-- Avatar -->
+                <div
+                    class="w-6 h-6 rounded-full bg-indigo-200 text-indigo-600 flex items-center justify-center text-[10px] font-bold">
+                    DS
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. MAIN APP GRID -->
+        <div class="flex-1 flex items-center justify-center p-10 overflow-y-auto">
+            <div class="grid grid-cols-3 gap-8">
+
+                <!-- App 1: Discuss (Orange) -->
+                <div class="flex flex-col items-center gap-2 cursor-pointer group">
+                    <div
+                        class="w-16 h-16 bg-[#F0AD4E] rounded-xl flex items-center justify-center text-white text-3xl shadow-sm app-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                </div>
+
+                <!-- App 2: Calendar (Yellow) -->
+                <div class="flex flex-col items-center gap-2 cursor-pointer group">
+                    <div
+                        class="w-16 h-16 bg-[#F0AD4E] rounded-xl flex items-center justify-center text-white text-3xl shadow-sm app-icon bg-gradient-to-br from-yellow-400 to-orange-400">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                </div>
+
+                <!-- App 3: Contacts (Green) -->
+                <div class="flex flex-col items-center gap-2 cursor-pointer group">
+                    <div
+                        class="w-16 h-16 bg-[#5CB85C] rounded-xl flex items-center justify-center text-white text-3xl shadow-sm app-icon">
+                        <i class="fas fa-address-book"></i>
+                    </div>
+                </div>
+
+                <!-- App 4: CRM (Purple/Blue Gradient) -->
+                <div class="flex flex-col items-center gap-2 cursor-pointer group">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-[#7C7BAD] to-[#9A67A2] rounded-xl flex items-center justify-center text-white text-3xl shadow-sm app-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                </div>
+
+                <!-- App 5: CENTER - Dos4Siete Logo (White Background) -->
+                <div class="flex flex-col items-center gap-2 cursor-pointer group">
+                    <div
+                        class="w-16 h-16 bg-white rounded-xl flex items-center justify-center shadow-lg app-icon border border-gray-100 p-3">
+                        <img src="../assets/img/logo.svg" alt="Dos4Siete" class="w-full h-full object-contain">
+                    </div>
+                </div>
+
+                <!-- App 6: Website (Cyan) -->
+                <div class="flex flex-col items-center gap-2 cursor-pointer group">
+                    <div
+                        class="w-16 h-16 bg-[#5BC0DE] rounded-xl flex items-center justify-center text-white text-3xl shadow-sm app-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                </div>
+
+                <!-- App 7: Inventory (Orange Dark) -->
+                <div class="flex flex-col items-center gap-2 cursor-pointer group">
+                    <div
+                        class="w-16 h-16 bg-[#E67E22] rounded-xl flex items-center justify-center text-white text-3xl shadow-sm app-icon">
+                        <i class="fas fa-boxes"></i>
+                    </div>
+                </div>
+
+                <!-- App 8: Accounting (Teal) -->
+                <div class="flex flex-col items-center gap-2 cursor-pointer group">
+                    <div
+                        class="w-16 h-16 bg-[#009688] rounded-xl flex items-center justify-center text-white text-3xl shadow-sm app-icon">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </div>
+                </div>
+
+                <!-- App 9: Projects (Blue) -->
+                <div class="flex flex-col items-center gap-2 cursor-pointer group">
+                    <div
+                        class="w-16 h-16 bg-[#337AB7] rounded-xl flex items-center justify-center text-white text-3xl shadow-sm app-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 3. VOIP DIALER (Bottom Left Absolute) -->
+        <div
+            class="absolute bottom-6 left-6 w-64 bg-white rounded-lg shadow-2xl border border-gray-300 flex flex-col overflow-hidden z-10">
+            <!-- Header -->
+            <div class="h-10 bg-[#714B67] flex items-center justify-between px-3 text-white shrink-0">
+                <div class="flex items-center gap-2 font-medium text-sm">
+                    <i class="fas fa-phone-alt text-xs"></i> VoIP
+                </div>
+                <i class="fas fa-times text-xs opacity-70 hover:opacity-100 cursor-pointer"></i>
+            </div>
+
+            <!-- STATE 1: DIALPAD -->
+            <div id="voip-dialpad" class="flex flex-col flex-1">
+                <!-- Display -->
+                <div class="bg-gray-50 p-3 border-b border-gray-100">
+                    <input type="text" placeholder="Ingrese el número..."
+                        class="w-full bg-transparent text-lg text-gray-700 outline-none placeholder-gray-400 font-light">
+                </div>
+
+                <!-- Keypad -->
+                <div class="grid grid-cols-3 gap-px bg-gray-200 flex-1">
+                    <button
+                        class="bg-white text-gray-700 hover:bg-gray-50 flex flex-col items-center justify-center gap-0.5 h-full">
+                        <span class="text-xl font-light">1</span>
+                    </button>
+                    <button
+                        class="bg-white text-gray-700 hover:bg-gray-50 flex flex-col items-center justify-center gap-0.5 h-full">
+                        <span class="text-xl font-light">2</span>
+                        <span class="text-[8px] text-gray-400 font-bold tracking-widest uppercase">abc</span>
+                    </button>
+                    <button
+                        class="bg-white text-gray-700 hover:bg-gray-50 flex flex-col items-center justify-center gap-0.5 h-full">
+                        <span class="text-xl font-light">3</span>
+                        <span class="text-[8px] text-gray-400 font-bold tracking-widest uppercase">def</span>
+                    </button>
+
+                    <button
+                        class="bg-white text-gray-700 hover:bg-gray-50 flex flex-col items-center justify-center gap-0.5 h-full">
+                        <span class="text-xl font-light">4</span>
+                        <span class="text-[8px] text-gray-400 font-bold tracking-widest uppercase">ghi</span>
+                    </button>
+                    <button
+                        class="bg-white text-gray-700 hover:bg-gray-50 flex flex-col items-center justify-center gap-0.5 h-full">
+                        <span class="text-xl font-light">5</span>
+                        <span class="text-[8px] text-gray-400 font-bold tracking-widest uppercase">jkl</span>
+                    </button>
+                    <button
+                        class="bg-white text-gray-700 hover:bg-gray-50 flex flex-col items-center justify-center gap-0.5 h-full">
+                        <span class="text-xl font-light">6</span>
+                        <span class="text-[8px] text-gray-400 font-bold tracking-widest uppercase">mno</span>
+                    </button>
+
+                    <button
+                        class="bg-white text-gray-700 hover:bg-gray-50 flex flex-col items-center justify-center gap-0.5 h-full">
+                        <span class="text-xl font-light">7</span>
+                        <span class="text-[8px] text-gray-400 font-bold tracking-widest uppercase">pqrs</span>
+                    </button>
+                    <button
+                        class="bg-white text-gray-700 hover:bg-gray-50 flex flex-col items-center justify-center gap-0.5 h-full">
+                        <span class="text-xl font-light">8</span>
+                        <span class="text-[8px] text-gray-400 font-bold tracking-widest uppercase">tuv</span>
+                    </button>
+                    <button
+                        class="bg-white text-gray-700 hover:bg-gray-50 flex flex-col items-center justify-center gap-0.5 h-full">
+                        <span class="text-xl font-light">9</span>
+                        <span class="text-[8px] text-gray-400 font-bold tracking-widest uppercase">wxyz</span>
+                    </button>
+
+                    <button
+                        class="bg-white text-gray-700 hover:bg-gray-50 flex flex-col items-center justify-center gap-0.5 h-full">
+                        <span class="text-xl font-light">*</span>
+                    </button>
+                    <button
+                        class="bg-white text-gray-700 hover:bg-gray-50 flex flex-col items-center justify-center gap-0.5 h-full">
+                        <span class="text-xl font-light">0</span>
+                        <span class="text-[8px] text-gray-400 font-bold tracking-widest uppercase">+</span>
+                    </button>
+                    <button
+                        class="bg-white text-gray-700 hover:bg-gray-50 flex flex-col items-center justify-center gap-0.5 h-full">
+                        <span class="text-xl font-light">#</span>
+                    </button>
+                </div>
+
+                <!-- Footer Actions -->
+                <div class="p-3 flex justify-between items-center bg-white shadow-inner h-16 shrink-0">
+                    <button class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-keyboard text-lg"></i>
+                    </button>
+                    <button id="btn-call"
+                        class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center shadow hover:bg-green-600 transition-colors transform active:scale-95">
+                        <i class="fas fa-phone text-sm"></i>
+                    </button>
+                    <button class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-backspace text-lg"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- STATE 2: INCOMING CALL (Hidden by default) -->
+            <div id="voip-incoming" class="flex flex-col flex-1 hidden bg-[#C8E6C9]">
+
+                <div class="flex-1 flex flex-col items-center justify-center p-4 text-center">
+                    <div class="text-[#2E4033] text-sm mb-4">Llamada entrante de...</div>
+
+                    <!-- Avatar Silhouette -->
+                    <div
+                        class="w-16 h-16 bg-white rounded flex items-end justify-center overflow-hidden mb-3 shadow-sm">
+                        <i class="fas fa-user text-gray-300 text-5xl translate-y-1"></i>
+                    </div>
+
+                    <div class="text-[#1A2E22] font-medium text-sm leading-tight mb-1">
+                        Aula Futuro Formación Profesional
+                    </div>
+                    <div class="text-[#2E4033] text-sm">
+                        621409098
+                    </div>
+                </div>
+
+                <!-- Footer Call Actions -->
+                <div class="bg-white h-24 flex items-center justify-center gap-12 px-6">
+                    <button id="btn-hangup"
+                        class="w-12 h-12 rounded-full bg-[#D32F2F] text-white shadow-md hover:bg-red-700 transition-colors flex items-center justify-center transform active:scale-95">
+                        <i class="fas fa-phone-slash text-lg transform rotate-90"></i>
+                    </button>
+
+                    <button
+                        class="w-12 h-12 rounded-full bg-[#2E7D32] text-white shadow-md hover:bg-green-700 transition-colors flex items-center justify-center transform active:scale-95 animate-pulse">
+                        <i class="fas fa-phone text-lg transform rotate-90"></i>
+                    </button>
+                </div>
+            </div>
+
+            <script>
+                // Logic to toggle between Dialpad and Incoming Call screen
+                const btnCall = document.getElementById('btn-call');
+                const btnHangup = document.getElementById('btn-hangup');
+                const viewDialpad = document.getElementById('voip-dialpad');
+                const viewIncoming = document.getElementById('voip-incoming');
+
+                btnCall.addEventListener('click', () => {
+                    viewDialpad.classList.add('hidden');
+                    viewIncoming.classList.remove('hidden');
+                });
+
+                btnHangup.addEventListener('click', () => {
+                    viewIncoming.classList.add('hidden');
+                    viewDialpad.classList.remove('hidden');
+                });
+            </script>
+
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
