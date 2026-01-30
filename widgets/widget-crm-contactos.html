@@ -52,12 +52,9 @@
         <div class="h-14 bg-[#1E293B] flex items-center px-4 justify-between shrink-0">
             <!-- Left: Logo + Skeleton Menu -->
             <div class="flex items-center gap-6">
-                <!-- Logo CRM (Generic placeholder style but 'Respected') -->
-                <div class="flex items-center gap-2 text-white font-bold text-lg tracking-tight">
-                    <div class="w-8 h-8 bg-[#29ABE2] rounded flex items-center justify-center">
-                        <i class="fas fa-cloud"></i>
-                    </div>
-                    <span>CRM</span>
+                <div class="flex items-center gap-2">
+                    <img src="crm-zoho.svg" alt="Zoho CRM" class="h-10 w-auto opacity-90">
+                    <span class="text-white font-bold text-lg tracking-tight ml-[-4px]">CRM</span>
                 </div>
 
                 <!-- Skeleton Menu Items -->
@@ -190,13 +187,21 @@
                         <div class="text-right text-gray-500 font-medium pr-6">Número de origen</div>
                         <div class="flex items-center gap-2">
                             <span>+34 641 29 19 51</span>
-                            <i class="fab fa-whatsapp text-green-500"></i>
+                            <!-- Custom Whatsapp-style Phone Bubble -->
+                            <div
+                                class="w-8 h-8 rounded-full bg-[#25D366] flex items-center justify-center text-white shadow-sm ring-2 ring-white">
+                                <i class="fas fa-phone text-sm transform -rotate-90"></i>
+                            </div>
                         </div>
 
                         <div class="text-right text-gray-500 font-medium pr-6">Número de destino</div>
                         <div class="flex items-center gap-2">
                             <span>2001 (Soporte)</span>
-                            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                            <!-- Custom Whatsapp-style Phone Bubble -->
+                            <div
+                                class="w-8 h-8 rounded-full bg-[#25D366] flex items-center justify-center text-white shadow-sm ring-2 ring-white">
+                                <i class="fas fa-phone text-sm transform -rotate-90"></i>
+                            </div>
                         </div>
 
                         <div class="text-right text-gray-500 font-medium pr-6">Propietario</div>
@@ -261,7 +266,11 @@
                         <div class="flex items-center gap-2 text-gray-600">
                             <i class="fas fa-phone w-4 text-center"></i>
                             <span>621 190 247</span>
-                            <i class="fab fa-whatsapp text-green-500"></i>
+                            <!-- Custom Whatsapp-style Phone Bubble -->
+                            <div
+                                class="w-8 h-8 rounded-full bg-[#25D366] flex items-center justify-center text-white shadow-sm ring-1 ring-white ml-1">
+                                <i class="fas fa-phone text-sm transform -rotate-90"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
