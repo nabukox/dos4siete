@@ -157,7 +157,102 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             window.Dos4Siete.initStats();
+
+            // DISABLE FILTERS INITIALLY (So demo "activates" them)
+            setTimeout(() => {
+                toggleSeries('total');
+                toggleSeries('answered');
+                toggleSeries('wait');
+            }, 100);
+
+            // Start Demo after 1 second
+            setTimeout(runDemo, 1000);
         });
+
+        async function runDemo() {
+            // Create Cursor
+            const cursor = document.createElement('div');
+            cursor.innerHTML = '<i class="fas fa-hand-pointer text-gray-900 text-3xl drop-shadow-xl border-white" style="-webkit-text-stroke: 1px white;"></i>';
+            cursor.style.position = 'fixed';
+            cursor.style.zIndex = '9999';
+            cursor.style.pointerEvents = 'none';
+            cursor.style.transition = 'all 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
+            cursor.style.bottom = '10px';
+            cursor.style.right = '10px';
+            document.body.appendChild(cursor);
+
+            const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+            const moveCursorTo = async (selector, offsetX = 0, offsetY = 0) => {
+                const el = document.querySelector(selector);
+                if (!el) return;
+                const rect = el.getBoundingClientRect();
+                cursor.style.left = (rect.left + rect.width / 2 + offsetX) + 'px';
+                cursor.style.top = (rect.top + rect.height / 2 + offsetY) + 'px';
+                cursor.style.bottom = 'auto'; // clear initial state
+                cursor.style.right = 'auto';
+                await sleep(800); // Wait for move
+            };
+
+            const clickElement = async (selector) => {
+                const el = document.querySelector(selector);
+                if (!el) return;
+
+                // Visual Click Styling
+                cursor.style.transform = 'scale(0.8)';
+                await sleep(150);
+                cursor.style.transform = 'scale(1)';
+
+                // Trigger Event
+                el.click();
+
+                // Add ripple/active effect manually just in case
+                el.classList.add('opacity-50');
+                setTimeout(() => el.classList.remove('opacity-50'), 200);
+
+                await sleep(1000); // Pause after click
+            };
+
+            // SEQUENCE
+
+            // 1. Click Total
+            await moveCursorTo('#btn-total');
+            await clickElement('#btn-total');
+
+            // 2. Click Answered
+            await moveCursorTo('#btn-answered');
+            await clickElement('#btn-answered');
+
+            // 3. Click Wait Time
+            await moveCursorTo('#btn-wait');
+            await clickElement('#btn-wait');
+
+            // 4. Change Date
+            await moveCursorTo('#datePicker', 20, 0); // Offset slightly
+
+            // Simulate Click & Change
+            cursor.style.transform = 'scale(0.8)';
+            await sleep(150);
+            cursor.style.transform = 'scale(1)';
+
+            // Programmatic Date Change
+            const input = document.getElementById('datePicker');
+            input.focus();
+            input.showPicker && input.showPicker(); // Try to open native picker (visual only)
+
+            await sleep(1000);
+            input.value = '2025-11-20'; // Change date
+            input.dispatchEvent(new Event('change')); // Trigger any listeners
+
+            await sleep(500);
+
+            // 5. Move away for view
+            cursor.style.left = '90%';
+            cursor.style.top = '90%';
+
+            await sleep(1000);
+            cursor.style.opacity = '0'; // Fade out
+        }
     </script>
 </body>
 
