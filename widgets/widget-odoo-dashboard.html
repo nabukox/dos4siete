@@ -145,161 +145,338 @@
             </div>
         </div>
 
-        <!-- 3. VOIP DIALER (Bottom Left Absolute) -->
+        <!-- 3. VOIP WIDGET (Bottom Left Absolute) -->
         <div
-            class="absolute bottom-6 left-6 w-64 bg-white rounded-lg shadow-2xl border border-gray-300 flex flex-col overflow-hidden z-10">
+            class="absolute bottom-6 left-6 w-[300px] bg-white rounded-lg shadow-2xl border border-gray-300 flex flex-col overflow-hidden z-20">
+
             <!-- Header -->
-            <div class="h-10 bg-[#714B67] flex items-center justify-between px-3 text-white shrink-0">
+            <div class="h-9 bg-[#714B67] flex items-center justify-between px-3 text-white shrink-0">
                 <div class="flex items-center gap-2 font-medium text-sm">
                     <i class="fas fa-phone-alt text-xs"></i> VoIP
                 </div>
                 <i class="fas fa-times text-xs opacity-70 hover:opacity-100 cursor-pointer"></i>
             </div>
 
-            <!-- STATE 1: DIALPAD -->
-            <div id="voip-dialpad" class="flex flex-col flex-1">
-                <!-- Display -->
-                <div class="bg-gray-50 p-3 border-b border-gray-100">
-                    <input type="text" placeholder="Ingrese el número..."
-                        class="w-full bg-transparent text-lg text-gray-700 outline-none placeholder-gray-400 font-light">
-                </div>
-
-                <!-- Keypad -->
-                <div class="grid grid-cols-3 gap-px bg-gray-200 flex-1">
-                    <button
-                        class="bg-white text-gray-700 hover:bg-gray-50 flex flex-col items-center justify-center gap-0.5 h-full">
-                        <span class="text-xl font-light">1</span>
-                    </button>
-                    <button
-                        class="bg-white text-gray-700 hover:bg-gray-50 flex flex-col items-center justify-center gap-0.5 h-full">
-                        <span class="text-xl font-light">2</span>
-                        <span class="text-[8px] text-gray-400 font-bold tracking-widest uppercase">abc</span>
-                    </button>
-                    <button
-                        class="bg-white text-gray-700 hover:bg-gray-50 flex flex-col items-center justify-center gap-0.5 h-full">
-                        <span class="text-xl font-light">3</span>
-                        <span class="text-[8px] text-gray-400 font-bold tracking-widest uppercase">def</span>
-                    </button>
-
-                    <button
-                        class="bg-white text-gray-700 hover:bg-gray-50 flex flex-col items-center justify-center gap-0.5 h-full">
-                        <span class="text-xl font-light">4</span>
-                        <span class="text-[8px] text-gray-400 font-bold tracking-widest uppercase">ghi</span>
-                    </button>
-                    <button
-                        class="bg-white text-gray-700 hover:bg-gray-50 flex flex-col items-center justify-center gap-0.5 h-full">
-                        <span class="text-xl font-light">5</span>
-                        <span class="text-[8px] text-gray-400 font-bold tracking-widest uppercase">jkl</span>
-                    </button>
-                    <button
-                        class="bg-white text-gray-700 hover:bg-gray-50 flex flex-col items-center justify-center gap-0.5 h-full">
-                        <span class="text-xl font-light">6</span>
-                        <span class="text-[8px] text-gray-400 font-bold tracking-widest uppercase">mno</span>
-                    </button>
-
-                    <button
-                        class="bg-white text-gray-700 hover:bg-gray-50 flex flex-col items-center justify-center gap-0.5 h-full">
-                        <span class="text-xl font-light">7</span>
-                        <span class="text-[8px] text-gray-400 font-bold tracking-widest uppercase">pqrs</span>
-                    </button>
-                    <button
-                        class="bg-white text-gray-700 hover:bg-gray-50 flex flex-col items-center justify-center gap-0.5 h-full">
-                        <span class="text-xl font-light">8</span>
-                        <span class="text-[8px] text-gray-400 font-bold tracking-widest uppercase">tuv</span>
-                    </button>
-                    <button
-                        class="bg-white text-gray-700 hover:bg-gray-50 flex flex-col items-center justify-center gap-0.5 h-full">
-                        <span class="text-xl font-light">9</span>
-                        <span class="text-[8px] text-gray-400 font-bold tracking-widest uppercase">wxyz</span>
-                    </button>
-
-                    <button
-                        class="bg-white text-gray-700 hover:bg-gray-50 flex flex-col items-center justify-center gap-0.5 h-full">
-                        <span class="text-xl font-light">*</span>
-                    </button>
-                    <button
-                        class="bg-white text-gray-700 hover:bg-gray-50 flex flex-col items-center justify-center gap-0.5 h-full">
-                        <span class="text-xl font-light">0</span>
-                        <span class="text-[8px] text-gray-400 font-bold tracking-widest uppercase">+</span>
-                    </button>
-                    <button
-                        class="bg-white text-gray-700 hover:bg-gray-50 flex flex-col items-center justify-center gap-0.5 h-full">
-                        <span class="text-xl font-light">#</span>
-                    </button>
-                </div>
-
-                <!-- Footer Actions -->
-                <div class="p-3 flex justify-between items-center bg-white shadow-inner h-16 shrink-0">
-                    <button class="text-gray-400 hover:text-gray-600">
-                        <i class="fas fa-keyboard text-lg"></i>
-                    </button>
-                    <button id="btn-call"
-                        class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center shadow hover:bg-green-600 transition-colors transform active:scale-95">
-                        <i class="fas fa-phone text-sm"></i>
-                    </button>
-                    <button class="text-gray-400 hover:text-gray-600">
-                        <i class="fas fa-backspace text-lg"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- STATE 2: INCOMING CALL (Hidden by default) -->
-            <div id="voip-incoming" class="flex flex-col flex-1 hidden bg-[#C8E6C9]">
-
+            <!-- INCOMING CALL STATE (Initially Visible) -->
+            <div id="voip-incoming" class="flex flex-col flex-1 h-full bg-[#E8F5E9] animate-pulse-soft">
                 <div class="flex-1 flex flex-col items-center justify-center p-4 text-center">
-                    <div class="text-[#2E4033] text-sm mb-4">Llamada entrante de...</div>
+                    <div class="text-[#2E4033] text-sm mb-4 font-medium">Llamada entrante...</div>
 
-                    <!-- Avatar Silhouette -->
+                    <!-- Avatar Image -->
                     <div
-                        class="w-16 h-16 bg-white rounded flex items-end justify-center overflow-hidden mb-3 shadow-sm">
-                        <i class="fas fa-user text-gray-300 text-5xl translate-y-1"></i>
+                        class="w-20 h-20 bg-white rounded overflow-hidden shadow-sm mb-3 border-2 border-green-100 animate-bounce-soft">
+                        <img src="https://ui-avatars.com/api/?name=Daniel+Estrada&background=fff&color=333&size=128"
+                            alt="Daniel" class="w-full h-full object-cover">
                     </div>
 
-                    <div class="text-[#1A2E22] font-medium text-sm leading-tight mb-1">
-                        Aula Futuro Formación Profesional
-                    </div>
-                    <div class="text-[#2E4033] text-sm">
-                        621409098
-                    </div>
+                    <div class="text-[#1A2E22] font-bold text-base leading-tight mb-1">Daniel Estrada</div>
+                    <div class="text-xs text-gray-500 mb-2">Técnico Dos4siete</div>
+                    <div class="text-[#2E4033] text-sm font-mono">621 227 447</div>
                 </div>
 
                 <!-- Footer Call Actions -->
-                <div class="bg-white h-24 flex items-center justify-center gap-12 px-6">
-                    <button id="btn-hangup"
-                        class="w-12 h-12 rounded-full bg-[#D32F2F] text-white shadow-md hover:bg-red-700 transition-colors flex items-center justify-center transform active:scale-95">
+                <div class="bg-white h-20 flex items-center justify-center gap-8 px-6 border-t border-gray-100">
+                    <button
+                        class="w-12 h-12 rounded-full bg-[#D32F2F] text-white shadow-md flex items-center justify-center">
                         <i class="fas fa-phone-slash text-lg transform rotate-90"></i>
                     </button>
 
-                    <button
-                        class="w-12 h-12 rounded-full bg-[#2E7D32] text-white shadow-md hover:bg-green-700 transition-colors flex items-center justify-center transform active:scale-95 animate-pulse">
+                    <button id="btn-answer-call"
+                        class="w-12 h-12 rounded-full bg-[#2E7D32] text-white shadow-md hover:bg-green-600 transition-colors flex items-center justify-center animate-pulse">
                         <i class="fas fa-phone text-lg transform rotate-90"></i>
                     </button>
                 </div>
             </div>
 
-            <script>
-                // Logic to toggle between Dialpad and Incoming Call screen
-                const btnCall = document.getElementById('btn-call');
-                const btnHangup = document.getElementById('btn-hangup');
-                const viewDialpad = document.getElementById('voip-dialpad');
-                const viewIncoming = document.getElementById('voip-incoming');
+            <!-- ACTIVE CALL STATE (Initially Hidden) -->
+            <div id="voip-active-call" class="flex flex-col hidden">
 
-                btnCall.addEventListener('click', () => {
-                    viewDialpad.classList.add('hidden');
-                    viewIncoming.classList.remove('hidden');
-                });
+                <!-- Green Info Section -->
+                <div class="bg-[#dcedc8] p-4 flex flex-col items-center text-center pb-6">
+                    <!-- Avatar Image -->
+                    <div class="w-16 h-16 bg-white rounded overflow-hidden shadow-sm mb-2 border border-green-100">
+                        <img src="https://ui-avatars.com/api/?name=Daniel+Estrada&background=fff&color=333&size=128"
+                            alt="Daniel" class="w-full h-full object-cover">
+                    </div>
 
-                btnHangup.addEventListener('click', () => {
-                    viewIncoming.classList.add('hidden');
-                    viewDialpad.classList.remove('hidden');
-                });
-            </script>
+                    <div class="text-[#2E4033] font-bold text-sm leading-tight">Daniel Estrada - Técnico Dos4siete</div>
+                    <div class="text-[#4E5D52] text-xs mt-1">Llamada de Daniel Estrada - Técnico Dos4siete</div>
+                    <div class="text-[#2E7D32] text-xs mt-1 font-medium">Duración de la llamada: <span
+                            id="call-timer">00:19</span></div>
+                    <div class="text-[#2E4033] text-sm mt-3 font-semibold">621227447</div>
+                </div>
+
+                <!-- Actions Section -->
+                <div class="bg-white p-4 flex flex-col gap-4">
+
+                    <!-- Documentos Row -->
+                    <div>
+                        <div class="text-xs text-gray-500 mb-2 font-medium">Documentos</div>
+                        <div class="flex justify-center gap-6">
+                            <!-- Email -->
+                            <button
+                                class="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors">
+                                <i class="far fa-envelope text-sm"></i>
+                            </button>
+                            <!-- User Profile -->
+                            <button
+                                class="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors">
+                                <i class="far fa-user text-sm"></i>
+                            </button>
+                            <!-- Schedule Activity (CLOCK) - TARGET FOR ANIMATION -->
+                            <button id="btn-schedule-activity"
+                                class="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors relative">
+                                <i class="far fa-clock text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Llamada Row -->
+                    <div>
+                        <div class="text-xs text-gray-500 mb-2 font-medium">Llamada</div>
+                        <div class="flex justify-center gap-6">
+                            <!-- Transfer -->
+                            <button
+                                class="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors">
+                                <i class="fas fa-exchange-alt text-sm"></i>
+                            </button>
+                            <!-- Mute -->
+                            <button
+                                class="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors">
+                                <i class="fas fa-microphone text-sm"></i>
+                            </button>
+                            <!-- Pause -->
+                            <button
+                                class="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors">
+                                <i class="fas fa-pause text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Footer (Keypad + Hangup) -->
+                <div class="border-t border-gray-100 p-3 flex justify-between items-center px-8">
+                    <button class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-th text-lg"></i>
+                    </button>
+                    <!-- Hangup -->
+                    <button class="text-[#D32F2F] hover:text-red-700 transform rotate-90 text-xl">
+                        <i class="fas fa-phone"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 4. MODAL: Schedule Activity (Hidden) -->
+        <div id="modal-activity"
+            class="absolute inset-0 bg-black/20 z-50 hidden flex items-center justify-center backdrop-blur-[1px]">
+            <div
+                class="bg-white w-[500px] rounded shadow-2xl flex flex-col animate-scale-in transform scale-95 transition-transform duration-200">
+                <!-- Modal Header -->
+                <div class="px-4 py-3 border-b border-gray-200 flex justify-between items-center bg-gray-50 rounded-t">
+                    <h3 class="font-medium text-gray-700">Planificar Actividad</h3>
+                    <button id="close-modal" class="text-gray-400 hover:text-gray-600"><i
+                            class="fas fa-times"></i></button>
+                </div>
+                <!-- Modal Body -->
+                <div class="p-6">
+                    <div class="mb-4">
+                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1">Tipo de
+                            Actividad</label>
+                        <select class="w-full border border-gray-300 rounded p-2 text-sm text-gray-700 bg-white">
+                            <option>Llamada</option>
+                            <option>Correo electrónico</option>
+                            <option>Reunión</option>
+                            <option>Por hacer</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <div class="mb-4">
+                            <label
+                                class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1">Resumen</label>
+                            <input type="text" id="input-summary" value=""
+                                class="w-full border border-gray-300 rounded p-2 text-sm text-gray-700 focus:border-indigo-500 outline-none">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1">Fecha de
+                                vencimiento</label>
+                            <input type="date" class="w-full border border-gray-300 rounded p-2 text-sm text-gray-700">
+                        </div>
+                        <div class="mb-0">
+                            <label
+                                class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1">Notas</label>
+                            <textarea id="input-notes"
+                                class="w-full border border-gray-300 rounded p-2 text-sm text-gray-700 h-20 resize-none"></textarea>
+                        </div>
+                    </div>
+                    <!-- Modal Footer -->
+                    <div class="px-4 py-3 border-t border-gray-200 bg-gray-50 rounded-b flex justify-end gap-2">
+                        <button
+                            class="px-4 py-2 text-sm text-gray-600 hover:text-gray-800 font-medium">Descartar</button>
+                        <button id="btn-schedule-submit"
+                            class="px-4 py-2 text-sm bg-[#714B67] text-white rounded hover:bg-[#5D3D55] font-medium shadow-sm">Planificar</button>
+                    </div>
+                </div>
+            </div>
+
 
 
         </div>
 
-    </div>
+        <!-- Animation Logic -->
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
 
+                // Elements
+                const cursor = document.getElementById('demo-cursor');
+                const btnAnswer = document.getElementById('btn-answer-call');
+                const incomingView = document.getElementById('voip-incoming');
+                const activeView = document.getElementById('voip-active-call');
+
+                const targetBtn = document.getElementById('btn-schedule-activity');
+                const clickEffect = document.getElementById('click-effect');
+                const modal = document.getElementById('modal-activity');
+                const modalContent = modal.querySelector('div');
+
+                // Initial Delay then Start
+                setTimeout(() => {
+                    runDemo();
+                }, 1000);
+
+                async function runDemo() {
+                    // 1. Show Cursor
+                    cursor.style.transition = 'opacity 0.5s';
+                    cursor.style.opacity = '1';
+
+                    // --- STEP 1: ANSWER CALL ---
+
+                    // Move to Answer Button
+                    await moveCursorTo('#btn-answer-call', 0, 0);
+
+                    // Click Answer
+                    await animateClick();
+
+                    // Transition to Active Call
+                    incomingView.classList.add('hidden');
+                    activeView.classList.remove('hidden');
+
+                    // Wait a moment in active call
+                    await new Promise(r => setTimeout(r, 1000));
+
+
+                    // --- STEP 2: OPEN TASK ---
+
+                    // Calculate Position of Target (Clock Icon) - Needs Recalc as UI changed
+                    // Move to Clock Icon
+                    await moveCursorTo('#btn-schedule-activity', 0, 0);
+
+                    // Click Animation (Open Modal)
+                    await animateClick();
+
+                    // Trigger Action (Open Modal)
+                    targetBtn.classList.add('bg-gray-300'); // Visual feedback
+                    modal.classList.remove('hidden');
+                    modalContent.classList.remove('scale-95');
+                    modalContent.classList.add('scale-100');
+
+                    // --- STEP 3: FILL FORM & SUBMIT ---
+
+                    // Move to Summary Input
+                    await moveCursorTo('#input-summary', 10, 10);
+                    await animateClick();
+                    document.getElementById('input-summary').focus();
+                    await typeText('input-summary', 'Renovación de Contrato');
+
+                    // Move to Notes Textarea
+                    await moveCursorTo('#input-notes', 20, 20);
+                    await animateClick();
+                    document.getElementById('input-notes').focus();
+                    await typeText('input-notes', 'El cliente confirma interés. Enviar propuesta mañana.');
+
+                    // Move to Submit Button
+                    await moveCursorTo('#btn-schedule-submit', 20, 10);
+                    await animateClick();
+
+                    // Submit Action (Close Modal)
+                    document.getElementById('btn-schedule-submit').classList.add('opacity-75'); // Feedback
+                    setTimeout(() => {
+                        modalContent.classList.remove('scale-100');
+                        modalContent.classList.add('scale-95');
+                        setTimeout(() => {
+                            modal.classList.add('hidden');
+                        }, 200);
+                    }, 300);
+
+                    // Move Cursor Away & Hide
+                    const rectFinal = document.getElementById('btn-schedule-submit').getBoundingClientRect();
+                    cursor.style.transform = `translate(${rectFinal.left + 300}px, ${rectFinal.top + 300}px)`;
+                    cursor.style.opacity = '0';
+
+                }
+
+                // --- HELPER FUNCTIONS ---
+
+                function moveCursorTo(selector, offsetX = 0, offsetY = 0) {
+                    return new Promise(resolve => {
+                        const el = document.querySelector(selector);
+                        // Ensure element is visible/rendered for correct rect
+                        if (!el) { resolve(); return; }
+
+                        const rect = el.getBoundingClientRect();
+                        const x = rect.left + (rect.width / 2) + offsetX;
+                        const y = rect.top + (rect.height / 2) + offsetY;
+
+                        // If first move (cursor not positioned yet), warp nearby
+                        if (!cursor.style.transform) {
+                            cursor.style.transform = `translate(${x + 100}px, ${y + 100}px)`;
+                            // Trigger reflow
+                            cursor.getBoundingClientRect();
+                        }
+
+                        document.getElementById('demo-cursor').style.transform = `translate(${x}px, ${y}px)`;
+                        setTimeout(resolve, 800 + 300); // 800ms transition + 300ms pause
+                    });
+                }
+
+                async function animateClick() {
+                    const cursor = document.getElementById('demo-cursor');
+                    const clickEffect = document.getElementById('click-effect');
+
+                    cursor.querySelector('i').classList.add('scale-90');
+                    clickEffect.classList.remove('hidden');
+
+                    await new Promise(r => setTimeout(r, 150));
+
+                    cursor.querySelector('i').classList.remove('scale-90');
+                    clickEffect.classList.add('hidden');
+                    await new Promise(r => setTimeout(r, 200));
+                }
+
+                async function typeText(elementId, text) {
+                    const el = document.getElementById(elementId);
+                    el.value = ''; // Clear first
+                    for (let char of text) {
+                        el.value += char;
+                        await new Promise(r => setTimeout(r, 30 + Math.random() * 30)); // Typing speed
+                    }
+                    await new Promise(r => setTimeout(r, 400)); // Pause after typing
+                }
+            });
+        </script>
 </body>
+
+<!-- 5. DEMO CURSOR (Moved to Body for correct Fixed positioning) -->
+<div id="demo-cursor"
+    class="fixed top-0 left-0 z-[9999] pointer-events-none transition-transform duration-700 ease-in-out flex items-center justify-center opacity-0"
+    style="display: flex;">
+    <!-- Cursor Icon -->
+    <i class="fas fa-hand-pointer text-black text-2xl drop-shadow-xl transform -rotate-[15deg] transition-transform duration-150 border-white"
+        style="-webkit-text-stroke: 1px white;"></i>
+    <!-- Ripple -->
+    <div class="absolute w-8 h-8 bg-black/10 rounded-full animate-ping -z-10 hidden" id="click-effect">
+    </div>
+</div>
 
 </html>
