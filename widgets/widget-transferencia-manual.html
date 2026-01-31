@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dos Siete - Escena Transferencia</title>
+    <title>Dos Siete - Escena Transferencia (Demo)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome for Icons (Abstracted usage) -->
@@ -47,6 +47,16 @@
 
         <style>
             /* Scoped Styles */
+            /* #widget-transferencia-manual-embed { } */
+
+            /* Cursor Animation Styles */
+            #demo-cursor {
+                transition: top 0.8s cubic-bezier(0.25, 1, 0.5, 1), left 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.2s;
+                z-index: 9999;
+                pointer-events: none;
+                position: fixed;
+                /* Fixed to viewport to float over everything */
+            }
         </style>
 
         <!-- Dependencies for Embed -->
@@ -74,7 +84,7 @@
                 <!-- Indicador de estado para el usuario -->
                 <div class="pt-8 flex items-center gap-3 text-sm text-[#141F4C]/50">
                     <div class="w-2 h-2 rounded-full bg-[#29ABE2] animate-pulse"></div>
-                    <span>Interactúa con la tarjeta para ver la demo</span>
+                    <span class="font-semibold text-blue-600">Demo Automática en curso...</span>
                 </div>
             </div>
 
@@ -125,7 +135,7 @@
                         <p class="text-[#2376C9] text-sm mb-8">Cliente Nuevo • +56 9 8543 2100</p>
 
                         <!-- Botón Action -->
-                        <button onclick="answerCall()"
+                        <button id="btn-answer" onclick="answerCall()"
                             class="w-full py-3 bg-[#29ABE2] hover:bg-[#2376C9] text-white rounded-full font-semibold shadow-lg transition-transform transform active:scale-95 flex items-center justify-center gap-2 group">
                             <i class="fas fa-phone-alt"></i>
                             <span>Contestar</span>
@@ -178,7 +188,7 @@
                                 <div class="greeking-title w-10 bg-[#141F4C]"></div>
                             </div>
                             <!-- Transfer (Highlighted) -->
-                            <div onclick="openTransferModal()"
+                            <div id="btn-transfer" onclick="openTransferModal()"
                                 class="flex flex-col items-center gap-2 cursor-pointer transform hover:scale-105 transition-transform">
                                 <div
                                     class="w-12 h-12 rounded-full bg-[#29ABE2] text-white flex items-center justify-center shadow-md ring-4 ring-[#29ABE2]/20">
@@ -205,7 +215,7 @@
                         <h3 class="text-[#141F4C] font-bold text-xl mb-1">Transferencia Exitosa</h3>
                         <p class="text-[#2376C9] text-sm">Has conectado con Soporte TI</p>
 
-                        <button onclick="resetScene()"
+                        <button id="btn-reset" onclick="resetScene()"
                             class="mt-8 px-8 py-3 rounded-full bg-[#29ABE2] text-white text-sm font-semibold hover:bg-[#2376C9] shadow-lg transition-all transform hover:scale-105">
                             Reiniciar interacción
                         </button>
@@ -239,7 +249,7 @@
                         </div>
 
                         <!-- Contacto 2 (Target) -->
-                        <div onclick="completeTransfer()"
+                        <div id="btn-contact-target" onclick="completeTransfer()"
                             class="flex items-center gap-3 p-2 rounded-lg hover:bg-[#F2F2F2] cursor-pointer transition-colors group ring-1 ring-transparent hover:ring-[#29ABE2]/30">
                             <div
                                 class="w-8 h-8 rounded-full bg-[#29ABE2] text-white flex items-center justify-center text-xs font-bold shadow-sm">
@@ -270,11 +280,15 @@
             </div>
         </div>
 
-        <script>
-            // --- LOGIC FOR THE SCENE ---
+        <!-- CURSOR ELEMENT -->
+        <div id="demo-cursor" class="fixed top-0 left-0 hidden items-center justify-center">
+            <!-- Pointer Icon -->
+            <i class="fas fa-hand-pointer text-gray-800 text-3xl drop-shadow-xl border-white"
+                style="-webkit-text-stroke: 1px white;"></i>
+        </div>
 
-            // Scoped-ish (global but unique names or relies on unique IDs)
-            // Since this is manual transfer demo, keys are unique enough in context of this widget
+        <script>
+            // --- LOGIC FOR THE SCENE & AUTOMATION ---
 
             function answerCall() {
                 const callCard = document.getElementById('call-card');
@@ -367,8 +381,96 @@
                     }, 50);
                 }, 300);
             }
-        </script>
 
+            // --- AUTOMATION SCRIPT ---
+
+            const cursor = document.getElementById('demo-cursor');
+            const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+            async function moveCursorTo(selector, offsetX = 0, offsetY = 0) {
+                const el = document.querySelector(selector);
+                if (!el) return;
+                const rect = el.getBoundingClientRect();
+
+                // Show cursor if hidden
+                cursor.classList.remove('hidden');
+                cursor.classList.add('flex');
+
+                const targetX = rect.left + rect.width / 2 + offsetX;
+                const targetY = rect.top + rect.height / 2 + offsetY;
+
+                cursor.style.left = `${targetX}px`;
+                cursor.style.top = `${targetY}px`;
+
+                await sleep(900); // Wait for movement to complete
+            }
+
+            async function clickElement(selector) {
+                const el = document.querySelector(selector);
+                if (!el) return;
+
+                // Visual Click
+                cursor.style.transform = 'scale(0.8)';
+                await sleep(150);
+                cursor.style.transform = 'scale(1)';
+
+                // Actual Click
+                el.click();
+                await sleep(500); // Post click pause
+            }
+
+            async function runDemoLoop() {
+                while (true) { // Infinite Loop
+
+                    // 0. Wait Initial
+                    await sleep(1500);
+
+                    // 1. Click Answer
+                    await moveCursorTo('#btn-answer');
+                    await sleep(500);
+                    await clickElement('#btn-answer');
+
+                    // 2. Wait for transition to active call
+                    await sleep(2000);
+
+                    // 3. Click Transfer
+                    // Need to locate the transfer button carefully as it might move slightly or transform
+                    await moveCursorTo('#btn-transfer');
+                    await sleep(500);
+                    await clickElement('#btn-transfer');
+
+                    // 4. Wait for modal
+                    await sleep(1500);
+
+                    // 5. Click Target Contact
+                    await moveCursorTo('#btn-contact-target');
+                    await sleep(500);
+                    await clickElement('#btn-contact-target');
+
+                    // 6. Wait for Success
+                    await sleep(3000);
+
+                    // 7. Click Reset
+                    await moveCursorTo('#btn-reset');
+                    await sleep(500);
+                    await clickElement('#btn-reset');
+
+                    // 8. Wait for reset
+                    await sleep(2000);
+
+                    // Loop continues...
+                }
+            }
+
+            // Start Demo on Load
+            document.addEventListener('DOMContentLoaded', () => {
+                // Initial cursor position (off screen or somewhere safe)
+                cursor.style.left = '50%';
+                cursor.style.top = '110%';
+                setTimeout(runDemoLoop, 1000);
+            });
+
+        </script>
     </div>
 
     <!-- 
