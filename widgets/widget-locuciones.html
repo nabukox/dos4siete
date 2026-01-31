@@ -5,356 +5,416 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestor de Locuciones - Dos Siete</title>
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Dev dependencies -->
     <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
     <script src="../assets/js/dos4siete-widgets.js"></script>
+    <style>
+        /* Dev-only centering */
+        body {
+            background-color: #F2F2F2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem;
+        }
+    </style>
 </head>
 
-<body class="bg-[#F2F2F2] flex items-center justify-center min-h-screen p-8">
+<body>
 
-    <!-- APP CONTAINER -->
-    <div
-        class="app-container w-full max-w-[800px] h-[800px] flex flex-col bg-white overflow-hidden shadow-2xl rounded-3xl border border-gray-100 relative">
+    <!-- 
+    ==========================================================================
+    START EMBED CODE
+    Copy from here to "END EMBED CODE" to include this widget in another page.
+    Ensure Tailwind CSS and FontAwesome are loaded in the host page.
+    
+    IMPORTANT: This widget depends on local assets:
+    - css/dos4siete-core.css
+    - js/dos4siete-widgets.js
+    ==========================================================================
+-->
 
-        <!-- HEADER -->
+    <!-- Dependencies for Embed -->
+    <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
+    <script src="../assets/js/dos4siete-widgets.js"></script>
+
+    <div id="widget-locuciones-embed" class="relative w-full h-full font-['Outfit']">
+
+        <style>
+            /* Scoped Styles */
+            #widget-locuciones-embed {
+                font-family: 'Outfit', sans-serif;
+            }
+
+            /* Scoped Font Awesome adjustments if needed, but they are usually global via class */
+
+            /* Custom Scrollbar scoped */
+            #widget-locuciones-embed .custom-scrollbar::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            #widget-locuciones-embed .custom-scrollbar::-webkit-scrollbar-track {
+                background: #f1f1f1;
+            }
+
+            #widget-locuciones-embed .custom-scrollbar::-webkit-scrollbar-thumb {
+                background: #cbd5e1;
+                border-radius: 3px;
+            }
+
+            #widget-locuciones-embed .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                background: #94a3b8;
+            }
+        </style>
+
+        <!-- APP CONTAINER -->
         <div
-            class="app-header flex justify-between items-center px-6 py-5 bg-white border-b border-gray-100 z-10 shrink-0">
-            <div class="flex flex-col">
-                <div class="flex items-center gap-2">
-                    <i class="fas fa-microphone-alt text-[#141F4C]"></i>
-                    <h2 class="text-[#141F4C] font-bold text-xl">Locuciones</h2>
+            class="app-container w-full max-w-[800px] h-[800px] flex flex-col bg-white overflow-hidden shadow-2xl rounded-3xl border border-gray-100 relative mx-auto">
+
+            <!-- HEADER -->
+            <div
+                class="app-header flex justify-between items-center px-6 py-5 bg-white border-b border-gray-100 z-10 shrink-0">
+                <div class="flex flex-col">
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-microphone-alt text-[#141F4C]"></i>
+                        <h2 class="text-[#141F4C] font-bold text-xl">Locuciones</h2>
+                    </div>
+                    <span class="text-xs text-gray-400 pl-6">Gestiona los audios del sistema</span>
                 </div>
-                <span class="text-xs text-gray-400 pl-6">Gestiona los audios del sistema</span>
+
+                <button id="btn-new-voiceover"
+                    class="bg-[#29ABE2] hover:bg-[#2376C9] text-white text-sm font-bold py-2 px-6 rounded-full shadow-sm hover:shadow-md transition-all flex items-center gap-2 group">
+                    <i class="fas fa-plus text-xs group-hover:scale-110 transition-transform"></i>
+                    Nueva locución
+                </button>
             </div>
 
-            <button id="btn-new-voiceover"
-                class="bg-[#29ABE2] hover:bg-[#2376C9] text-white text-sm font-bold py-2 px-6 rounded-full shadow-sm hover:shadow-md transition-all flex items-center gap-2 group">
-                <i class="fas fa-plus text-xs group-hover:scale-110 transition-transform"></i>
-                Nueva locución
-            </button>
-        </div>
+            <!-- MAIN CONTENT (GRID) -->
+            <div class="p-6 bg-[#F9FAFB] overflow-y-auto custom-scrollbar h-full">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
 
-        <!-- MAIN CONTENT (GRID) -->
-        <div class="p-6 bg-[#F9FAFB] overflow-y-auto custom-scrollbar h-full">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-
-                <!-- CARD 1 -->
-                <div
-                    class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4">
-                    <div class="flex items-center gap-3">
-                        <i class="fas fa-robot text-gray-500 text-lg"></i>
-                        <span class="text-gray-700 font-medium text-sm truncate" title="04/12 Murcia">04/12
-                            Murcia</span>
-                    </div>
-                    <div class="flex items-center justify-between mt-auto">
-                        <div class="flex gap-1.5">
-                            <button
-                                class="w-8 h-8 rounded bg-[#EF4444] text-white flex items-center justify-center hover:bg-red-600 transition-colors"
-                                title="Eliminar"><i class="fas fa-trash-alt text-xs"></i></button>
-                            <button
-                                class="w-8 h-8 rounded bg-[#22C55E] text-white flex items-center justify-center hover:bg-green-600 transition-colors"
-                                title="Descargar"><i class="fas fa-download text-xs"></i></button>
-                            <button
-                                class="w-8 h-8 rounded bg-[#3B82F6] text-white flex items-center justify-center hover:bg-blue-600 transition-colors"
-                                title="Editar"><i class="fas fa-pencil-alt text-xs"></i></button>
-                            <button
-                                class="w-8 h-8 rounded bg-gray-100 text-gray-600 border border-gray-200 flex items-center justify-center hover:bg-gray-200 transition-colors"
-                                title="Reproducir"><i class="fas fa-music text-xs"></i></button>
+                    <!-- CARD 1 -->
+                    <div
+                        class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-robot text-gray-500 text-lg"></i>
+                            <span class="text-gray-700 font-medium text-sm truncate" title="04/12 Murcia">04/12
+                                Murcia</span>
                         </div>
-                        <i class="fas fa-info-circle text-blue-400 text-xs cursor-help"></i>
-                    </div>
-                </div>
-
-                <!-- CARD 2 -->
-                <div
-                    class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4">
-                    <div class="flex items-center gap-3">
-                        <i class="fas fa-robot text-gray-500 text-lg"></i>
-                        <span class="text-gray-700 font-medium text-sm truncate" title="11/12 MAD">11/12 MAD</span>
-                    </div>
-                    <div class="flex items-center justify-between mt-auto">
-                        <div class="flex gap-1.5">
-                            <button
-                                class="w-8 h-8 rounded bg-[#EF4444] text-white flex items-center justify-center hover:bg-red-600 transition-colors"><i
-                                    class="fas fa-trash-alt text-xs"></i></button>
-                            <button
-                                class="w-8 h-8 rounded bg-[#22C55E] text-white flex items-center justify-center hover:bg-green-600 transition-colors"><i
-                                    class="fas fa-download text-xs"></i></button>
-                            <button
-                                class="w-8 h-8 rounded bg-[#3B82F6] text-white flex items-center justify-center hover:bg-blue-600 transition-colors"><i
-                                    class="fas fa-pencil-alt text-xs"></i></button>
-                            <button
-                                class="w-8 h-8 rounded bg-gray-100 text-gray-600 border border-gray-200 flex items-center justify-center hover:bg-gray-200 transition-colors"><i
-                                    class="fas fa-music text-xs"></i></button>
+                        <div class="flex items-center justify-between mt-auto">
+                            <div class="flex gap-1.5">
+                                <button
+                                    class="w-8 h-8 rounded bg-[#EF4444] text-white flex items-center justify-center hover:bg-red-600 transition-colors"
+                                    title="Eliminar"><i class="fas fa-trash-alt text-xs"></i></button>
+                                <button
+                                    class="w-8 h-8 rounded bg-[#22C55E] text-white flex items-center justify-center hover:bg-green-600 transition-colors"
+                                    title="Descargar"><i class="fas fa-download text-xs"></i></button>
+                                <button
+                                    class="w-8 h-8 rounded bg-[#3B82F6] text-white flex items-center justify-center hover:bg-blue-600 transition-colors"
+                                    title="Editar"><i class="fas fa-pencil-alt text-xs"></i></button>
+                                <button
+                                    class="w-8 h-8 rounded bg-gray-100 text-gray-600 border border-gray-200 flex items-center justify-center hover:bg-gray-200 transition-colors"
+                                    title="Reproducir"><i class="fas fa-music text-xs"></i></button>
+                            </div>
+                            <i class="fas fa-info-circle text-blue-400 text-xs cursor-help"></i>
                         </div>
-                        <i class="fas fa-info-circle text-blue-400 text-xs cursor-help"></i>
                     </div>
-                </div>
 
-                <!-- CARD 3 -->
-                <div
-                    class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4">
-                    <div class="flex items-center gap-3">
-                        <i class="fas fa-robot text-gray-500 text-lg"></i>
-                        <span class="text-gray-700 font-medium text-sm truncate"
-                            title="31/12 VAL-BAR-MUR FUERA HORARIO">31/12 VAL-BAR-MUR FUE...</span>
-                    </div>
-                    <div class="flex items-center justify-between mt-auto">
-                        <div class="flex gap-1.5">
-                            <button
-                                class="w-8 h-8 rounded bg-[#EF4444] text-white flex items-center justify-center hover:bg-red-600 transition-colors"><i
-                                    class="fas fa-trash-alt text-xs"></i></button>
-                            <button
-                                class="w-8 h-8 rounded bg-[#22C55E] text-white flex items-center justify-center hover:bg-green-600 transition-colors"><i
-                                    class="fas fa-download text-xs"></i></button>
-                            <button
-                                class="w-8 h-8 rounded bg-[#3B82F6] text-white flex items-center justify-center hover:bg-blue-600 transition-colors"><i
-                                    class="fas fa-pencil-alt text-xs"></i></button>
-                            <button
-                                class="w-8 h-8 rounded bg-gray-100 text-gray-600 border border-gray-200 flex items-center justify-center hover:bg-gray-200 transition-colors"><i
-                                    class="fas fa-music text-xs"></i></button>
+                    <!-- CARD 2 -->
+                    <div
+                        class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-robot text-gray-500 text-lg"></i>
+                            <span class="text-gray-700 font-medium text-sm truncate" title="11/12 MAD">11/12 MAD</span>
                         </div>
-                        <i class="fas fa-info-circle text-blue-400 text-xs cursor-help"></i>
-                    </div>
-                </div>
-
-                <!-- CARD 4 -->
-                <div
-                    class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4">
-                    <div class="flex items-center gap-3">
-                        <i class="fas fa-robot text-gray-500 text-lg"></i>
-                        <span class="text-gray-700 font-medium text-sm truncate">Bienvenida</span>
-                    </div>
-                    <div class="flex items-center justify-between mt-auto">
-                        <div class="flex gap-1.5">
-                            <button
-                                class="w-8 h-8 rounded bg-[#EF4444] text-white flex items-center justify-center hover:bg-red-600 transition-colors"><i
-                                    class="fas fa-trash-alt text-xs"></i></button>
-                            <button
-                                class="w-8 h-8 rounded bg-[#22C55E] text-white flex items-center justify-center hover:bg-green-600 transition-colors"><i
-                                    class="fas fa-download text-xs"></i></button>
-                            <button
-                                class="w-8 h-8 rounded bg-[#3B82F6] text-white flex items-center justify-center hover:bg-blue-600 transition-colors"><i
-                                    class="fas fa-pencil-alt text-xs"></i></button>
-                            <button
-                                class="w-8 h-8 rounded bg-gray-100 text-gray-600 border border-gray-200 flex items-center justify-center hover:bg-gray-200 transition-colors"><i
-                                    class="fas fa-music text-xs"></i></button>
+                        <div class="flex items-center justify-between mt-auto">
+                            <div class="flex gap-1.5">
+                                <button
+                                    class="w-8 h-8 rounded bg-[#EF4444] text-white flex items-center justify-center hover:bg-red-600 transition-colors"><i
+                                        class="fas fa-trash-alt text-xs"></i></button>
+                                <button
+                                    class="w-8 h-8 rounded bg-[#22C55E] text-white flex items-center justify-center hover:bg-green-600 transition-colors"><i
+                                        class="fas fa-download text-xs"></i></button>
+                                <button
+                                    class="w-8 h-8 rounded bg-[#3B82F6] text-white flex items-center justify-center hover:bg-blue-600 transition-colors"><i
+                                        class="fas fa-pencil-alt text-xs"></i></button>
+                                <button
+                                    class="w-8 h-8 rounded bg-gray-100 text-gray-600 border border-gray-200 flex items-center justify-center hover:bg-gray-200 transition-colors"><i
+                                        class="fas fa-music text-xs"></i></button>
+                            </div>
+                            <i class="fas fa-info-circle text-blue-400 text-xs cursor-help"></i>
                         </div>
-                        <i class="fas fa-info-circle text-blue-400 text-xs cursor-help"></i>
                     </div>
-                </div>
 
-                <!-- CARD 5 -->
-                <div
-                    class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4">
-                    <div class="flex items-center gap-3">
-                        <i class="fas fa-robot text-gray-500 text-lg"></i>
-                        <span class="text-gray-700 font-medium text-sm truncate">Buzón Festivos</span>
-                    </div>
-                    <div class="flex items-center justify-between mt-auto">
-                        <div class="flex gap-1.5">
-                            <button
-                                class="w-8 h-8 rounded bg-[#EF4444] text-white flex items-center justify-center hover:bg-red-600 transition-colors"><i
-                                    class="fas fa-trash-alt text-xs"></i></button>
-                            <button
-                                class="w-8 h-8 rounded bg-[#22C55E] text-white flex items-center justify-center hover:bg-green-600 transition-colors"><i
-                                    class="fas fa-download text-xs"></i></button>
-                            <button
-                                class="w-8 h-8 rounded bg-[#3B82F6] text-white flex items-center justify-center hover:bg-blue-600 transition-colors"><i
-                                    class="fas fa-pencil-alt text-xs"></i></button>
-                            <button
-                                class="w-8 h-8 rounded bg-gray-100 text-gray-600 border border-gray-200 flex items-center justify-center hover:bg-gray-200 transition-colors"><i
-                                    class="fas fa-music text-xs"></i></button>
+                    <!-- CARD 3 -->
+                    <div
+                        class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-robot text-gray-500 text-lg"></i>
+                            <span class="text-gray-700 font-medium text-sm truncate"
+                                title="31/12 VAL-BAR-MUR FUERA HORARIO">31/12 VAL-BAR-MUR FUE...</span>
                         </div>
-                        <i class="fas fa-info-circle text-blue-400 text-xs cursor-help"></i>
-                    </div>
-                </div>
-
-                <!-- CARD 6 -->
-                <div
-                    class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4">
-                    <div class="flex items-center gap-3">
-                        <i class="fas fa-robot text-gray-500 text-lg"></i>
-                        <span class="text-gray-700 font-medium text-sm truncate">Agentes ocupados (espere)</span>
-                    </div>
-                    <div class="flex items-center justify-between mt-auto">
-                        <div class="flex gap-1.5">
-                            <button
-                                class="w-8 h-8 rounded bg-[#EF4444] text-white flex items-center justify-center hover:bg-red-600 transition-colors"><i
-                                    class="fas fa-trash-alt text-xs"></i></button>
-                            <button
-                                class="w-8 h-8 rounded bg-[#22C55E] text-white flex items-center justify-center hover:bg-green-600 transition-colors"><i
-                                    class="fas fa-download text-xs"></i></button>
-                            <button
-                                class="w-8 h-8 rounded bg-[#3B82F6] text-white flex items-center justify-center hover:bg-blue-600 transition-colors"><i
-                                    class="fas fa-pencil-alt text-xs"></i></button>
-                            <button
-                                class="w-8 h-8 rounded bg-gray-100 text-gray-600 border border-gray-200 flex items-center justify-center hover:bg-gray-200 transition-colors"><i
-                                    class="fas fa-music text-xs"></i></button>
+                        <div class="flex items-center justify-between mt-auto">
+                            <div class="flex gap-1.5">
+                                <button
+                                    class="w-8 h-8 rounded bg-[#EF4444] text-white flex items-center justify-center hover:bg-red-600 transition-colors"><i
+                                        class="fas fa-trash-alt text-xs"></i></button>
+                                <button
+                                    class="w-8 h-8 rounded bg-[#22C55E] text-white flex items-center justify-center hover:bg-green-600 transition-colors"><i
+                                        class="fas fa-download text-xs"></i></button>
+                                <button
+                                    class="w-8 h-8 rounded bg-[#3B82F6] text-white flex items-center justify-center hover:bg-blue-600 transition-colors"><i
+                                        class="fas fa-pencil-alt text-xs"></i></button>
+                                <button
+                                    class="w-8 h-8 rounded bg-gray-100 text-gray-600 border border-gray-200 flex items-center justify-center hover:bg-gray-200 transition-colors"><i
+                                        class="fas fa-music text-xs"></i></button>
+                            </div>
+                            <i class="fas fa-info-circle text-blue-400 text-xs cursor-help"></i>
                         </div>
-                        <i class="fas fa-info-circle text-blue-400 text-xs cursor-help"></i>
                     </div>
-                </div>
 
-                <!-- CARD 7 -->
-                <div
-                    class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4">
-                    <div class="flex items-center gap-3">
-                        <i class="fas fa-robot text-gray-500 text-lg"></i>
-                        <span class="text-gray-700 font-medium text-sm truncate">Buzón día especial</span>
-                    </div>
-                    <div class="flex items-center justify-between mt-auto">
-                        <div class="flex gap-1.5">
-                            <button
-                                class="w-8 h-8 rounded bg-[#EF4444] text-white flex items-center justify-center hover:bg-red-600 transition-colors"><i
-                                    class="fas fa-trash-alt text-xs"></i></button>
-                            <button
-                                class="w-8 h-8 rounded bg-[#22C55E] text-white flex items-center justify-center hover:bg-green-600 transition-colors"><i
-                                    class="fas fa-download text-xs"></i></button>
-                            <button
-                                class="w-8 h-8 rounded bg-[#3B82F6] text-white flex items-center justify-center hover:bg-blue-600 transition-colors"><i
-                                    class="fas fa-pencil-alt text-xs"></i></button>
-                            <button
-                                class="w-8 h-8 rounded bg-gray-100 text-gray-600 border border-gray-200 flex items-center justify-center hover:bg-gray-200 transition-colors"><i
-                                    class="fas fa-music text-xs"></i></button>
+                    <!-- CARD 4 -->
+                    <div
+                        class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-robot text-gray-500 text-lg"></i>
+                            <span class="text-gray-700 font-medium text-sm truncate">Bienvenida</span>
                         </div>
-                        <i class="fas fa-info-circle text-blue-400 text-xs cursor-help"></i>
-                    </div>
-                </div>
-
-                <!-- CARD 8 -->
-                <div
-                    class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4">
-                    <div class="flex items-center gap-3">
-                        <i class="fas fa-robot text-gray-500 text-lg"></i>
-                        <span class="text-gray-700 font-medium text-sm truncate">Fuera Horario 5/1 BCN</span>
-                    </div>
-                    <div class="flex items-center justify-between mt-auto">
-                        <div class="flex gap-1.5">
-                            <button
-                                class="w-8 h-8 rounded bg-[#EF4444] text-white flex items-center justify-center hover:bg-red-600 transition-colors"><i
-                                    class="fas fa-trash-alt text-xs"></i></button>
-                            <button
-                                class="w-8 h-8 rounded bg-[#22C55E] text-white flex items-center justify-center hover:bg-green-600 transition-colors"><i
-                                    class="fas fa-download text-xs"></i></button>
-                            <button
-                                class="w-8 h-8 rounded bg-[#3B82F6] text-white flex items-center justify-center hover:bg-blue-600 transition-colors"><i
-                                    class="fas fa-pencil-alt text-xs"></i></button>
-                            <button
-                                class="w-8 h-8 rounded bg-gray-100 text-gray-600 border border-gray-200 flex items-center justify-center hover:bg-gray-200 transition-colors"><i
-                                    class="fas fa-music text-xs"></i></button>
+                        <div class="flex items-center justify-between mt-auto">
+                            <div class="flex gap-1.5">
+                                <button
+                                    class="w-8 h-8 rounded bg-[#EF4444] text-white flex items-center justify-center hover:bg-red-600 transition-colors"><i
+                                        class="fas fa-trash-alt text-xs"></i></button>
+                                <button
+                                    class="w-8 h-8 rounded bg-[#22C55E] text-white flex items-center justify-center hover:bg-green-600 transition-colors"><i
+                                        class="fas fa-download text-xs"></i></button>
+                                <button
+                                    class="w-8 h-8 rounded bg-[#3B82F6] text-white flex items-center justify-center hover:bg-blue-600 transition-colors"><i
+                                        class="fas fa-pencil-alt text-xs"></i></button>
+                                <button
+                                    class="w-8 h-8 rounded bg-gray-100 text-gray-600 border border-gray-200 flex items-center justify-center hover:bg-gray-200 transition-colors"><i
+                                        class="fas fa-music text-xs"></i></button>
+                            </div>
+                            <i class="fas fa-info-circle text-blue-400 text-xs cursor-help"></i>
                         </div>
-                        <i class="fas fa-info-circle text-blue-400 text-xs cursor-help"></i>
                     </div>
-                </div>
 
+                    <!-- CARD 5 -->
+                    <div
+                        class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-robot text-gray-500 text-lg"></i>
+                            <span class="text-gray-700 font-medium text-sm truncate">Buzón Festivos</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <div class="flex gap-1.5">
+                                <button
+                                    class="w-8 h-8 rounded bg-[#EF4444] text-white flex items-center justify-center hover:bg-red-600 transition-colors"><i
+                                        class="fas fa-trash-alt text-xs"></i></button>
+                                <button
+                                    class="w-8 h-8 rounded bg-[#22C55E] text-white flex items-center justify-center hover:bg-green-600 transition-colors"><i
+                                        class="fas fa-download text-xs"></i></button>
+                                <button
+                                    class="w-8 h-8 rounded bg-[#3B82F6] text-white flex items-center justify-center hover:bg-blue-600 transition-colors"><i
+                                        class="fas fa-pencil-alt text-xs"></i></button>
+                                <button
+                                    class="w-8 h-8 rounded bg-gray-100 text-gray-600 border border-gray-200 flex items-center justify-center hover:bg-gray-200 transition-colors"><i
+                                        class="fas fa-music text-xs"></i></button>
+                            </div>
+                            <i class="fas fa-info-circle text-blue-400 text-xs cursor-help"></i>
+                        </div>
+                    </div>
+
+                    <!-- CARD 6 -->
+                    <div
+                        class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-robot text-gray-500 text-lg"></i>
+                            <span class="text-gray-700 font-medium text-sm truncate">Agentes ocupados (espere)</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <div class="flex gap-1.5">
+                                <button
+                                    class="w-8 h-8 rounded bg-[#EF4444] text-white flex items-center justify-center hover:bg-red-600 transition-colors"><i
+                                        class="fas fa-trash-alt text-xs"></i></button>
+                                <button
+                                    class="w-8 h-8 rounded bg-[#22C55E] text-white flex items-center justify-center hover:bg-green-600 transition-colors"><i
+                                        class="fas fa-download text-xs"></i></button>
+                                <button
+                                    class="w-8 h-8 rounded bg-[#3B82F6] text-white flex items-center justify-center hover:bg-blue-600 transition-colors"><i
+                                        class="fas fa-pencil-alt text-xs"></i></button>
+                                <button
+                                    class="w-8 h-8 rounded bg-gray-100 text-gray-600 border border-gray-200 flex items-center justify-center hover:bg-gray-200 transition-colors"><i
+                                        class="fas fa-music text-xs"></i></button>
+                            </div>
+                            <i class="fas fa-info-circle text-blue-400 text-xs cursor-help"></i>
+                        </div>
+                    </div>
+
+                    <!-- CARD 7 -->
+                    <div
+                        class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-robot text-gray-500 text-lg"></i>
+                            <span class="text-gray-700 font-medium text-sm truncate">Buzón día especial</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <div class="flex gap-1.5">
+                                <button
+                                    class="w-8 h-8 rounded bg-[#EF4444] text-white flex items-center justify-center hover:bg-red-600 transition-colors"><i
+                                        class="fas fa-trash-alt text-xs"></i></button>
+                                <button
+                                    class="w-8 h-8 rounded bg-[#22C55E] text-white flex items-center justify-center hover:bg-green-600 transition-colors"><i
+                                        class="fas fa-download text-xs"></i></button>
+                                <button
+                                    class="w-8 h-8 rounded bg-[#3B82F6] text-white flex items-center justify-center hover:bg-blue-600 transition-colors"><i
+                                        class="fas fa-pencil-alt text-xs"></i></button>
+                                <button
+                                    class="w-8 h-8 rounded bg-gray-100 text-gray-600 border border-gray-200 flex items-center justify-center hover:bg-gray-200 transition-colors"><i
+                                        class="fas fa-music text-xs"></i></button>
+                            </div>
+                            <i class="fas fa-info-circle text-blue-400 text-xs cursor-help"></i>
+                        </div>
+                    </div>
+
+                    <!-- CARD 8 -->
+                    <div
+                        class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-robot text-gray-500 text-lg"></i>
+                            <span class="text-gray-700 font-medium text-sm truncate">Fuera Horario 5/1 BCN</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <div class="flex gap-1.5">
+                                <button
+                                    class="w-8 h-8 rounded bg-[#EF4444] text-white flex items-center justify-center hover:bg-red-600 transition-colors"><i
+                                        class="fas fa-trash-alt text-xs"></i></button>
+                                <button
+                                    class="w-8 h-8 rounded bg-[#22C55E] text-white flex items-center justify-center hover:bg-green-600 transition-colors"><i
+                                        class="fas fa-download text-xs"></i></button>
+                                <button
+                                    class="w-8 h-8 rounded bg-[#3B82F6] text-white flex items-center justify-center hover:bg-blue-600 transition-colors"><i
+                                        class="fas fa-pencil-alt text-xs"></i></button>
+                                <button
+                                    class="w-8 h-8 rounded bg-gray-100 text-gray-600 border border-gray-200 flex items-center justify-center hover:bg-gray-200 transition-colors"><i
+                                        class="fas fa-music text-xs"></i></button>
+                            </div>
+                            <i class="fas fa-info-circle text-blue-400 text-xs cursor-help"></i>
+                        </div>
+                    </div>
+
+                </div>
             </div>
-        </div>
 
-        <!-- MODAL OVERLAY -->
-        <div id="locucion-modal"
-            class="hidden absolute inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm transition-opacity opacity-0">
-            <!-- Modal Content -->
-            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 transform scale-95 transition-transform duration-200"
-                id="locucion-modal-content">
+            <!-- MODAL OVERLAY (Inside the Embed Scope) -->
+            <div id="locucion-modal"
+                class="hidden absolute inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm transition-opacity opacity-0">
+                <!-- Modal Content -->
+                <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 transform scale-95 transition-transform duration-200"
+                    id="locucion-modal-content">
 
-                <!-- Modal Header -->
-                <div class="flex justify-between items-center px-6 py-4 border-b border-gray-100">
-                    <h3 class="text-[#141F4C] font-bold text-lg">Locución</h3>
-                    <button class="text-gray-400 hover:text-gray-600 transition-colors" id="btn-close-modal">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-
-                <!-- Modal Body -->
-                <div class="p-6 space-y-5">
-
-                    <!-- Name Input -->
-                    <div class="space-y-1.5">
-                        <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide">Nombre</label>
-                        <input type="text"
-                            class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-                            placeholder="Ej: Bienvenida Navidad">
+                    <!-- Modal Header -->
+                    <div class="flex justify-between items-center px-6 py-4 border-b border-gray-100">
+                        <h3 class="text-[#141F4C] font-bold text-lg">Locución</h3>
+                        <button class="text-gray-400 hover:text-gray-600 transition-colors" id="btn-close-modal">
+                            <i class="fas fa-times"></i>
+                        </button>
                     </div>
 
-                    <!-- TTS Section -->
-                    <div class="space-y-1.5">
-                        <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide">Texto
-                            automático</label>
-                        <div class="relative">
-                            <textarea id="tts-input" rows="4"
-                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none"
-                                placeholder="Escribe el texto que se convertirá en audio..."></textarea>
-                            <div class="absolute bottom-2 right-3 text-[10px] text-gray-400 font-medium">
-                                <span id="char-count">0</span> / 2000
+                    <!-- Modal Body -->
+                    <div class="p-6 space-y-5">
+
+                        <!-- Name Input -->
+                        <div class="space-y-1.5">
+                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide">Nombre</label>
+                            <input type="text"
+                                class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                                placeholder="Ej: Bienvenida Navidad">
+                        </div>
+
+                        <!-- TTS Section -->
+                        <div class="space-y-1.5">
+                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide">Texto
+                                automático</label>
+                            <div class="relative">
+                                <textarea id="tts-input" rows="4"
+                                    class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none"
+                                    placeholder="Escribe el texto que se convertirá en audio..."></textarea>
+                                <div class="absolute bottom-2 right-3 text-[10px] text-gray-400 font-medium">
+                                    <span id="char-count">0</span> / 2000
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Voice Selector & Preview -->
-                    <div class="flex items-center gap-3">
-                        <button
-                            class="w-10 h-10 rounded-lg bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
-                            <i class="fas fa-play text-xs pl-0.5"></i>
-                        </button>
-                        <div class="flex-1">
-                            <select
-                                class="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 focus:ring-2 focus:ring-blue-500 outline-none cursor-pointer">
-                                <option>Castilian Spanish [neural] - Female - Lucia</option>
-                                <option>Castilian Spanish [neural] - Male - Enrique</option>
-                                <option>Mexican Spanish [neural] - Female - Dalia</option>
-                            </select>
+                        <!-- Voice Selector & Preview -->
+                        <div class="flex items-center gap-3">
+                            <button
+                                class="w-10 h-10 rounded-lg bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                                <i class="fas fa-play text-xs pl-0.5"></i>
+                            </button>
+                            <div class="flex-1">
+                                <select
+                                    class="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 focus:ring-2 focus:ring-blue-500 outline-none cursor-pointer">
+                                    <option>Castilian Spanish [neural] - Female - Lucia</option>
+                                    <option>Castilian Spanish [neural] - Male - Enrique</option>
+                                    <option>Mexican Spanish [neural] - Female - Dalia</option>
+                                </select>
+                            </div>
                         </div>
+
+                        <!-- Alternative Actions -->
+                        <div class="flex flex-col gap-2 pt-2 border-t border-gray-50">
+                            <button
+                                class="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 font-medium py-1 w-fit group">
+                                <i class="fas fa-microphone text-xs group-hover:scale-110 transition-transform"></i>
+                                Grabar con el micrófono
+                            </button>
+                            <button
+                                class="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 font-medium py-1 w-fit group">
+                                <i class="fas fa-upload text-xs group-hover:scale-110 transition-transform"></i>
+                                Subir un fichero de audio
+                            </button>
+                        </div>
+
                     </div>
 
-                    <!-- Alternative Actions -->
-                    <div class="flex flex-col gap-2 pt-2 border-t border-gray-50">
-                        <button
-                            class="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 font-medium py-1 w-fit group">
-                            <i class="fas fa-microphone text-xs group-hover:scale-110 transition-transform"></i>
-                            Grabar con el micrófono
+                    <!-- Modal Footer -->
+                    <div class="px-6 py-4 bg-gray-50 rounded-b-2xl border-t border-gray-100 flex justify-end gap-3">
+                        <button id="btn-cancel-modal"
+                            class="px-4 py-2 text-sm font-semibold text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors">
+                            Cancelar
                         </button>
                         <button
-                            class="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 font-medium py-1 w-fit group">
-                            <i class="fas fa-upload text-xs group-hover:scale-110 transition-transform"></i>
-                            Subir un fichero de audio
+                            class="px-6 py-2 text-sm font-bold text-white bg-[#29ABE2] hover:bg-[#2376C9] rounded-full shadow-md hover:shadow-lg transition-all transform active:scale-95">
+                            <i class="fas fa-check mr-1.5"></i> Guardar
                         </button>
                     </div>
 
                 </div>
-
-                <!-- Modal Footer -->
-                <div class="px-6 py-4 bg-gray-50 rounded-b-2xl border-t border-gray-100 flex justify-end gap-3">
-                    <button id="btn-cancel-modal"
-                        class="px-4 py-2 text-sm font-semibold text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors">
-                        Cancelar
-                    </button>
-                    <button
-                        class="px-6 py-2 text-sm font-bold text-white bg-[#29ABE2] hover:bg-[#2376C9] rounded-full shadow-md hover:shadow-lg transition-all transform active:scale-95">
-                        <i class="fas fa-check mr-1.5"></i> Guardar
-                    </button>
-                </div>
-
             </div>
         </div>
-        <script>
-            // Ensure init runs even if DOMContentLoaded already fired
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', initApp);
-            } else {
-                initApp();
-            }
 
-            function initApp() {
-                console.log("Initializing App...");
+        <!-- Init Script -->
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
                 if (window.Dos4Siete && window.Dos4Siete.initVoiceoverManager) {
                     window.Dos4Siete.initVoiceoverManager();
-                } else {
-                    console.error("Dos4Siete global object not found!");
                 }
-            }
+            });
         </script>
+    </div>
+
+    <!-- 
+    ==========================================================================
+    END EMBED CODE
+    ==========================================================================
+-->
+
 </body>
 
 </html>

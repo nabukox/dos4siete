@@ -7,63 +7,111 @@
     <title>Widget Banderas - Dos Siete</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Dev dependencies -->
     <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
+    <style>
+        /* Dev-only centering */
+        body {
+            background-color: #F2F2F2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem;
+        }
+    </style>
 </head>
 
-<body class="bg-[#F2F2F2] flex items-center justify-center min-h-screen p-8">
+<body>
 
-    <!-- WIDGET CARD -->
-    <div
-        class="bg-white w-fit p-3 rounded-2xl shadow-xl border border-gray-100 flex flex-col items-center gap-3 transform hover:scale-[1.02] transition-transform duration-300">
+    <!-- 
+    ==========================================================================
+    START EMBED CODE
+    Copy from here to "END EMBED CODE" to include this widget in another page.
+    Ensure Tailwind CSS and FontAwesome are loaded in the host page.
+    
+    IMPORTANT: This widget depends on local assets:
+    - css/dos4siete-core.css
+    ==========================================================================
+-->
 
-        <!-- HEADER REMOVED -->
+    <!-- Dependencies for Embed -->
+    <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
 
-        <!-- FLAGS GRID -->
-        <div class="grid grid-cols-3 gap-4">
-            <!-- Spain -->
-            <div class="flex flex-col items-center gap-2 group cursor-default">
-                <img src="https://flagcdn.com/w80/es.png" alt="España"
-                    class="w-10 h-10 rounded-full object-cover shadow-sm group-hover:shadow-md transition-shadow border-2 border-white ring-1 ring-gray-100">
-                <span class="text-xs font-semibold text-gray-500 group-hover:text-[#29ABE2] transition-colors">ES</span>
+    <div id="widget-banderas-embed" class="relative w-fit h-auto font-['Outfit']">
+
+        <style>
+            /* Scoped Styles */
+            #widget-banderas-embed {
+                font-family: 'Outfit', sans-serif;
+            }
+        </style>
+
+        <!-- WIDGET CARD -->
+        <div
+            class="bg-white w-fit p-3 rounded-2xl shadow-xl border border-gray-100 flex flex-col items-center gap-3 transform hover:scale-[1.02] transition-transform duration-300">
+
+            <!-- FLAGS GRID -->
+            <div class="grid grid-cols-3 gap-4">
+                <!-- Spain -->
+                <div class="flex flex-col items-center gap-2 group cursor-default">
+                    <img src="https://flagcdn.com/w80/es.png" alt="España"
+                        class="w-10 h-10 rounded-full object-cover shadow-sm group-hover:shadow-md transition-shadow border-2 border-white ring-1 ring-gray-100">
+                    <span
+                        class="text-xs font-semibold text-gray-500 group-hover:text-[#29ABE2] transition-colors">ES</span>
+                </div>
+
+                <!-- France -->
+                <div class="flex flex-col items-center gap-2 group cursor-default">
+                    <img src="https://flagcdn.com/w80/fr.png" alt="Francia"
+                        class="w-10 h-10 rounded-full object-cover shadow-sm group-hover:shadow-md transition-shadow border-2 border-white ring-1 ring-gray-100">
+                    <span
+                        class="text-xs font-semibold text-gray-500 group-hover:text-[#29ABE2] transition-colors">FR</span>
+                </div>
+
+                <!-- Germany -->
+                <div class="flex flex-col items-center gap-2 group cursor-default">
+                    <img src="https://flagcdn.com/w80/de.png" alt="Alemania"
+                        class="w-10 h-10 rounded-full object-cover shadow-sm group-hover:shadow-md transition-shadow border-2 border-white ring-1 ring-gray-100">
+                    <span
+                        class="text-xs font-semibold text-gray-500 group-hover:text-[#29ABE2] transition-colors">DE</span>
+                </div>
+
+                <!-- Italy -->
+                <div class="flex flex-col items-center gap-2 group cursor-default">
+                    <img src="https://flagcdn.com/w80/it.png" alt="Italia"
+                        class="w-10 h-10 rounded-full object-cover shadow-sm group-hover:shadow-md transition-shadow border-2 border-white ring-1 ring-gray-100">
+                    <span
+                        class="text-xs font-semibold text-gray-500 group-hover:text-[#29ABE2] transition-colors">IT</span>
+                </div>
+
+                <!-- Portugal -->
+                <div class="flex flex-col items-center gap-2 group cursor-default">
+                    <img src="https://flagcdn.com/w80/pt.png" alt="Portugal"
+                        class="w-10 h-10 rounded-full object-cover shadow-sm group-hover:shadow-md transition-shadow border-2 border-white ring-1 ring-gray-100">
+                    <span
+                        class="text-xs font-semibold text-gray-500 group-hover:text-[#29ABE2] transition-colors">PT</span>
+                </div>
+
+                <!-- United Kingdom -->
+                <div class="flex flex-col items-center gap-2 group cursor-default">
+                    <img src="https://flagcdn.com/w80/gb.png" alt="Reino Unido"
+                        class="w-10 h-10 rounded-full object-cover shadow-sm group-hover:shadow-md transition-shadow border-2 border-white ring-1 ring-gray-100">
+                    <span
+                        class="text-xs font-semibold text-gray-500 group-hover:text-[#29ABE2] transition-colors">UK</span>
+                </div>
             </div>
 
-            <!-- France -->
-            <div class="flex flex-col items-center gap-2 group cursor-default">
-                <img src="https://flagcdn.com/w80/fr.png" alt="Francia"
-                    class="w-10 h-10 rounded-full object-cover shadow-sm group-hover:shadow-md transition-shadow border-2 border-white ring-1 ring-gray-100">
-                <span class="text-xs font-semibold text-gray-500 group-hover:text-[#29ABE2] transition-colors">FR</span>
-            </div>
-
-            <!-- Germany -->
-            <div class="flex flex-col items-center gap-2 group cursor-default">
-                <img src="https://flagcdn.com/w80/de.png" alt="Alemania"
-                    class="w-10 h-10 rounded-full object-cover shadow-sm group-hover:shadow-md transition-shadow border-2 border-white ring-1 ring-gray-100">
-                <span class="text-xs font-semibold text-gray-500 group-hover:text-[#29ABE2] transition-colors">DE</span>
-            </div>
-
-            <!-- Italy -->
-            <div class="flex flex-col items-center gap-2 group cursor-default">
-                <img src="https://flagcdn.com/w80/it.png" alt="Italia"
-                    class="w-10 h-10 rounded-full object-cover shadow-sm group-hover:shadow-md transition-shadow border-2 border-white ring-1 ring-gray-100">
-                <span class="text-xs font-semibold text-gray-500 group-hover:text-[#29ABE2] transition-colors">IT</span>
-            </div>
-
-            <!-- Portugal -->
-            <div class="flex flex-col items-center gap-2 group cursor-default">
-                <img src="https://flagcdn.com/w80/pt.png" alt="Portugal"
-                    class="w-10 h-10 rounded-full object-cover shadow-sm group-hover:shadow-md transition-shadow border-2 border-white ring-1 ring-gray-100">
-                <span class="text-xs font-semibold text-gray-500 group-hover:text-[#29ABE2] transition-colors">PT</span>
-            </div>
-
-            <!-- United Kingdom -->
-            <div class="flex flex-col items-center gap-2 group cursor-default">
-                <img src="https://flagcdn.com/w80/gb.png" alt="Reino Unido"
-                    class="w-10 h-10 rounded-full object-cover shadow-sm group-hover:shadow-md transition-shadow border-2 border-white ring-1 ring-gray-100">
-                <span class="text-xs font-semibold text-gray-500 group-hover:text-[#29ABE2] transition-colors">UK</span>
-            </div>
         </div>
 
     </div>
+
+    <!-- 
+    ==========================================================================
+    END EMBED CODE
+    ==========================================================================
+-->
 
 </body>
 

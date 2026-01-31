@@ -7,70 +7,117 @@
     <title>Distribución de Agentes - Dos Siete</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Dev dependencies -->
     <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
     <script src="../assets/js/dos4siete-widgets.js"></script>
+    <style>
+        /* Dev-only centering */
+        body {
+            background-color: #F2F2F2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem;
+        }
+    </style>
 </head>
 
-<body class="bg-[#F2F2F2] flex items-center justify-center min-h-screen p-8">
+<body>
 
-    <!-- APP CONTAINER -->
-    <div
-        class="app-container w-full max-w-5xl h-auto flex flex-col bg-white overflow-hidden shadow-2xl rounded-3xl border border-gray-100 relative">
+    <!-- 
+    ==========================================================================
+    START EMBED CODE
+    Copy from here to "END EMBED CODE" to include this widget in another page.
+    Ensure Tailwind CSS and FontAwesome are loaded in the host page.
+    
+    IMPORTANT: This widget depends on local assets:
+    - css/dos4siete-core.css
+    - js/dos4siete-widgets.js
+    ==========================================================================
+-->
 
-        <!-- HEADER -->
-        <div class="app-header flex justify-between items-center px-6 py-4 bg-white border-b border-gray-100 z-10">
-            <div class="header-title flex items-center gap-3">
-                <img src="../assets/img/logo.svg" alt="Dos Siete" class="h-6 w-auto">
-                <span class="text-[#141F4C] font-bold text-lg">Distribución de Agentes</span>
+    <!-- Dependencies for Embed -->
+    <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
+    <script src="../assets/js/dos4siete-widgets.js"></script>
+
+    <div id="widget-colas-agentes-embed"
+        class="relative w-full h-full flex items-center justify-center font-['Outfit']">
+
+        <style>
+            /* Scoped Styles */
+            #widget-colas-agentes-embed {
+                font-family: 'Outfit', sans-serif;
+            }
+        </style>
+
+        <!-- APP CONTAINER -->
+        <div
+            class="w-full max-w-5xl h-auto flex flex-col bg-white overflow-hidden shadow-2xl rounded-3xl border border-gray-100 relative">
+
+            <!-- HEADER -->
+            <div class="flex justify-between items-center px-6 py-4 bg-white border-b border-gray-100 z-10">
+                <div class="flex items-center gap-3">
+                    <img src="../assets/img/logo.svg" alt="Dos Siete" class="h-6 w-auto">
+                    <span class="text-[#141F4C] font-bold text-lg">Distribución de Agentes</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button
+                        class="w-8 h-8 rounded-full bg-[#E0E7FF] text-[#29ABE2] hover:bg-[#29ABE2] hover:text-white transition-colors flex items-center justify-center">
+                        <i class="fas fa-expand text-xs"></i>
+                    </button>
+                    <button
+                        class="w-8 h-8 rounded-full bg-[#EF4444]/10 text-[#EF4444] hover:bg-[#EF4444] hover:text-white transition-colors flex items-center justify-center">
+                        <i class="fas fa-times text-xs"></i>
+                    </button>
+                </div>
             </div>
-            <div class="flex items-center gap-2">
-                <button
-                    class="w-8 h-8 rounded-full bg-[#E0E7FF] text-[#29ABE2] hover:bg-[#29ABE2] hover:text-white transition-colors flex items-center justify-center">
-                    <i class="fas fa-expand text-xs"></i>
-                </button>
-                <button
-                    class="w-8 h-8 rounded-full bg-[#EF4444]/10 text-[#EF4444] hover:bg-[#EF4444] hover:text-white transition-colors flex items-center justify-center">
-                    <i class="fas fa-times text-xs"></i>
-                </button>
+
+            <!-- MAIN CONTENT -->
+            <div class="p-6 bg-[#F9FAFB] relative min-h-[400px] flex justify-center">
+                <div class="bg-white rounded-3xl p-6 border border-gray-100 h-full w-full max-w-3xl">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-[#141F4C] font-bold text-lg">Distribución de tiempo en conversación entrante por
+                            agente</h3>
+                        <div class="text-xs text-gray-400 font-medium bg-gray-100 px-3 py-1 rounded-full">
+                            <i class="fas fa-sync-alt mr-1"></i> Tiempo Real
+                        </div>
+                    </div>
+                    <!-- Chart Container -->
+                    <div id="chart-agent-time" class="w-full h-64"></div>
+
+                    <!-- Legend -->
+                    <div class="mt-4 flex items-center justify-center gap-6 border-t border-gray-50 pt-4">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-sm bg-[#E5E7EB]"></span>
+                            <span class="text-xs text-gray-500 font-medium">Volumen Normal</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-sm bg-[#2000D6] opacity-90"></span>
+                            <span class="text-xs text-gray-500 font-medium">Alto Volumen (>70%)</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- MAIN CONTENT -->
-        <div class="p-6 bg-[#F9FAFB] relative min-h-[400px] flex justify-center">
-            <div class="bg-white rounded-3xl p-6 border border-gray-100 h-full w-full max-w-3xl">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-[#141F4C] font-bold text-lg">Distribución de tiempo en conversación entrante por
-                        agente</h3>
-                    <div class="text-xs text-gray-400 font-medium bg-gray-100 px-3 py-1 rounded-full">
-                        <i class="fas fa-sync-alt mr-1"></i> Tiempo Real
-                    </div>
-                </div>
-                <!-- Chart Container -->
-                <div id="chart-agent-time" class="w-full h-64"></div>
-
-                <!-- Legend -->
-                <div class="mt-4 flex items-center justify-center gap-6 border-t border-gray-50 pt-4">
-                    <div class="flex items-center gap-2">
-                        <span class="w-3 h-3 rounded-sm bg-[#E5E7EB]"></span>
-                        <span class="text-xs text-gray-500 font-medium">Volumen Normal</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="w-3 h-3 rounded-sm bg-[#2000D6] opacity-90"></span>
-                        <span class="text-xs text-gray-500 font-medium">Alto Volumen (>70%)</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- INITIALIZATION -->
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                if (window.Dos4Siete && window.Dos4Siete.initAgentStats) {
+                    window.Dos4Siete.initAgentStats();
+                }
+            });
+        </script>
     </div>
 
-    <!-- INITIALIZATION -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            if (window.Dos4Siete && window.Dos4Siete.initAgentStats) {
-                window.Dos4Siete.initAgentStats();
-            }
-        });
-    </script>
+    <!-- 
+    ==========================================================================
+    END EMBED CODE
+    ==========================================================================
+-->
+
 </body>
 
 </html>

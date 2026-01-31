@@ -8,7 +8,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Dev dependencies -->
+    <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
     <style>
+        /* Dev-only centering */
         body {
             font-family: 'Outfit', sans-serif;
             background-color: #f0f4f8;
@@ -28,8 +31,14 @@
     START EMBED CODE
     Copy from here to "END EMBED CODE" to include this widget in another page.
     Ensure Tailwind CSS and FontAwesome are loaded in the host page.
+    
+    IMPORTANT: This widget depends on local assets:
+    - css/dos4siete-core.css
     ==========================================================================
 -->
+
+    <!-- Dependencies for Embed -->
+    <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
 
     <div id="widget-integraciones-embed"
         class="relative w-full h-full min-h-[750px] flex items-center justify-center bg-transparent font-[Outfit]">
@@ -37,6 +46,7 @@
         <style>
             /* Scoped Styles for Widget Integraciones */
             #widget-integraciones-embed {
+                font-family: 'Outfit', sans-serif;
                 overflow: hidden;
                 /* Prevent scroll for the spatial effect */
             }

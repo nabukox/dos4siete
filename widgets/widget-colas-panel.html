@@ -5,227 +5,264 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión Inteligente de Colas</title>
+    <!-- Dev dependencies -->
     <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
+    <style>
+        /* Dev-only centering */
+        body {
+            background-color: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem;
+        }
+    </style>
 </head>
 
 <body>
 
-    <div class="app-container">
+    <!-- 
+    ==========================================================================
+    START EMBED CODE
+    Copy from here to "END EMBED CODE" to include this widget in another page.
+    
+    IMPORTANT: This widget depends on local assets:
+    - css/dos4siete-core.css
+    ==========================================================================
+-->
 
-        <!-- HEADER -->
-        <div class="app-header">
-            <div>
-                <div class="header-title">
-                    <img src="../assets/img/logo.svg" alt="Dos Siete" class="h-6 w-auto">
-                    <span style="color: var(--c-brand-dark);">Soporte</span> <span class="header-subtitle">(De arriba a
-                        abajo)</span>
-                </div>
-                <div style="font-size: 11px; color: var(--c-text-light); margin-top: 4px;">
-                    Agentes: <b id="total-agents">4</b> &bull; Capacidad: 0.00%
-                </div>
-            </div>
+    <!-- Dependencies for Embed -->
+    <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
 
-            <div style="display: flex; gap: 12px; align-items:center;">
-                <button class="btn-manage" onclick="openModal()">
-                    <i class="fas fa-users-cog"></i> Gestionar Miembros
-                </button>
-                <div class="tabs">
-                    <button class="tab-btn active" onclick="switchTab('panel', this)">Panel</button>
-                    <button class="tab-btn" onclick="switchTab('detalle', this)">Estadísticas</button>
-                </div>
-            </div>
-        </div>
+    <div id="widget-colas-panel-embed" class="relative w-full h-full font-['Outfit']">
 
-        <!-- VIEW 1: PANEL (DASHBOARD) -->
-        <div id="view-panel" class="view-container active">
-            <div class="dashboard-grid">
-
-                <!-- LEFT: STATISTICS -->
-                <div class="stats-col">
-
-                    <!-- Bars -->
-                    <div class="metrics-row">
-                        <div class="metric-bar-group">
-                            <div class="metric-label">
-                                <span>Disponibilidad</span>
-                                <span>100.00%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill fill-avail" style="width: 100%"></div>
-                            </div>
-                        </div>
-                        <div class="metric-bar-group">
-                            <div class="metric-label">
-                                <span>Ocupación</span>
-                                <span>0.00%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill fill-occupancy" style="width: 0%"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Counters -->
-                    <div class="counters-grid">
-                        <div class="counter-item">
-                            <span class="counter-label">▶ Disponible</span>
-                            <span class="counter-val" id="cnt-avail">2</span>
-                        </div>
-                        <div class="counter-item">
-                            <span class="counter-label">⏸ En pausa</span>
-                            <span class="counter-val" id="cnt-pause">1</span>
-                        </div>
-                        <div class="counter-item">
-                            <span class="counter-label">🕒 En espera</span>
-                            <span class="counter-val" id="cnt-wait">0</span>
-                        </div>
-                        <div class="counter-item">
-                            <span class="counter-label">🔔 Recibiendo</span>
-                            <span class="counter-val">0</span>
-                        </div>
-                        <div class="counter-item">
-                            <span class="counter-label">📞 Llamando</span>
-                            <span class="counter-val">0</span>
-                        </div>
-                        <div class="counter-item">
-                            <span class="counter-label">💬 Conversación</span>
-                            <span class="counter-val" id="cnt-busy">1</span>
-                        </div>
-                    </div>
-
-                    <!-- Agents Mini List -->
-                    <div class="agents-scroll" id="panel-agents-list">
-                        <!-- Agents injected here -->
-                    </div>
-
-                </div>
-
-                <!-- RIGHT: CALLS -->
-                <div class="calls-col">
-                    <div class="calls-header">
-                        📞 Llamadas entrantes: <span id="calls-count">0</span>
-                    </div>
-                    <div class="empty-calls">
-                        No hay llamadas entrantes en la cola
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- VIEW 2: ESTADISTICAS (Old Detalle) -->
-        <div id="view-detalle" class="view-container">
-            <span class="config-label">Detalle de Adherencia y Estadísticas</span>
-            <div class="config-list" id="detail-list-container"
-                style="background: white; border-radius: 8px; padding:16px; border: 1px solid var(--c-border);">
-            </div>
-        </div>
-
-        <!-- MODAL: GESTION DE MIEMBROS -->
-        <div id="modal-miembros" class="modal-overlay">
-            <div class="modal-header">
-                <span class="modal-title">Gestión de Miembros</span>
-                <button class="btn-icon" onclick="closeModal(false)" style="font-size: 18px;">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div id="levels-container">
-                    <!-- Levels injected here -->
-                </div>
-                <button onclick="addLevel()" class="btn-primary-action" style="margin-top:16px;">+ Añadir Nuevo
-                    Nivel</button>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-cancel" onclick="closeModal(false)">Cancelar</button>
-                <button class="btn-save" onclick="closeModal(true)">Guardar Cambios</button>
-            </div>
-        </div>
-
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
-    <script>
-        // --- DATA ---
-        // --- DATA ---
-        const staffDirectory = [
-            "2001 - Jose Marti", "2002 - Jose Carrasco", "2003 - Alvaro Valero", "2004 - Daniel Estrada", "2005 - Jean Gomez", "2006 - Maria Garcia", "2007 - Carlos Ruiz"
-        ];
-
-        // Multi-Level Data Structure - SOURCE OF TRUTH
-        let levels = [
-            {
-                id: 101,
-                name: "Nivel 1",
-                agents: [
-                    { id: 1, name: "2004 - Daniel Estrada", pos: 1, status: 'available', time: "82d 1h 40m" },
-                    { id: 2, name: "2005 - Jean Gomez", pos: 3, status: 'available', time: "321d 20h 1m" }
-                ]
-            },
-            {
-                id: 102,
-                name: "Nivel 2",
-                agents: [
-                    { id: 3, name: "2001 - Jose Marti", pos: 1, status: 'busy', time: "0h 5m 12s" }
-                ]
+        <style>
+            /* Scoped Styles */
+            #widget-colas-panel-embed {
+                font-family: 'Outfit', sans-serif;
             }
-        ];
+        </style>
 
-        // DRAFT STATE for the Modal
-        let draftLevels = [];
+        <div class="app-container">
 
-        // Helper to get all agents flat
-        function getAllAgents(source = levels) {
-            return source.flatMap(l => l.agents);
-        }
+            <!-- HEADER -->
+            <div class="app-header">
+                <div>
+                    <div class="header-title">
+                        <img src="../assets/img/logo.svg" alt="Dos Siete" class="h-6 w-auto">
+                        <span style="color: var(--c-brand-dark);">Soporte</span> <span class="header-subtitle">(De
+                            arriba a
+                            abajo)</span>
+                    </div>
+                    <div style="font-size: 11px; color: var(--c-text-light); margin-top: 4px;">
+                        Agentes: <b id="total-agents">4</b> &bull; Capacidad: 0.00%
+                    </div>
+                </div>
 
-        // --- RENDER DASHBOARD & STATS ---
-        function renderPanel() {
-            const container = document.getElementById('panel-agents-list');
-            container.innerHTML = '';
+                <div style="display: flex; gap: 12px; align-items:center;">
+                    <button class="btn-manage" onclick="openModal()">
+                        <i class="fas fa-users-cog"></i> Gestionar Miembros
+                    </button>
+                    <div class="tabs">
+                        <button class="tab-btn active" onclick="switchTab('panel', this)">Panel</button>
+                        <button class="tab-btn" onclick="switchTab('detalle', this)">Estadísticas</button>
+                    </div>
+                </div>
+            </div>
 
-            let cAvail = 0, cPause = 0, cBusy = 0;
-            const allAgents = getAllAgents(levels); // Read from SOURCE
+            <!-- VIEW 1: PANEL (DASHBOARD) -->
+            <div id="view-panel" class="view-container active">
+                <div class="dashboard-grid">
 
-            allAgents.forEach(a => {
-                let statusClass = '';
-                // Simulating status color logic
-                if (a.status === 'available') cAvail++;
-                else if (a.status === 'busy') { cBusy++; statusClass = 'busy'; }
-                else { cPause++; statusClass = 'pause'; } // pause or offline
+                    <!-- LEFT: STATISTICS -->
+                    <div class="stats-col">
 
-                const el = document.createElement('div');
-                el.className = 'agent-card-mini';
-                el.innerHTML = `
+                        <!-- Bars -->
+                        <div class="metrics-row">
+                            <div class="metric-bar-group">
+                                <div class="metric-label">
+                                    <span>Disponibilidad</span>
+                                    <span>100.00%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill fill-avail" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <div class="metric-bar-group">
+                                <div class="metric-label">
+                                    <span>Ocupación</span>
+                                    <span>0.00%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill fill-occupancy" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Counters -->
+                        <div class="counters-grid">
+                            <div class="counter-item">
+                                <span class="counter-label">▶ Disponible</span>
+                                <span class="counter-val" id="cnt-avail">2</span>
+                            </div>
+                            <div class="counter-item">
+                                <span class="counter-label">⏸ En pausa</span>
+                                <span class="counter-val" id="cnt-pause">1</span>
+                            </div>
+                            <div class="counter-item">
+                                <span class="counter-label">🕒 En espera</span>
+                                <span class="counter-val" id="cnt-wait">0</span>
+                            </div>
+                            <div class="counter-item">
+                                <span class="counter-label">🔔 Recibiendo</span>
+                                <span class="counter-val">0</span>
+                            </div>
+                            <div class="counter-item">
+                                <span class="counter-label">📞 Llamando</span>
+                                <span class="counter-val">0</span>
+                            </div>
+                            <div class="counter-item">
+                                <span class="counter-label">💬 Conversación</span>
+                                <span class="counter-val" id="cnt-busy">1</span>
+                            </div>
+                        </div>
+
+                        <!-- Agents Mini List -->
+                        <div class="agents-scroll" id="panel-agents-list">
+                            <!-- Agents injected here -->
+                        </div>
+
+                    </div>
+
+                    <!-- RIGHT: CALLS -->
+                    <div class="calls-col">
+                        <div class="calls-header">
+                            📞 Llamadas entrantes: <span id="calls-count">0</span>
+                        </div>
+                        <div class="empty-calls">
+                            No hay llamadas entrantes en la cola
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- VIEW 2: ESTADISTICAS (Old Detalle) -->
+            <div id="view-detalle" class="view-container">
+                <span class="config-label">Detalle de Adherencia y Estadísticas</span>
+                <div class="config-list" id="detail-list-container"
+                    style="background: white; border-radius: 8px; padding:16px; border: 1px solid var(--c-border);">
+                </div>
+            </div>
+
+            <!-- MODAL: GESTION DE MIEMBROS -->
+            <div id="modal-miembros" class="modal-overlay">
+                <div class="modal-header">
+                    <span class="modal-title">Gestión de Miembros</span>
+                    <button class="btn-icon" onclick="closeModal(false)" style="font-size: 18px;">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div id="levels-container">
+                        <!-- Levels injected here -->
+                    </div>
+                    <button onclick="addLevel()" class="btn-primary-action" style="margin-top:16px;">+ Añadir Nuevo
+                        Nivel</button>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" onclick="closeModal(false)">Cancelar</button>
+                    <button class="btn-save" onclick="closeModal(true)">Guardar Cambios</button>
+                </div>
+            </div>
+
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+        <script>
+            // --- DATA ---
+            const staffDirectory = [
+                "2001 - Jose Marti", "2002 - Jose Carrasco", "2003 - Alvaro Valero", "2004 - Daniel Estrada", "2005 - Jean Gomez", "2006 - Maria Garcia", "2007 - Carlos Ruiz"
+            ];
+
+            // Multi-Level Data Structure - SOURCE OF TRUTH
+            let levels = [
+                {
+                    id: 101,
+                    name: "Nivel 1",
+                    agents: [
+                        { id: 1, name: "2004 - Daniel Estrada", pos: 1, status: 'available', time: "82d 1h 40m" },
+                        { id: 2, name: "2005 - Jean Gomez", pos: 3, status: 'available', time: "321d 20h 1m" }
+                    ]
+                },
+                {
+                    id: 102,
+                    name: "Nivel 2",
+                    agents: [
+                        { id: 3, name: "2001 - Jose Marti", pos: 1, status: 'busy', time: "0h 5m 12s" }
+                    ]
+                }
+            ];
+
+            // DRAFT STATE for the Modal
+            let draftLevels = [];
+
+            // Helper to get all agents flat
+            function getAllAgents(source = levels) {
+                return source.flatMap(l => l.agents);
+            }
+
+            // --- RENDER DASHBOARD & STATS ---
+            function renderPanel() {
+                const container = document.getElementById('panel-agents-list');
+                if (!container) return;
+                container.innerHTML = '';
+
+                let cAvail = 0, cPause = 0, cBusy = 0;
+                const allAgents = getAllAgents(levels); // Read from SOURCE
+
+                allAgents.forEach(a => {
+                    let statusClass = '';
+                    // Simulating status color logic
+                    if (a.status === 'available') cAvail++;
+                    else if (a.status === 'busy') { cBusy++; statusClass = 'busy'; }
+                    else { cPause++; statusClass = 'pause'; } // pause or offline
+
+                    const el = document.createElement('div');
+                    el.className = 'agent-card-mini';
+                    el.innerHTML = `
                     <div class="agent-card-time">${a.time}</div>
                     <div class="agent-card-body ${statusClass}">
                         <div class="agent-mini-icon">👤</div>
                         <span style="font-size:11px; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${a.name}</span>
                     </div>
                 `;
-                container.appendChild(el);
-            });
+                    container.appendChild(el);
+                });
 
-            // Update Counters
-            document.getElementById('cnt-avail').innerText = cAvail;
-            document.getElementById('cnt-pause').innerText = cPause;
-            document.getElementById('cnt-busy').innerText = cBusy;
-            document.getElementById('total-agents').innerText = allAgents.length;
-        }
-
-        function renderDetalle() {
-            const container = document.getElementById('detail-list-container');
-            container.innerHTML = '';
-            const allAgents = getAllAgents(levels); // Read from SOURCE
-
-            if (allAgents.length === 0) {
-                container.innerHTML = '<div style="color:#999; text-align:center;">No hay agentes configurados</div>';
-                return;
+                // Update Counters
+                if (document.getElementById('cnt-avail')) document.getElementById('cnt-avail').innerText = cAvail;
+                if (document.getElementById('cnt-pause')) document.getElementById('cnt-pause').innerText = cPause;
+                if (document.getElementById('cnt-busy')) document.getElementById('cnt-busy').innerText = cBusy;
+                if (document.getElementById('total-agents')) document.getElementById('total-agents').innerText = allAgents.length;
             }
 
-            allAgents.forEach(a => {
-                const div = document.createElement('div');
-                div.className = 'config-item';
-                div.style.background = '#F9FAFB';
-                div.innerHTML = `
+            function renderDetalle() {
+                const container = document.getElementById('detail-list-container');
+                if (!container) return;
+                container.innerHTML = '';
+                const allAgents = getAllAgents(levels); // Read from SOURCE
+
+                if (allAgents.length === 0) {
+                    container.innerHTML = '<div style="color:#999; text-align:center;">No hay agentes configurados</div>';
+                    return;
+                }
+
+                allAgents.forEach(a => {
+                    const div = document.createElement('div');
+                    div.className = 'config-item';
+                    div.style.background = '#F9FAFB';
+                    div.innerHTML = `
                     <div style="width:32px; height:32px; background:#E0E7FF; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#4F46E5; font-size:12px; font-weight:bold;">${a.name.charAt(0)}</div>
                     <span style="font-size:13px; font-weight:600;">${a.name}</span>
                      <span style="font-size:12px; color:#666; margin-left:auto; display:flex; align-items:center; gap:6px;">
@@ -233,28 +270,29 @@
                         ${a.status.toUpperCase()} &bull; ${a.time}
                     </span>
                 `;
-                container.appendChild(div);
-            });
-        }
+                    container.appendChild(div);
+                });
+            }
 
-        // --- RENDER MODAL ---
-        function renderModalMembers() {
-            const container = document.getElementById('levels-container');
-            container.innerHTML = '';
+            // --- RENDER MODAL ---
+            function renderModalMembers() {
+                const container = document.getElementById('levels-container');
+                if (!container) return;
+                container.innerHTML = '';
 
-            // Render from DRAFT
-            draftLevels.forEach((lvl, index) => {
-                const lvlDiv = document.createElement('div');
-                lvlDiv.className = 'level-section';
+                // Render from DRAFT
+                draftLevels.forEach((lvl, index) => {
+                    const lvlDiv = document.createElement('div');
+                    lvlDiv.className = 'level-section';
 
-                let agentsHtml = '';
-                if (lvl.agents.length === 0) {
-                    agentsHtml = '<div style="padding:12px; text-align:center; font-size:12px; color:#999; font-style:italic;">Sin agentes en este nivel</div>';
-                } else {
-                    lvl.agents.forEach(a => {
-                        const options = staffDirectory.map(s => `<option ${s === a.name ? 'selected' : ''}>${s}</option>`).join('');
+                    let agentsHtml = '';
+                    if (lvl.agents.length === 0) {
+                        agentsHtml = '<div style="padding:12px; text-align:center; font-size:12px; color:#999; font-style:italic;">Sin agentes en este nivel</div>';
+                    } else {
+                        lvl.agents.forEach(a => {
+                            const options = staffDirectory.map(s => `<option ${s === a.name ? 'selected' : ''}>${s}</option>`).join('');
 
-                        agentsHtml += `
+                            agentsHtml += `
                             <div class="config-item">
                                 <div style="width:32px; height:32px; background:#E0E7FF; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#4F46E5; font-size:12px; font-weight:bold;">${a.name.charAt(0)}</div>
                                 <div style="flex:1;">
@@ -267,10 +305,10 @@
                                 <button class="btn-icon" onclick="removeDraftAgent(${lvl.id}, ${a.id})">🗑</button>
                             </div>
                         `;
-                    });
-                }
+                        });
+                    }
 
-                lvlDiv.innerHTML = `
+                    lvlDiv.innerHTML = `
                     <div class="level-header">
                         ${lvl.name}
                         ${index > 0 ? `<button class="btn-icon" style="color:#EF4444;" onclick="removeDraftLevel(${lvl.id})">Eliminar Nivel</button>` : ''}
@@ -280,82 +318,91 @@
                     </div>
                     <button class="btn-secondary" onclick="addAgentToDraft(${lvl.id})">+ Añadir Miembro a ${lvl.name}</button>
                 `;
-                container.appendChild(lvlDiv);
-            });
-        }
-
-        // --- MODAL ACTIONS (Work on DRAFT) ---
-        function openModal() {
-            // Deep copy current state to draft
-            draftLevels = JSON.parse(JSON.stringify(levels));
-            renderModalMembers();
-            document.getElementById('modal-miembros').classList.add('active');
-        }
-
-        function closeModal(save) {
-            if (save) {
-                // Commit changes
-                levels = JSON.parse(JSON.stringify(draftLevels));
-                renderPanel();
-                renderDetalle();
+                    container.appendChild(lvlDiv);
+                });
             }
-            document.getElementById('modal-miembros').classList.remove('active');
-        }
 
-        // Draft Logic
-        function updateDraftName(lvlId, agentId, val) {
-            const lvl = draftLevels.find(l => l.id === lvlId);
-            const agent = lvl.agents.find(a => a.id === agentId);
-            if (agent) agent.name = val;
-        }
-        function updateDraftPos(lvlId, agentId, val) {
-            const lvl = draftLevels.find(l => l.id === lvlId);
-            const agent = lvl.agents.find(a => a.id === agentId);
-            if (agent) agent.pos = val;
-        }
-        function removeDraftAgent(lvlId, agentId) {
-            const lvl = draftLevels.find(l => l.id === lvlId);
-            if (lvl) {
-                lvl.agents = lvl.agents.filter(a => a.id !== agentId);
+            // --- MODAL ACTIONS (Work on DRAFT) ---
+            window.openModal = function () {
+                // Deep copy current state to draft
+                draftLevels = JSON.parse(JSON.stringify(levels));
+                renderModalMembers();
+                document.getElementById('modal-miembros').classList.add('active');
+            }
+
+            window.closeModal = function (save) {
+                if (save) {
+                    // Commit changes
+                    levels = JSON.parse(JSON.stringify(draftLevels));
+                    renderPanel();
+                    renderDetalle();
+                }
+                document.getElementById('modal-miembros').classList.remove('active');
+            }
+
+            // Draft Logic
+            window.updateDraftName = function (lvlId, agentId, val) {
+                const lvl = draftLevels.find(l => l.id === lvlId);
+                const agent = lvl.agents.find(a => a.id === agentId);
+                if (agent) agent.name = val;
+            }
+            window.updateDraftPos = function (lvlId, agentId, val) {
+                const lvl = draftLevels.find(l => l.id === lvlId);
+                const agent = lvl.agents.find(a => a.id === agentId);
+                if (agent) agent.pos = val;
+            }
+            window.removeDraftAgent = function (lvlId, agentId) {
+                const lvl = draftLevels.find(l => l.id === lvlId);
+                if (lvl) {
+                    lvl.agents = lvl.agents.filter(a => a.id !== agentId);
+                    renderModalMembers();
+                }
+            }
+            window.addAgentToDraft = function (lvlId) {
+                const lvl = draftLevels.find(l => l.id === lvlId);
+                if (lvl) {
+                    const newId = Math.floor(Math.random() * 10000);
+                    lvl.agents.push({ id: newId, name: "0000 - Nuevo Agente", pos: 1, status: "offline", time: "0m" });
+                    renderModalMembers();
+                }
+            }
+            window.addLevel = function () {
+                const newId = draftLevels.length + 101;
+                draftLevels.push({
+                    id: newId,
+                    name: `Nivel ${draftLevels.length + 1}`,
+                    agents: []
+                });
                 renderModalMembers();
             }
-        }
-        function addAgentToDraft(lvlId) {
-            const lvl = draftLevels.find(l => l.id === lvlId);
-            if (lvl) {
-                const newId = Math.floor(Math.random() * 10000);
-                lvl.agents.push({ id: newId, name: "0000 - Nuevo Agente", pos: 1, status: "offline", time: "0m" });
+            window.removeDraftLevel = function (id) {
+                draftLevels = draftLevels.filter(l => l.id !== id);
                 renderModalMembers();
             }
-        }
-        function addLevel() {
-            const newId = draftLevels.length + 101;
-            draftLevels.push({
-                id: newId,
-                name: `Nivel ${draftLevels.length + 1}`,
-                agents: []
-            });
-            renderModalMembers();
-        }
-        function removeDraftLevel(id) {
-            draftLevels = draftLevels.filter(l => l.id !== id);
-            renderModalMembers();
-        }
 
 
-        // --- MAIN TABS ---
-        function switchTab(view, btn) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            document.querySelectorAll('.view-container').forEach(v => v.classList.remove('active'));
-            document.getElementById('view-' + view).classList.add('active');
-        }
+            // --- MAIN TABS ---
+            window.switchTab = function (view, btn) {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                document.querySelectorAll('.view-container').forEach(v => v.classList.remove('active'));
+                document.getElementById('view-' + view).classList.add('active');
+            }
 
-        // Init
-        renderPanel();
-        renderDetalle();
+            // Init
+            renderPanel();
+            renderDetalle();
 
-    </script>
+        </script>
+
+    </div>
+
+    <!-- 
+    ==========================================================================
+    END EMBED CODE
+    ==========================================================================
+-->
+
 </body>
 
 </html>

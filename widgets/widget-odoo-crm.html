@@ -5,331 +5,367 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Odoo Hub - CRM</title>
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Dev dependencies -->
     <style>
+        /* Dev-only centering */
         body {
             font-family: 'Roboto', sans-serif;
-        }
-
-        .odoo-header {
-            background-color: #714B67;
-        }
-
-        .odoo-btn-create {
-            background-color: #008784;
-        }
-
-        /* Scrollbar hiding for cleaner look */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+            background-color: #f3f4f6;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
         }
     </style>
 </head>
 
-<body class="bg-gray-100 flex items-center justify-center min-h-screen p-8">
+<body>
 
-    <!-- WIDGET CONTAINER -->
-    <div
-        class="w-full max-w-6xl h-[700px] bg-gray-100 rounded-lg overflow-hidden shadow-2xl relative flex flex-col border border-gray-200">
+    <!-- 
+    ==========================================================================
+    START EMBED CODE
+    Copy from here to "END EMBED CODE" to include this widget in another page.
+    Ensure Tailwind CSS and FontAwesome are loaded in the host page.
+    ==========================================================================
+-->
 
-        <!-- 1. ODOO HEADER -->
-        <div class="h-12 odoo-header flex items-center justify-between px-4 text-white shrink-0 z-20">
-            <!-- Left: Branding & Menu -->
-            <div class="flex items-center gap-6">
-                <div class="flex items-center gap-2 font-bold text-lg">
-                    <i class="fas fa-th text-white/70"></i>
-                    <span>CRM</span>
-                </div>
-                <div class="flex text-sm gap-4 text-white/90 font-medium hidden md:flex">
-                    <span class="opacity-100">Ventas</span>
-                    <span class="opacity-80 hover:opacity-100 cursor-pointer">Reporting</span>
-                    <span class="opacity-80 hover:opacity-100 cursor-pointer">Configuración</span>
-                </div>
-            </div>
+    <div id="widget-odoo-crm-embed" class="relative w-full h-full font-sans">
 
-            <!-- Right: User Profile -->
-            <div class="flex items-center gap-4 text-white/80">
-                <i class="fas fa-phone opacity-70"></i>
-                <i class="fas fa-comments opacity-70"></i>
-                <div class="flex items-center gap-2">
-                    <img src="https://ui-avatars.com/api/?name=Luciana+Alvarez&background=random"
-                        class="w-7 h-7 rounded-full">
-                    <span class="text-sm font-medium hidden sm:block">Luciana Álvarez</span>
-                </div>
-            </div>
-        </div>
+        <style>
+            /* Scoped Styles */
+            #widget-odoo-crm-embed {
+                font-family: 'Roboto', sans-serif;
+            }
 
-        <!-- 2. CONTROL BAR (Pipeline) -->
+            #widget-odoo-crm-embed .odoo-header {
+                background-color: #714B67;
+            }
+
+            #widget-odoo-crm-embed .odoo-btn-create {
+                background-color: #008784;
+            }
+
+            /* Scrollbar hiding for cleaner look */
+            #widget-odoo-crm-embed .no-scrollbar::-webkit-scrollbar {
+                display: none;
+            }
+
+            #widget-odoo-crm-embed .no-scrollbar {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        </style>
+
+        <!-- WIDGET CONTAINER -->
         <div
-            class="bg-white border-b border-gray-200 px-4 py-3 flex flex-col md:flex-row md:items-center justify-between gap-4 shrink-0 z-10">
-            <div class="flex flex-col md:flex-row md:items-center gap-4">
-                <h2 class="text-xl text-gray-700 font-normal">Pipeline</h2>
-                <div class="flex items-center gap-2">
-                    <button
-                        class="bg-[#008784] hover:bg-[#00706d] text-white text-sm font-medium px-4 py-1.5 rounded shadow-sm uppercase">
-                        Crear
-                    </button>
-                    <button class="text-[#008784] text-xs font-bold uppercase px-2 hover:bg-gray-50 rounded">
-                        Clientes Potenciales
-                    </button>
+            class="w-full max-w-6xl h-[700px] bg-gray-100 rounded-lg overflow-hidden shadow-2xl relative flex flex-col border border-gray-200 mx-auto">
+
+            <!-- 1. ODOO HEADER -->
+            <div class="h-12 odoo-header flex items-center justify-between px-4 text-white shrink-0 z-20">
+                <!-- Left: Branding & Menu -->
+                <div class="flex items-center gap-6">
+                    <div class="flex items-center gap-2 font-bold text-lg">
+                        <i class="fas fa-th text-white/70"></i>
+                        <span>CRM</span>
+                    </div>
+                    <div class="flex text-sm gap-4 text-white/90 font-medium hidden md:flex">
+                        <span class="opacity-100">Ventas</span>
+                        <span class="opacity-80 hover:opacity-100 cursor-pointer">Reporting</span>
+                        <span class="opacity-80 hover:opacity-100 cursor-pointer">Configuración</span>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Search Bar placeholder -->
-            <div class="flex items-center bg-transparent border-b border-gray-300 w-full md:w-64 pb-1">
-                <span class="text-gray-400 text-sm">Buscar...</span>
-                <i class="fas fa-search ml-auto text-gray-400 text-xs"></i>
-            </div>
-
-            <div class="flex items-center gap-3 text-gray-500 text-sm hidden md:flex">
-                <div class="flex items-center gap-1 cursor-pointer hover:text-gray-700"><i class="fas fa-filter"></i>
-                    Filtros</div>
-                <div class="flex items-center gap-1 cursor-pointer hover:text-gray-700"><i class="fas fa-bars"></i>
-                    Grupo por</div>
-                <div class="flex items-center gap-1 cursor-pointer hover:text-gray-700"><i class="fas fa-star"></i>
-                    Favoritos</div>
-            </div>
-        </div>
-
-        <!-- 3. KANBAN BOARD -->
-        <div class="flex-1 overflow-x-auto overflow-y-hidden p-6 flex gap-6 items-start bg-[#F0F0F0]">
-
-            <!-- Column 1: Nuevo -->
-            <div class="w-80 min-w-[320px] flex flex-col gap-3">
-                <!-- Column Header -->
-                <div class="flex items-center justify-between text-gray-600 font-bold px-1">
+                <!-- Right: User Profile -->
+                <div class="flex items-center gap-4 text-white/80">
+                    <i class="fas fa-phone opacity-70"></i>
+                    <i class="fas fa-comments opacity-70"></i>
                     <div class="flex items-center gap-2">
-                        <span>Nuevo</span>
-                        <span class="bg-gray-200 text-gray-500 text-xs px-2 py-0.5 rounded-full">3</span>
+                        <img src="https://ui-avatars.com/api/?name=Luciana+Alvarez&background=random"
+                            class="w-7 h-7 rounded-full">
+                        <span class="text-sm font-medium hidden sm:block">Luciana Álvarez</span>
                     </div>
-                    <i class="fas fa-plus text-gray-400 hover:text-gray-600 cursor-pointer"></i>
                 </div>
-                <!-- Progress Bar -->
-                <div class="h-1 w-full bg-red-400 rounded-full mb-1"></div>
+            </div>
 
-                <!-- CARD 1 -->
-                <div
-                    class="bg-white p-3 rounded shadow-sm hover:shadow-md transition-shadow cursor-pointer relative group border-l-4 border-transparent hover:border-[#008784]">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="font-bold text-gray-800">Roberto Silva</h3>
+            <!-- 2. CONTROL BAR (Pipeline) -->
+            <div
+                class="bg-white border-b border-gray-200 px-4 py-3 flex flex-col md:flex-row md:items-center justify-between gap-4 shrink-0 z-10">
+                <div class="flex flex-col md:flex-row md:items-center gap-4">
+                    <h2 class="text-xl text-gray-700 font-normal">Pipeline</h2>
+                    <div class="flex items-center gap-2">
+                        <button
+                            class="bg-[#008784] hover:bg-[#00706d] text-white text-sm font-medium px-4 py-1.5 rounded shadow-sm uppercase">
+                            Crear
+                        </button>
+                        <button class="text-[#008784] text-xs font-bold uppercase px-2 hover:bg-gray-50 rounded">
+                            Clientes Potenciales
+                        </button>
                     </div>
-                    <!-- Phone Button (Integracion) -->
-                    <div
-                        class="inline-flex items-center gap-2 border border-[#00BFA5] text-[#00BFA5] px-2 py-1 rounded text-sm font-medium mb-3 cursor-pointer hover:bg-[#E0F2F1]">
-                        <i class="fas fa-sync-alt animate-spin-slow"></i>
-                        <span>+34 611 22 33 44</span>
-                    </div>
+                </div>
 
-                    <div class="flex items-center justify-between text-gray-400 text-xs mt-1">
-                        <div class="flex gap-1">
-                            <i class="fas fa-star text-yellow-400"></i>
-                            <i class="fas fa-star text-yellow-400"></i>
-                            <i class="far fa-star"></i>
+                <!-- Search Bar placeholder -->
+                <div class="flex items-center bg-transparent border-b border-gray-300 w-full md:w-64 pb-1">
+                    <span class="text-gray-400 text-sm">Buscar...</span>
+                    <i class="fas fa-search ml-auto text-gray-400 text-xs"></i>
+                </div>
+
+                <div class="flex items-center gap-3 text-gray-500 text-sm hidden md:flex">
+                    <div class="flex items-center gap-1 cursor-pointer hover:text-gray-700"><i
+                            class="fas fa-filter"></i>
+                        Filtros</div>
+                    <div class="flex items-center gap-1 cursor-pointer hover:text-gray-700"><i class="fas fa-bars"></i>
+                        Grupo por</div>
+                    <div class="flex items-center gap-1 cursor-pointer hover:text-gray-700"><i class="fas fa-star"></i>
+                        Favoritos</div>
+                </div>
+            </div>
+
+            <!-- 3. KANBAN BOARD -->
+            <div class="flex-1 overflow-x-auto overflow-y-hidden p-6 flex gap-6 items-start bg-[#F0F0F0]">
+
+                <!-- Column 1: Nuevo -->
+                <div class="w-80 min-w-[320px] flex flex-col gap-3">
+                    <!-- Column Header -->
+                    <div class="flex items-center justify-between text-gray-600 font-bold px-1">
+                        <div class="flex items-center gap-2">
+                            <span>Nuevo</span>
+                            <span class="bg-gray-200 text-gray-500 text-xs px-2 py-0.5 rounded-full">3</span>
                         </div>
-                        <i class="far fa-clock text-red-400"></i>
+                        <i class="fas fa-plus text-gray-400 hover:text-gray-600 cursor-pointer"></i>
+                    </div>
+                    <!-- Progress Bar -->
+                    <div class="h-1 w-full bg-red-400 rounded-full mb-1"></div>
+
+                    <!-- CARD 1 -->
+                    <div
+                        class="bg-white p-3 rounded shadow-sm hover:shadow-md transition-shadow cursor-pointer relative group border-l-4 border-transparent hover:border-[#008784]">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-gray-800">Roberto Silva</h3>
+                        </div>
+                        <!-- Phone Button (Integracion) -->
+                        <div
+                            class="inline-flex items-center gap-2 border border-[#00BFA5] text-[#00BFA5] px-2 py-1 rounded text-sm font-medium mb-3 cursor-pointer hover:bg-[#E0F2F1]">
+                            <i class="fas fa-sync-alt animate-spin-slow"></i>
+                            <span>+34 611 22 33 44</span>
+                        </div>
+
+                        <div class="flex items-center justify-between text-gray-400 text-xs mt-1">
+                            <div class="flex gap-1">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <i class="far fa-clock text-red-400"></i>
+                        </div>
+
+                        <!-- Tooltip "Llamada con Ringover" -->
+                        <div
+                            class="absolute -top-8 left-1/2 -translate-x-1/2 bg-white text-gray-700 text-xs px-2 py-1 rounded shadow-lg border border-gray-100 whitespace-nowrap z-30 hidden group-hover:block">
+                            Llamada con Ringover
+                        </div>
                     </div>
 
-                    <!-- Tooltip "Llamada con Ringover" -->
-                    <div
-                        class="absolute -top-8 left-1/2 -translate-x-1/2 bg-white text-gray-700 text-xs px-2 py-1 rounded shadow-lg border border-gray-100 whitespace-nowrap z-30 hidden group-hover:block">
-                        Llamada con Ringover
-                    </div>
-                </div>
-
-                <!-- CARD 2 -->
-                <div class="bg-white p-3 rounded shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="font-bold text-gray-800">Claudia Vega</h3>
-                    </div>
-                    <div
-                        class="inline-flex items-center gap-2 border border-[#00BFA5] text-[#00BFA5] px-2 py-1 rounded text-sm font-medium mb-3 cursor-pointer hover:bg-[#E0F2F1]">
-                        <i class="fas fa-phone-alt"></i>
-                        <span>+34 622 33 44 55</span>
-                    </div>
-                    <div class="flex items-center justify-between text-gray-400 text-xs mt-1">
-                        <div class="flex gap-1 text-gray-300">
-                            <i class="fas fa-star text-yellow-400"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
+                    <!-- CARD 2 -->
+                    <div class="bg-white p-3 rounded shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-gray-800">Claudia Vega</h3>
                         </div>
                         <div
-                            class="w-6 h-6 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center font-bold text-[10px]">
-                            CV</div>
+                            class="inline-flex items-center gap-2 border border-[#00BFA5] text-[#00BFA5] px-2 py-1 rounded text-sm font-medium mb-3 cursor-pointer hover:bg-[#E0F2F1]">
+                            <i class="fas fa-phone-alt"></i>
+                            <span>+34 622 33 44 55</span>
+                        </div>
+                        <div class="flex items-center justify-between text-gray-400 text-xs mt-1">
+                            <div class="flex gap-1 text-gray-300">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="far fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <div
+                                class="w-6 h-6 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center font-bold text-[10px]">
+                                CV</div>
+                        </div>
                     </div>
-                </div>
 
-                <!-- CARD 3 -->
-                <div class="bg-white p-3 rounded shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="font-bold text-gray-800">Fernando Torres</h3>
-                    </div>
-                    <div
-                        class="inline-flex items-center gap-2 border border-[#00BFA5] text-[#00BFA5] px-2 py-1 rounded text-sm font-medium mb-3 cursor-pointer hover:bg-[#E0F2F1]">
-                        <i class="fas fa-phone-alt"></i>
-                        <span>+34 633 44 55 66</span>
-                    </div>
-                    <div class="flex items-center justify-between text-gray-400 text-xs mt-1">
-                        <div class="flex gap-1 text-gray-300">
-                            <i class="fas fa-star text-yellow-400"></i>
-                            <i class="fas fa-star text-yellow-400"></i>
-                            <i class="fas fa-star text-yellow-400"></i>
+                    <!-- CARD 3 -->
+                    <div class="bg-white p-3 rounded shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-gray-800">Fernando Torres</h3>
                         </div>
                         <div
-                            class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-[10px]">
-                            FT</div>
+                            class="inline-flex items-center gap-2 border border-[#00BFA5] text-[#00BFA5] px-2 py-1 rounded text-sm font-medium mb-3 cursor-pointer hover:bg-[#E0F2F1]">
+                            <i class="fas fa-phone-alt"></i>
+                            <span>+34 633 44 55 66</span>
+                        </div>
+                        <div class="flex items-center justify-between text-gray-400 text-xs mt-1">
+                            <div class="flex gap-1 text-gray-300">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                            </div>
+                            <div
+                                class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-[10px]">
+                                FT</div>
+                        </div>
                     </div>
+
+                </div>
+
+                <!-- Column 2: Propuesta -->
+                <div class="w-80 min-w-[320px] flex flex-col gap-3">
+                    <div class="flex items-center justify-between text-gray-600 font-bold px-1">
+                        <div class="flex items-center gap-2">
+                            <span>Propuesta</span>
+                        </div>
+                        <i class="fas fa-plus text-gray-400 hover:text-gray-600 cursor-pointer"></i>
+                    </div>
+                    <div class="h-1 w-full bg-green-500 rounded-full mb-1"></div>
+
+                    <!-- Placeholder Cards -->
+                    <div class="bg-gray-200 h-24 rounded animate-pulse"></div>
+                    <div class="bg-gray-200 h-24 rounded animate-pulse opacity-50"></div>
                 </div>
 
             </div>
 
-            <!-- Column 2: Propuesta -->
-            <div class="w-80 min-w-[320px] flex flex-col gap-3">
-                <div class="flex items-center justify-between text-gray-600 font-bold px-1">
-                    <div class="flex items-center gap-2">
-                        <span>Propuesta</span>
+            <!-- 4. FLOATING WIDGET (Ringover Style) -->
+            <div
+                class="absolute right-8 top-24 w-[340px] bg-white rounded-3xl shadow-2xl z-50 overflow-hidden flex flex-col font-sans mb-8 border border-gray-100 pb-6">
+
+                <!-- Header (Blue) -->
+                <div class="bg-[#56A8F6] p-4 text-white pb-6 relative">
+                    <!-- Top Tag -->
+                    <div
+                        class="absolute top-3 left-1/2 -translate-x-1/2 bg-white/20 px-3 py-0.5 rounded-full text-[10px] backdrop-blur-sm font-medium">
+                        +34 919 49 00 33
                     </div>
-                    <i class="fas fa-plus text-gray-400 hover:text-gray-600 cursor-pointer"></i>
-                </div>
-                <div class="h-1 w-full bg-green-500 rounded-full mb-1"></div>
 
-                <!-- Placeholder Cards -->
-                <div class="bg-gray-200 h-24 rounded animate-pulse"></div>
-                <div class="bg-gray-200 h-24 rounded animate-pulse opacity-50"></div>
-            </div>
-
-        </div>
-
-        <!-- 4. FLOATING WIDGET (Ringover Style) -->
-        <div
-            class="absolute right-8 top-24 w-[340px] bg-white rounded-3xl shadow-2xl z-50 overflow-hidden flex flex-col font-sans mb-8 border border-gray-100 pb-6">
-
-            <!-- Header (Blue) -->
-            <div class="bg-[#56A8F6] p-4 text-white pb-6 relative">
-                <!-- Top Tag -->
-                <div
-                    class="absolute top-3 left-1/2 -translate-x-1/2 bg-white/20 px-3 py-0.5 rounded-full text-[10px] backdrop-blur-sm font-medium">
-                    +34 919 49 00 33
+                    <div class="flex flex-col items-center mt-6">
+                        <div class="relative">
+                            <img src="https://ui-avatars.com/api/?name=Lucia+Morales&background=fff&color=333"
+                                class="w-16 h-16 rounded-full border-4 border-white shadow-sm mb-2">
+                            <img src="https://flagcdn.com/w20/es.png"
+                                class="absolute bottom-2 right-0 w-5 h-5 rounded-full border border-white shadow-sm">
+                        </div>
+                        <h3 class="font-bold text-lg leading-tight">Lucía Morales</h3>
+                        <div class="flex items-center gap-2 text-sm opacity-90 mt-1">
+                            <span>+34 644 55 66 77</span>
+                        </div>
+                        <div class="text-3xl font-light mt-2 tracking-wide">04:10</div>
+                    </div>
                 </div>
 
-                <div class="flex flex-col items-center mt-6">
-                    <div class="relative">
-                        <img src="https://ui-avatars.com/api/?name=Lucia+Morales&background=fff&color=333"
-                            class="w-16 h-16 rounded-full border-4 border-white shadow-sm mb-2">
-                        <img src="https://flagcdn.com/w20/es.png"
-                            class="absolute bottom-2 right-0 w-5 h-5 rounded-full border border-white shadow-sm">
+                <!-- Tabs (Pills) -->
+                <div class="flex justify-center -mt-5 relative z-10 px-6">
+                    <div class="bg-white rounded-full p-1 flex shadow-md w-full max-w-[280px]">
+                        <button
+                            class="flex-1 bg-[#56A8F6] text-white rounded-full py-1.5 text-sm font-medium shadow-sm transition-all">Acciones</button>
+                        <button
+                            class="flex-1 text-gray-500 rounded-full py-1.5 text-sm font-medium hover:bg-gray-50 transition-all">Historia</button>
                     </div>
-                    <h3 class="font-bold text-lg leading-tight">Lucía Morales</h3>
-                    <div class="flex items-center gap-2 text-sm opacity-90 mt-1">
-                        <span>+34 644 55 66 77</span>
-                    </div>
-                    <div class="text-3xl font-light mt-2 tracking-wide">04:10</div>
                 </div>
-            </div>
 
-            <!-- Tabs (Pills) -->
-            <div class="flex justify-center -mt-5 relative z-10 px-6">
-                <div class="bg-white rounded-full p-1 flex shadow-md w-full max-w-[280px]">
+                <!-- Actions Row -->
+                <div class="flex justify-between px-6 py-6 border-b border-gray-100">
+                    <div class="flex flex-col items-center gap-1 group cursor-pointer">
+                        <div
+                            class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 group-hover:bg-[#56A8F6] group-hover:text-white transition-colors">
+                            <i class="fas fa-share text-sm"></i>
+                        </div>
+                        <span class="text-[10px] text-gray-500 font-medium lowercase">Transferencia</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-1 group cursor-pointer">
+                        <div
+                            class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 group-hover:bg-[#56A8F6] group-hover:text-white transition-colors">
+                            <i class="fas fa-pause text-sm"></i>
+                        </div>
+                        <span class="text-[10px] text-gray-500 font-medium lowercase">Pendiente</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-1 group cursor-pointer">
+                        <div
+                            class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 group-hover:bg-[#56A8F6] group-hover:text-white transition-colors">
+                            <i class="fas fa-file-alt text-sm"></i>
+                        </div>
+                        <span class="text-[10px] text-gray-500 font-medium lowercase">Nota</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-1 group cursor-pointer">
+                        <div
+                            class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 group-hover:bg-[#56A8F6] group-hover:text-white transition-colors">
+                            <i class="fas fa-tag text-sm"></i>
+                        </div>
+                        <span class="text-[10px] text-gray-500 font-medium lowercase">Etiquetas</span>
+                    </div>
+                </div>
+
+                <!-- Controls Grid -->
+                <div class="grid grid-cols-3 gap-y-6 px-8 py-6">
+                    <!-- 1 -->
+                    <div class="flex flex-col items-center gap-1 cursor-pointer hover:opacity-75">
+                        <i class="fas fa-microphone-slash text-gray-600 text-lg"></i>
+                        <span class="text-[10px] text-gray-500">Silenciar</span>
+                    </div>
+                    <!-- 2 -->
+                    <div class="flex flex-col items-center gap-1 cursor-pointer hover:opacity-75">
+                        <i class="fas fa-th text-gray-600 text-lg"></i>
+                        <span class="text-[10px] text-gray-500">Teclado</span>
+                    </div>
+                    <!-- 3 -->
+                    <div class="flex flex-col items-center gap-1 cursor-pointer hover:opacity-75">
+                        <div class="w-4 h-4 rounded-full border-2 border-red-500 flex items-center justify-center">
+                            <div class="w-2 h-2 bg-red-500 rounded-full"></div>
+                        </div>
+                        <span class="text-[10px] text-gray-500">Reg</span>
+                    </div>
+
+                    <!-- 4 -->
+                    <div class="flex flex-col items-center gap-1 cursor-pointer hover:opacity-75">
+                        <i class="fas fa-plus text-gray-800 text-xl"></i>
+                        <span class="text-[10px] text-gray-500">Llamar</span>
+                    </div>
+
+                    <!-- 5 -->
+                    <div class="flex flex-col items-center gap-1 cursor-pointer hover:opacity-75">
+                        <i class="fas fa-share-alt text-gray-600 text-lg"></i>
+                        <span class="text-[10px] text-gray-500">Compartir</span>
+                    </div>
+                    <!-- 6 -->
+                    <div class="flex flex-col items-center gap-1 cursor-pointer hover:opacity-75">
+                        <i class="fas fa-mobile-alt text-gray-600 text-lg"></i>
+                        <span class="text-[10px] text-gray-500">Móvil</span>
+                    </div>
+                </div>
+
+                <!-- BIG RED BUTTON -->
+                <div class="flex justify-center mt-2 pb-4">
                     <button
-                        class="flex-1 bg-[#56A8F6] text-white rounded-full py-1.5 text-sm font-medium shadow-sm transition-all">Acciones</button>
-                    <button
-                        class="flex-1 text-gray-500 rounded-full py-1.5 text-sm font-medium hover:bg-gray-50 transition-all">Historia</button>
-                </div>
-            </div>
-
-            <!-- Actions Row -->
-            <div class="flex justify-between px-6 py-6 border-b border-gray-100">
-                <div class="flex flex-col items-center gap-1 group cursor-pointer">
-                    <div
-                        class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 group-hover:bg-[#56A8F6] group-hover:text-white transition-colors">
-                        <i class="fas fa-share text-sm"></i>
-                    </div>
-                    <span class="text-[10px] text-gray-500 font-medium lowercase">Transferencia</span>
-                </div>
-                <div class="flex flex-col items-center gap-1 group cursor-pointer">
-                    <div
-                        class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 group-hover:bg-[#56A8F6] group-hover:text-white transition-colors">
-                        <i class="fas fa-pause text-sm"></i>
-                    </div>
-                    <span class="text-[10px] text-gray-500 font-medium lowercase">Pendiente</span>
-                </div>
-                <div class="flex flex-col items-center gap-1 group cursor-pointer">
-                    <div
-                        class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 group-hover:bg-[#56A8F6] group-hover:text-white transition-colors">
-                        <i class="fas fa-file-alt text-sm"></i>
-                    </div>
-                    <span class="text-[10px] text-gray-500 font-medium lowercase">Nota</span>
-                </div>
-                <div class="flex flex-col items-center gap-1 group cursor-pointer">
-                    <div
-                        class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 group-hover:bg-[#56A8F6] group-hover:text-white transition-colors">
-                        <i class="fas fa-tag text-sm"></i>
-                    </div>
-                    <span class="text-[10px] text-gray-500 font-medium lowercase">Etiquetas</span>
-                </div>
-            </div>
-
-            <!-- Controls Grid -->
-            <div class="grid grid-cols-3 gap-y-6 px-8 py-6">
-                <!-- 1 -->
-                <div class="flex flex-col items-center gap-1 cursor-pointer hover:opacity-75">
-                    <i class="fas fa-microphone-slash text-gray-600 text-lg"></i>
-                    <span class="text-[10px] text-gray-500">Silenciar</span>
-                </div>
-                <!-- 2 -->
-                <div class="flex flex-col items-center gap-1 cursor-pointer hover:opacity-75">
-                    <i class="fas fa-th text-gray-600 text-lg"></i>
-                    <span class="text-[10px] text-gray-500">Teclado</span>
-                </div>
-                <!-- 3 -->
-                <div class="flex flex-col items-center gap-1 cursor-pointer hover:opacity-75">
-                    <div class="w-4 h-4 rounded-full border-2 border-red-500 flex items-center justify-center">
-                        <div class="w-2 h-2 bg-red-500 rounded-full"></div>
-                    </div>
-                    <span class="text-[10px] text-gray-500">Reg</span>
+                        class="w-16 h-16 bg-[#EE4B46] rounded-full shadow-lg text-white flex items-center justify-center hover:bg-red-600 transition-colors transform active:scale-95">
+                        <i class="fas fa-phone-slash text-2xl transform rotate-90"></i>
+                    </button>
                 </div>
 
-                <!-- 4 -->
-                <div class="flex flex-col items-center gap-1 cursor-pointer hover:opacity-75">
-                    <i class="fas fa-plus text-gray-800 text-xl"></i>
-                    <span class="text-[10px] text-gray-500">Llamar</span>
+                <!-- Bottom Icons -->
+                <div class="flex justify-between px-8 text-gray-400 mt-2">
+                    <i class="fas fa-microphone hover:text-gray-600 cursor-pointer"></i>
+                    <i class="fas fa-volume-up hover:text-gray-600 cursor-pointer"></i>
                 </div>
 
-                <!-- 5 -->
-                <div class="flex flex-col items-center gap-1 cursor-pointer hover:opacity-75">
-                    <i class="fas fa-share-alt text-gray-600 text-lg"></i>
-                    <span class="text-[10px] text-gray-500">Compartir</span>
-                </div>
-                <!-- 6 -->
-                <div class="flex flex-col items-center gap-1 cursor-pointer hover:opacity-75">
-                    <i class="fas fa-mobile-alt text-gray-600 text-lg"></i>
-                    <span class="text-[10px] text-gray-500">Móvil</span>
-                </div>
-            </div>
-
-            <!-- BIG RED BUTTON -->
-            <div class="flex justify-center mt-2 pb-4">
-                <button
-                    class="w-16 h-16 bg-[#EE4B46] rounded-full shadow-lg text-white flex items-center justify-center hover:bg-red-600 transition-colors transform active:scale-95">
-                    <i class="fas fa-phone-slash text-2xl transform rotate-90"></i>
-                </button>
-            </div>
-
-            <!-- Bottom Icons -->
-            <div class="flex justify-between px-8 text-gray-400 mt-2">
-                <i class="fas fa-microphone hover:text-gray-600 cursor-pointer"></i>
-                <i class="fas fa-volume-up hover:text-gray-600 cursor-pointer"></i>
             </div>
 
         </div>
 
     </div>
+
+    <!-- 
+    ==========================================================================
+    END EMBED CODE
+    ==========================================================================
+-->
 
 </body>
 

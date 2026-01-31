@@ -1,66 +1,90 @@
 ---
-description: Procedure for preparing widgets for export and embedding in 3rd party sites
+description: Standard Procedure for Creating Embeddable Widgets (Hybrid Approach)
 ---
 
-# Widget Export & Embedding Protocol
+# Widget Export & Embedding Protocol (Hybrid Standard)
 
-This skill outlines the standard procedure for converting development widgets (standalone HTML files) into production-ready, embeddable code fragments. This ensures widgets can be embedded into other websites (WordPress, Odoo, Landing Pages) without breaking the host site or the widget itself.
+This skill outlines the standard procedure for creating widgets that serve two purposes simultaneously:
+1.  **Standalone Development**: A fully functional HTML page (`<html>`, `<body>`, etc.) for local viewing and debugging.
+2.  **Embeddable Fragment**: A clearly demarcated section ready for copy-pasting into 3rd party sites (WordPress, Odoo, Landing Pages).
 
-## 1. Objective
-Transform a standalone HTML file (containing `<html>`, `<head>`, `<body>`) into a **safe, scoped, and portable HTML Fragment** wrapped in a container.
+## 1. File Structure Standard
 
-## 2. Refactoring Steps
+Every widget file must follow this "Hybrid" structure. Do NOT delete `<html>` or `<body>` tags.
 
-### Step 1: Fragment Containerization
-1.  **Remove structural tags**: Delete `<!DOCTYPE html>`, `<html>`, `<head>`, and `<body>`.
-2.  **Create a Root Container**: Wrap the entire content in a single `div` with a **unique ID**.
-    ```html
-    <!-- BEFORE -->
-    <body>
-       <div class="card">...</div>
-    </body>
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Dev-only resources (Tailwind CDN, Fonts, etc.) -->
+    <!-- These headers simulate the host environment -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Dev-only centering for presentation */
+        body { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #f0f0f0; }
+    </style>
+</head>
+<body>
 
-    <!-- AFTER -->
-    <div id="d27-widget-name-embed" class="w-full relative ...">
-       <div class="card">...</div>
-    </div>
-    ```
+<!-- 
+    ==========================================================================
+    START EMBED CODE
+    Copy from here to "END EMBED CODE" to include this widget in another page.
+    Ensure Tailwind CSS and FontAwesome are loaded in the host page.
+    ==========================================================================
+-->
 
-### Step 2: CSS Scoping (CRITICAL)
-Styles defined in `<style>` blocks often target `body` or generic elements. This **WILL BREAK** the host site.
-*   **Action**: Prefix ALL CSS rules with the Root Container ID.
-    ```css
-    /* BAD */
-    body { background: #f0f0f0; }
-    .card { padding: 20px; }
+<div id="UNIQUE-WIDGET-ID" class="relative w-full ...">
+    
+    <style>
+        /* CRITICAL: ALL Widget styles must be SCOPED to the Container ID */
+        #UNIQUE-WIDGET-ID { font-family: 'Outfit', sans-serif; }
+        #UNIQUE-WIDGET-ID .btn { background: red; }
+        
+        /* DO NOT write global styles here like "body { ... }" */
+    </style>
 
-    /* GOOD */
-    #d27-widget-name-embed { background: transparent; } /* Do not touch global body */
-    #d27-widget-name-embed .card { padding: 20px; }
-    ```
-*   **Font Handling**: Do not set global fonts on `body`. Set them on the Root Container.
+    <!-- Widget Content Goes Here -->
 
-### Step 3: Asset & Script Management
-*   **External Libraries (Tailwind, Fonts)**: Do NOT include `<script src="...tailwind...">` directly active in the fragment if the host might already have it.
-    *   *Recommendation*: Comment them out at the top of the fragment with instructions.
-    *   *Alternative*: Use a loader script that checks for existence before appending.
-*   **Images**: Ensure image paths are accessible from the host domain. Relative paths (`../assets/...`) will BREAK if the embedding page is not in the same directory structure.
-    *   *Fix*: Convert to Absolute URLs (e.g., `https://cdn.dos4siete.com/assets/...`) or ensure the assets folder travels with the embed.
+</div>
 
-## 3. Risk Assessment & "Fails" Evaluation
+<!-- 
+    ==========================================================================
+    END EMBED CODE
+    ==========================================================================
+-->
 
-| Potential Failure | Impact | Mitigation Strategy |
-| :--- | :--- | :--- |
-| **Global Style Pollution** | The widget overwrites the host site's `body`, `h1`, or `p` styles. | **Strict Scoping**: Never write loose CSS selectors. Always nest inside the unique `#id`. |
-| **ID Collisions** | Host site has an element `#modal` and widget has `#modal`. JS breaks. | **Namespacing**: Prefix all IDs (e.g., `id="d27-int-modal"`). |
-| **Z-Index Wars** | Widget dropdowns disappear behind host nav, or widget overlay blocks host menu. | **Contextual Z-Index**: wrapper should establish a stacking context (`isolation: isolate` or `position: relative` with specific z-index). |
-| **Broken Images** | Images fail to load on target site. | **Absolute Paths**: Use full URLs for production, or strictly defined asset bundles. |
-| **Double Script Loading** | Tailwind/FontAwesome loaded twice, causing lag or conflicts. | **Conditional Loading**: Document dependencies clearly for the integrator. |
-| **Viewport Overflow** | Widget creates horizontal scroll on mobile. | **Responsive Container**: Ensure Root Container has `max-width: 100%` and `overflow-x: hidden` if necessary. |
+</body>
+</html>
+```
 
-## 4. Verification Checklist
-- [ ] Is `<html>`, `<body>`, `<head>` removed?
-- [ ] Is there a single top-level `div` wrapper with a unique ID?
-- [ ] Are ALL styles scoped to this ID? (Check for `body`, `*`, `:root` in CSS).
-- [ ] Are relative image paths handled?
-- [ ] Are script tags handled (commented or managed)?
+## 2. Refactoring Checklist
+
+### A. Containerization
+1.  **Unique ID**: The top-level element *inside* the embed block must have a unique ID (e.g., `id="d27-integraciones-embed"`).
+2.  **No Global Tags**: The embed block must NOT contain `<html>`, `<head>`, or `<body>`.
+
+### B. CSS Scoping (The Golden Rule)
+*   **Rule**: ALL internal `<style>` blocks must prefix every selector with the Main Container ID.
+*   **Why**: To prevent the widget from breaking the host site's header, footer, or typography.
+    *   ❌ Bad: `.card { ... }` (Might affect host site cards)
+    *   ❌ Bad: `body { ... }` (Will break host site background/scroll)
+    *   ✅ Good: `#UNIQUE-WIDGET-ID .card { ... }`
+    *   ✅ Good: `#UNIQUE-WIDGET-ID { overflow: hidden; }`
+
+### C. Asset Management
+*   **Images**: Use **Absolute Paths** if possible (e.g., `https://cdn.dos4siete.com/img/logo.png`). If using relative paths (`../assets/`), explicitly warn the user that these paths must match the target server structure.
+*   **Dependencies**: Tailwind, FontAwesome, and Google Fonts should be loaded in the `<head>` for development. Add a comment in the Embed Code advising the user to ensure these are present in the host site.
+
+## 3. Workflow for "Exporting"
+1.  **Develop** the widget normally.
+2.  **Wrap** the core component in the unique ID `div`.
+3.  **Scope** all CSS.
+4.  **Add** the `START EMBED CODE` / `END EMBED CODE` comment blocks.
+5.  **Test**: Open the file in a browser. It should look centered and correct.
+6.  **Verify**: Copy only the content between the comments and paste into a test page (or `embed-test.html`) to ensure it works without the parent `<html>` context.
+
+## 4. Common Pitfalls
+*   **Viewport Heights**: Avoid `h-screen`. Use `min-h-[600px]` or specific heights on the container. `h-screen` will force the widget to take the full page height of the host, often breaking layouts.
+*   **Z-Index**: Use explicit z-indexes within your container, but avoid massive values (`z-[9999]`) unless it's a modal overlay intended to cover the *entire* host site.
+*   **Conflicts**: Watch out for generic class names if you aren't using Tailwind. If using standard CSS classes like `.button`, scoping is mandatory.

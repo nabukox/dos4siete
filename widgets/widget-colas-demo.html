@@ -5,177 +5,222 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión Inteligente de Colas (Auto)</title>
-    <!-- Tailwind CSS (Need it for cursor/layout compatibility if standard CSS misses something, but trying to stick to Core) 
-         Actually, the user has Tailwind CDN in the file history. I will include it to be safe as this file had it. -->
+    <!-- Tailwind CSS (Included as it was present in original) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Dev usage -->
     <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
+    <script src="../assets/js/dos4siete-widgets.js"></script>
+    <style>
+        /* Dev-only centering */
+        body {
+            background-color: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem;
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- CURSOR Demo -->
-    <div id="demo-cursor"
-        class="absolute top-0 left-0 z-[9999] opacity-0 pointer-events-none transition-all duration-700 ease-in-out transform origin-top-left drop-shadow-xl text-black">
-        <i class="fas fa-hand-pointer text-3xl" style="text-shadow: 2px 2px 0px white;"></i>
-    </div>
+    <!-- 
+    ==========================================================================
+    START EMBED CODE
+    Copy from here to "END EMBED CODE" to include this widget in another page.
+    Ensure Tailwind CSS and FontAwesome are loaded in the host page.
+    
+    IMPORTANT: This widget depends on local assets:
+    - css/dos4siete-core.css
+    - js/dos4siete-widgets.js
+    ==========================================================================
+-->
 
-    <div class="app-container">
-
-        <!-- HEADER -->
-        <div class="app-header">
-            <div>
-                <div class="header-title">
-                    <img src="../assets/img/logo.svg" alt="Dos Siete" class="logo-small h-6 w-auto">
-                    <span style="color: var(--c-brand-dark);">Soporte</span> <span class="header-subtitle">(De arriba a
-                        abajo)</span>
-                </div>
-                <div style="font-size: 11px; color: var(--c-text-light); margin-top: 4px;">
-                    Agentes: <b id="total-agents">4</b> &bull; Capacidad: 0.00%
-                </div>
-            </div>
-
-            <div style="display: flex; gap: 12px; align-items:center;">
-                <button id="btn-manage" class="btn-manage" onclick="openModal()">
-                    <i class="fas fa-users-cog"></i> Gestionar Miembros
-                </button>
-                <div class="tabs">
-                    <button class="tab-btn active" onclick="switchTab('panel', this)">Panel</button>
-                    <button class="tab-btn" onclick="switchTab('detalle', this)">Estadísticas</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- VIEW 1: PANEL (DASHBOARD) -->
-        <div id="view-panel" class="view-container active">
-            <div class="dashboard-grid">
-
-                <!-- LEFT: STATISTICS -->
-                <div class="stats-col">
-
-                    <!-- Bars -->
-                    <div class="metrics-row">
-                        <div class="metric-bar-group">
-                            <div class="metric-label">
-                                <span>Disponibilidad</span>
-                                <span>100.00%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill fill-avail" style="width: 100%"></div>
-                            </div>
-                        </div>
-                        <div class="metric-bar-group">
-                            <div class="metric-label">
-                                <span>Ocupación</span>
-                                <span>0.00%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill fill-occupancy" style="width: 0%"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Counters -->
-                    <div class="counters-grid">
-                        <div class="counter-item">
-                            <span class="counter-label">▶ Disponible</span>
-                            <span class="counter-val" id="cnt-avail">2</span>
-                        </div>
-                        <div class="counter-item">
-                            <span class="counter-label">⏸ En pausa</span>
-                            <span class="counter-val" id="cnt-pause">1</span>
-                        </div>
-                        <div class="counter-item">
-                            <span class="counter-label">🕒 En espera</span>
-                            <span class="counter-val" id="cnt-wait">0</span>
-                        </div>
-                        <div class="counter-item">
-                            <span class="counter-label">🔔 Recibiendo</span>
-                            <span class="counter-val">0</span>
-                        </div>
-                        <div class="counter-item">
-                            <span class="counter-label">📞 Llamando</span>
-                            <span class="counter-val">0</span>
-                        </div>
-                        <div class="counter-item">
-                            <span class="counter-label">💬 Conversación</span>
-                            <span class="counter-val" id="cnt-busy">1</span>
-                        </div>
-                    </div>
-
-                    <!-- Agents Mini List -->
-                    <div class="agents-scroll" id="panel-agents-list">
-                        <!-- Agents injected here -->
-                    </div>
-
-                </div>
-
-                <!-- RIGHT: CALLS -->
-                <div class="calls-col">
-                    <div class="calls-header">
-                        📞 Llamadas entrantes: <span id="calls-count">0</span>
-                    </div>
-                    <div class="empty-calls">
-                        No hay llamadas entrantes en la cola
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- VIEW 2: ESTADISTICAS (Old Detalle) -->
-        <div id="view-detalle" class="view-container">
-            <span class="config-label">Detalle de Adherencia y Estadísticas</span>
-            <div class="config-list" id="detail-list-container"
-                style="background: white; border-radius: 8px; padding:16px; border: 1px solid var(--c-border);">
-            </div>
-        </div>
-
-        <!-- MODAL: GESTION DE MIEMBROS -->
-        <div id="modal-miembros" class="modal-overlay">
-            <div class="modal-header">
-                <span class="modal-title">Gestión de Miembros</span>
-                <button class="btn-icon" onclick="closeModal(false)" style="font-size: 18px;">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div id="levels-container">
-                    <!-- Levels injected here -->
-                </div>
-                <button onclick="addLevel()" class="btn-primary-action" style="margin-top:16px;">+ Añadir Nuevo
-                    Nivel</button>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-cancel" onclick="closeModal(false)">Cancelar</button>
-                <button id="btn-save-changes" class="btn-save" onclick="closeModal(true)">Guardar Cambios</button>
-            </div>
-        </div>
-
-        <!-- SUCCESS OVERLAY (Hidden by default) -->
-        <div id="success-overlay"
-            class="absolute inset-0 bg-white/95 z-[200] hidden flex-col items-center justify-center fade-in">
-            <div
-                class="w-16 h-16 bg-[#29ABE2] rounded-full flex items-center justify-center text-white text-3xl shadow-lg mb-4 bounce-in">
-                <i class="fas fa-check"></i>
-            </div>
-            <h2 class="text-xl font-bold text-[#2000D6]">Configuración Guardada</h2>
-            <p class="text-[#6B7280] text-sm mt-2">Los cambios se han aplicado correctamente.</p>
-        </div>
-
-    </div>
-
-    <!-- CORE LIBRARY -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <!-- Dependencies for Embed -->
+    <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
     <script src="../assets/js/dos4siete-widgets.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Init with Demo Mode
-            if (window.Dos4Siete && window.Dos4Siete.initQueueDemo) {
-                window.Dos4Siete.initQueueDemo();
-            } else {
-                console.error("Dos4Siete Core not loaded");
+
+    <div id="widget-colas-demo-embed" class="relative w-full h-full font-['Outfit']">
+
+        <style>
+            /* Scoped Styles */
+            #widget-colas-demo-embed {
+                font-family: 'Outfit', sans-serif;
             }
-        });
-    </script>
+        </style>
+
+        <!-- CURSOR Demo -->
+        <div id="demo-cursor"
+            class="absolute top-0 left-0 z-[9999] opacity-0 pointer-events-none transition-all duration-700 ease-in-out transform origin-top-left drop-shadow-xl text-black">
+            <i class="fas fa-hand-pointer text-3xl" style="text-shadow: 2px 2px 0px white;"></i>
+        </div>
+
+        <div class="app-container">
+
+            <!-- HEADER -->
+            <div class="app-header">
+                <div>
+                    <div class="header-title">
+                        <img src="../assets/img/logo.svg" alt="Dos Siete" class="logo-small h-6 w-auto">
+                        <span style="color: var(--c-brand-dark);">Soporte</span> <span class="header-subtitle">(De
+                            arriba a
+                            abajo)</span>
+                    </div>
+                    <div style="font-size: 11px; color: var(--c-text-light); margin-top: 4px;">
+                        Agentes: <b id="total-agents">4</b> &bull; Capacidad: 0.00%
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 12px; align-items:center;">
+                    <button id="btn-manage" class="btn-manage" onclick="openModal()">
+                        <i class="fas fa-users-cog"></i> Gestionar Miembros
+                    </button>
+                    <div class="tabs">
+                        <button class="tab-btn active" onclick="switchTab('panel', this)">Panel</button>
+                        <button class="tab-btn" onclick="switchTab('detalle', this)">Estadísticas</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW 1: PANEL (DASHBOARD) -->
+            <div id="view-panel" class="view-container active">
+                <div class="dashboard-grid">
+
+                    <!-- LEFT: STATISTICS -->
+                    <div class="stats-col">
+
+                        <!-- Bars -->
+                        <div class="metrics-row">
+                            <div class="metric-bar-group">
+                                <div class="metric-label">
+                                    <span>Disponibilidad</span>
+                                    <span>100.00%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill fill-avail" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <div class="metric-bar-group">
+                                <div class="metric-label">
+                                    <span>Ocupación</span>
+                                    <span>0.00%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill fill-occupancy" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Counters -->
+                        <div class="counters-grid">
+                            <div class="counter-item">
+                                <span class="counter-label">▶ Disponible</span>
+                                <span class="counter-val" id="cnt-avail">2</span>
+                            </div>
+                            <div class="counter-item">
+                                <span class="counter-label">⏸ En pausa</span>
+                                <span class="counter-val" id="cnt-pause">1</span>
+                            </div>
+                            <div class="counter-item">
+                                <span class="counter-label">🕒 En espera</span>
+                                <span class="counter-val" id="cnt-wait">0</span>
+                            </div>
+                            <div class="counter-item">
+                                <span class="counter-label">🔔 Recibiendo</span>
+                                <span class="counter-val">0</span>
+                            </div>
+                            <div class="counter-item">
+                                <span class="counter-label">📞 Llamando</span>
+                                <span class="counter-val">0</span>
+                            </div>
+                            <div class="counter-item">
+                                <span class="counter-label">💬 Conversación</span>
+                                <span class="counter-val" id="cnt-busy">1</span>
+                            </div>
+                        </div>
+
+                        <!-- Agents Mini List -->
+                        <div class="agents-scroll" id="panel-agents-list">
+                            <!-- Agents injected here -->
+                        </div>
+
+                    </div>
+
+                    <!-- RIGHT: CALLS -->
+                    <div class="calls-col">
+                        <div class="calls-header">
+                            📞 Llamadas entrantes: <span id="calls-count">0</span>
+                        </div>
+                        <div class="empty-calls">
+                            No hay llamadas entrantes en la cola
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- VIEW 2: ESTADISTICAS (Old Detalle) -->
+            <div id="view-detalle" class="view-container">
+                <span class="config-label">Detalle de Adherencia y Estadísticas</span>
+                <div class="config-list" id="detail-list-container"
+                    style="background: white; border-radius: 8px; padding:16px; border: 1px solid var(--c-border);">
+                </div>
+            </div>
+
+            <!-- MODAL: GESTION DE MIEMBROS -->
+            <div id="modal-miembros" class="modal-overlay">
+                <div class="modal-header">
+                    <span class="modal-title">Gestión de Miembros</span>
+                    <button class="btn-icon" onclick="closeModal(false)" style="font-size: 18px;">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div id="levels-container">
+                        <!-- Levels injected here -->
+                    </div>
+                    <button onclick="addLevel()" class="btn-primary-action" style="margin-top:16px;">+ Añadir Nuevo
+                        Nivel</button>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" onclick="closeModal(false)">Cancelar</button>
+                    <button id="btn-save-changes" class="btn-save" onclick="closeModal(true)">Guardar Cambios</button>
+                </div>
+            </div>
+
+            <!-- SUCCESS OVERLAY (Hidden by default) -->
+            <div id="success-overlay"
+                class="absolute inset-0 bg-white/95 z-[200] hidden flex-col items-center justify-center fade-in">
+                <div
+                    class="w-16 h-16 bg-[#29ABE2] rounded-full flex items-center justify-center text-white text-3xl shadow-lg mb-4 bounce-in">
+                    <i class="fas fa-check"></i>
+                </div>
+                <h2 class="text-xl font-bold text-[#2000D6]">Configuración Guardada</h2>
+                <p class="text-[#6B7280] text-sm mt-2">Los cambios se han aplicado correctamente.</p>
+            </div>
+
+        </div>
+
+        <!-- INITIALIZATION -->
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                // Init with Demo Mode
+                if (window.Dos4Siete && window.Dos4Siete.initQueueDemo) {
+                    window.Dos4Siete.initQueueDemo();
+                } else {
+                    console.error("Dos4Siete Core not loaded");
+                }
+            });
+        </script>
+    </div>
+
+    <!-- 
+    ==========================================================================
+    END EMBED CODE
+    ==========================================================================
+-->
+
 </body>
 
 </html>

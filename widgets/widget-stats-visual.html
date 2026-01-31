@@ -11,249 +11,308 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts: Futura Proxy -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
-
+    <!-- Dev dependencies -->
     <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
+    <script src="../assets/js/dos4siete-widgets.js"></script>
+    <style>
+        /* Dev-only style */
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1rem;
+            background-color: #f3f4f6;
+        }
+    </style>
 </head>
 
-<body class="flex items-center justify-center min-h-screen p-4">
+<body>
 
-    <!-- Wrapper Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 w-full max-w-6xl items-start">
+    <!-- 
+    ==========================================================================
+    START EMBED CODE
+    Copy from here to "END EMBED CODE" to include this widget in another page.
+    Ensure Tailwind CSS and FontAwesome are loaded in the host page.
+    
+    IMPORTANT: This widget depends on local assets:
+    - css/dos4siete-core.css
+    - js/dos4siete-widgets.js (contains logic for chart)
+    ==========================================================================
+-->
 
-        <!-- Card Principal (Chart) - Spans 2 cols -->
-        <div class="lg:col-span-2 bg-white rounded-[32px] shadow-xl w-full p-8 lg:p-12 relative overflow-hidden">
+    <div id="widget-stats-visual-embed" class="w-full h-full font-['Outfit']">
 
-            <!-- Header: Título y Filtro -->
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
-                <!-- Título Visual -->
-                <div class="space-y-2">
-                    <img src="../assets/img/logo.svg" alt="Dos Siete" class="h-8 mb-2">
-                    <h1 class="text-2xl font-bold text-[#141F4C]">Rendimiento de Llamadas</h1>
-                    <div class="flex items-center gap-2 text-sm text-[#2376C9]/80">
-                        <span class="w-2 h-2 rounded-full bg-[#29ABE2] animate-pulse"></span>
-                        Actualizado en tiempo real
+        <style>
+            /* Scoped Styles */
+            #widget-stats-visual-embed {
+                font-family: 'Outfit', sans-serif;
+            }
+        </style>
+
+        <!-- Dependencies for Embed -->
+        <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
+        <script src="../assets/js/dos4siete-widgets.js"></script>
+
+        <!-- Wrapper Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 w-full max-w-6xl items-start mx-auto">
+
+            <!-- Card Principal (Chart) - Spans 2 cols -->
+            <div class="lg:col-span-2 bg-white rounded-[32px] shadow-xl w-full p-8 lg:p-12 relative overflow-hidden">
+
+                <!-- Header: Título y Filtro -->
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
+                    <!-- Título Visual -->
+                    <div class="space-y-2">
+                        <!-- Logo kept or removed based on embed context, enabling it for now -->
+                        <img src="../assets/img/logo.svg" alt="Dos Siete" class="h-8 mb-2">
+                        <h1 class="text-2xl font-bold text-[#141F4C]">Rendimiento de Llamadas</h1>
+                        <div class="flex items-center gap-2 text-sm text-[#2376C9]/80">
+                            <span class="w-2 h-2 rounded-full bg-[#29ABE2] animate-pulse"></span>
+                            Actualizado en tiempo real
+                        </div>
+                    </div>
+                    <!-- Selector de Fecha -->
+                    <label class="custom-date-trigger group">
+                        <i class="far fa-calendar-alt text-[#29ABE2] text-lg"></i>
+                        <input type="date" id="datePicker" value="2026-01-09">
+                        <i
+                            class="fas fa-chevron-down text-gray-400 text-xs ml-1 group-hover:text-[#29ABE2] transition-colors"></i>
+                    </label>
+                </div>
+
+                <!-- Leyenda -->
+                <div class="flex flex-wrap gap-6 mb-8 text-sm">
+                    <div id="btn-total" class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-all"
+                        onclick="toggleSeries('total')">
+                        <div class="w-3 h-3 rounded-sm bg-[#2000D6]"></div>
+                        <span class="font-semibold text-gray-700">Total</span>
+                    </div>
+                    <div id="btn-answered"
+                        class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-all"
+                        onclick="toggleSeries('answered')">
+                        <div class="w-3 h-3 rounded-sm bg-[#29ABE2]"></div>
+                        <span class="font-semibold text-gray-700">Contestadas</span>
+                    </div>
+                    <div id="btn-wait" class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-all"
+                        onclick="toggleSeries('wait')">
+                        <div class="w-8 h-1 rounded-full bg-[#141F4C] flex items-center justify-center">
+                            <div class="w-2 h-2 bg-white rounded-full border-2 border-[#141F4C]"></div>
+                        </div>
+                        <span class="font-semibold text-gray-700">Tiempo de Espera</span>
                     </div>
                 </div>
-                <!-- Selector de Fecha -->
-                <label class="custom-date-trigger group">
-                    <i class="far fa-calendar-alt text-[#29ABE2] text-lg"></i>
-                    <input type="date" id="datePicker" value="2026-01-09">
-                    <i
-                        class="fas fa-chevron-down text-gray-400 text-xs ml-1 group-hover:text-[#29ABE2] transition-colors"></i>
-                </label>
-            </div>
 
-            <!-- Leyenda -->
-            <div class="flex flex-wrap gap-6 mb-8 text-sm">
-                <div id="btn-total" class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-all"
-                    onclick="toggleSeries('total')">
-                    <div class="w-3 h-3 rounded-sm bg-[#2000D6]"></div>
-                    <span class="font-semibold text-gray-700">Total</span>
-                </div>
-                <div id="btn-answered" class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-all"
-                    onclick="toggleSeries('answered')">
-                    <div class="w-3 h-3 rounded-sm bg-[#29ABE2]"></div>
-                    <span class="font-semibold text-gray-700">Contestadas</span>
-                </div>
-                <div id="btn-wait" class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-all"
-                    onclick="toggleSeries('wait')">
-                    <div class="w-8 h-1 rounded-full bg-[#141F4C] flex items-center justify-center">
-                        <div class="w-2 h-2 bg-white rounded-full border-2 border-[#141F4C]"></div>
+                <!-- Área del Gráfico -->
+                <div
+                    class="relative w-full h-[300px] bg-gray-50/50 rounded-2xl border border-dashed border-gray-200 p-4">
+                    <svg id="chartSvg" class="w-full h-full overflow-visible" preserveAspectRatio="none"
+                        viewBox="0 0 100 100">
+                        <g class="opacity-10">
+                            <line x1="0" y1="0" x2="100" y2="0" stroke="#141F4C" stroke-width="0.5"
+                                vector-effect="non-scaling-stroke"></line>
+                            <line x1="0" y1="25" x2="100" y2="25" stroke="#141F4C" stroke-width="0.5"
+                                vector-effect="non-scaling-stroke"></line>
+                            <line x1="0" y1="50" x2="100" y2="50" stroke="#141F4C" stroke-width="0.5"
+                                vector-effect="non-scaling-stroke"></line>
+                            <line x1="0" y1="75" x2="100" y2="75" stroke="#141F4C" stroke-width="0.5"
+                                vector-effect="non-scaling-stroke"></line>
+                            <line x1="0" y1="100" x2="100" y2="100" stroke="#141F4C" stroke-width="0.5"
+                                vector-effect="non-scaling-stroke"></line>
+                        </g>
+                        <!-- Data Layers -->
+                        <g id="barsLayer"></g>
+                        <g id="lineLayer"></g>
+                    </svg>
+                    <!-- HTML Overlay for Dots -->
+                    <div id="dotsLayer" class="absolute inset-0 pointer-events-none"></div>
+                    <!-- Eje X (Etiquetas) -->
+                    <div id="xAxisLabels"
+                        class="absolute bottom-0 left-0 w-full flex justify-between px-4 transform translate-y-6 text-xs text-gray-400 font-medium">
                     </div>
-                    <span class="font-semibold text-gray-700">Tiempo de Espera</span>
                 </div>
             </div>
 
-            <!-- Área del Gráfico -->
-            <div class="relative w-full h-[300px] bg-gray-50/50 rounded-2xl border border-dashed border-gray-200 p-4">
-                <svg id="chartSvg" class="w-full h-full overflow-visible" preserveAspectRatio="none"
-                    viewBox="0 0 100 100">
-                    <g class="opacity-10">
-                        <line x1="0" y1="0" x2="100" y2="0" stroke="#141F4C" stroke-width="0.5"
-                            vector-effect="non-scaling-stroke"></line>
-                        <line x1="0" y1="25" x2="100" y2="25" stroke="#141F4C" stroke-width="0.5"
-                            vector-effect="non-scaling-stroke"></line>
-                        <line x1="0" y1="50" x2="100" y2="50" stroke="#141F4C" stroke-width="0.5"
-                            vector-effect="non-scaling-stroke"></line>
-                        <line x1="0" y1="75" x2="100" y2="75" stroke="#141F4C" stroke-width="0.5"
-                            vector-effect="non-scaling-stroke"></line>
-                        <line x1="0" y1="100" x2="100" y2="100" stroke="#141F4C" stroke-width="0.5"
-                            vector-effect="non-scaling-stroke"></line>
-                    </g>
-                    <!-- Data Layers -->
-                    <g id="barsLayer"></g>
-                    <g id="lineLayer"></g>
-                </svg>
-                <!-- HTML Overlay for Dots -->
-                <div id="dotsLayer" class="absolute inset-0 pointer-events-none"></div>
-                <!-- Eje X (Etiquetas) -->
-                <div id="xAxisLabels"
-                    class="absolute bottom-0 left-0 w-full flex justify-between px-4 transform translate-y-6 text-xs text-gray-400 font-medium">
-                </div>
-            </div>
-        </div>
-
-        <!-- NEW: Info Card (Floating side panel) -->
-        <div
-            class="bg-white rounded-[32px] shadow-xl w-full p-8 flex flex-col items-start space-y-6 h-full relative overflow-hidden transition-all duration-500 hover:-translate-y-1 ring-1 ring-gray-100">
-
-            <!-- Icon & Abstract Header -->
-            <div class="flex items-center gap-4 mb-2">
-                <div class="w-12 h-12 rounded-full bg-[#E6F4FA] flex items-center justify-center text-[#29ABE2]">
-                    <i class="fas fa-phone-volume text-xl"></i>
-                </div>
-                <div class="flex flex-col gap-2">
-                    <div class="w-24 h-4 rounded bg-[#141F4C]"></div>
-                    <div class="w-16 h-1 rounded bg-[#2376C9] opacity-40"></div>
-                </div>
-            </div>
-
-            <!-- Big Metric -->
-            <div>
-                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Total Entrantes</span>
-                <div id="statTotal" class="text-6xl font-extrabold text-[#141F4C] leading-none mt-2">125</div>
-            </div>
-
-            <div class="w-full h-px bg-gray-100"></div>
-
-            <!-- List Metrics -->
-            <div class="w-full space-y-4">
-                <!-- Row 1 -->
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <div class="w-2 h-2 rounded-full bg-[#29ABE2]"></div> <!-- Picton Blue -->
-                        <span class="text-sm font-semibold text-gray-600">Atendidas</span>
-                    </div>
-                    <span id="statAnswered" class="text-xl font-bold text-[#141F4C]">120</span>
-                </div>
-
-                <!-- Row 2 -->
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <div class="w-2 h-2 rounded-full bg-gray-300"></div>
-                        <span class="text-sm font-semibold text-gray-600">Perdidas</span>
-                    </div>
-                    <span id="statMissed" class="text-xl font-bold text-[#141F4C]">5</span>
-                </div>
-            </div>
-
-            <!-- Efficiency Block -->
+            <!-- NEW: Info Card (Floating side panel) -->
             <div
-                class="w-full mt-auto bg-[#F2F2F2] rounded-2xl p-4 flex items-center justify-between group cursor-pointer hover:bg-[#E6F4FA] transition-colors">
-                <span class="text-sm font-bold text-[#141F4C]">Eficiencia</span>
-                <div class="flex items-center gap-2 text-[#2000D6]">
-                    <span id="statEfficiency" class="text-lg font-bold">96%</span>
-                    <i class="fas fa-arrow-up transform rotate-45 text-xs"></i>
+                class="bg-white rounded-[32px] shadow-xl w-full p-8 flex flex-col items-start space-y-6 h-full relative overflow-hidden transition-all duration-500 hover:-translate-y-1 ring-1 ring-gray-100">
+
+                <!-- Icon & Abstract Header -->
+                <div class="flex items-center gap-4 mb-2">
+                    <div class="w-12 h-12 rounded-full bg-[#E6F4FA] flex items-center justify-center text-[#29ABE2]">
+                        <i class="fas fa-phone-volume text-xl"></i>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <div class="w-24 h-4 rounded bg-[#141F4C]"></div>
+                        <div class="w-16 h-1 rounded bg-[#2376C9] opacity-40"></div>
+                    </div>
                 </div>
+
+                <!-- Big Metric -->
+                <div>
+                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Total Entrantes</span>
+                    <div id="statTotal" class="text-6xl font-extrabold text-[#141F4C] leading-none mt-2">125</div>
+                </div>
+
+                <div class="w-full h-px bg-gray-100"></div>
+
+                <!-- List Metrics -->
+                <div class="w-full space-y-4">
+                    <!-- Row 1 -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-2 h-2 rounded-full bg-[#29ABE2]"></div> <!-- Picton Blue -->
+                            <span class="text-sm font-semibold text-gray-600">Atendidas</span>
+                        </div>
+                        <span id="statAnswered" class="text-xl font-bold text-[#141F4C]">120</span>
+                    </div>
+
+                    <!-- Row 2 -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-2 h-2 rounded-full bg-gray-300"></div>
+                            <span class="text-sm font-semibold text-gray-600">Perdidas</span>
+                        </div>
+                        <span id="statMissed" class="text-xl font-bold text-[#141F4C]">5</span>
+                    </div>
+                </div>
+
+                <!-- Efficiency Block -->
+                <div
+                    class="w-full mt-auto bg-[#F2F2F2] rounded-2xl p-4 flex items-center justify-between group cursor-pointer hover:bg-[#E6F4FA] transition-colors">
+                    <span class="text-sm font-bold text-[#141F4C]">Eficiencia</span>
+                    <div class="flex items-center gap-2 text-[#2000D6]">
+                        <span id="statEfficiency" class="text-lg font-bold">96%</span>
+                        <i class="fas fa-arrow-up transform rotate-45 text-xs"></i>
+                    </div>
+                </div>
+
             </div>
 
         </div>
 
-    </div>
+        <!-- Initialization Script -->
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                if (window.Dos4Siete && window.Dos4Siete.initStats) {
+                    window.Dos4Siete.initStats();
 
+                    // DISABLE FILTERS INITIALLY (So demo "activates" them)
+                    setTimeout(() => {
+                        // Try to safely toggle provided functions if they exist globally or are attached
+                        if (typeof toggleSeries === 'function') {
+                            toggleSeries('total');
+                            toggleSeries('answered');
+                            toggleSeries('wait');
+                        }
+                    }, 100);
 
-    <!-- CORE LIBRARY -->
-    <script src="../assets/js/dos4siete-widgets.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            window.Dos4Siete.initStats();
+                    // Start Demo after 1 second if runDemo is defined
+                    if (typeof runDemo === 'function') {
+                        setTimeout(runDemo, 1000);
+                    }
+                }
+            });
 
-            // DISABLE FILTERS INITIALLY (So demo "activates" them)
-            setTimeout(() => {
-                toggleSeries('total');
-                toggleSeries('answered');
-                toggleSeries('wait');
-            }, 100);
+            // Demo logic (included locally to ensure it runs if not in global js)
+            async function runDemo() {
+                // Check if cursor already exists
+                if (document.getElementById('demo-cursor')) return;
 
-            // Start Demo after 1 second
-            setTimeout(runDemo, 1000);
-        });
+                // Create Cursor
+                const cursor = document.createElement('div');
+                cursor.id = 'demo-cursor';
+                cursor.innerHTML = '<i class="fas fa-hand-pointer text-gray-900 text-3xl drop-shadow-xl border-white" style="-webkit-text-stroke: 1px white;"></i>';
+                cursor.style.position = 'fixed';
+                cursor.style.zIndex = '9999';
+                cursor.style.pointerEvents = 'none';
+                cursor.style.transition = 'all 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
+                cursor.style.bottom = '10px';
+                cursor.style.right = '10px';
+                document.body.appendChild(cursor);
 
-        async function runDemo() {
-            // Create Cursor
-            const cursor = document.createElement('div');
-            cursor.innerHTML = '<i class="fas fa-hand-pointer text-gray-900 text-3xl drop-shadow-xl border-white" style="-webkit-text-stroke: 1px white;"></i>';
-            cursor.style.position = 'fixed';
-            cursor.style.zIndex = '9999';
-            cursor.style.pointerEvents = 'none';
-            cursor.style.transition = 'all 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
-            cursor.style.bottom = '10px';
-            cursor.style.right = '10px';
-            document.body.appendChild(cursor);
+                const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-            const sleep = ms => new Promise(r => setTimeout(r, ms));
+                const moveCursorTo = async (selector, offsetX = 0, offsetY = 0) => {
+                    const el = document.querySelector(selector);
+                    if (!el) return;
+                    const rect = el.getBoundingClientRect();
+                    cursor.style.left = (rect.left + rect.width / 2 + offsetX) + 'px';
+                    cursor.style.top = (rect.top + rect.height / 2 + offsetY) + 'px';
+                    cursor.style.bottom = 'auto'; // clear initial state
+                    cursor.style.right = 'auto';
+                    await sleep(800); // Wait for move
+                };
 
-            const moveCursorTo = async (selector, offsetX = 0, offsetY = 0) => {
-                const el = document.querySelector(selector);
-                if (!el) return;
-                const rect = el.getBoundingClientRect();
-                cursor.style.left = (rect.left + rect.width / 2 + offsetX) + 'px';
-                cursor.style.top = (rect.top + rect.height / 2 + offsetY) + 'px';
-                cursor.style.bottom = 'auto'; // clear initial state
-                cursor.style.right = 'auto';
-                await sleep(800); // Wait for move
-            };
+                const clickElement = async (selector) => {
+                    const el = document.querySelector(selector);
+                    if (!el) return;
 
-            const clickElement = async (selector) => {
-                const el = document.querySelector(selector);
-                if (!el) return;
+                    // Visual Click Styling
+                    cursor.style.transform = 'scale(0.8)';
+                    await sleep(150);
+                    cursor.style.transform = 'scale(1)';
 
-                // Visual Click Styling
+                    // Trigger Event
+                    el.click();
+
+                    // Add ripple/active effect manually just in case
+                    el.classList.add('opacity-50');
+                    setTimeout(() => el.classList.remove('opacity-50'), 200);
+
+                    await sleep(1000); // Pause after click
+                };
+
+                // SEQUENCE
+
+                // 1. Click Total
+                await moveCursorTo('#btn-total');
+                await clickElement('#btn-total');
+
+                // 2. Click Answered
+                await moveCursorTo('#btn-answered');
+                await clickElement('#btn-answered');
+
+                // 3. Click Wait Time
+                await moveCursorTo('#btn-wait');
+                await clickElement('#btn-wait');
+
+                // 4. Change Date
+                await moveCursorTo('#datePicker', 20, 0); // Offset slightly
+
+                // Simulate Click & Change
                 cursor.style.transform = 'scale(0.8)';
                 await sleep(150);
                 cursor.style.transform = 'scale(1)';
 
-                // Trigger Event
-                el.click();
+                // Programmatic Date Change
+                const input = document.getElementById('datePicker');
+                if (input) {
+                    input.focus();
+                    // input.showPicker && input.showPicker(); // Visual only
+                    await sleep(1000);
+                    input.value = '2025-11-20'; // Change date
+                    input.dispatchEvent(new Event('change')); // Trigger any listeners
+                }
 
-                // Add ripple/active effect manually just in case
-                el.classList.add('opacity-50');
-                setTimeout(() => el.classList.remove('opacity-50'), 200);
+                await sleep(500);
 
-                await sleep(1000); // Pause after click
-            };
+                // 5. Move away for view
+                cursor.style.left = '90%';
+                cursor.style.top = '90%';
 
-            // SEQUENCE
+                await sleep(1000);
+                cursor.style.opacity = '0'; // Fade out
+            }
+        </script>
+    </div>
 
-            // 1. Click Total
-            await moveCursorTo('#btn-total');
-            await clickElement('#btn-total');
+    <!-- 
+    ==========================================================================
+    END EMBED CODE
+    ==========================================================================
+-->
 
-            // 2. Click Answered
-            await moveCursorTo('#btn-answered');
-            await clickElement('#btn-answered');
-
-            // 3. Click Wait Time
-            await moveCursorTo('#btn-wait');
-            await clickElement('#btn-wait');
-
-            // 4. Change Date
-            await moveCursorTo('#datePicker', 20, 0); // Offset slightly
-
-            // Simulate Click & Change
-            cursor.style.transform = 'scale(0.8)';
-            await sleep(150);
-            cursor.style.transform = 'scale(1)';
-
-            // Programmatic Date Change
-            const input = document.getElementById('datePicker');
-            input.focus();
-            input.showPicker && input.showPicker(); // Try to open native picker (visual only)
-
-            await sleep(1000);
-            input.value = '2025-11-20'; // Change date
-            input.dispatchEvent(new Event('change')); // Trigger any listeners
-
-            await sleep(500);
-
-            // 5. Move away for view
-            cursor.style.left = '90%';
-            cursor.style.top = '90%';
-
-            await sleep(1000);
-            cursor.style.opacity = '0'; // Fade out
-        }
-    </script>
 </body>
 
 </html>
