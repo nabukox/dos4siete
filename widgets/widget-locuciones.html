@@ -51,8 +51,6 @@
                 font-family: 'Outfit', sans-serif;
             }
 
-            /* Scoped Font Awesome adjustments if needed, but they are usually global via class */
-
             /* Custom Scrollbar scoped */
             #widget-locuciones-embed .custom-scrollbar::-webkit-scrollbar {
                 width: 6px;
@@ -69,6 +67,14 @@
 
             #widget-locuciones-embed .custom-scrollbar::-webkit-scrollbar-thumb:hover {
                 background: #94a3b8;
+            }
+
+            /* Cursor Animation Styles */
+            #demo-cursor {
+                transition: top 0.8s cubic-bezier(0.25, 1, 0.5, 1), left 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.2s;
+                z-index: 9999;
+                pointer-events: none;
+                position: fixed;
             }
         </style>
 
@@ -130,7 +136,8 @@
                         class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4">
                         <div class="flex items-center gap-3">
                             <i class="fas fa-robot text-gray-500 text-lg"></i>
-                            <span class="text-gray-700 font-medium text-sm truncate" title="11/12 MAD">11/12 MAD</span>
+                            <span class="text-gray-700 font-medium text-sm truncate" title="11/12 MAD">11/12
+                                MAD</span>
                         </div>
                         <div class="flex items-center justify-between mt-auto">
                             <div class="flex gap-1.5">
@@ -282,12 +289,13 @@
                         </div>
                     </div>
 
-                    <!-- CARD 8 -->
-                    <div
-                        class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4">
+                    <!-- CARD 8 (Placeholder for New Record) -->
+                    <div id="new-record-card"
+                        class="hidden bg-white p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4">
                         <div class="flex items-center gap-3">
                             <i class="fas fa-robot text-gray-500 text-lg"></i>
-                            <span class="text-gray-700 font-medium text-sm truncate">Fuera Horario 5/1 BCN</span>
+                            <span id="new-record-title" class="text-gray-700 font-medium text-sm truncate">Fuera Horario
+                                5/1 BCN</span>
                         </div>
                         <div class="flex items-center justify-between mt-auto">
                             <div class="flex gap-1.5">
@@ -307,7 +315,6 @@
                             <i class="fas fa-info-circle text-blue-400 text-xs cursor-help"></i>
                         </div>
                     </div>
-
                 </div>
             </div>
 
@@ -332,7 +339,7 @@
                         <!-- Name Input -->
                         <div class="space-y-1.5">
                             <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide">Nombre</label>
-                            <input type="text"
+                            <input id="input-name" type="text"
                                 class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                                 placeholder="Ej: Bienvenida Navidad">
                         </div>
@@ -389,7 +396,7 @@
                             class="px-4 py-2 text-sm font-semibold text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors">
                             Cancelar
                         </button>
-                        <button
+                        <button id="btn-save-modal"
                             class="px-6 py-2 text-sm font-bold text-white bg-[#29ABE2] hover:bg-[#2376C9] rounded-full shadow-md hover:shadow-lg transition-all transform active:scale-95">
                             <i class="fas fa-check mr-1.5"></i> Guardar
                         </button>
@@ -397,15 +404,204 @@
 
                 </div>
             </div>
+
+            <!-- SUCCESS MODAL (Demo End) -->
+            <div id="success-modal"
+                class="hidden absolute inset-0 z-[100] flex flex-col items-center justify-center bg-[#141F4C]/90 backdrop-blur-sm transition-opacity opacity-0 text-center p-8">
+                <div
+                    class="w-20 h-20 bg-[#22C55E] rounded-full flex items-center justify-center mb-6 shadow-lg shadow-green-500/30 animate-bounce">
+                    <i class="fas fa-check text-3xl text-white"></i>
+                </div>
+                <h2 class="text-white text-3xl font-bold mb-4">¡Así de fácil!</h2>
+                <p class="text-blue-100 text-lg max-w-sm leading-relaxed">
+                    Personaliza la experiencia de tus clientes en segundos con <span
+                        class="text-white font-bold">Dos4Siete</span>.
+                </p>
+            </div>
         </div>
 
-        <!-- Init Script -->
+        <!-- CURSOR ELEMENT -->
+        <div id="demo-cursor" class="fixed top-0 left-0 hidden items-center justify-center">
+            <!-- Pointer Icon -->
+            <i class="fas fa-hand-pointer text-gray-800 text-3xl drop-shadow-xl border-white"
+                style="-webkit-text-stroke: 1px white;"></i>
+        </div>
+
+        <!-- Init Script + Automation -->
         <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                if (window.Dos4Siete && window.Dos4Siete.initVoiceoverManager) {
-                    window.Dos4Siete.initVoiceoverManager();
+            // --- AUTOMATION SCRIPT ---
+
+            const cursor = document.getElementById('demo-cursor');
+            const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+            async function moveCursorTo(selector, offsetX = 0, offsetY = 0) {
+                const el = document.querySelector(selector);
+                if (!el) return;
+                const rect = el.getBoundingClientRect();
+
+                // Show cursor if hidden
+                cursor.classList.remove('hidden');
+                cursor.classList.add('flex');
+
+                const targetX = rect.left + rect.width / 2 + offsetX;
+                const targetY = rect.top + rect.height / 2 + offsetY;
+
+                cursor.style.left = `${targetX}px`;
+                cursor.style.top = `${targetY}px`;
+
+                await sleep(900); // Wait for movement to complete
+            }
+
+            async function clickElement(selector) {
+                const el = document.querySelector(selector);
+                if (!el) return;
+
+                // Visual Click
+                cursor.style.transform = 'scale(0.8)';
+                await sleep(150);
+                cursor.style.transform = 'scale(1)';
+
+                // Actual Click Logic (Trigger whatever onClick is bound, or standard behavior)
+                // For this widget, we might need to manually trigger logic if it's not bound
+                // But let's assume the standard initialization or manual logic below defines behavior
+                el.click();
+                await sleep(500); // Post click pause
+            }
+
+            async function typeText(selector, text) {
+                const el = document.querySelector(selector);
+                if (!el) return;
+
+                el.focus();
+                el.value = ''; // Clear first
+
+                for (let char of text) {
+                    el.value += char;
+                    // Trigger input event for listeners
+                    el.dispatchEvent(new Event('input', { bubbles: true }));
+                    await sleep(Math.random() * 50 + 30); // Random typing speed
                 }
+                await sleep(500);
+            }
+
+            // --- WIDGET LOGIC (Normally in dos4siete-widgets.js, but overriding/ensuring here for demo) ---
+
+            const modal = document.getElementById('locucion-modal');
+            const modalContent = document.getElementById('locucion-modal-content');
+
+            function openModal() {
+                modal.classList.remove('hidden');
+                // Force reflow
+                void modal.offsetWidth;
+                modal.classList.remove('opacity-0');
+                modal.classList.add('active'); // Helper class if used
+            }
+
+            function closeModal() {
+                modal.classList.add('opacity-0');
+                modal.classList.remove('active');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    // Reset inputs
+                    document.getElementById('input-name').value = '';
+                    document.getElementById('tts-input').value = '';
+                }, 300);
+            }
+
+            // Bind Events manually to ensure Automation works even if external JS isn't perfect
+            document.getElementById('btn-new-voiceover').addEventListener('click', openModal);
+            document.getElementById('btn-close-modal').addEventListener('click', closeModal);
+            document.getElementById('btn-cancel-modal').addEventListener('click', closeModal);
+            // Save just closes for demo
+            document.getElementById('btn-save-modal').addEventListener('click', () => {
+                // Simulate saving processing?
+                closeModal();
             });
+
+
+            async function runDemoLoop() {
+                while (true) { // Infinite Loop
+
+                    // 0. Wait Initial
+                    await sleep(1500);
+
+                    // 1. Click New Voiceover
+                    await moveCursorTo('#btn-new-voiceover');
+                    await sleep(300);
+                    await clickElement('#btn-new-voiceover');
+
+                    // 2. Wait for modal
+                    await sleep(1000);
+
+                    // 3. Click Name Input
+                    await moveCursorTo('#input-name');
+                    await clickElement('#input-name');
+
+                    // 4. Type Name
+                    await typeText('#input-name', 'Bienvenida Verano 2024');
+
+                    // 5. Click TTS Area
+                    await moveCursorTo('#tts-input');
+                    await clickElement('#tts-input');
+
+                    // 6. Type TTS
+                    await typeText('#tts-input', '¡Hola! Gracias por llamar a Dos4Siete. Estamos encantados de atenderle. Por favor espere.');
+
+                    // 7. Click Save
+                    await moveCursorTo('#btn-save-modal');
+                    await sleep(500);
+                    await clickElement('#btn-save-modal');
+
+                    // 8. SHOW NEW RECORD (Simulating backend update)
+                    await sleep(500); // Short delay after close
+                    const newCard = document.getElementById('new-record-card');
+                    const newCardTitle = document.getElementById('new-record-title');
+                    if (newCard && newCardTitle) {
+                        newCardTitle.innerText = 'Bienvenida Verano 2024';
+                        newCard.classList.remove('hidden');
+                        newCard.classList.remove('flex'); // Remove flex if added by toggle
+                        newCard.classList.add('flex'); // Ensure flex is back
+                        newCard.classList.add('slide-in-new'); // Add entry animation
+                    }
+
+                    // 9. Show Success Message
+                    await sleep(800);
+                    const successModal = document.getElementById('success-modal');
+                    if (successModal) {
+                        successModal.classList.remove('hidden');
+                        // Force reflow
+                        void successModal.offsetWidth;
+                        successModal.classList.remove('opacity-0');
+                    }
+
+                    // 10. Wait for reading
+                    await sleep(4000);
+
+                    // RESET for Loop
+                    if (successModal) {
+                        successModal.classList.add('opacity-0');
+                        await sleep(500); // Fade out time
+                        successModal.classList.add('hidden');
+                    }
+
+                    if (newCard) {
+                        newCard.classList.add('hidden');
+                        newCard.classList.remove('flex');
+                        newCard.classList.remove('slide-in-new');
+                    }
+
+                    // Loop continues...
+                }
+            }
+
+            // Start Demo on Load (delayed)
+            document.addEventListener('DOMContentLoaded', () => {
+                // Initial cursor position (off screen or somewhere safe)
+                cursor.style.left = '90%';
+                cursor.style.top = '90%';
+                setTimeout(runDemoLoop, 1500);
+            });
+
         </script>
     </div>
 
