@@ -334,18 +334,10 @@
         <!-- Logic -->
         <script>
             // Re-init chart logic locally to ensure it works in this new context
+            // Re-init chart logic locally to ensure it works in this new context
             document.addEventListener('DOMContentLoaded', () => {
                 if (window.Dos4Siete && window.Dos4Siete.initStats) {
                     window.Dos4Siete.initStats(); // Uses IDs: chartSvg, barsLayer, etc. (Must match)
-
-                    // Auto-enable series
-                    setTimeout(() => {
-                        if (typeof toggleSeries === 'function') {
-                            toggleSeries('total');
-                            toggleSeries('answered');
-                            toggleSeries('wait');
-                        }
-                    }, 500);
                 }
             });
         </script>
