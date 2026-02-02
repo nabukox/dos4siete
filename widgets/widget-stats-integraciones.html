@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas e Integraciones</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Dependencies -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
+    <script src="../assets/js/dos4siete-widgets.js"></script>
+    <style>
+        /* Dev-only style */
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1rem;
+            background-color: #f3f4f6;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 
+    ==========================================================================
+    START EMBED CODE
+    ==========================================================================
+-->
+
+    <div id="widget-stats-integraciones-embed" class="w-full h-full font-['Outfit'] relative">
+
+        <style>
+            /* Scoped Styles */
+            #widget-stats-integraciones-embed {
+                font-family: 'Outfit', sans-serif;
+            }
+
+            /* --- PHONE ANIMATION STYLES (From integraciones) --- */
+            #widget-stats-integraciones-embed .phone-3d {
+                box-shadow:
+                    0 50px 100px -20px rgba(50, 50, 93, 0.25),
+                    0 30px 60px -30px rgba(0, 0, 0, 0.3),
+                    inset 0 -2px 6px 0 rgba(10, 37, 64, 0.35);
+            }
+
+            @keyframes keyframe-float {
+
+                0%,
+                100% {
+                    transform: translateY(0px);
+                }
+
+                50% {
+                    transform: translateY(-15px);
+                }
+            }
+
+            @keyframes keyframe-float-delayed {
+
+                0%,
+                100% {
+                    transform: translateY(0px);
+                }
+
+                50% {
+                    transform: translateY(-10px);
+                }
+            }
+
+            #widget-stats-integraciones-embed .animate-float {
+                animation: keyframe-float 6s ease-in-out infinite;
+            }
+
+            #widget-stats-integraciones-embed .animate-float-delayed {
+                animation: keyframe-float-delayed 7s ease-in-out infinite;
+            }
+
+            #widget-stats-integraciones-embed .orbit-item {
+                transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            #widget-stats-integraciones-embed .orbit-item:hover {
+                z-index: 60 !important;
+                transform: scale(1.1) !important;
+                filter: brightness(1.1);
+            }
+
+            #widget-stats-integraciones-embed .glass-shape {
+                background: rgba(255, 255, 255, 0.6);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.7);
+            }
+
+            /* --- CHART WIDGET STYLES (From stats-visual) --- */
+            /* Custom Date Trigger styles already in core or inline? Adding minimal overrides if needed */
+            .custom-date-trigger {
+                background-color: white;
+                border: 1px solid #E5E7EB;
+                border-radius: 999px;
+                padding: 0.5rem 1.25rem;
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                cursor: pointer;
+            }
+
+            /* Hide scrollbar for phone */
+            #widget-stats-integraciones-embed .no-scrollbar::-webkit-scrollbar {
+                display: none;
+            }
+
+            #widget-stats-integraciones-embed .no-scrollbar {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+
+            /* Pulse for inside phone */
+            @keyframes keyframe-pulse-ring-inner {
+                0% {
+                    transform: scale(0.8);
+                    opacity: 0.5;
+                }
+
+                100% {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+
+            #widget-stats-integraciones-embed .pulse-circle-inner::before {
+                content: '';
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                background-color: #29ABE2;
+                border-radius: 50%;
+                z-index: -1;
+                opacity: 0.6;
+                animation: keyframe-pulse-ring-inner 2s infinite;
+            }
+        </style>
+
+        <!-- CONTAINER GRID -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-0 w-full max-w-6xl items-start mx-auto h-[600px]">
+
+            <!-- LEFT COL: STATS (Anchor/Background) - Spans 2 cols -->
+            <!-- We make it wider or keep 2 cols. The right space will be used by the absolute phone -->
+            <div
+                class="lg:col-span-2 bg-white rounded-[32px] shadow-xl w-full h-full p-8 lg:p-12 relative overflow-hidden z-10">
+                <!-- Header -->
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
+                    <div class="space-y-2">
+                        <img src="../assets/img/logo.svg" alt="Dos Siete" class="h-8 mb-2">
+                        <h1 class="text-2xl font-bold text-[#141F4C]">Rendimiento de Llamadas</h1>
+                        <div class="flex items-center gap-2 text-sm text-[#2376C9]/80">
+                            <span class="w-2 h-2 rounded-full bg-[#29ABE2] animate-pulse"></span>
+                            Actualizado en tiempo real
+                        </div>
+                    </div>
+                    <!-- Selector -->
+                    <label class="custom-date-trigger group">
+                        <i class="far fa-calendar-alt text-[#29ABE2] text-lg"></i>
+                        <input type="date" id="datePicker" value="2026-02-02"
+                            class="outline-none bg-transparent font-semibold text-gray-700 text-sm">
+                        <i
+                            class="fas fa-chevron-down text-gray-400 text-xs ml-1 group-hover:text-[#29ABE2] transition-colors"></i>
+                    </label>
+                </div>
+
+                <!-- Leyenda -->
+                <div class="flex flex-wrap gap-6 mb-8 text-sm">
+                    <div id="btn-total" class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-all"
+                        onclick="toggleSeries('total')">
+                        <div class="w-3 h-3 rounded-sm bg-[#2000D6]"></div><span
+                            class="font-semibold text-gray-700">Total</span>
+                    </div>
+                    <div id="btn-answered"
+                        class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-all"
+                        onclick="toggleSeries('answered')">
+                        <div class="w-3 h-3 rounded-sm bg-[#29ABE2]"></div><span
+                            class="font-semibold text-gray-700">Contestadas</span>
+                    </div>
+                    <div id="btn-wait" class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-all"
+                        onclick="toggleSeries('wait')">
+                        <div class="w-8 h-1 rounded-full bg-[#141F4C] flex items-center justify-center">
+                            <div class="w-2 h-2 bg-white rounded-full border-2 border-[#141F4C]"></div>
+                        </div>
+                        <span class="font-semibold text-gray-700">Tiempo de Espera</span>
+                    </div>
+                </div>
+
+                <!-- Chart Area -->
+                <div
+                    class="relative w-full h-[300px] bg-gray-50/50 rounded-2xl border border-dashed border-gray-200 p-4">
+                    <svg id="chartSvg" class="w-full h-full overflow-visible" preserveAspectRatio="none"
+                        viewBox="0 0 100 100">
+                        <g class="opacity-10">
+                            <line x1="0" y1="0" x2="100" y2="0" stroke="#141F4C" stroke-width="0.5"
+                                vector-effect="non-scaling-stroke"></line>
+                            <line x1="0" y1="25" x2="100" y2="25" stroke="#141F4C" stroke-width="0.5"
+                                vector-effect="non-scaling-stroke"></line>
+                            <line x1="0" y1="50" x2="100" y2="50" stroke="#141F4C" stroke-width="0.5"
+                                vector-effect="non-scaling-stroke"></line>
+                            <line x1="0" y1="75" x2="100" y2="75" stroke="#141F4C" stroke-width="0.5"
+                                vector-effect="non-scaling-stroke"></line>
+                            <line x1="0" y1="100" x2="100" y2="100" stroke="#141F4C" stroke-width="0.5"
+                                vector-effect="non-scaling-stroke"></line>
+                        </g>
+                        <g id="barsLayer"></g>
+                        <g id="lineLayer"></g>
+                    </svg>
+                    <div id="dotsLayer" class="absolute inset-0 pointer-events-none"></div>
+                    <div id="xAxisLabels"
+                        class="absolute bottom-0 left-0 w-full flex justify-between px-4 transform translate-y-6 text-xs text-gray-400 font-medium">
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COL: INTEGRATIONS OVERLAY -->
+            <!-- This div is essentially "empty" in flow, but we use it to anchor the absolute elements of the phone -->
+            <!-- Or we can just float the phone absolutely relative to the main Container -->
+            <div class="lg:col-span-1 relative h-full w-full pointer-events-none z-30">
+                <!-- Background Elements for integrations (optional) -->
+
+                <!-- MAIN PHONE (Floating over everything on the right) -->
+                <!-- Positioning: Absolute relative to the container, or centered in this column -->
+                <!-- Shifting it slightly left to "overlap" visually as requested -->
+                <!-- Main Phone Positioned Top-Right with slight overlap -->
+                <div class="absolute top-[20px] left-[-60px] w-[340px] pointer-events-auto animate-float">
+
+                    <!-- 3D Phone Container -->
+                    <div
+                        class="w-[280px] h-[580px] bg-white rounded-[40px] overflow-hidden phone-3d border-[6px] border-white ring-1 ring-gray-200 relative flex flex-col mx-auto">
+
+                        <!-- Status Bar -->
+                        <div class="h-6 w-full flex justify-between items-center px-6 mt-3">
+                            <span class="text-[10px] font-bold text-gray-400">9:41</span>
+                            <div class="flex gap-1.5"><i class="fas fa-battery-full text-[10px] text-gray-400"></i>
+                            </div>
+                        </div>
+
+                        <!-- App Header -->
+                        <div class="px-6 mt-4 mb-2 flex justify-between items-center">
+                            <i class="fas fa-chevron-left text-xs text-gray-400"></i>
+                            <div class="text-xs font-bold text-gray-400 uppercase">En llamada</div>
+                            <i class="fas fa-ellipsis-v text-xs text-gray-400"></i>
+                        </div>
+
+                        <!-- Content -->
+                        <div
+                            class="flex-1 flex flex-col items-center justify-start pt-6 relative overflow-y-auto no-scrollbar">
+                            <!-- Avatar -->
+                            <div class="relative w-24 h-24 flex items-center justify-center mb-6">
+                                <div class="absolute inset-0 pulse-circle-inner"></div>
+                                <div
+                                    class="w-20 h-20 rounded-full bg-gradient-to-tr from-[#29ABE2] to-[#2000D6] flex items-center justify-center shadow-lg relative z-10 p-1">
+                                    <img src="https://ui-avatars.com/api/?name=Daniel+Estrada&size=128"
+                                        class="w-full h-full rounded-full object-cover border-4 border-white">
+                                </div>
+                                <div
+                                    class="absolute bottom-0 right-1 w-7 h-7 bg-white rounded-full flex items-center justify-center shadow-md z-20">
+                                    <img src="../assets/img/odoo_logo.png" class="w-4 h-4 object-contain">
+                                </div>
+                            </div>
+
+                            <!-- Info -->
+                            <div class="text-center px-4 mb-6">
+                                <h2 class="text-xl font-bold text-gray-800 mb-1">Daniel Estrada</h2>
+                                <p
+                                    class="text-xs text-blue-500 font-medium bg-blue-50 px-3 py-1 rounded-full inline-block mb-3">
+                                    Odoo Contact</p>
+                                <h3 class="text-2xl font-light text-gray-600 tracking-wider">01:45</h3>
+                            </div>
+
+                            <!-- Waveform -->
+                            <div class="flex items-center justify-center gap-1 h-8 mb-6 opacity-50">
+                                <div class="w-1 h-3 bg-[#29ABE2] rounded-full animate-pulse"></div>
+                                <div class="w-1 h-8 bg-[#29ABE2] rounded-full animate-pulse delay-75"></div>
+                                <div class="w-1 h-3 bg-[#29ABE2] rounded-full animate-pulse"></div>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="grid grid-cols-2 gap-4 w-full px-10 mb-8">
+                                <div
+                                    class="flex flex-col items-center gap-1 cursor-pointer hover:text-blue-500 text-gray-400 transition-colors">
+                                    <i
+                                        class="fas fa-microphone-slash text-xl bg-gray-50 p-3 rounded-xl w-12 h-12 flex items-center justify-center"></i>
+                                    <span class="text-[9px]">Mute</span>
+                                </div>
+                                <div
+                                    class="flex flex-col items-center gap-1 cursor-pointer hover:text-blue-500 text-gray-400 transition-colors">
+                                    <i
+                                        class="fas fa-th text-xl bg-gray-50 p-3 rounded-xl w-12 h-12 flex items-center justify-center"></i>
+                                    <span class="text-[9px]">Keypad</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Orbiting Items around the Phone -->
+                    <!-- Zoho -->
+                    <div class="absolute top-[40%] left-[-20px] animate-float z-40 orbit-item">
+                        <div class="glass-shape w-16 h-16 rounded-xl flex items-center justify-center shadow-lg p-1">
+                            <img src="../assets/img/zoho-logo-web.svg" class="w-full h-full object-contain">
+                        </div>
+                    </div>
+                    <!-- Teams -->
+                    <div class="absolute top-[20%] right-[0px] animate-float-delayed z-0 orbit-item">
+                        <div
+                            class="glass-shape w-14 h-14 rounded-full flex items-center justify-center shadow-lg bg-white/80">
+                            <img src="../assets/img/microsoft-teams-1.svg" class="w-8 h-8 object-contain">
+                        </div>
+                    </div>
+                    <!-- Salesforce -->
+                    <div class="absolute bottom-[20%] right-[-10px] animate-float z-50 orbit-item">
+                        <div
+                            class="glass-shape w-20 h-20 rounded-[20px] flex items-center justify-center shadow-lg border-2 border-blue-50 bg-white/60">
+                            <img src="../assets/img/Salesforce-Logo.png"
+                                class="w-12 h-12 object-contain mix-blend-multiply">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Logic -->
+        <script>
+            // Re-init chart logic locally to ensure it works in this new context
+            document.addEventListener('DOMContentLoaded', () => {
+                if (window.Dos4Siete && window.Dos4Siete.initStats) {
+                    window.Dos4Siete.initStats(); // Uses IDs: chartSvg, barsLayer, etc. (Must match)
+
+                    // Auto-enable series
+                    setTimeout(() => {
+                        if (typeof toggleSeries === 'function') {
+                            toggleSeries('total');
+                            toggleSeries('answered');
+                            toggleSeries('wait');
+                        }
+                    }, 500);
+                }
+            });
+        </script>
+
+    </div>
+
+    <!-- 
+    ==========================================================================
+    END EMBED CODE
+    ==========================================================================
+-->
+
+</body>
+
+</html>

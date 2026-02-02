@@ -13,10 +13,14 @@ Este skill define la metodología de trabajo para el desarrollo de widgets en el
 *   **Prioridad:** La estética y la "sensación" de la interfaz son lo más importante. Debe verse "Premium" y "State of the Art".
 *   **Interacciones:** Simula flujos complejos (modales, cambios de estado) usando JavaScript simple y visual (clases CSS, timeouts).
 
-## 2. Integración Automática
-*   **Regla:** Cada vez que crees un **NUEVO WIDGET** (archivo `.html`), **DEBES** añadir un enlace al menú principal `index.html`.
-*   **Formato de Enlace:** Usa el bloque de estilo consistente de `index.html` (Icono, Título, Subtítulo, Flecha).
-*   **Numeración:** Incrementa el número del ítem secuencialmente (1, 2, 3... 14, 15...).
+
+## 2. Integración Automática (CRÍTICO)
+*   **Regla OBLIGATORIA:** Cada vez que crees un **NUEVO WIDGET** (archivo `.html`), **DEBES INMEDIATAMENTE** añadir un enlace al menú principal `index.html`.
+*   **No preguntar:** No preguntes al usuario si desea añadirlo. Hazlo como parte de tu definición de "Terminado".
+*   **Formato:** Copia el estilo visual de los items anteriores en `index.html`.
+    *   Usa el ID/Número siguiente (20, 21, etc.).
+    *   Manten la coherencia de los colores (ej. si es Odoo, usa morado, si es Integración, usa azul/violeta).
+*   **Ubicación:** Añade siempre al final de la grilla principal.
 
 ## 3. Trabajo Colaborativo (Agentes)
 *   **Consistencia:** Antes de diseñar, revisa `agent/skills/design-system/SKILL.md` para asegurar el uso correcto de colores (Picton Blue), formas (Rounded) y tipografía.
