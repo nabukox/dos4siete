@@ -60,6 +60,39 @@
                 -ms-overflow-style: none;
                 scrollbar-width: none;
             }
+
+            /* Animations from Dashboard */
+            @keyframes keyframe-pulse-soft {
+
+                0%,
+                100% {
+                    opacity: 1;
+                }
+
+                50% {
+                    opacity: 0.8;
+                }
+            }
+
+            #widget-odoo-crm-embed .animate-pulse-soft {
+                animation: keyframe-pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            }
+
+            @keyframes keyframe-bounce-soft {
+
+                0%,
+                100% {
+                    transform: translateY(0);
+                }
+
+                50% {
+                    transform: translateY(-5px);
+                }
+            }
+
+            #widget-odoo-crm-embed .animate-bounce-soft {
+                animation: keyframe-bounce-soft 2s infinite;
+            }
         </style>
 
         <!-- WIDGET CONTAINER -->
@@ -234,127 +267,129 @@
 
             </div>
 
-            <!-- 4. FLOATING WIDGET (Ringover Style) -->
+            <!-- 4. VOIP WIDGET (Transferred & Positioned Bottom Right) -->
             <div
-                class="absolute right-8 top-24 w-[340px] bg-white rounded-3xl shadow-2xl z-50 overflow-hidden flex flex-col font-sans mb-8 border border-gray-100 pb-6">
+                class="absolute bottom-6 right-6 w-[300px] bg-white rounded-lg shadow-2xl border border-gray-300 flex flex-col overflow-hidden z-20">
 
-                <!-- Header (Blue) -->
-                <div class="bg-[#56A8F6] p-4 text-white pb-6 relative">
-                    <!-- Top Tag -->
-                    <div
-                        class="absolute top-3 left-1/2 -translate-x-1/2 bg-white/20 px-3 py-0.5 rounded-full text-[10px] backdrop-blur-sm font-medium">
-                        +34 919 49 00 33
+                <!-- Header -->
+                <div class="h-9 bg-[#714B67] flex items-center justify-between px-3 text-white shrink-0">
+                    <div class="flex items-center gap-2 font-medium text-sm">
+                        <i class="fas fa-phone-alt text-xs"></i> VoIP
                     </div>
-
-                    <div class="flex flex-col items-center mt-6">
-                        <div class="relative">
-                            <img src="https://ui-avatars.com/api/?name=Lucia+Morales&background=fff&color=333"
-                                class="w-16 h-16 rounded-full border-4 border-white shadow-sm mb-2">
-                            <img src="https://flagcdn.com/w20/es.png"
-                                class="absolute bottom-2 right-0 w-5 h-5 rounded-full border border-white shadow-sm">
-                        </div>
-                        <h3 class="font-bold text-lg leading-tight">Lucía Morales</h3>
-                        <div class="flex items-center gap-2 text-sm opacity-90 mt-1">
-                            <span>+34 644 55 66 77</span>
-                        </div>
-                        <div class="text-3xl font-light mt-2 tracking-wide">04:10</div>
-                    </div>
+                    <i class="fas fa-times text-xs opacity-70 hover:opacity-100 cursor-pointer"></i>
                 </div>
 
-                <!-- Tabs (Pills) -->
-                <div class="flex justify-center -mt-5 relative z-10 px-6">
-                    <div class="bg-white rounded-full p-1 flex shadow-md w-full max-w-[280px]">
+                <!-- INCOMING CALL STATE (Initially Visible) -->
+                <div id="voip-incoming" class="flex flex-col flex-1 h-full bg-[#E8F5E9] animate-pulse-soft">
+                    <div class="flex-1 flex flex-col items-center justify-center p-4 text-center">
+                        <div class="text-[#2E4033] text-sm mb-4 font-medium">Llamada entrante...</div>
+
+                        <!-- Avatar Image -->
+                        <div
+                            class="w-20 h-20 bg-white rounded overflow-hidden shadow-sm mb-3 border-2 border-green-100 animate-bounce-soft">
+                            <img src="https://ui-avatars.com/api/?name=Daniel+Estrada&background=fff&color=333&size=128"
+                                alt="Daniel" class="w-full h-full object-cover">
+                        </div>
+
+                        <div class="text-[#1A2E22] font-bold text-base leading-tight mb-1">Daniel Estrada</div>
+                        <div class="text-xs text-gray-500 mb-2">Técnico Dos4siete</div>
+                        <div class="text-[#2E4033] text-sm font-mono">621 227 447</div>
+                    </div>
+
+                    <!-- Footer Call Actions -->
+                    <div class="bg-white h-20 flex items-center justify-center gap-8 px-6 border-t border-gray-100">
                         <button
-                            class="flex-1 bg-[#56A8F6] text-white rounded-full py-1.5 text-sm font-medium shadow-sm transition-all">Acciones</button>
-                        <button
-                            class="flex-1 text-gray-500 rounded-full py-1.5 text-sm font-medium hover:bg-gray-50 transition-all">Historia</button>
+                            class="w-12 h-12 rounded-full bg-[#D32F2F] text-white shadow-md flex items-center justify-center">
+                            <i class="fas fa-phone-slash text-lg transform rotate-90"></i>
+                        </button>
+
+                        <button id="btn-answer-call"
+                            class="w-12 h-12 rounded-full bg-[#2E7D32] text-white shadow-md hover:bg-green-600 transition-colors flex items-center justify-center animate-pulse">
+                            <i class="fas fa-phone text-lg transform rotate-90"></i>
+                        </button>
                     </div>
                 </div>
 
-                <!-- Actions Row -->
-                <div class="flex justify-between px-6 py-6 border-b border-gray-100">
-                    <div class="flex flex-col items-center gap-1 group cursor-pointer">
-                        <div
-                            class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 group-hover:bg-[#56A8F6] group-hover:text-white transition-colors">
-                            <i class="fas fa-share text-sm"></i>
+                <!-- ACTIVE CALL STATE (Initially Hidden) -->
+                <div id="voip-active-call" class="flex flex-col hidden">
+
+                    <!-- Green Info Section -->
+                    <div class="bg-[#dcedc8] p-4 flex flex-col items-center text-center pb-6">
+                        <!-- Avatar Image -->
+                        <div class="w-16 h-16 bg-white rounded overflow-hidden shadow-sm mb-2 border border-green-100">
+                            <img src="https://ui-avatars.com/api/?name=Daniel+Estrada&background=fff&color=333&size=128"
+                                alt="Daniel" class="w-full h-full object-cover">
                         </div>
-                        <span class="text-[10px] text-gray-500 font-medium lowercase">Transferencia</span>
-                    </div>
-                    <div class="flex flex-col items-center gap-1 group cursor-pointer">
-                        <div
-                            class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 group-hover:bg-[#56A8F6] group-hover:text-white transition-colors">
-                            <i class="fas fa-pause text-sm"></i>
+
+                        <div class="text-[#2E4033] font-bold text-sm leading-tight">Daniel Estrada - Técnico Dos4siete
                         </div>
-                        <span class="text-[10px] text-gray-500 font-medium lowercase">Pendiente</span>
+                        <div class="text-[#4E5D52] text-xs mt-1">Llamada de Daniel Estrada - Técnico Dos4siete</div>
+                        <div class="text-[#2E7D32] text-xs mt-1 font-medium">Duración de la llamada: <span
+                                id="call-timer">00:19</span></div>
+                        <div class="text-[#2E4033] text-sm mt-3 font-semibold">621227447</div>
                     </div>
-                    <div class="flex flex-col items-center gap-1 group cursor-pointer">
-                        <div
-                            class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 group-hover:bg-[#56A8F6] group-hover:text-white transition-colors">
-                            <i class="fas fa-file-alt text-sm"></i>
+
+                    <!-- Actions Section -->
+                    <div class="bg-white p-4 flex flex-col gap-4">
+
+                        <!-- Documentos Row -->
+                        <div>
+                            <div class="text-xs text-gray-500 mb-2 font-medium">Documentos</div>
+                            <div class="flex justify-center gap-6">
+                                <!-- Email -->
+                                <button
+                                    class="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors">
+                                    <i class="far fa-envelope text-sm"></i>
+                                </button>
+                                <!-- User Profile -->
+                                <button
+                                    class="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors">
+                                    <i class="far fa-user text-sm"></i>
+                                </button>
+                                <!-- Schedule Activity (CLOCK) -->
+                                <button id="btn-schedule-activity"
+                                    class="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors relative">
+                                    <i class="far fa-clock text-sm"></i>
+                                </button>
+                            </div>
                         </div>
-                        <span class="text-[10px] text-gray-500 font-medium lowercase">Nota</span>
-                    </div>
-                    <div class="flex flex-col items-center gap-1 group cursor-pointer">
-                        <div
-                            class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 group-hover:bg-[#56A8F6] group-hover:text-white transition-colors">
-                            <i class="fas fa-tag text-sm"></i>
+
+                        <!-- Llamada Row -->
+                        <div>
+                            <div class="text-xs text-gray-500 mb-2 font-medium">Llamada</div>
+                            <div class="flex justify-center gap-6">
+                                <!-- Transfer -->
+                                <button
+                                    class="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors">
+                                    <i class="fas fa-exchange-alt text-sm"></i>
+                                </button>
+                                <!-- Mute -->
+                                <button
+                                    class="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors">
+                                    <i class="fas fa-microphone text-sm"></i>
+                                </button>
+                                <!-- Pause -->
+                                <button
+                                    class="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors">
+                                    <i class="fas fa-pause text-sm"></i>
+                                </button>
+                            </div>
                         </div>
-                        <span class="text-[10px] text-gray-500 font-medium lowercase">Etiquetas</span>
+
                     </div>
+
+                    <!-- Footer (Keypad + Hangup) -->
+                    <div class="border-t border-gray-100 p-3 flex justify-between items-center px-8">
+                        <button class="text-gray-400 hover:text-gray-600">
+                            <i class="fas fa-th text-lg"></i>
+                        </button>
+                        <!-- Hangup -->
+                        <button class="text-[#D32F2F] hover:text-red-700 transform rotate-90 text-xl">
+                            <i class="fas fa-phone"></i>
+                        </button>
+                    </div>
+
                 </div>
-
-                <!-- Controls Grid -->
-                <div class="grid grid-cols-3 gap-y-6 px-8 py-6">
-                    <!-- 1 -->
-                    <div class="flex flex-col items-center gap-1 cursor-pointer hover:opacity-75">
-                        <i class="fas fa-microphone-slash text-gray-600 text-lg"></i>
-                        <span class="text-[10px] text-gray-500">Silenciar</span>
-                    </div>
-                    <!-- 2 -->
-                    <div class="flex flex-col items-center gap-1 cursor-pointer hover:opacity-75">
-                        <i class="fas fa-th text-gray-600 text-lg"></i>
-                        <span class="text-[10px] text-gray-500">Teclado</span>
-                    </div>
-                    <!-- 3 -->
-                    <div class="flex flex-col items-center gap-1 cursor-pointer hover:opacity-75">
-                        <div class="w-4 h-4 rounded-full border-2 border-red-500 flex items-center justify-center">
-                            <div class="w-2 h-2 bg-red-500 rounded-full"></div>
-                        </div>
-                        <span class="text-[10px] text-gray-500">Reg</span>
-                    </div>
-
-                    <!-- 4 -->
-                    <div class="flex flex-col items-center gap-1 cursor-pointer hover:opacity-75">
-                        <i class="fas fa-plus text-gray-800 text-xl"></i>
-                        <span class="text-[10px] text-gray-500">Llamar</span>
-                    </div>
-
-                    <!-- 5 -->
-                    <div class="flex flex-col items-center gap-1 cursor-pointer hover:opacity-75">
-                        <i class="fas fa-share-alt text-gray-600 text-lg"></i>
-                        <span class="text-[10px] text-gray-500">Compartir</span>
-                    </div>
-                    <!-- 6 -->
-                    <div class="flex flex-col items-center gap-1 cursor-pointer hover:opacity-75">
-                        <i class="fas fa-mobile-alt text-gray-600 text-lg"></i>
-                        <span class="text-[10px] text-gray-500">Móvil</span>
-                    </div>
-                </div>
-
-                <!-- BIG RED BUTTON -->
-                <div class="flex justify-center mt-2 pb-4">
-                    <button
-                        class="w-16 h-16 bg-[#EE4B46] rounded-full shadow-lg text-white flex items-center justify-center hover:bg-red-600 transition-colors transform active:scale-95">
-                        <i class="fas fa-phone-slash text-2xl transform rotate-90"></i>
-                    </button>
-                </div>
-
-                <!-- Bottom Icons -->
-                <div class="flex justify-between px-8 text-gray-400 mt-2">
-                    <i class="fas fa-microphone hover:text-gray-600 cursor-pointer"></i>
-                    <i class="fas fa-volume-up hover:text-gray-600 cursor-pointer"></i>
-                </div>
-
             </div>
 
         </div>
@@ -367,6 +402,24 @@
     ==========================================================================
 -->
 
+    <!-- END EMBED CODE -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const incomingView = document.getElementById('voip-incoming');
+            const activeView = document.getElementById('voip-active-call');
+            const btnAnswer = document.getElementById('btn-answer-call');
+
+            if (btnAnswer) {
+                btnAnswer.addEventListener('click', () => {
+                    // Transition
+                    incomingView.classList.add('hidden');
+                    activeView.classList.remove('hidden');
+                    // Start timer? (Optional)
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>
