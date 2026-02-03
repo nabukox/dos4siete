@@ -465,18 +465,275 @@
                 </div>
             </div>
 
+            <!-- SUMMARY MODAL (New AI Flow) -->
+            <div id="summary-modal"
+                class="absolute inset-0 bg-black/60 backdrop-blur-md z-[60] hidden opacity-0 flex items-center justify-center transition-opacity duration-300">
+
+                <div class="bg-white w-[500px] h-auto max-h-[700px] rounded-2xl shadow-2xl flex flex-col transform scale-95 transition-transform duration-300 overflow-hidden"
+                    id="summary-modal-content">
+
+                    <!-- Header -->
+                    <div
+                        class="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 flex justify-between items-start text-white relative overflow-hidden">
+                        <!-- Decor -->
+                        <div class="absolute top-0 right-0 p-4 opacity-10">
+                            <i class="fas fa-robot text-8xl"></i>
+                        </div>
+
+                        <div class="relative z-10">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center backdrop-blur-sm">
+                                    <i class="fas fa-magic text-yellow-300 text-sm"></i>
+                                </div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-100">AI CALL
+                                    INSIGHTS</span>
+                            </div>
+                            <h2 class="text-2xl font-bold">Resumen de Llamada</h2>
+                            <p class="text-indigo-100 text-sm opacity-90 mt-1">Procesado en tiempo real</p>
+                        </div>
+
+                        <button onclick="document.getElementById('summary-modal').classList.add('hidden')"
+                            class="text-white/70 hover:text-white transition-colors relative z-10">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="p-6 overflow-y-auto">
+
+                        <!-- Sentiment Analysis -->
+                        <div class="mb-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs font-bold text-gray-500 uppercase">Sentimiento Detectado</span>
+                                <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">Positivo
+                                    (85%)</span>
+                            </div>
+                            <div class="w-full bg-gray-100 rounded-full h-2 overflow-hidden flex">
+                                <div class="w-[85%] bg-gradient-to-r from-green-400 to-green-500 h-full"></div>
+                                <div class="w-[10%] bg-gray-200 h-full"></div> <!-- Neutral -->
+                                <div class="w-[5%] bg-red-200 h-full"></div> <!-- Negative -->
+                            </div>
+                        </div>
+
+                        <!-- Summary Content -->
+                        <div class="mb-6">
+                            <h3 class="text-gray-800 font-bold mb-3 flex items-center gap-2">
+                                <i class="fas fa-align-left text-indigo-500"></i> Resumen Ejecutivo
+                            </h3>
+                            <div
+                                class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-50 text-sm text-gray-700 leading-relaxed font-light">
+                                <p class="mb-2">El cliente <strong>Rubén Tarantino</strong> contactó para consultar
+                                    sobre la actualización de su plan actual a <strong>Fibra 600Mb</strong>.</p>
+                                <p class="mb-2">Mencionó que la competencia le ofreció un precio menor, pero prefiere
+                                    mantenerse con nosotros por la calidad del soporte.</p>
+                                <p>Se acordó enviar una propuesta comercial con un descuento del 10% por fidelidad.</p>
+                            </div>
+                        </div>
+
+                        <!-- Key Topics / Tags -->
+                        <div class="mb-6">
+                            <h3 class="text-gray-800 font-bold mb-3 flex items-center gap-2">
+                                <i class="fas fa-tags text-indigo-500"></i> Temas Clave
+                            </h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span
+                                    class="px-3 py-1 bg-gray-100 text-gray-600 rounded-lg text-xs font-medium border border-gray-200">#Retención</span>
+                                <span
+                                    class="px-3 py-1 bg-blue-50 text-blue-600 rounded-lg text-xs font-medium border border-blue-100">#FibraÓptica</span>
+                                <span
+                                    class="px-3 py-1 bg-purple-50 text-purple-600 rounded-lg text-xs font-medium border border-purple-100">#Competencia</span>
+                                <span
+                                    class="px-3 py-1 bg-yellow-50 text-yellow-600 rounded-lg text-xs font-medium border border-yellow-100">#Descuento</span>
+                            </div>
+                        </div>
+
+                        <!-- Action Items -->
+                        <div>
+                            <h3 class="text-gray-800 font-bold mb-3 flex items-center gap-2">
+                                <i class="fas fa-check-circle text-indigo-500"></i> Siguientes Pasos
+                            </h3>
+                            <div class="space-y-2">
+                                <label
+                                    class="flex items-start gap-3 p-3 rounded-lg border border-gray-100 hover:bg-gray-50 cursor-pointer transition-colors group">
+                                    <input type="checkbox" checked
+                                        class="mt-1 w-4 h-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
+                                    <span class="text-sm text-gray-600 group-hover:text-gray-900">Enviar propuesta por
+                                        email (Plantilla: Retención)</span>
+                                </label>
+                                <label
+                                    class="flex items-start gap-3 p-3 rounded-lg border border-gray-100 hover:bg-gray-50 cursor-pointer transition-colors group">
+                                    <input type="checkbox"
+                                        class="mt-1 w-4 h-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
+                                    <span class="text-sm text-gray-600 group-hover:text-gray-900">Programar llamada de
+                                        seguimiento (3 días)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="p-4 border-t border-gray-100 bg-gray-50 flex justify-end gap-3 rounded-b-2xl">
+                        <button onclick="document.getElementById('summary-modal').classList.add('hidden')"
+                            class="px-4 py-2 text-gray-500 hover:text-gray-700 text-sm font-medium transition-colors">
+                            Descartar
+                        </button>
+                        <button
+                            class="px-6 py-2 bg-indigo-600 text-white rounded-lg text-sm font-bold shadow-lg shadow-indigo-200 hover:bg-indigo-700 hover:shadow-xl transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2">
+                            <i class="fas fa-save"></i> Guardar en CRM
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
 
         <!-- Init Script inside Embed to ensure auto-start -->
         <script>
             document.addEventListener('DOMContentLoaded', () => {
-                if (window.Dos4Siete && window.Dos4Siete.initTransferFlow) {
-                    // Determine if we need to scope this... 
-                    // Since the script selects via document.querySelector/getElementById, IDs must match.
-                    // Our IDs match.
-                    window.Dos4Siete.initTransferFlow();
-                }
+                // Initialize logic locally to avoid dependency issues and implement new AI flow
+                initAiRecordingFlow();
             });
+
+            function initAiRecordingFlow() {
+                const btnRecord = document.querySelector('button i.fa-microphone-slash').parentNode.nextElementSibling.nextElementSibling.nextElementSibling; // Finding Record button by index or we should add ID.
+                // Let's rely on adding IDs in a previous step or selecting by content/icon if IDs are missing.
+                // Actually, let's select by text content for robustness or add IDs.
+                // The record button has "Grabar" text.
+
+                const buttons = document.querySelectorAll('button');
+                let btnRecordEl = null;
+                buttons.forEach(btn => {
+                    if (btn.innerText.includes('GRABAR')) btnRecordEl = btn;
+                });
+
+                const btnHangup = document.getElementById('btn-hangup');
+                const summaryModal = document.getElementById('summary-modal');
+                const summaryContent = document.getElementById('summary-modal-content');
+                let isRecording = false;
+                let recordingInterval;
+
+                // 1. Setup Record Button Interaction
+                if (btnRecordEl) {
+                    btnRecordEl.addEventListener('click', () => {
+                        toggleRecording(btnRecordEl);
+                    });
+                }
+
+                // 2. Setup Hangup Interaction
+                if (btnHangup) {
+                    btnHangup.addEventListener('click', () => {
+                        showSummaryModal();
+                    });
+                }
+
+                // Internal Functions
+                function toggleRecording(btn) {
+                    isRecording = !isRecording;
+                    const dot = btn.querySelector('div.bg-gray-600, div.bg-red-500'); // inner dot
+                    const border = btn.querySelector('div.border-gray-600, div.border-red-500'); // outer ring
+
+                    if (isRecording) {
+                        // Activate Visuals
+                        if (dot) {
+                            dot.classList.remove('bg-gray-600');
+                            dot.classList.add('bg-red-500', 'animate-pulse');
+                        }
+                        if (border) {
+                            border.classList.remove('border-gray-600');
+                            border.classList.add('border-red-500');
+                        }
+                        // Add "REC" indicator to stage
+                        const statusText = document.getElementById('stage-status-text');
+                        if (statusText) {
+                            const recTag = document.createElement('span');
+                            recTag.id = 'rec-indicator';
+                            recTag.className = 'ml-2 text-red-500 font-bold animate-pulse';
+                            recTag.innerText = '● REC';
+                            statusText.appendChild(recTag);
+                        }
+                    } else {
+                        // Deactivate
+                        if (dot) {
+                            dot.classList.add('bg-gray-600');
+                            dot.classList.remove('bg-red-500', 'animate-pulse');
+                        }
+                        if (border) {
+                            border.classList.add('border-gray-600');
+                            border.classList.remove('border-red-500');
+                        }
+                        const recTag = document.getElementById('rec-indicator');
+                        if (recTag) recTag.remove();
+                    }
+                }
+
+                function showSummaryModal() {
+                    if (summaryModal) {
+                        summaryModal.classList.remove('hidden');
+                        // Small delay for fade in
+                        setTimeout(() => {
+                            summaryModal.classList.remove('opacity-0');
+                            if (summaryContent) {
+                                summaryContent.classList.remove('scale-95');
+                                summaryContent.classList.add('scale-100');
+                            }
+                        }, 50);
+                    }
+                }
+
+                // --- AUTOMATION DEMO (Optional, if user wants to see it play out) ---
+                // We'll run a simple sequence: Wait -> Record -> Wait -> Hangup
+                setTimeout(runDemo, 2000);
+
+                async function runDemo() {
+                    const cursor = document.createElement('div');
+                    cursor.innerHTML = '<i class="fas fa-hand-pointer text-gray-900 text-3xl drop-shadow-xl border-white" style="-webkit-text-stroke: 1px white;"></i>';
+                    cursor.style.position = 'fixed';
+                    cursor.style.zIndex = '9999';
+                    cursor.style.pointerEvents = 'none';
+                    cursor.style.transition = 'all 1s ease-in-out';
+                    cursor.style.top = '100%';
+                    cursor.style.left = '100%';
+                    document.body.appendChild(cursor);
+
+                    const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+                    // Move to Record
+                    if (btnRecordEl) {
+                        const rect = btnRecordEl.getBoundingClientRect();
+                        cursor.style.top = (rect.top + 20) + 'px';
+                        cursor.style.left = (rect.left + 30) + 'px';
+                        await sleep(1500);
+
+                        // Click Record
+                        cursor.style.transform = 'scale(0.8)';
+                        toggleRecording(btnRecordEl);
+                        await sleep(200);
+                        cursor.style.transform = 'scale(1)';
+                        await sleep(3000); // Record for 3s
+                    }
+
+                    // Move to Hangup
+                    if (btnHangup) {
+                        const rect = btnHangup.getBoundingClientRect();
+                        cursor.style.top = (rect.top + 30) + 'px';
+                        cursor.style.left = (rect.left + 30) + 'px';
+                        await sleep(1500);
+
+                        // Click Hangup
+                        cursor.style.transform = 'scale(0.8)';
+                        showSummaryModal();
+                        await sleep(200);
+                        cursor.style.transform = 'scale(1)';
+                    }
+
+                    // Move away
+                    cursor.style.top = '100%';
+                    cursor.style.left = '100%';
+                }
+            }
         </script>
 
     </div>
