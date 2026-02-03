@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Integración - Posibles Clientes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Dev-only centering */
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 
+    ==========================================================================
+    START EMBED CODE
+    Copy from here to "END EMBED CODE" to include this widget in another page.
+    Ensure Tailwind CSS and FontAwesome are loaded in the host page.
+    ==========================================================================
+-->
+
+    <div id="widget-crm-contactos-embed"
+        class="relative w-full h-full flex items-center justify-center font-['Outfit']">
+
+        <style>
+            /* Scoped Styles */
+            #widget-crm-contactos-embed {
+                font-family: 'Outfit', sans-serif;
+            }
+
+            /* Skeleton Pulse Animation */
+            @keyframes keyframe-pulse-skeleton {
+
+                0%,
+                100% {
+                    opacity: 0.4;
+                }
+
+                50% {
+                    opacity: 0.6;
+                }
+            }
+
+            #widget-crm-contactos-embed .skeleton-bar {
+                background-color: #CBD5E1;
+                /* Slate-300 */
+                border-radius: 4px;
+                animation: keyframe-pulse-skeleton 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            }
+
+            #widget-crm-contactos-embed .skeleton-bar-dark {
+                background-color: #475569;
+                /* Slate-600 */
+                border-radius: 4px;
+                opacity: 0.5;
+            }
+        </style>
+
+        <!-- WIDGET CONTAINER -->
+        <div
+            class="w-full max-w-6xl h-[55vh] md:h-[800px] bg-white rounded-lg overflow-hidden shadow-2xl flex flex-col border border-gray-200">
+
+            <!-- 1. TOP NAVBAR -->
+            <div class="h-14 bg-[#1E293B] flex items-center px-4 justify-between shrink-0">
+                <!-- Left: Logo + Skeleton Menu -->
+                <div class="flex items-center gap-6">
+                    <div class="flex items-center gap-2">
+                        <img src="../assets/img/crm-zoho.svg" alt="Zoho CRM" class="h-10 w-auto opacity-90">
+                        <span class="text-white font-bold text-lg tracking-tight ml-[-4px]">CRM</span>
+                    </div>
+
+                    <!-- Skeleton Menu Items -->
+                    <div class="flex items-center gap-4 ml-4">
+                        <div class="w-16 h-3 skeleton-bar-dark"></div>
+                        <div class="w-20 h-3 skeleton-bar-dark"></div>
+
+                        <!-- REAL ITEM -->
+                        <div class="text-white font-medium border-b-2 border-[#29ABE2] pb-4 pt-4 px-1 cursor-pointer">
+                            Posibles Clientes
+                        </div>
+
+                        <div class="w-14 h-3 skeleton-bar-dark"></div>
+                        <div class="w-18 h-3 skeleton-bar-dark"></div>
+                        <div class="w-16 h-3 skeleton-bar-dark"></div>
+                    </div>
+                </div>
+
+                <!-- Right: Skeleton Actions -->
+                <div class="flex items-center gap-3">
+                    <div class="w-24 h-8 skeleton-bar-dark rounded-md"></div>
+                    <div class="w-8 h-8 rounded-full skeleton-bar-dark"></div>
+                </div>
+            </div>
+
+            <!-- 2. MAIN LAYOUT (2 Cols: Sidebar + Content) -->
+            <div class="flex flex-1 overflow-hidden">
+
+                <!-- COL 1: LEFT SIDEBAR (Skeleton List) -->
+                <div class="hidden md:flex w-52 bg-gray-50 border-r border-gray-200 p-4 flex-col gap-4 shrink-0">
+
+                    <!-- Back arrow + Title Skeleton -->
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-4 h-4 skeleton-bar"></div>
+                        <div class="w-32 h-4 skeleton-bar"></div>
+                    </div>
+
+                    <!-- List Items -->
+                    <div class="space-y-3">
+                        <!-- Item 1 -->
+                        <div
+                            class="flex justify-between items-center p-2 rounded bg-white border border-gray-100 shadow-sm">
+                            <div class="space-y-2">
+                                <div class="w-24 h-3 skeleton-bar"></div>
+                                <div class="w-16 h-2 skeleton-bar opacity-60"></div>
+                            </div>
+                            <div class="w-8 h-3 skeleton-bar"></div>
+                        </div>
+                        <!-- Item 2 -->
+                        <div
+                            class="flex justify-between items-center p-2 rounded bg-white border border-gray-100 shadow-sm opacity-60">
+                            <div class="space-y-2">
+                                <div class="w-20 h-3 skeleton-bar"></div>
+                                <div class="w-12 h-2 skeleton-bar opacity-60"></div>
+                            </div>
+                            <div class="w-8 h-3 skeleton-bar"></div>
+                        </div>
+                        <!-- Item 3 -->
+                        <div
+                            class="flex justify-between items-center p-2 rounded bg-white border border-gray-100 shadow-sm opacity-60">
+                            <div class="space-y-2">
+                                <div class="w-22 h-3 skeleton-bar"></div>
+                                <div class="w-14 h-2 skeleton-bar opacity-60"></div>
+                            </div>
+                            <div class="w-8 h-3 skeleton-bar"></div>
+                        </div>
+                        <!-- Item 4 -->
+                        <div
+                            class="flex justify-between items-center p-2 rounded bg-white border border-gray-100 shadow-sm opacity-60">
+                            <div class="space-y-2">
+                                <div class="w-24 h-3 skeleton-bar"></div>
+                                <div class="w-10 h-2 skeleton-bar opacity-60"></div>
+                            </div>
+                            <div class="w-8 h-3 skeleton-bar"></div>
+                        </div>
+                        <!-- Item 5 -->
+                        <div
+                            class="flex justify-between items-center p-2 rounded bg-white border border-gray-100 shadow-sm opacity-50">
+                            <div class="space-y-2">
+                                <div class="w-20 h-3 skeleton-bar"></div>
+                                <div class="w-12 h-2 skeleton-bar opacity-60"></div>
+                            </div>
+                            <div class="w-8 h-3 skeleton-bar"></div>
+                        </div>
+                        <!-- Item 6 -->
+                        <div
+                            class="flex justify-between items-center p-2 rounded bg-white border border-gray-100 shadow-sm opacity-40">
+                            <div class="space-y-2">
+                                <div class="w-22 h-3 skeleton-bar"></div>
+                                <div class="w-14 h-2 skeleton-bar opacity-60"></div>
+                            </div>
+                            <div class="w-8 h-3 skeleton-bar"></div>
+                        </div>
+                        <!-- Item 7 -->
+                        <div
+                            class="flex justify-between items-center p-2 rounded bg-white border border-gray-100 shadow-sm opacity-30">
+                            <div class="space-y-2">
+                                <div class="w-18 h-3 skeleton-bar"></div>
+                                <div class="w-10 h-2 skeleton-bar opacity-60"></div>
+                            </div>
+                            <div class="w-8 h-3 skeleton-bar"></div>
+                        </div>
+                        <!-- Item 8 -->
+                        <div
+                            class="flex justify-between items-center p-2 rounded bg-white border border-gray-100 shadow-sm opacity-30">
+                            <div class="space-y-2">
+                                <div class="w-24 h-3 skeleton-bar"></div>
+                                <div class="w-12 h-2 skeleton-bar opacity-60"></div>
+                            </div>
+                            <div class="w-8 h-3 skeleton-bar"></div>
+                        </div>
+                        <!-- Item 9 -->
+                        <div
+                            class="flex justify-between items-center p-2 rounded bg-white border border-gray-100 shadow-sm opacity-20">
+                            <div class="space-y-2">
+                                <div class="w-20 h-3 skeleton-bar"></div>
+                                <div class="w-10 h-2 skeleton-bar opacity-60"></div>
+                            </div>
+                            <div class="w-8 h-3 skeleton-bar"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COL 2: MAIN CONTENT (List View Table) -->
+                <div class="flex-1 bg-white flex flex-col overflow-hidden">
+
+                    <!-- Toolbar -->
+                    <div
+                        class="h-12 border-b border-gray-200 flex items-center justify-between px-4 md:px-6 shrink-0 bg-white">
+                        <div class="flex items-center gap-4 text-sm text-gray-600">
+                            <div class="hidden md:block">Registros totales <span class="font-bold">17</span></div>
+                            <div class="hidden md:block h-4 w-px bg-gray-300"></div>
+                            <div class="cursor-pointer hover:text-[#29ABE2]">Ordenar por <span
+                                    class="font-medium">Correo...</span></div>
+                        </div>
+                        <div class="flex items-center gap-4 text-sm text-gray-600">
+                            <div class="bg-gray-50 border border-gray-200 rounded px-2 py-1 text-xs">
+                                100 Registros por página <i class="fas fa-chevron-down ml-1"></i>
+                            </div>
+                            <div class="font-medium">1 - 17</div>
+                            <div class="flex gap-1 text-gray-400">
+                                <i class="fas fa-chevron-left cursor-not-allowed opacity-50"></i>
+                                <i class="fas fa-chevron-right hover:text-gray-600 cursor-pointer"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="flex-1 overflow-auto">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead class="bg-gray-50 text-gray-500 font-medium sticky top-0 z-10 shadow-sm">
+                                <tr>
+                                    <th class="p-3 w-10 pl-6 hidden md:table-cell"><input type="checkbox"
+                                            class="rounded border-gray-300 text-[#29ABE2] focus:ring-[#29ABE2]"></th>
+                                    <th class="p-3 font-medium cursor-pointer hover:text-gray-700">Nombre de...</th>
+                                    <th class="p-3 font-medium cursor-pointer hover:text-gray-700 hidden md:table-cell">
+                                        Empresa</th>
+                                    <th class="p-3 font-medium cursor-pointer hover:text-gray-700">
+                                        Correo electrónico *
+                                    </th>
+                                    <th
+                                        class="p-3 font-medium cursor-pointer hover:text-gray-700 text-right md:text-left">
+                                        Teléfono</th>
+                                    <th class="p-3 font-medium cursor-pointer hover:text-gray-700 hidden md:table-cell">
+                                        Fuente de Posible...
+                                    </th>
+                                    <th
+                                        class="p-3 font-medium cursor-pointer hover:text-gray-700 pr-6 hidden md:table-cell">
+                                        Propietario de
+                                        P...
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 text-gray-700">
+                                <!-- Row 1 -->
+                                <tr class="hover:bg-gray-50 transition-colors group">
+                                    <td class="p-3 pl-6 hidden md:table-cell"><input type="checkbox"
+                                            class="rounded border-gray-300 text-[#29ABE2] focus:ring-[#29ABE2]"></td>
+                                    <td class="p-3 text-[#29ABE2] hover:underline cursor-pointer">Elena Gómez</td>
+                                    <td class="p-3 text-gray-500 hidden md:table-cell">Grayson</td>
+                                    <td class="p-3">
+                                        <div class="w-32 h-3 skeleton-bar rounded"></div>
+                                    </td>
+                                    <td class="p-3">
+                                        <div class="flex items-center justify-end md:justify-start gap-2">
+                                            <span class="hidden md:inline">+34 611 22 33 44</span>
+                                            <button
+                                                class="w-6 h-6 rounded-full bg-[#16a34a] text-white flex items-center justify-center hover:bg-green-700 transition-colors shadow-sm opacity-100">
+                                                <i class="fas fa-phone text-[10px] transform rotate-90"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td class="p-3 hidden md:table-cell">
+                                        <div class="w-24 h-3 skeleton-bar rounded"></div>
+                                    </td>
+                                    <td class="p-3 pr-6 hidden md:table-cell">
+                                        <div class="w-20 h-3 skeleton-bar rounded"></div>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 2 -->
+                                <tr class="hover:bg-gray-50 transition-colors group">
+                                    <td class="p-3 pl-6 hidden md:table-cell"><input type="checkbox"
+                                            class="rounded border-gray-300 text-[#29ABE2] focus:ring-[#29ABE2]"></td>
+                                    <td class="p-3 text-[#29ABE2] hover:underline cursor-pointer">Roberto Díaz</td>
+                                    <td class="p-3 text-gray-500 hidden md:table-cell">-</td>
+                                    <td class="p-3">
+                                        <div class="w-28 h-3 skeleton-bar rounded"></div>
+                                    </td>
+                                    <td class="p-3">
+                                        <div class="flex items-center justify-end md:justify-start gap-2">
+                                            <span class="hidden md:inline">+34 699 88 77 66</span>
+                                            <button
+                                                class="w-6 h-6 rounded-full bg-[#16a34a] text-white flex items-center justify-center hover:bg-green-700 transition-colors shadow-sm opacity-100">
+                                                <i class="fas fa-phone text-[10px] transform rotate-90"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td class="p-3 hidden md:table-cell">
+                                        <div class="w-28 h-3 skeleton-bar rounded"></div>
+                                    </td>
+                                    <td class="p-3 pr-6 hidden md:table-cell">
+                                        <div class="w-24 h-3 skeleton-bar rounded"></div>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 3: With Phone Action -->
+                                <tr class="hover:bg-gray-50 transition-colors group">
+                                    <td class="p-3 pl-6 hidden md:table-cell"><input type="checkbox"
+                                            class="rounded border-gray-300 text-[#29ABE2] focus:ring-[#29ABE2]"></td>
+                                    <td class="p-3 text-[#29ABE2] hover:underline cursor-pointer">Carmen Ruiz</td>
+                                    <td class="p-3 text-gray-500 hidden md:table-cell">Morlong Associates</td>
+                                    <td class="p-3">
+                                        <div class="w-36 h-3 skeleton-bar rounded"></div>
+                                    </td>
+                                    <td class="p-3">
+                                        <div class="flex items-center justify-end md:justify-start gap-2">
+                                            <span class="hidden md:inline">+34 655 44 33 22</span>
+                                            <button
+                                                class="w-6 h-6 rounded-full bg-[#16a34a] text-white flex items-center justify-center hover:bg-green-700 transition-colors shadow-sm opacity-100">
+                                                <i class="fas fa-phone text-[10px] transform rotate-90"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td class="p-3 hidden md:table-cell">
+                                        <div class="w-24 h-3 skeleton-bar rounded"></div>
+                                    </td>
+                                    <td class="p-3 pr-6 hidden md:table-cell">
+                                        <div class="w-20 h-3 skeleton-bar rounded"></div>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 4 -->
+                                <tr class="hover:bg-gray-50 transition-colors group">
+                                    <td class="p-3 pl-6 hidden md:table-cell"><input type="checkbox"
+                                            class="rounded border-gray-300 text-[#29ABE2] focus:ring-[#29ABE2]"></td>
+                                    <td class="p-3 text-[#29ABE2] hover:underline cursor-pointer">Pablo Moreno</td>
+                                    <td class="p-3 text-gray-500 hidden md:table-cell">Dal Tile Corporation</td>
+                                    <td class="p-3">
+                                        <div class="w-30 h-3 skeleton-bar rounded"></div>
+                                    </td>
+                                    <td class="p-3">
+                                        <div class="flex items-center justify-end md:justify-start gap-2">
+                                            <span class="hidden md:inline">+34 633 55 77 99</span>
+                                            <button
+                                                class="w-6 h-6 rounded-full bg-[#16a34a] text-white flex items-center justify-center hover:bg-green-700 transition-colors shadow-sm opacity-100">
+                                                <i class="fas fa-phone text-[10px] transform rotate-90"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td class="p-3 hidden md:table-cell">
+                                        <div class="w-20 h-3 skeleton-bar rounded"></div>
+                                    </td>
+                                    <td class="p-3 pr-6 hidden md:table-cell">
+                                        <div class="w-24 h-3 skeleton-bar rounded"></div>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 5: Ruben Tarantino (Recursive/Self) demo -->
+                                <tr class="hover:bg-gray-50 transition-colors group font-medium bg-blue-50/30">
+                                    <td class="p-3 pl-6 hidden md:table-cell"><input type="checkbox"
+                                            class="rounded border-gray-300 text-[#29ABE2] focus:ring-[#29ABE2]"></td>
+                                    <td class="p-3 text-[#29ABE2] hover:underline cursor-pointer">Diego Morales</td>
+                                    <td class="p-3 text-gray-500 hidden md:table-cell">Iberia Systems</td>
+                                    <td class="p-3">diego.morales@iberiasys.com</td>
+                                    <td class="p-3">
+                                        <div class="flex items-center justify-end md:justify-start gap-2">
+                                            <span class="hidden md:inline">+34 612 98 76 54</span>
+                                            <button
+                                                class="w-6 h-6 rounded-full bg-[#16a34a] text-white flex items-center justify-center hover:bg-green-700 transition-colors shadow-sm opacity-100 animate-pulse">
+                                                <i class="fas fa-phone text-[10px] transform rotate-90"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td class="p-3 hidden md:table-cell">Web Download</td>
+                                    <td class="p-3 pr-6 hidden md:table-cell">Diego Morales</td>
+                                </tr>
+
+                                <!-- Row 6 -->
+                                <tr class="hover:bg-gray-50 transition-colors group">
+                                    <td class="p-3 pl-6 hidden md:table-cell"><input type="checkbox"
+                                            class="rounded border-gray-300 text-[#29ABE2] focus:ring-[#29ABE2]"></td>
+                                    <td class="p-3 text-[#29ABE2] hover:underline cursor-pointer">Laura Gil
+                                    </td>
+                                    <td class="p-3 text-gray-500 hidden md:table-cell">Aula Futuro Formación</td>
+                                    <td class="p-3">
+                                        <div class="w-32 h-3 skeleton-bar rounded"></div>
+                                    </td>
+                                    <td class="p-3">
+                                        <div class="flex items-center justify-end md:justify-start gap-2">
+                                            <span class="hidden md:inline">+34 677 11 22 33</span>
+                                            <button
+                                                class="w-6 h-6 rounded-full bg-[#16a34a] text-white flex items-center justify-center hover:bg-green-700 transition-colors shadow-sm opacity-100">
+                                                <i class="fas fa-phone text-[10px] transform rotate-90"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td class="p-3 hidden md:table-cell">
+                                        <div class="w-28 h-3 skeleton-bar rounded"></div>
+                                    </td>
+                                    <td class="p-3 pr-6 hidden md:table-cell">
+                                        <div class="w-22 h-3 skeleton-bar rounded"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- 
+    ==========================================================================
+    END EMBED CODE
+    ==========================================================================
+-->
+
+</body>
+
+</html>
