@@ -1126,8 +1126,11 @@ window.Dos4Siete = (function () {
     };
 
     // --- 7. COMPARATIVE STATS MODULE ---
-    // --- 7. COMPARATIVE STATS MODULE ---
     const ComparativeStatsModule = {
+        // [Entrantes, Contestadas, Sin Contestar, Salientes, Espera]
+        // Start all false for sequential reveal demo
+        visibleSeries: [false, false, false, false, false],
+
         init: function () {
             console.log("ComparativeStatsModule initialized");
             this.renderChart(1.0); // Default multiplier
@@ -1143,10 +1146,18 @@ window.Dos4Siete = (function () {
                     else if (val === '25jan') multiplier = 1.2;
                     else if (val === '24jan') multiplier = 0.6;
                     else if (val === '23jan') multiplier = 0.9;
+                    else if (val === 'today') multiplier = 1.0;
 
                     console.log(`Date changed to ${val}, refreshing chart...`);
                     this.renderChart(multiplier);
                 });
+            }
+        },
+
+        toggleSeries: function (index) {
+            if (index >= 0 && index < this.visibleSeries.length) {
+                this.visibleSeries[index] = !this.visibleSeries[index];
+                this.renderChart(); // Re-render with current state
             }
         },
 
@@ -1170,15 +1181,28 @@ window.Dos4Siete = (function () {
                 const outgoing = Math.floor(rnd(20, 50) * timeTrend * multiplier);
                 const wait = Math.floor(rnd(15, 60) * (2 - multiplier)); // Inverse trend for wait time (less traffic/more efficieny?)
 
+                // Metrics Definitions
+                // Index 0: Entrantes
+                // Index 1: Contestadas
+                // Index 2: Sin Contestar
+                // Index 3: Salientes
+                // Index 4: Espera (s)
+
+                const allMetrics = [
+                    { label: 'Entrantes', value: incoming, color: '#29ABE2' },     // Blue
+                    { label: 'Contestadas', value: answered, color: '#22C55E' },   // Green
+                    { label: 'Sin Contestar', value: missed, color: '#EF4444' },   // Red
+                    { label: 'Salientes', value: outgoing, color: '#141F4C' },     // Dark Blue
+                    { label: 'Espera (s)', value: wait, color: '#F59E0B' }         // Orange
+                ];
+
+                // Filter based on visibleSeries state
+                // We keep the index/structure consistent but only return what is visible
+                const visibleMetrics = allMetrics.filter((_, i) => this.visibleSeries[i]);
+
                 return {
                     time: h,
-                    metrics: [
-                        { label: 'Entrantes', value: incoming, color: '#29ABE2' },     // Blue
-                        { label: 'Contestadas', value: answered, color: '#22C55E' },   // Green
-                        { label: 'Sin Contestar', value: missed, color: '#EF4444' },   // Red
-                        { label: 'Salientes', value: outgoing, color: '#141F4C' },     // Dark Blue
-                        { label: 'Espera (s)', value: wait, color: '#F59E0B' }         // Orange
-                    ]
+                    metrics: visibleMetrics
                 };
             });
 
@@ -1200,17 +1224,17 @@ window.Dos4Siete = (function () {
             const height = container.clientHeight || 320;
             const padding = { top: 40, bottom: 50, left: 50, right: 20 };
 
-            // Find Max Value for Scale
+            // Find Max Value for Scale (scan all data even if hidden? No, scan rendered data)
             let maxVal = 0;
             data.forEach(slot => {
                 slot.metrics.forEach(m => {
                     if (m.value > maxVal) maxVal = m.value;
                 });
             });
+            // Default max if nothing visible
+            if (maxVal === 0) maxVal = 100;
+
             const gridMax = Math.ceil(maxVal / 20) * 20 || 100; // Snap to 20s for Bars
-            // Scale for Line (Seconds) might be different, but for simplicity/request let's share scale or use secondary?
-            // User didn't ask for secondary axis, but "wait time" (seconds) vs "calls" (count) might differ.
-            // Screenshot implies single axis comparing magnitudes. Let's keep single axis for now as per "compare" request.
 
             const chartWidth = width - padding.left - padding.right;
             const chartHeight = height - padding.top - padding.bottom;
@@ -1221,8 +1245,15 @@ window.Dos4Siete = (function () {
             const groupPadding = groupWidth * 0.2;
             const contentWidth = groupWidth - groupPadding;
 
-            // 4 bars per group (Excluding Wait Time)
-            const numBars = 4;
+            // Calculate active bars for width distribution
+            // We need to know how many bar-type metrics are visible per group
+            // Wait Time (Orange) is a line, so exclude it from bar count logic if visible
+            // We check the first slot to see what kind of metrics are present
+            const sampleMetrics = data.length > 0 ? data[0].metrics : [];
+            const barMetricsCount = sampleMetrics.filter(m => !m.label.includes('Espera')).length;
+
+            // Avoid division by zero
+            const numBars = barMetricsCount > 0 ? barMetricsCount : 1;
             const barWidth = (contentWidth / numBars) * 0.9;
 
             let html = `<svg viewBox="0 0 ${width} ${height}" style="width:100%; height:100%; overflow:visible;">`;
@@ -1248,7 +1279,7 @@ window.Dos4Siete = (function () {
                 // X Position of this Group
                 const groupX = padding.left + (i * groupWidth) + (groupPadding / 2);
 
-                // Filter out Wait Time for Bars
+                // Split metrics
                 const barMetrics = slot.metrics.filter(m => !m.label.includes('Espera'));
                 const waitMetric = slot.metrics.find(m => m.label.includes('Espera'));
 
@@ -1279,13 +1310,6 @@ window.Dos4Siete = (function () {
             if (linePoints.length > 0) {
                 // Generate Path Command (Catmull-Rom or Cubic Bezier)
                 // Simple Smoothing helper
-                const getControlPoint = (p1, p2, p3, t = 0.2) => {
-                    // Very simple smoothing logic for demo
-                    const dx = p3.x - p1.x;
-                    const dy = p3.y - p1.y;
-                    return { x: p2.x - dx * t, y: p2.y - dy * t, x2: p2.x + dx * t, y2: p2.y + dy * t };
-                };
-
                 let d = `M ${linePoints[0].x} ${linePoints[0].y}`;
 
                 for (let i = 0; i < linePoints.length - 1; i++) {
@@ -1293,12 +1317,6 @@ window.Dos4Siete = (function () {
                     const p1 = linePoints[i];
                     const p2 = linePoints[i + 1];
                     const p3 = linePoints[i + 2] || p2;
-
-                    // Simple cubic bezier using mock control points for smoothness
-                    // Or just standard C command if we manual calc control points
-                    // Let's use simple Q (Quadratic) or C (Cubic) if we had a library.
-                    // Fallback: Simple Line with nice stroke
-                    // Better: "S" command for smooth polyline?
 
                     // Implementing basic Catmull-Rom to Bezier conversion for smoothness
                     const cp1x = i === 0 ? p1.x : p1.x + (p2.x - p0.x) * 0.15;
@@ -1308,9 +1326,6 @@ window.Dos4Siete = (function () {
 
                     d += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2.x} ${p2.y}`;
                 }
-
-                // Drop Shadow for Line
-                // html += `<path d="${d}" fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="4" transform="translate(0, 2)" />`; // Manual shadow
 
                 html += `<path d="${d}" fill="none" stroke="#F59E0B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="drop-shadow-md" />`;
 
@@ -1340,7 +1355,11 @@ window.Dos4Siete = (function () {
             const btnClose = document.getElementById('btn-close-modal');
             const btnCancel = document.getElementById('btn-cancel-modal');
 
-            if (!btnNew) console.error("Btn New Voiceover not found!");
+            if (!btnNew) {
+                // Not finding button is okay if widget isn't active
+                // console.error("Btn New Voiceover not found!");
+                return;
+            }
             if (!modal) console.error("Modal not found!");
 
             const openModal = () => {
@@ -1378,18 +1397,6 @@ window.Dos4Siete = (function () {
                     if (e.target === modal) closeModal();
                 });
             }
-
-            // Char counter
-            if (ttsInput && charCount) {
-                ttsInput.addEventListener('input', (e) => {
-                    charCount.textContent = e.target.value.length;
-                    if (e.target.value.length > 2000) {
-                        charCount.classList.add('text-red-500');
-                    } else {
-                        charCount.classList.remove('text-red-500');
-                    }
-                });
-            }
         }
     };
 
@@ -1413,7 +1420,7 @@ window.Dos4Siete = (function () {
             const cursor = document.getElementById('demo-cursor');
             const el = document.querySelector(selector);
 
-            if (!el) { console.warn(`Target not found: ${selector}`); return; }
+            if (!el) { return; }
             if (!cursor) { console.warn("Cursor not found"); return; }
 
             // Ensure Visibility
@@ -1503,6 +1510,7 @@ window.Dos4Siete = (function () {
         initComparativeStats: () => ComparativeStatsModule.init(),
         initVoiceoverManager: () => VoiceoverModalModule.init(),
         switchStatsTab: (tab) => QueueStatsModule.switchStatsTab(tab),
-        initTransferDemo: () => TransferDemoModule.init()
+        initTransferDemo: () => TransferDemoModule.init(),
+        toggleComparativeSeries: (idx) => ComparativeStatsModule.toggleSeries(idx)
     };
 })();
