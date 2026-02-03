@@ -68,11 +68,25 @@
                 border-radius: 4px;
                 opacity: 0.5;
             }
+
+            /* Animations */
+            @keyframes ping-slow {
+
+                75%,
+                100% {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+
+            .animate-ping-slow {
+                animation: ping-slow 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+            }
         </style>
 
         <!-- WIDGET CONTAINER -->
         <div
-            class="w-full max-w-6xl h-[55vh] md:h-[800px] bg-white rounded-lg overflow-hidden shadow-2xl flex flex-col border border-gray-200">
+            class="w-full max-w-6xl h-[55vh] md:h-[800px] bg-white rounded-lg overflow-hidden shadow-2xl flex flex-col border border-gray-200 relative">
 
             <!-- 1. TOP NAVBAR -->
             <div class="h-14 bg-[#1E293B] flex items-center px-4 justify-between shrink-0">
@@ -412,9 +426,403 @@
 
             </div>
 
+            <!-- BACKDROP: Glass Effect -->
+            <div id="overlay-backdrop"
+                class="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 opacity-0 transition-opacity duration-700 pointer-events-none">
+            </div>
+
+            <!-- CALL OVERLAY -->
+            <div id="call-overlay"
+                class="absolute bottom-10 right-0 md:right-4 w-full md:w-96 bg-white rounded-t-xl md:rounded-lg md:rounded-b-none shadow-2xl border-t md:border border-gray-200 overflow-hidden z-20 font-['Outfit'] transition-all duration-500 ease-out transform translate-y-full md:translate-y-10 opacity-0">
+
+                <!-- STATE 0: INCOMING CALL (New) -->
+                <div id="state-incoming-call"
+                    class="p-6 flex flex-col items-center justify-center text-center h-full relative overflow-hidden transition-all duration-300">
+                    <!-- Background pulses -->
+                    <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-white -z-10"></div>
+
+                    <div class="mb-6 relative mt-4">
+                        <div
+                            class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-gray-400 text-3xl overflow-hidden border-4 border-white shadow-lg z-10 relative">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <!-- Pulse animation rings -->
+                        <div
+                            class="absolute inset-0 rounded-full border-4 border-[#29ABE2] animate-ping-slow opacity-30">
+                        </div>
+                        <div class="absolute inset-0 rounded-full border-4 border-[#29ABE2] animate-ping-slow opacity-20"
+                            style="animation-delay: 0.5s"></div>
+                    </div>
+
+                    <h3 class="text-2xl font-bold text-gray-800 mb-1">Diego Morales</h3>
+                    <p class="text-[#29ABE2] font-medium mb-1">Posible Cliente</p>
+                    <p class="text-gray-400 text-sm mb-10 flex items-center gap-2"><i
+                            class="fas fa-phone-volume animate-pulse"></i> Llamada entrante...</p>
+
+                    <div class="flex gap-10 items-center justify-center w-full mb-4">
+                        <!-- Decline -->
+                        <div class="flex flex-col items-center gap-2">
+                            <button onclick="declineCall()"
+                                class="w-16 h-16 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600 transition-transform hover:scale-110 shadow-lg group">
+                                <i class="fas fa-phone-slash text-2xl group-active:scale-90 transition-transform"></i>
+                            </button>
+                            <span class="text-xs text-gray-400 font-medium">Ignorar</span>
+                        </div>
+
+                        <!-- Accept -->
+                        <div class="flex flex-col items-center gap-2">
+                            <button onclick="acceptCall()"
+                                class="w-16 h-16 rounded-full bg-[#16a34a] text-white flex items-center justify-center hover:bg-green-600 transition-transform hover:scale-110 shadow-lg animate-pulse hover:animate-none group">
+                                <i
+                                    class="fas fa-phone text-2xl transform rotate-90 group-active:scale-90 transition-transform"></i>
+                            </button>
+                            <span class="text-xs text-gray-400 font-medium">Contestar</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STATE 1: ACTIVE CALL (Initially Hidden) -->
+                <div id="state-active-call" class="hidden transition-all duration-300">
+                    <!-- Header -->
+                    <div class="bg-[#2C3E50] p-4 flex items-center justify-between text-white">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-10 h-10 rounded-full bg-[#EAB308]/20 flex items-center justify-center text-[#EAB308] font-bold text-lg border border-[#EAB308]/50">
+                                D
+                            </div>
+                            <div>
+                                <div class="font-bold text-sm">Diego Morales</div>
+                                <div class="text-xs text-gray-300">Iberia Systems</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div id="call-timer" class="text-red-400 font-mono font-bold tracking-widest">00:00</div>
+                            <button class="text-gray-400 hover:text-white"><i class="fas fa-minus"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-6">
+                            <div class="space-y-1">
+                                <div class="text-xs text-gray-500 font-medium">Contact Info</div>
+                                <div class="font-medium text-gray-800">Diego Morales</div>
+                            </div>
+                            <!-- End Call Button -->
+                            <button id="btn-end-call" onclick="endCall()"
+                                class="bg-gradient-to-b from-red-500 to-red-600 text-white px-4 py-2 rounded shadow-md hover:from-red-600 hover:to-red-700 transition-all font-bold text-sm flex items-center gap-2 transform hover:scale-105 active:scale-95">
+                                FINALIZAR LLAMADA
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-[100px_1fr] gap-y-3 text-sm">
+                            <div class="text-right text-[#29ABE2]">Propietario de<br>Posible cliente</div>
+                            <div class="font-medium text-gray-700 pl-2 self-center">Diego Morales</div>
+
+                            <div class="text-right text-[#29ABE2]">Correo<br>electrónico</div>
+                            <div class="text-gray-400 pl-2 self-center">diego.morales@iberiasys.com</div>
+
+                            <div class="text-right text-[#29ABE2]">Teléfono</div>
+                            <div class="text-gray-700 pl-2 self-center">+34 912 34 56 78</div>
+
+                            <div class="text-right text-[#29ABE2]">Móvil</div>
+                            <div class="text-gray-700 pl-2 self-center">+34 612 98 76 54</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STATE 2: DISPOSITION (Hidden initially) -->
+                <div id="state-disposition"
+                    class="hidden p-6 opacity-0 transition-all duration-300 transform translate-y-4">
+                    <h3 class="text-gray-700 font-semibold mb-3">Disposición de llamadas</h3>
+
+                    <div class="mb-4">
+                        <label class="block text-xs text-[#29ABE2] mb-1">Descripción</label>
+                        <div class="relative">
+                            <textarea id="input-disposition"
+                                class="w-full border border-gray-300 rounded p-2 text-sm focus:outline-none focus:border-[#29ABE2] h-20 resize-none transition-shadow focus:shadow-md"
+                                placeholder="Resultados"></textarea>
+                            <div class="absolute bottom-2 right-2 text-gray-400 text-xs"><i class="fas fa-pen"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between border-t border-gray-100 pt-4 mb-4">
+                        <div class="text-gray-600 font-medium">Seguimiento</div>
+                        <div class="relative group">
+                            <button id="btn-followup-trigger"
+                                class="text-[#29ABE2] hover:underline font-medium text-sm flex items-center gap-1">
+                                Agregar <i class="fas fa-chevron-down text-xs"></i>
+                            </button>
+                            <!-- Hover Dropdown -->
+                            <div id="dropdown-followup"
+                                class="absolute bottom-full right-0 mb-2 w-32 bg-white rounded-lg shadow-lg border border-gray-100 hidden group-hover:block transition-all animate-fade-in-up origin-bottom-right transform">
+                                <div class="p-1">
+                                    <div
+                                        class="px-3 py-2 hover:bg-blue-50 text-gray-700 text-sm cursor-pointer rounded transition-colors">
+                                        Llamada</div>
+                                    <div id="option-meeting"
+                                        class="px-3 py-2 hover:bg-blue-50 text-gray-700 text-sm cursor-pointer rounded bg-blue-50/50 transition-colors">
+                                        Reunión</div>
+                                    <div
+                                        class="px-3 py-2 hover:bg-blue-50 text-gray-700 text-sm cursor-pointer rounded transition-colors">
+                                        Tarea</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="selected-tags" class="flex flex-wrap gap-2 mb-2"></div>
+
+                    <button id="btn-finish-disposition" onclick="finishDisposition()"
+                        class="bg-[#29ABE2] text-white px-6 py-2 rounded w-40 font-medium hover:bg-blue-600 transition-all shadow-sm transform hover:scale-105 active:scale-95">
+                        Terminado
+                    </button>
+                </div>
+
+                <!-- STATE 3: SUCCESS (Hidden initially) -->
+                <div id="state-success"
+                    class="hidden absolute inset-0 bg-white flex flex-col items-center justify-center opacity-0 transition-opacity duration-300 z-50">
+                    <div
+                        class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4 animate-bounce">
+                        <i class="fas fa-check text-green-500 text-3xl"></i>
+                    </div>
+                    <h3 class="text-gray-800 font-bold text-lg">¡Llamada registrada!</h3>
+                    <p class="text-gray-500 text-sm mt-1">El seguimiento se ha guardado.</p>
+                </div>
+
+            </div>
+
         </div>
 
     </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        let callTimer;
+        let seconds = 0;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Start Incoming Call Flow after delay
+            setTimeout(() => {
+                showIncomingCall();
+            }, 1000);
+
+            // Manual Tag Logic
+            const dropdown = document.getElementById('dropdown-followup');
+            if (dropdown) {
+                const options = dropdown.querySelectorAll('div > div');
+                options.forEach(opt => {
+                    opt.addEventListener('click', (e) => {
+                        addTag(e.target.innerText);
+                        dropdown.classList.add('hidden');
+                    });
+                });
+            }
+        });
+
+        function showIncomingCall() {
+            const overlay = document.getElementById('call-overlay');
+            const backdrop = document.getElementById('overlay-backdrop');
+
+            // Show Backdrop
+            if (backdrop) backdrop.classList.remove('opacity-0');
+
+            // Slide Up Overlay
+            if (overlay) {
+                overlay.classList.remove('translate-y-10', 'translate-y-full', 'opacity-0');
+            }
+        }
+
+        function declineCall() {
+            const overlay = document.getElementById('call-overlay');
+            const backdrop = document.getElementById('overlay-backdrop');
+            if (overlay) overlay.classList.add('translate-y-full', 'opacity-0');
+            if (backdrop) backdrop.classList.add('opacity-0');
+        }
+
+        function acceptCall() {
+            const incomingState = document.getElementById('state-incoming-call');
+            const activeState = document.getElementById('state-active-call');
+
+            // Transition
+            incomingState.classList.add('hidden');
+            activeState.classList.remove('hidden');
+
+            // Start Timer
+            startTimer();
+
+            // Start Demo Automation Logic if needed
+            setTimeout(runCrmDemo, 1000);
+        }
+
+        function startTimer() {
+            seconds = 0;
+            const timerEl = document.getElementById('call-timer');
+            if (timerEl) timerEl.textContent = "00:00";
+
+            clearInterval(callTimer);
+            callTimer = setInterval(() => {
+                seconds++;
+                const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+                const secs = (seconds % 60).toString().padStart(2, '0');
+                if (timerEl) timerEl.textContent = `${mins}:${secs}`;
+            }, 1000);
+        }
+
+        function endCall() {
+            clearInterval(callTimer);
+            const activeState = document.getElementById('state-active-call');
+            const dispState = document.getElementById('state-disposition');
+
+            activeState.classList.add('opacity-0', '-translate-y-4');
+
+            setTimeout(() => {
+                activeState.classList.add('hidden');
+                activeState.classList.remove('opacity-0', '-translate-y-4');
+
+                dispState.classList.remove('hidden');
+                requestAnimationFrame(() => {
+                    dispState.classList.remove('opacity-0', 'translate-y-4');
+                });
+            }, 300);
+        }
+
+        function addTag(text) {
+            const container = document.getElementById('selected-tags');
+            if (!container) return;
+            const tag = document.createElement('div');
+            tag.className = 'bg-blue-50 text-[#29ABE2] px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1 animate-fade-in-up';
+            tag.innerHTML = `${text} <i class="fas fa-times cursor-pointer hover:text-blue-700" onclick="this.parentElement.remove()"></i>`;
+            container.appendChild(tag);
+        }
+
+        function finishDisposition() {
+            const dispState = document.getElementById('state-disposition');
+            const successState = document.getElementById('state-success');
+            const overlay = document.getElementById('call-overlay');
+            const backdrop = document.getElementById('overlay-backdrop');
+
+            successState.classList.remove('hidden');
+            requestAnimationFrame(() => successState.classList.remove('opacity-0'));
+
+            setTimeout(() => {
+                overlay.classList.add('opacity-0', 'translate-y-full', 'md:translate-y-10');
+                if (backdrop) backdrop.classList.add('opacity-0');
+
+                // Reset for demo loop? Or just stop. User didn't request infinite loop.
+                // Let's reset nicely just in case.
+                setTimeout(() => {
+                    successState.classList.add('hidden', 'opacity-0');
+                    dispState.classList.add('hidden', 'opacity-0', 'translate-y-4');
+
+                    // Reset to incoming?
+                    // document.getElementById('state-incoming-call').classList.remove('hidden');
+                }, 1000);
+            }, 2000);
+        }
+
+        // --- AUTOMATION DEMO (Adapted for this flow) ---
+        async function runCrmDemo() {
+            // ... (Simple logic to simulate End Call -> Disposition)
+            if (document.getElementById('demo-cursor')) return;
+
+            // Create Cursor
+            const cursor = document.createElement('div');
+            cursor.id = 'demo-cursor';
+            cursor.innerHTML = '<i class="fas fa-hand-pointer text-gray-900 text-2xl drop-shadow-xl border-white" style="-webkit-text-stroke: 1px white;"></i>';
+            cursor.style.position = 'fixed';
+            cursor.style.zIndex = '9999';
+            cursor.style.pointerEvents = 'none';
+            cursor.style.transition = 'all 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
+            cursor.style.bottom = '-50px';
+            cursor.style.right = '-50px';
+            document.body.appendChild(cursor);
+
+            const sleep = ms => new Promise(r => setTimeout(r, ms));
+            const moveCursorTo = async (selector) => {
+                const el = document.querySelector(selector);
+                if (!el) return false;
+                const rect = el.getBoundingClientRect();
+                if (rect.width === 0) return false;
+                cursor.style.left = (rect.left + rect.width / 2) + 'px';
+                cursor.style.top = (rect.top + rect.height / 2) + 'px';
+                cursor.style.opacity = '1';
+                await sleep(800);
+                return true;
+            };
+            const clickElement = async (selector) => {
+                const el = document.querySelector(selector);
+                if (!el) return;
+                cursor.style.transform = 'scale(0.8)';
+                await sleep(150);
+                cursor.style.transform = 'scale(1)';
+                el.click();
+                await sleep(500);
+            };
+
+            const typeText = async (selector, text) => {
+                const el = document.querySelector(selector);
+                if (!el) return;
+                el.value = "";
+                el.focus();
+                for (let i = 0; i < text.length; i++) {
+                    el.value += text[i];
+                    await sleep(50);
+                }
+            };
+
+            // Loop
+            while (true) {
+                // Wait during active call
+                await sleep(3000);
+
+                // End Call
+                if (await moveCursorTo('#btn-end-call')) await clickElement('#btn-end-call');
+
+                await sleep(1000);
+
+                // Disposition
+                if (await moveCursorTo('#input-disposition')) {
+                    await clickElement('#input-disposition');
+                    await typeText('#input-disposition', "Cliente interesado, agendar seguimiento.");
+                }
+
+                await sleep(500);
+
+                // Finish
+                if (await moveCursorTo('#btn-finish-disposition')) await clickElement('#btn-finish-disposition');
+
+                await sleep(5000); // Wait for reset
+
+                // Restart logic - Need to manually trigger incoming call again if we want loop
+                // But for now, just stopping cursor or hiding it
+                cursor.style.opacity = '0';
+
+                // Break loop if we don't want strict repetition, or wait long time
+                // Let's loop but we need to reset state to Incoming first
+                await sleep(2000);
+
+                // Reset to Incoming for demo loop
+                const overlay = document.getElementById('call-overlay');
+                const backdrop = document.getElementById('overlay-backdrop');
+
+                // Force reset visuals
+                document.getElementById('state-success').classList.add('hidden');
+                document.getElementById('state-disposition').classList.add('hidden');
+                document.getElementById('state-active-call').classList.add('hidden');
+                document.getElementById('state-incoming-call').classList.remove('hidden');
+
+                // Show again
+                showIncomingCall();
+
+                // Automate Accept?
+                await sleep(2000);
+                if (await moveCursorTo('#state-incoming-call button:nth-child(2)')) { // Accept button
+                    await clickElement('#state-incoming-call button:nth-child(2)');
+                }
+            }
+        }
+    </script>
 
     <!-- 
     ==========================================================================
