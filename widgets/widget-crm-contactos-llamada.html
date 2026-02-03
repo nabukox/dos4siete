@@ -346,6 +346,11 @@
             </div>
 
 
+            <!-- BACKDROP: Glass Effect -->
+            <div id="overlay-backdrop"
+                class="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 opacity-0 transition-opacity duration-700 pointer-events-none">
+            </div>
+
             <!-- CALL OVERLAY (Moved Inside) -->
             <!-- Initial State: Hidden (translate-y-10 opacity-0) -->
             <div id="call-overlay"
@@ -480,6 +485,17 @@
                 // Entrance Animation
                 setTimeout(() => {
                     const overlay = document.getElementById('call-overlay');
+                    const backdrop = document.getElementById('overlay-backdrop');
+
+                    // Show Backdrop first/concurrently
+                    if (backdrop) {
+                        setTimeout(() => {
+                            backdrop.classList.remove('opacity-0');
+                        }, 500); // Start fading in shortly after overlay starts moving? User said "al segundo". 
+                        // Overlay starts at 500ms. "al segundo" => 1000ms. 
+                        // Let's set it to 600ms here so it builds up as overlay rises, or 1000ms absolute.
+                    }
+
                     if (overlay) {
                         // Remove both potential translation classes to ensure visibility
                         overlay.classList.remove('translate-y-10', 'translate-y-full', 'opacity-0');
@@ -558,6 +574,8 @@
                     // Exit Animation (Use translate-y-full for generic hide, or check screen size? 
                     // Let's use both or just translate-y-full as it covers both cases effectively)
                     overlay.classList.add('opacity-0', 'translate-y-full', 'md:translate-y-10');
+                    const backdrop = document.getElementById('overlay-backdrop');
+                    if (backdrop) backdrop.classList.add('opacity-0');
 
                     // Reset Loop
                     setTimeout(() => {
@@ -572,6 +590,14 @@
 
                         // Re-enter
                         overlay.classList.remove('opacity-0', 'translate-y-full', 'md:translate-y-10');
+                        
+                        // Re-enter Backdrop (with delay to match initial load feel)
+                        if (backdrop) {
+                            setTimeout(() => {
+                                backdrop.classList.remove('opacity-0');
+                            }, 500); 
+                        }
+
                         // Ensure we remove the specific ones we added
                         startTimer();
                     }, 1000);
