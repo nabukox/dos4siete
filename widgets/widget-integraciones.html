@@ -41,7 +41,7 @@
     <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
 
     <div id="widget-integraciones-embed"
-        class="relative w-full h-full min-h-[750px] flex items-center justify-center bg-transparent font-[Outfit]">
+        class="relative w-full h-full min-h-[550px] md:min-h-[750px] flex items-center justify-center bg-transparent font-[Outfit] overflow-hidden">
 
         <style>
             /* Scoped Styles for Widget Integraciones */
@@ -184,21 +184,22 @@
         </div>
 
 
-        <!-- MAIN COMPOSITION CONTAINER (Taller to prevent clipping) -->
-        <div class="relative w-full max-w-4xl h-[750px] flex items-center justify-center">
+        <!-- MAIN COMPOSITION CONTAINER (Scaled on mobile to fit) -->
+        <div
+            class="relative w-full max-w-4xl h-[750px] flex items-center justify-center transform scale-[0.60] sm:scale-[0.75] md:scale-100 origin-center transition-transform duration-500">
 
             <!-- ORBITING ITEM 1: Zoho (Left Equator) -->
-            <div class="absolute top-[50%] left-[18%] opacity-80 animate-float z-0 orbit-item">
+            <div class="absolute top-[50%] left-[calc(50%-260px)] -translate-y-1/2 opacity-90 z-40 orbit-item">
                 <div
-                    class="glass-shape w-24 h-24 rounded-2xl flex items-center justify-center shadow-lg overflow-hidden p-1">
+                    class="glass-shape w-20 h-20 rounded-2xl flex items-center justify-center shadow-lg overflow-hidden p-1">
                     <img src="../assets/img/zoho-logo-web.svg" alt="Zoho" class="w-full h-full object-contain">
                 </div>
             </div>
 
             <!-- ORBITING ITEM 2: Teams (Right Equator) -->
-            <div class="absolute top-[50%] right-[18%] animate-float-delayed z-0 orbit-item">
-                <div class="glass-shape w-28 h-28 rounded-full flex items-center justify-center shadow-xl bg-white/80">
-                    <img src="../assets/img/microsoft-teams-1.svg" alt="Teams" class="w-16 h-16 object-contain">
+            <div class="absolute top-[50%] right-[calc(50%-260px)] -translate-y-1/2 z-40 orbit-item">
+                <div class="glass-shape w-24 h-24 rounded-full flex items-center justify-center shadow-xl bg-white/80">
+                    <img src="../assets/img/microsoft-teams-1.svg" alt="Teams" class="w-14 h-14 object-contain">
                 </div>
                 <div
                     class="absolute -top-6 left-1/2 -translate-x-1/2 text-gray-400 text-xs font-medium tracking-widest text-center bg-white/50 px-2 rounded backdrop-blur-sm">
@@ -207,19 +208,19 @@
 
             <!-- ORBITING ITEM 3: Salesforce (Bottom Right) -->
             <!-- Layered ON TOP of phone (z-50) and moved back to original pos -->
-            <div class="absolute bottom-[8%] right-[22%] animate-float z-50 orbit-item">
+            <div class="absolute bottom-[10%] right-[calc(50%-240px)] z-50 orbit-item">
                 <div
-                    class="glass-shape w-36 h-36 rounded-[30px] flex items-center justify-center shadow-lg border-2 border-blue-50 bg-white/60">
+                    class="glass-shape w-28 h-28 rounded-[30px] flex items-center justify-center shadow-lg border-2 border-blue-50 bg-white/60">
                     <img src="../assets/img/Salesforce-Logo.png" alt="Salesforce"
-                        class="w-24 h-24 object-contain mix-blend-multiply opacity-100">
+                        class="w-20 h-20 object-contain mix-blend-multiply opacity-100">
                 </div>
             </div>
 
             <!-- ORBITING ITEM 4: Odoo (Bottom Left) -->
-            <div class="absolute bottom-[8%] left-[22%] z-40 animate-float-delayed orbit-item">
+            <div class="absolute bottom-[10%] left-[calc(50%-240px)] z-40 orbit-item">
                 <div
-                    class="bg-white w-32 h-32 rounded-3xl flex items-center justify-center shadow-2xl border-4 border-white ring-1 ring-gray-100 transform rotate-[-5deg]">
-                    <img src="../assets/img/odoo_logo.png" alt="Odoo" class="w-22 h-22 object-contain">
+                    class="bg-white w-28 h-28 rounded-3xl flex items-center justify-center shadow-2xl border-4 border-white ring-1 ring-gray-100 transform rotate-[-5deg]">
+                    <img src="../assets/img/odoo_logo.png" alt="Odoo" class="w-20 h-20 object-contain">
                     <!-- Validation Badge -->
                     <div
                         class="absolute -top-3 -right-3 w-9 h-9 bg-green-500 rounded-full flex items-center justify-center text-white border-2 border-white shadow-sm">
