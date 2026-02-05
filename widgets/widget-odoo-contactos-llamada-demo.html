@@ -99,15 +99,17 @@
             }
         </style>
 
-        <!-- CURSOR Demo -->
-        <div id="demo-cursor"
-            class="absolute top-0 left-0 z-[9999] opacity-0 pointer-events-none transition-all duration-700 ease-in-out transform origin-top-left drop-shadow-xl text-black">
-            <i class="fas fa-hand-pointer text-3xl" style="text-shadow: 2px 2px 0px white;"></i>
-        </div>
+
 
         <!-- WIDGET CONTAINER -->
-        <div
+        <div id="demo-window-container"
             class="w-full max-w-6xl h-[700px] bg-white rounded-lg overflow-hidden shadow-2xl relative flex flex-col border border-gray-200 mx-auto">
+
+            <!-- CURSOR Demo (Inside Window) -->
+            <div id="demo-cursor"
+                class="absolute top-0 left-0 z-[9999] opacity-0 pointer-events-none transition-all duration-700 ease-in-out transform origin-top-left drop-shadow-xl text-black">
+                <i class="fas fa-hand-pointer text-3xl" style="text-shadow: 2px 2px 0px white;"></i>
+            </div>
 
             <!-- 1. ODOO HEADER -->
             <div class="h-12 odoo-header flex items-center justify-between px-4 text-white shrink-0 z-20">
@@ -346,49 +348,48 @@
                             </div>
                             <div class="mt-1"><i class="far fa-clock text-green-500 text-xs"></i></div>
                         </div>
+                    </div>
 
-                        <!-- CARD 8 -->
-                        <div class="bg-white border border-gray-200 rounded shadow-sm hover:shadow-md transition-shadow p-3 flex gap-3 items-center group contact-card"
-                            data-name="Camila Ortega-Lee" data-phone="+34 684 46 34 53" data-role="Cliente"
-                            data-img="https://ui-avatars.com/api/?name=Camila+Ortega&background=a5f3fc&color=164e63&size=128">
-                            <div class="w-16 h-16 shrink-0 bg-gray-200 rounded-sm overflow-hidden">
-                                <img src="https://ui-avatars.com/api/?name=Camila+Ortega&background=a5f3fc&color=164e63&size=128"
-                                    class="w-full h-full object-cover">
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <h3 class="font-bold text-gray-800 text-sm truncate">Camila Ortega-Lee</h3>
-                                <div class="flex items-center justify-between mt-1">
-                                    <span class="text-sm font-medium text-[#008784] truncate">+34 684 46 34 53</span>
-                                    <button
-                                        class="btn-call-green w-8 h-8 rounded-full flex items-center justify-center shadow-sm shrink-0">
-                                        <i class="fas fa-phone text-sm transform -rotate-90"></i>
-                                    </button>
-                                </div>
-                                <div class="mt-1"><i class="far fa-clock text-yellow-500 text-xs"></i></div>
-                            </div>
+                    <!-- CARD 8 -->
+                    <div class="bg-white border border-gray-200 rounded shadow-sm hover:shadow-md transition-shadow p-3 flex gap-3 items-center group contact-card"
+                        data-name="Camila Ortega-Lee" data-phone="+34 684 46 34 53" data-role="Cliente"
+                        data-img="https://ui-avatars.com/api/?name=Camila+Ortega&background=a5f3fc&color=164e63&size=128">
+                        <div class="w-16 h-16 shrink-0 bg-gray-200 rounded-sm overflow-hidden">
+                            <img src="https://ui-avatars.com/api/?name=Camila+Ortega&background=a5f3fc&color=164e63&size=128"
+                                class="w-full h-full object-cover">
                         </div>
-
-                        <!-- CARD 9 -->
-                        <div class="bg-white border border-gray-200 rounded shadow-sm hover:shadow-md transition-shadow p-3 flex gap-3 items-center group contact-card"
-                            data-name="Gabriel Ruiz" data-phone="+34 932 71 69 55" data-role="Cliente"
-                            data-img="https://ui-avatars.com/api/?name=Gabriel+Ruiz&background=e5e7eb&color=374151&size=128">
-                            <div class="w-16 h-16 shrink-0 bg-gray-200 rounded-sm overflow-hidden">
-                                <img src="https://ui-avatars.com/api/?name=Gabriel+Ruiz&background=e5e7eb&color=374151&size=128"
-                                    class="w-full h-full object-cover">
+                        <div class="flex-1 min-w-0">
+                            <h3 class="font-bold text-gray-800 text-sm truncate">Camila Ortega-Lee</h3>
+                            <div class="flex items-center justify-between mt-1">
+                                <span class="text-sm font-medium text-[#008784] truncate">+34 684 46 34 53</span>
+                                <button
+                                    class="btn-call-green w-8 h-8 rounded-full flex items-center justify-center shadow-sm shrink-0">
+                                    <i class="fas fa-phone text-sm transform -rotate-90"></i>
+                                </button>
                             </div>
-                            <div class="flex-1 min-w-0">
-                                <h3 class="font-bold text-gray-800 text-sm truncate">Gabriel Ruiz</h3>
-                                <div class="flex items-center justify-between mt-1">
-                                    <span class="text-sm font-medium text-[#008784] truncate">+34 932 71 69 55</span>
-                                    <button
-                                        class="btn-call-green w-8 h-8 rounded-full flex items-center justify-center shadow-sm shrink-0">
-                                        <i class="fas fa-phone text-sm transform -rotate-90"></i>
-                                    </button>
-                                </div>
-                                <div class="mt-1"><i class="far fa-clock text-pink-500 text-xs"></i></div>
-                            </div>
+                            <div class="mt-1"><i class="far fa-clock text-yellow-500 text-xs"></i></div>
                         </div>
+                    </div>
 
+                    <!-- CARD 9 -->
+                    <div class="bg-white border border-gray-200 rounded shadow-sm hover:shadow-md transition-shadow p-3 flex gap-3 items-center group contact-card"
+                        data-name="Gabriel Ruiz" data-phone="+34 932 71 69 55" data-role="Cliente"
+                        data-img="https://ui-avatars.com/api/?name=Gabriel+Ruiz&background=e5e7eb&color=374151&size=128">
+                        <div class="w-16 h-16 shrink-0 bg-gray-200 rounded-sm overflow-hidden">
+                            <img src="https://ui-avatars.com/api/?name=Gabriel+Ruiz&background=e5e7eb&color=374151&size=128"
+                                class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h3 class="font-bold text-gray-800 text-sm truncate">Gabriel Ruiz</h3>
+                            <div class="flex items-center justify-between mt-1">
+                                <span class="text-sm font-medium text-[#008784] truncate">+34 932 71 69 55</span>
+                                <button
+                                    class="btn-call-green w-8 h-8 rounded-full flex items-center justify-center shadow-sm shrink-0">
+                                    <i class="fas fa-phone text-sm transform -rotate-90"></i>
+                                </button>
+                            </div>
+                            <div class="mt-1"><i class="far fa-clock text-pink-500 text-xs"></i></div>
+                        </div>
                     </div>
                 </div>
 
@@ -488,157 +489,161 @@
     -->
 
         <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const widgetContainer = document.getElementById('voip-widget-container');
-            const btnClose = document.getElementById('btn-close-widget');
-            const btnHangup = document.getElementById('btn-hangup');
-            
-            // UI Elements to update
-            const elName = document.getElementById('voip-contact-name');
-            const elRole = document.getElementById('voip-contact-role');
-            const elPhone = document.getElementById('voip-contact-phone');
-            const elImg = document.getElementById('voip-contact-img');
-            const elTimer = document.getElementById('call-timer');
-            
-            let callInterval;
+            document.addEventListener('DOMContentLoaded', () => {
+                const widgetContainer = document.getElementById('voip-widget-container');
+                const btnClose = document.getElementById('btn-close-widget');
+                const btnHangup = document.getElementById('btn-hangup');
 
-            // 1. Handle Contact Call Clicks
-            document.querySelectorAll('.btn-call-green').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Prevent card click if any
-                    
-                    // Find parent card
-                    const card = btn.closest('.contact-card');
-                    if(card) {
-                        const name = card.dataset.name;
-                        const phone = card.dataset.phone;
-                        const role = card.dataset.role || 'Contacto';
-                        const img = card.dataset.img;
+                // UI Elements to update
+                const elName = document.getElementById('voip-contact-name');
+                const elRole = document.getElementById('voip-contact-role');
+                const elPhone = document.getElementById('voip-contact-phone');
+                const elImg = document.getElementById('voip-contact-img');
+                const elTimer = document.getElementById('call-timer');
 
-                        startCall(name, phone, role, img);
-                    }
+                let callInterval;
+
+                // 1. Handle Contact Call Clicks
+                document.querySelectorAll('.btn-call-green').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation(); // Prevent card click if any
+
+                        // Find parent card
+                        const card = btn.closest('.contact-card');
+                        if (card) {
+                            const name = card.dataset.name;
+                            const phone = card.dataset.phone;
+                            const role = card.dataset.role || 'Contacto';
+                            const img = card.dataset.img;
+
+                            startCall(name, phone, role, img);
+                        }
+                    });
+                });
+
+                // 2. Start Call Function
+                function startCall(name, phone, role, img) {
+                    // Update UI
+                    elName.textContent = name;
+                    elPhone.textContent = phone;
+                    elRole.textContent = role;
+                    elImg.src = img;
+
+                    // Reset timer
+                    clearInterval(callInterval);
+                    let seconds = 0;
+                    elTimer.textContent = "00:00";
+
+                    // Show Widget
+                    widgetContainer.classList.remove('hidden');
+                    // Small delay for CSS transition
+                    setTimeout(() => {
+                        widgetContainer.classList.remove('translate-y-4', 'opacity-0');
+                    }, 10);
+
+                    // Start timer simulation
+                    callInterval = setInterval(() => {
+                        seconds++;
+                        const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+                        const secs = (seconds % 60).toString().padStart(2, '0');
+                        elTimer.textContent = `${mins}:${secs}`;
+                    }, 1000);
+                }
+
+                // 3. Close / Hangup
+                function closeWidget() {
+                    widgetContainer.classList.add('translate-y-4', 'opacity-0');
+                    clearInterval(callInterval);
+
+                    setTimeout(() => {
+                        widgetContainer.classList.add('hidden');
+                    }, 300); // Wait for transition
+                }
+
+                // Listeners
+                btnClose.addEventListener('click', closeWidget);
+                btnHangup.addEventListener('click', closeWidget);
+
+                // --- DEMO AUTOMATION SCRIPT ---
+
+                const cursor = document.getElementById('demo-cursor');
+                const targetBtn = document.getElementById('target-contact-btn');
+                const hangupBtn = document.getElementById('btn-hangup');
+
+                function moveCursorTo(element, duration = 1000, callback) {
+                    if (!element) return;
+
+                    const container = document.getElementById('demo-window-container');
+                    const containerRect = container.getBoundingClientRect();
+                    const rect = element.getBoundingClientRect();
+
+                    // Calculate position relative to the container
+                    const targetX = (rect.left - containerRect.left) + (rect.width / 2);
+                    const targetY = (rect.top - containerRect.top) + (rect.height / 2);
+
+                    // Visible Cursor
+                    cursor.style.opacity = '1';
+                    cursor.style.transition = `all ${duration}ms cubic-bezier(0.25, 0.1, 0.25, 1)`;
+                    cursor.style.left = `${targetX}px`;
+                    cursor.style.top = `${targetY}px`;
+
+                    setTimeout(() => {
+                        callback && callback();
+                    }, duration);
+                }
+
+                function clickAnimation(element) {
+                    // Scale cursor down/up
+                    cursor.style.transform = "scale(0.8)";
+                    setTimeout(() => {
+                        cursor.style.transform = "scale(1)";
+                        // Trigger actual click
+                        element.click();
+                        // Add ripple/active effect to button manually if needed
+                        element.classList.add('bg-green-700', 'scale-90');
+                        setTimeout(() => element.classList.remove('bg-green-700', 'scale-90'), 200);
+                    }, 200);
+                }
+
+                function runDemoLoop() {
+                    // 1. Initial wait
+                    setTimeout(() => {
+                        // 2. Move to Contact Button
+                        moveCursorTo(targetBtn, 1500, () => {
+                            // 3. Click
+                            clickAnimation(targetBtn);
+
+                            // 4. Wait for call to "connect" and run a bit
+                            setTimeout(() => {
+                                // 5. Move to Hangup Button
+                                moveCursorTo(hangupBtn, 1500, () => {
+                                    // 6. Click Hangup
+                                    clickAnimation(hangupBtn);
+
+                                    // 7. Reset and Loop
+                                    setTimeout(() => {
+                                        // Move cursor away
+                                        cursor.style.left = "-50px";
+                                        cursor.style.top = "50%";
+
+                                        // Restart loop
+                                        runDemoLoop();
+                                    }, 1000);
+                                });
+                            }, 4000); // Call lasts 4 seconds
+                        });
+                    }, 1000);
+                }
+
+                // Start Demo
+                // Wait for everything to settle
+                setTimeout(runDemoLoop, 500);
+
+                // Handle Resize
+                window.addEventListener('resize', () => {
+                    // Reset cursor if needed, though absolute positioning handles it mostly
                 });
             });
-
-            // 2. Start Call Function
-            function startCall(name, phone, role, img) {
-                // Update UI
-                elName.textContent = name;
-                elPhone.textContent = phone;
-                elRole.textContent = role;
-                elImg.src = img;
-                
-                // Reset timer
-                clearInterval(callInterval);
-                let seconds = 0;
-                elTimer.textContent = "00:00";
-                
-                // Show Widget
-                widgetContainer.classList.remove('hidden');
-                // Small delay for CSS transition
-                setTimeout(() => {
-                    widgetContainer.classList.remove('translate-y-4', 'opacity-0');
-                }, 10);
-
-                // Start timer simulation
-                callInterval = setInterval(() => {
-                    seconds++;
-                    const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
-                    const secs = (seconds % 60).toString().padStart(2, '0');
-                    elTimer.textContent = `${mins}:${secs}`;
-                }, 1000);
-            }
-
-            // 3. Close / Hangup
-            function closeWidget() {
-                widgetContainer.classList.add('translate-y-4', 'opacity-0');
-                clearInterval(callInterval);
-                
-                setTimeout(() => {
-                    widgetContainer.classList.add('hidden');
-                }, 300); // Wait for transition
-            }
-
-            // Listeners
-            btnClose.addEventListener('click', closeWidget);
-            btnHangup.addEventListener('click', closeWidget);
-            
-            // --- DEMO AUTOMATION SCRIPT ---
-            
-            const cursor = document.getElementById('demo-cursor');
-            const targetBtn = document.getElementById('target-contact-btn');
-            const hangupBtn = document.getElementById('btn-hangup');
-            
-            function moveCursorTo(element, duration = 1000, callback) {
-                if(!element) return;
-                
-                const rect = element.getBoundingClientRect();
-                const targetX = rect.left + rect.width / 2;
-                const targetY = rect.top + rect.height / 2;
-                
-                // Visible Cursor
-                cursor.style.opacity = '1';
-                cursor.style.transition = `all ${duration}ms cubic-bezier(0.25, 0.1, 0.25, 1)`;
-                cursor.style.left = `${targetX}px`;
-                cursor.style.top = `${targetY}px`;
-                
-                setTimeout(() => {
-                    callback && callback();
-                }, duration);
-            }
-            
-            function clickAnimation(element) {
-                // Scale cursor down/up
-                cursor.style.transform = "scale(0.8)";
-                setTimeout(() => {
-                    cursor.style.transform = "scale(1)";
-                    // Trigger actual click
-                    element.click();
-                    // Add ripple/active effect to button manually if needed
-                    element.classList.add('bg-green-700', 'scale-90');
-                    setTimeout(() => element.classList.remove('bg-green-700', 'scale-90'), 200);
-                }, 200);
-            }
-            
-            function runDemoLoop() {
-                // 1. Initial wait
-                setTimeout(() => {
-                    // 2. Move to Contact Button
-                    moveCursorTo(targetBtn, 1500, () => {
-                        // 3. Click
-                        clickAnimation(targetBtn);
-                        
-                        // 4. Wait for call to "connect" and run a bit
-                        setTimeout(() => {
-                             // 5. Move to Hangup Button
-                             moveCursorTo(hangupBtn, 1500, () => {
-                                 // 6. Click Hangup
-                                 clickAnimation(hangupBtn);
-                                 
-                                 // 7. Reset and Loop
-                                 setTimeout(() => {
-                                     // Move cursor away
-                                     cursor.style.left = "-50px";
-                                     cursor.style.top = "50%";
-                                     
-                                     // Restart loop
-                                     runDemoLoop();
-                                 }, 1000);
-                             });
-                        }, 4000); // Call lasts 4 seconds
-                    });
-                }, 1000);
-            }
-            
-            // Start Demo
-            // Wait for everything to settle
-            setTimeout(runDemoLoop, 500);
-            
-            // Handle Resize
-            window.addEventListener('resize', () => {
-                 // Reset cursor if needed, though absolute positioning handles it mostly
-            });
-        });
         </script>
 </body>
 
