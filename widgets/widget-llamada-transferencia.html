@@ -112,6 +112,43 @@
                 transform: scale(1);
                 transition: all 0.2s ease-out;
             }
+
+            /* --- SKELETON & ANIMATIONS --- */
+            @keyframes shimmer {
+                0% {
+                    background-position: -200% 0;
+                }
+
+                100% {
+                    background-position: 200% 0;
+                }
+            }
+
+            .skeleton-bg {
+                background: linear-gradient(90deg, #f0f1f4 25%, #e2e4e8 50%, #f0f1f4 75%);
+                background-size: 200% 100%;
+                animation: shimmer 1.5s infinite linear;
+            }
+
+            @keyframes slideUpFade {
+                from {
+                    opacity: 0;
+                    transform: translateY(15px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .animate-slide-up {
+                animation: slideUpFade 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            }
+
+            .opacity-0-start {
+                opacity: 0;
+            }
         </style>
 
         <!-- WIDGET CONTAINER -->
@@ -502,75 +539,116 @@
                     <!-- Body -->
                     <div class="p-6 overflow-y-auto">
 
-                        <!-- Sentiment Analysis -->
-                        <div class="mb-6">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="text-xs font-bold text-gray-500 uppercase">Sentimiento Detectado</span>
-                                <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">Positivo
-                                    (85%)</span>
-                            </div>
-                            <div class="w-full bg-gray-100 rounded-full h-2 overflow-hidden flex">
-                                <div class="w-[85%] bg-gradient-to-r from-green-400 to-green-500 h-full"></div>
-                                <div class="w-[10%] bg-gray-200 h-full"></div> <!-- Neutral -->
-                                <div class="w-[5%] bg-red-200 h-full"></div> <!-- Negative -->
-                            </div>
-                        </div>
-
-                        <!-- Summary Content -->
-                        <div class="mb-6">
-                            <h3 class="text-gray-800 font-bold mb-3 flex items-center gap-2">
-                                <i class="fas fa-align-left text-indigo-500"></i> Resumen Ejecutivo
-                            </h3>
-                            <div
-                                class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-50 text-sm text-gray-700 leading-relaxed font-light">
-                                <p class="mb-2">El cliente <strong>Rubén Tarantino</strong> contactó para consultar
-                                    sobre la actualización de su plan actual a <strong>Fibra 600Mb</strong>.</p>
-                                <p class="mb-2">Mencionó que la competencia le ofreció un precio menor, pero prefiere
-                                    mantenerse con nosotros por la calidad del soporte.</p>
-                                <p>Se acordó enviar una propuesta comercial con un descuento del 10% por fidelidad.</p>
-                            </div>
-                        </div>
-
-                        <!-- Key Topics / Tags -->
-                        <div class="mb-6">
-                            <h3 class="text-gray-800 font-bold mb-3 flex items-center gap-2">
-                                <i class="fas fa-tags text-indigo-500"></i> Temas Clave
-                            </h3>
-                            <div class="flex flex-wrap gap-2">
-                                <span
-                                    class="px-3 py-1 bg-gray-100 text-gray-600 rounded-lg text-xs font-medium border border-gray-200">#Retención</span>
-                                <span
-                                    class="px-3 py-1 bg-blue-50 text-blue-600 rounded-lg text-xs font-medium border border-blue-100">#FibraÓptica</span>
-                                <span
-                                    class="px-3 py-1 bg-purple-50 text-purple-600 rounded-lg text-xs font-medium border border-purple-100">#Competencia</span>
-                                <span
-                                    class="px-3 py-1 bg-yellow-50 text-yellow-600 rounded-lg text-xs font-medium border border-yellow-100">#Descuento</span>
-                            </div>
-                        </div>
-
-                        <!-- Action Items -->
-                        <div>
-                            <h3 class="text-gray-800 font-bold mb-3 flex items-center gap-2">
-                                <i class="fas fa-check-circle text-indigo-500"></i> Siguientes Pasos
-                            </h3>
+                        <!-- SKELETON LOADER (Initially Visible) -->
+                        <div id="summary-skeleton" class="space-y-8">
+                            <!-- Sentiment Skeleton -->
                             <div class="space-y-2">
-                                <label
-                                    class="flex items-start gap-3 p-3 rounded-lg border border-gray-100 hover:bg-gray-50 cursor-pointer transition-colors group">
-                                    <input type="checkbox" checked
-                                        class="mt-1 w-4 h-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
-                                    <span class="text-sm text-gray-600 group-hover:text-gray-900">Enviar propuesta por
-                                        email (Plantilla: Retención)</span>
-                                </label>
-                                <label
-                                    class="flex items-start gap-3 p-3 rounded-lg border border-gray-100 hover:bg-gray-50 cursor-pointer transition-colors group">
-                                    <input type="checkbox"
-                                        class="mt-1 w-4 h-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
-                                    <span class="text-sm text-gray-600 group-hover:text-gray-900">Programar llamada de
-                                        seguimiento (3 días)</span>
-                                </label>
+                                <div class="flex justify-between">
+                                    <div class="h-3 w-32 rounded skeleton-bg"></div>
+                                    <div class="h-3 w-16 rounded skeleton-bg"></div>
+                                </div>
+                                <div class="h-2 w-full rounded-full skeleton-bg"></div>
+                            </div>
+
+                            <!-- Text Skeleton -->
+                            <div class="space-y-3">
+                                <div class="h-4 w-40 rounded skeleton-bg"></div>
+                                <div class="h-24 w-full rounded-xl skeleton-bg"></div>
+                            </div>
+
+                            <!-- Tags Skeleton -->
+                            <div class="space-y-3">
+                                <div class="h-4 w-32 rounded skeleton-bg"></div>
+                                <div class="flex gap-2">
+                                    <div class="h-6 w-20 rounded-lg skeleton-bg"></div>
+                                    <div class="h-6 w-24 rounded-lg skeleton-bg"></div>
+                                    <div class="h-6 w-16 rounded-lg skeleton-bg"></div>
+                                    <div class="h-6 w-20 rounded-lg skeleton-bg"></div>
+                                </div>
+                            </div>
+
+                            <!-- Actions Skeleton -->
+                            <div class="space-y-3">
+                                <div class="h-4 w-36 rounded skeleton-bg"></div>
+                                <div class="h-10 w-full rounded-lg skeleton-bg"></div>
+                                <div class="h-10 w-full rounded-lg skeleton-bg"></div>
                             </div>
                         </div>
 
+                        <!-- REAL CONTENT (Initially Hidden) -->
+                        <div id="summary-real-content" class="hidden">
+
+                            <!-- Sentiment Analysis -->
+                            <div class="mb-6 anim-item opacity-0-start">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-xs font-bold text-gray-500 uppercase">Sentimiento detectado</span>
+                                    <span
+                                        class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">Positivo
+                                        (82%)</span>
+                                </div>
+                                <div class="w-full bg-gray-100 rounded-full h-2 overflow-hidden flex">
+                                    <div class="w-[82%] bg-gradient-to-r from-green-400 to-green-500 h-full"></div>
+                                    <div class="w-[13%] bg-gray-200 h-full"></div> <!-- Neutral -->
+                                    <div class="w-[5%] bg-red-200 h-full"></div> <!-- Negative -->
+                                </div>
+                            </div>
+
+                            <!-- Summary Content -->
+                            <div class="mb-6 anim-item opacity-0-start">
+                                <h3 class="text-gray-800 font-bold mb-3 flex items-center gap-2">
+                                    <i class="fas fa-align-left text-indigo-500"></i> Resumen ejecutivo
+                                </h3>
+                                <div
+                                    class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-50 text-sm text-gray-700 leading-relaxed font-light">
+                                    <p class="mb-2">David Martínez, Director de Tecnología de Finanzas Plus, contactó
+                                        para
+                                        valorar la migración de su sistema de telefonía corporativa tras años de
+                                        incidencias
+                                        con su proveedor actual.</p>
+                                    <p class="mb-2">Indicó la necesidad de una solución escalable y fiable para 500
+                                        operadores distribuidos en varias sedes.</p>
+                                    <p>Se acordó enviar una propuesta personalizada que incluya migración sin
+                                        interrupciones
+                                        y un piloto de CallBot con IA.</p>
+                                </div>
+                            </div>
+
+                            <!-- Key Topics / Tags -->
+                            <div class="mb-6 anim-item opacity-0-start">
+                                <h3 class="text-gray-800 font-bold mb-3 flex items-center gap-2">
+                                    <i class="fas fa-tags text-indigo-500"></i> Temas clave
+                                </h3>
+                                <div class="flex flex-wrap gap-2">
+                                    <span
+                                        class="px-3 py-1 bg-gray-100 text-gray-600 rounded-lg text-xs font-medium border border-gray-200">#Migración</span>
+                                    <span
+                                        class="px-3 py-1 bg-blue-50 text-blue-600 rounded-lg text-xs font-medium border border-blue-100">#CentralitaVirtual</span>
+                                    <span
+                                        class="px-3 py-1 bg-purple-50 text-purple-600 rounded-lg text-xs font-medium border border-purple-100">#CallBotIA</span>
+                                    <span
+                                        class="px-3 py-1 bg-yellow-50 text-yellow-600 rounded-lg text-xs font-medium border border-yellow-100">#Automatización</span>
+                                    <span
+                                        class="px-3 py-1 bg-indigo-50 text-indigo-600 rounded-lg text-xs font-medium border border-indigo-100">#Escalabilidad</span>
+                                </div>
+                            </div>
+
+                            <!-- Action Items -->
+                            <div class="anim-item opacity-0-start">
+                                <h3 class="text-gray-800 font-bold mb-3 flex items-center gap-2">
+                                    <i class="fas fa-check-circle text-indigo-500"></i> Siguientes Pasos
+                                </h3>
+                                <div class="space-y-2">
+                                    <label
+                                        class="flex items-start gap-3 p-3 rounded-lg border border-gray-100 hover:bg-50 cursor-pointer transition-colors group">
+                                        <input type="checkbox" checked
+                                            class="mt-1 w-4 h-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
+                                        <span class="text-sm text-gray-600 group-hover:text-gray-900">Enviar propuesta
+                                            económica personalizada (Plantilla: Corporativo IA)</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
 
                     <!-- Footer -->
@@ -670,15 +748,46 @@
                 }
 
                 function showSummaryModal() {
+                    const btnSave = document.querySelector('#summary-modal button.bg-indigo-600');
                     if (summaryModal) {
                         summaryModal.classList.remove('hidden');
-                        // Small delay for fade in
+
+                        // 1. Reset State: Show Skeleton, Hide Real Content, Reset Animations
+                        const skeleton = document.getElementById('summary-skeleton');
+                        const content = document.getElementById('summary-real-content');
+
+                        if (skeleton) skeleton.classList.remove('hidden');
+                        if (content) {
+                            content.classList.add('hidden');
+                            content.querySelectorAll('.anim-item').forEach(el => {
+                                el.classList.remove('animate-slide-up');
+                            });
+                        }
+
+                        // 2. Animate Modal Entry
                         setTimeout(() => {
                             summaryModal.classList.remove('opacity-0');
                             if (summaryContent) {
                                 summaryContent.classList.remove('scale-95');
                                 summaryContent.classList.add('scale-100');
                             }
+
+                            // 3. Wait for 0.8s (Skeleton magic time)
+                            setTimeout(() => {
+                                if (skeleton) skeleton.classList.add('hidden');
+                                if (content) {
+                                    content.classList.remove('hidden');
+
+                                    // 4. Staggered Entry of Content
+                                    const items = content.querySelectorAll('.anim-item');
+                                    items.forEach((item, index) => {
+                                        setTimeout(() => {
+                                            item.classList.add('animate-slide-up');
+                                        }, index * 150); // 150ms delay between items
+                                    });
+                                }
+                            }, 800);
+
                         }, 50);
                     }
                 }
