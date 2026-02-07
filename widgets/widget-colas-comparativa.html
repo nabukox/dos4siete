@@ -21,10 +21,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 500px;
+            height: auto;
+            min-height: 500px;
             margin: 0;
             padding: 0;
-            overflow: hidden;
+            overflow: visible;
         }
     </style>
 </head>
@@ -58,7 +59,7 @@
 
         <!-- APP CONTAINER -->
         <div id="main-app-container"
-            class="app-container w-[520px] h-full flex flex-col bg-transparent relative origin-top-left">
+            class="app-container w-[500px] h-auto flex flex-col bg-transparent relative origin-top-left">
 
             <!-- MAIN CONTENT -->
             <div class="relative flex-1 flex flex-col justify-center">
@@ -122,21 +123,10 @@
                 if (!container) return;
 
                 // Desired base width
-                const baseWidth = 520;
+                const baseWidth = 500;
 
                 // Current window width
                 const windowWidth = window.innerWidth;
-                const windowHeight = window.innerHeight; // Assuming 500px from container iframe
-
-                // Calculate scale
-                const scaleX = windowWidth / baseWidth;
-                const scaleY = windowHeight / 500; // Scale height too if we want to fill exactly, but proportional is safer for UI.
-
-                // For "ancho escalado" (scaled width), we prioritize width fitting.
-                // But generally usually we want contain or cover. 
-                // Given "adapte a cualquier pantalla de manera escalada", let's match width.
-
-                const scale = scaleX;
 
                 container.style.transform = `scale(${scale})`;
 
