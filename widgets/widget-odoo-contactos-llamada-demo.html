@@ -12,15 +12,20 @@
     <!-- Dev dependencies -->
     <style>
         /* Dev-only centering */
+        html,
+        body {
+            background-color: transparent !important;
+        }
+
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f3f4f6;
-            margin: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            padding: 2rem;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
             /* cursor: none; Removed to allow user navigation */
         }
     </style>
