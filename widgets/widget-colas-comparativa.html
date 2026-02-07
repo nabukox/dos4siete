@@ -57,8 +57,8 @@
         </style>
 
         <!-- APP CONTAINER -->
-        <div
-            class="app-container w-full max-w-5xl h-auto flex flex-col bg-white overflow-hidden shadow-2xl rounded-3xl border border-gray-100 relative">
+        <div id="main-app-container"
+            class="app-container w-[500px] h-full flex flex-col bg-white overflow-hidden shadow-2xl rounded-3xl border border-gray-100 relative origin-top-left">
 
             <!-- HEADER -->
             <div class="flex justify-between items-center px-6 py-4 bg-white border-b border-gray-100 z-10">
@@ -79,20 +79,17 @@
             </div>
 
             <!-- MAIN CONTENT -->
-            <div class="p-6 bg-[#F9FAFB] relative min-h-[400px] flex justify-center">
-                <div class="bg-white rounded-3xl p-6 border border-gray-100 h-full w-full max-w-4xl">
+            <div class="p-6 bg-[#F9FAFB] relative flex-1 flex flex-col justify-center">
+                <div class="bg-white rounded-3xl p-6 border border-gray-100 h-full w-full">
                     <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-[#141F4C] font-bold text-lg">Métricas Generales Comparativas</h3>
+                        <h3 class="text-[#141F4C] font-bold text-lg leading-tight">Métricas Generales</h3>
                         <div class="relative">
                             <i
                                 class="fas fa-calendar-alt absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-xs pointer-events-none"></i>
                             <select id="date-selector"
                                 class="text-xs text-gray-600 font-medium bg-gray-100 pl-8 pr-8 py-1.5 rounded-full border-none focus:ring-2 focus:ring-cyan-500 cursor-pointer appearance-none outline-none hover:bg-gray-200 transition-colors">
-                                <option value="today">Hoy (27 Ene)</option>
-                                <option value="yesterday">Ayer (26 Ene)</option>
-                                <option value="25jan">25 Ene</option>
-                                <option value="24jan">24 Ene</option>
-                                <option value="23jan">23 Ene</option>
+                                <option value="today">Hoy</option>
+                                <option value="yesterday">Ayer</option>
                             </select>
                             <i
                                 class="fas fa-chevron-down absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-[10px] pointer-events-none"></i>
@@ -101,45 +98,82 @@
 
                     <!-- Chart Container -->
                     <div id="chart-comparative"
-                        class="w-full h-80 bg-gray-50 rounded-xl flex items-center justify-center">
-                        <span class="text-gray-400 italic">Cargando gráfico...</span>
+                        class="w-full h-64 bg-gray-50 rounded-xl flex items-center justify-center">
+                        <span class="text-gray-400 italic">Cargando...</span>
                     </div>
 
                     <!-- Legend -->
-                    <div class="mt-6 flex flex-wrap items-center justify-center gap-6 border-t border-gray-50 pt-4">
-                        <div id="btn-legend-0"
-                            class="flex items-center gap-2 cursor-pointer transition-all duration-300 opacity-40 grayscale">
-                            <span class="w-3 h-3 rounded-sm bg-[#29ABE2]"></span>
-                            <span class="text-xs text-gray-500 font-medium">Entrantes</span>
+                    <div
+                        class="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 border-t border-gray-50 pt-4">
+                        <div id="btn-legend-0" class="flex items-center gap-1.5 cursor-pointer opacity-40 grayscale">
+                            <span class="w-2.5 h-2.5 rounded-sm bg-[#29ABE2]"></span>
+                            <span class="text-[10px] text-gray-500 font-medium">Entrantes</span>
                         </div>
-                        <div id="btn-legend-1"
-                            class="flex items-center gap-2 cursor-pointer transition-all duration-300 opacity-40 grayscale">
-                            <span class="w-3 h-3 rounded-sm bg-[#22C55E]"></span>
-                            <span class="text-xs text-gray-500 font-medium">Contestadas</span>
+                        <div id="btn-legend-1" class="flex items-center gap-1.5 cursor-pointer opacity-40 grayscale">
+                            <span class="w-2.5 h-2.5 rounded-sm bg-[#22C55E]"></span>
+                            <span class="text-[10px] text-gray-500 font-medium">Contestadas</span>
                         </div>
-                        <div id="btn-legend-2"
-                            class="flex items-center gap-2 cursor-pointer transition-all duration-300 opacity-40 grayscale">
-                            <span class="w-3 h-3 rounded-sm bg-[#EF4444]"></span>
-                            <span class="text-xs text-gray-500 font-medium">Sin Contestar</span>
+                        <div id="btn-legend-2" class="flex items-center gap-1.5 cursor-pointer opacity-40 grayscale">
+                            <span class="w-2.5 h-2.5 rounded-sm bg-[#EF4444]"></span>
+                            <span class="text-[10px] text-gray-500 font-medium">Perdidas</span>
                         </div>
-                        <div id="btn-legend-3"
-                            class="flex items-center gap-2 cursor-pointer transition-all duration-300 opacity-40 grayscale">
-                            <span class="w-3 h-3 rounded-sm bg-[#141F4C]"></span>
-                            <span class="text-xs text-gray-500 font-medium">Salientes</span>
+                        <div id="btn-legend-3" class="flex items-center gap-1.5 cursor-pointer opacity-40 grayscale">
+                            <span class="w-2.5 h-2.5 rounded-sm bg-[#141F4C]"></span>
+                            <span class="text-[10px] text-gray-500 font-medium">Salientes</span>
                         </div>
-                        <div id="btn-legend-4"
-                            class="flex items-center gap-2 cursor-pointer transition-all duration-300 opacity-40 grayscale">
-                            <span class="w-3 h-3 rounded-sm bg-[#F59E0B]"></span>
-                            <span class="text-xs text-gray-500 font-medium">Espera Media (s)</span>
+                        <div id="btn-legend-4" class="flex items-center gap-1.5 cursor-pointer opacity-40 grayscale">
+                            <span class="w-2.5 h-2.5 rounded-sm bg-[#F59E0B]"></span>
+                            <span class="text-[10px] text-gray-500 font-medium">T. Espera</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- INITIALIZATION -->
+        <!-- INITIALIZATION & SCALING -->
         <script>
+            function scaleToFit() {
+                const container = document.getElementById('main-app-container');
+                if (!container) return;
+
+                // Desired base width
+                const baseWidth = 500;
+
+                // Current window width
+                const windowWidth = window.innerWidth;
+                const windowHeight = window.innerHeight; // Assuming 500px from container iframe
+
+                // Calculate scale
+                const scaleX = windowWidth / baseWidth;
+                const scaleY = windowHeight / 500; // Scale height too if we want to fill exactly, but proportional is safer for UI.
+
+                // For "ancho escalado" (scaled width), we prioritize width fitting.
+                // But generally usually we want contain or cover. 
+                // Given "adapte a cualquier pantalla de manera escalada", let's match width.
+
+                const scale = scaleX;
+
+                container.style.transform = `scale(${scale})`;
+
+                // Since origin is top-left, we might need to center if width > 500? 
+                // But we set width to 500px fixed.
+                // If window is 1000px, scale is 2. 500*2 = 1000. Fits perfectly.
+                // If window is 250px, scale is 0.5. 500*0.5 = 250. Fits perfectly.
+
+                // Adjust height of container to match view?
+                // The scaled height will be 500 * scale.
+                // If the iframe has fixed height 500px (CSS), and scale is 0.5, visual height is 250px. 
+                // The rest is empty. 
+                // If user wants to fill the iframe 500px, we might need to stretch height or use a different scale logic.
+                // But user emphasized "ancho" (width).
+
+                // Let's stick to width scaling as requested.
+            }
+
+            window.addEventListener('resize', scaleToFit);
             document.addEventListener('DOMContentLoaded', () => {
+                scaleToFit();
+
                 if (window.Dos4Siete && window.Dos4Siete.initComparativeStats) {
                     window.Dos4Siete.initComparativeStats();
                 }
@@ -212,12 +246,9 @@
                     }
 
                     // Move Away
-                    if (window.innerWidth > 768) {
-                        cursor.style.left = '90%';
-                        cursor.style.top = '90%';
-                    } else {
-                        cursor.style.opacity = '0';
-                    }
+                    // Check if we can move away effectively (coordinates might be tricky with scaling, but fixed position handles it relative to viewport)
+                    cursor.style.left = '90%';
+                    cursor.style.top = '90%';
 
                     // Wait at the end (User requested "pocos segundos al final")
                     await sleep(3000);
