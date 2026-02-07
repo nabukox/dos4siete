@@ -9,21 +9,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Dev-only centering */
+        /* Dev-only centering for Absolute Pattern */
         html,
         body {
+            height: 100vh;
+            width: 100vw;
             background-color: transparent !important;
+            overflow: hidden;
+            /* Prevent scrollbars */
+            position: relative;
+            /* Context */
+            margin: 0;
+            padding: 0;
         }
 
         body {
             font-family: 'Outfit', sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 500px;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
         }
     </style>
 </head>
@@ -38,8 +39,7 @@
     ==========================================================================
 -->
 
-    <div id="widget-crm-contactos-embed"
-        class="relative w-full h-full flex items-center justify-center font-['Outfit']">
+    <div id="widget-crm-contactos-embed" class="relative w-full h-full font-['Outfit']">
 
         <style>
             /* Scoped Styles */
@@ -62,14 +62,12 @@
 
             #widget-crm-contactos-embed .skeleton-bar {
                 background-color: #CBD5E1;
-                /* Slate-300 */
                 border-radius: 4px;
                 animation: keyframe-pulse-skeleton 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
             }
 
             #widget-crm-contactos-embed .skeleton-bar-dark {
                 background-color: #475569;
-                /* Slate-600 */
                 border-radius: 4px;
                 opacity: 0.5;
             }
@@ -90,8 +88,9 @@
         </style>
 
         <!-- WIDGET CONTAINER -->
-        <div
-            class="w-full max-w-6xl h-[55vh] md:h-[800px] bg-white rounded-lg overflow-hidden shadow-2xl flex flex-col border border-gray-200 relative">
+        <!-- Fixed width 1152px -->
+        <div id="main-app-container"
+            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1152px] h-[800px] bg-white rounded-lg overflow-hidden shadow-2xl flex flex-col border border-gray-200">
 
             <!-- 1. TOP NAVBAR -->
             <div class="h-14 bg-[#1E293B] flex items-center px-4 justify-between shrink-0">
@@ -126,7 +125,7 @@
             </div>
 
             <!-- 2. MAIN LAYOUT (2 Cols: Sidebar + Content) -->
-            <div class="flex flex-1 overflow-hidden">
+            <div class="flex flex-1 overflow-hidden relative">
 
                 <!-- COL 1: LEFT SIDEBAR (Skeleton List) -->
                 <div class="hidden md:flex w-52 bg-gray-50 border-r border-gray-200 p-4 flex-col gap-4 shrink-0">
@@ -438,7 +437,7 @@
 
             <!-- CALL OVERLAY -->
             <div id="call-overlay"
-                class="absolute bottom-10 right-0 md:right-4 w-full md:w-96 bg-white rounded-t-xl md:rounded-lg md:rounded-b-none shadow-2xl border-t md:border border-gray-200 overflow-hidden z-20 font-['Outfit'] transition-all duration-500 ease-out transform translate-y-full md:translate-y-10 opacity-0">
+                class="absolute bottom-10 right-4 w-96 bg-white rounded-lg shadow-2xl border border-gray-200 overflow-hidden z-20 font-['Outfit'] transition-all duration-500 ease-out transform translate-y-10 opacity-0">
 
                 <!-- STATE 0: INCOMING CALL (New) -->
                 <div id="state-incoming-call"
@@ -603,10 +602,38 @@
 
     <!-- SCRIPTS -->
     <script>
+        // --- SCALING LOGIC ---
+        function scaleToFit() {
+            const container = document.getElementById('main-app-container');
+            if (!container) return;
+
+            const baseWidth = 1152;
+            const marginBuffer = 40;
+
+            const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+
+            let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+
+            container.style.transform = `translate(-50%, -50%) scale(${scale})`;
+
+            // Ensure body allows centering
+            document.body.style.height = '100vh';
+            document.documentElement.style.overflow = 'hidden';
+
+            // Adjust body positioning
+            document.body.style.display = 'block';
+        }
+        window.addEventListener('resize', scaleToFit);
+        document.addEventListener('DOMContentLoaded', scaleToFit);
+
+        // --- APP LOGIC ---
         let callTimer;
         let seconds = 0;
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Keep scaling in sync
+            scaleToFit();
+
             // Start Incoming Call Flow after delay
             setTimeout(() => {
                 showIncomingCall();
@@ -745,10 +772,16 @@
 
             const sleep = ms => new Promise(r => setTimeout(r, ms));
             const moveCursorTo = async (selector) => {
+                // Since everything is scaled with transform, getBoundingClientRect returns the scaled values.
+                // The cursor is fixed, so we might need to adjust or put cursor inside the container?
+                // Actually putting cursor inside main-app-container is better for scaled coordinates.
+                // But for now let's try appending to body (fixed) and relying on client rects which should match screen pos.
+
                 const el = document.querySelector(selector);
                 if (!el) return false;
                 const rect = el.getBoundingClientRect();
                 if (rect.width === 0) return false;
+
                 cursor.style.left = (rect.left + rect.width / 2) + 'px';
                 cursor.style.top = (rect.top + rect.height / 2) + 'px';
                 cursor.style.opacity = '1';
@@ -798,42 +831,9 @@
                 if (await moveCursorTo('#btn-finish-disposition')) await clickElement('#btn-finish-disposition');
 
                 await sleep(5000); // Wait for reset
-
-                // Restart logic - Need to manually trigger incoming call again if we want loop
-                // But for now, just stopping cursor or hiding it
-                cursor.style.opacity = '0';
-
-                // Break loop if we don't want strict repetition, or wait long time
-                // Let's loop but we need to reset state to Incoming first
-                await sleep(2000);
-
-                // Reset to Incoming for demo loop
-                const overlay = document.getElementById('call-overlay');
-                const backdrop = document.getElementById('overlay-backdrop');
-
-                // Force reset visuals
-                document.getElementById('state-success').classList.add('hidden');
-                document.getElementById('state-disposition').classList.add('hidden');
-                document.getElementById('state-active-call').classList.add('hidden');
-                document.getElementById('state-incoming-call').classList.remove('hidden');
-
-                // Show again
-                showIncomingCall();
-
-                // Automate Accept?
-                await sleep(2000);
-                if (await moveCursorTo('#state-incoming-call button:nth-child(2)')) { // Accept button
-                    await clickElement('#state-incoming-call button:nth-child(2)');
-                }
             }
         }
     </script>
-
-    <!-- 
-    ==========================================================================
-    END EMBED CODE
-    ==========================================================================
--->
 
 </body>
 

@@ -14,17 +14,15 @@
         /* Dev-only centering */
         html,
         body {
+            height: 100vh;
+            width: 100vw;
             background-color: transparent !important;
-        }
-
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 500px;
-            padding: 0;
-            margin: 0;
             overflow: hidden;
+            /* Prevent scrollbars */
+            position: relative;
+            /* Context */
+            margin: 0;
+            padding: 0;
         }
     </style>
 </head>
@@ -47,8 +45,7 @@
     <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
     <script src="../assets/js/dos4siete-widgets.js"></script>
 
-    <div id="widget-colas-estadisticas-embed"
-        class="relative w-full h-full flex items-center justify-center font-['Outfit']">
+    <div id="widget-colas-estadisticas-embed" class="relative w-full h-full font-['Outfit']">
 
         <style>
             /* Scoped Styles */
@@ -65,8 +62,9 @@
         </style>
 
         <!-- APP CONTAINER (Floating Canvas) -->
-        <div
-            class="w-full max-w-5xl h-auto flex flex-col bg-white overflow-hidden shadow-2xl rounded-3xl border border-gray-100 relative">
+        <!-- Base Width: 1024px -->
+        <div id="main-app-container"
+            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1024px] h-auto flex flex-col bg-white overflow-hidden shadow-2xl rounded-3xl border border-gray-100">
 
             <!-- HEADER -->
             <div class="flex justify-between items-center px-6 py-4 bg-white border-b border-gray-100 z-10">
@@ -87,7 +85,7 @@
             </div>
 
             <!-- MAIN SCROLLABLE CONTENT -->
-            <div class="p-6 bg-[#F9FAFB] space-y-6 relative">
+            <div class="p-6 bg-[#F9FAFB] space-y-6 relative overflow-y-auto max-h-[85vh]">
 
                 <!-- NO TABS ONLY SUMMARY -->
                 <div class="mb-4">
@@ -282,7 +280,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="chart-volumen" class="flex justify-center"></div>
+                                <div id="chart-volumen" class="flex justify-center w-full"></div>
                             </div>
 
                             <!-- Chart 2: Incoming Breakdown -->
@@ -299,7 +297,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="chart-entrantes" class="flex justify-center"></div>
+                                <div id="chart-entrantes" class="flex justify-center w-full"></div>
                             </div>
 
                             <!-- Chart 3: Outgoing Breakdown -->
@@ -316,7 +314,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="chart-salientes" class="flex justify-center"></div>
+                                <div id="chart-salientes" class="flex justify-center w-full"></div>
                             </div>
 
                         </div>
@@ -326,6 +324,28 @@
             </div>
 
         </div>
+
+        <!-- SCALING SCRIPT -->
+        <script>
+            function scaleToFit() {
+                const container = document.getElementById('main-app-container');
+                if (!container) return;
+
+                const baseWidth = 1024;
+                const marginBuffer = 40;
+
+                const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+
+                let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+
+                container.style.transform = `translate(-50%, -50%) scale(${scale})`;
+
+                document.body.style.height = '100vh';
+                document.documentElement.style.overflow = 'hidden';
+            }
+            window.addEventListener('resize', scaleToFit);
+            document.addEventListener('DOMContentLoaded', scaleToFit);
+        </script>
 
         <!-- Init Script inside Embed to ensure auto-start -->
         <script>

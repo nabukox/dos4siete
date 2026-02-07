@@ -12,21 +12,23 @@
     <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
     <script src="../assets/js/dos4siete-widgets.js"></script>
     <style>
-        /* Dev-only centering */
-        /* Dev-only centering */
+        /* Dev-only centering for Absolute Pattern */
         html,
         body {
+            height: 100vh;
+            width: 100vw;
             background-color: transparent !important;
+            overflow: hidden;
+            /* Prevent scrollbars */
+            position: relative;
+            /* Context */
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 500px;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
+            font-family: 'Outfit', sans-serif;
+            display: block;
         }
     </style>
 </head>
@@ -102,8 +104,9 @@
         </style>
 
         <!-- APP CONTAINER -->
-        <div
-            class="app-container w-full max-w-[800px] h-[700px] flex flex-col bg-white overflow-hidden shadow-2xl rounded-3xl border border-gray-100 relative mx-auto">
+        <!-- Base Width: 800px -->
+        <div id="main-app-container"
+            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[700px] flex flex-col bg-white overflow-hidden shadow-2xl rounded-3xl border border-gray-100">
 
             <!-- HEADER -->
             <div
@@ -455,6 +458,26 @@
 
         <!-- Init Script + Automation -->
         <script>
+            // --- SCALING LOGIC ---
+            function scaleToFit() {
+                const container = document.getElementById('main-app-container');
+                if (!container) return;
+
+                const baseWidth = 800;
+                const marginBuffer = 40;
+
+                const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+
+                let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+
+                container.style.transform = `translate(-50%, -50%) scale(${scale})`;
+
+                document.body.style.height = '100vh';
+                document.documentElement.style.overflow = 'hidden';
+            }
+            window.addEventListener('resize', scaleToFit);
+            document.addEventListener('DOMContentLoaded', scaleToFit);
+
             // --- AUTOMATION SCRIPT ---
 
             const cursor = document.getElementById('demo-cursor');

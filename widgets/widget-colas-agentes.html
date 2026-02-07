@@ -7,6 +7,7 @@
     <title>Distribución de Agentes - Dos Siete</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Dev dependencies -->
     <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
     <script src="../assets/js/dos4siete-widgets.js"></script>
@@ -14,17 +15,15 @@
         /* Dev-only centering */
         html,
         body {
+            height: 100vh;
+            width: 100vw;
             background-color: transparent !important;
-        }
-
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 500px;
+            overflow: hidden;
+            /* Prevent scrollbars */
+            position: relative;
+            /* Context */
             margin: 0;
             padding: 0;
-            overflow: hidden;
         }
     </style>
 </head>
@@ -47,8 +46,7 @@
     <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
     <script src="../assets/js/dos4siete-widgets.js"></script>
 
-    <div id="widget-colas-agentes-embed"
-        class="relative w-full h-full flex items-center justify-center font-['Outfit']">
+    <div id="widget-colas-agentes-embed" class="relative w-full h-full font-['Outfit']">
 
         <style>
             /* Scoped Styles */
@@ -58,8 +56,9 @@
         </style>
 
         <!-- APP CONTAINER -->
-        <div
-            class="w-full max-w-5xl h-auto flex flex-col bg-white overflow-hidden shadow-2xl rounded-3xl border border-gray-100 relative">
+        <!-- Fixed at 1024px base width -->
+        <div id="main-app-container"
+            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1024px] h-auto flex flex-col bg-white overflow-hidden shadow-2xl rounded-3xl border border-gray-100">
 
             <!-- HEADER -->
             <div class="flex justify-between items-center px-6 py-4 bg-white border-b border-gray-100 z-10">
@@ -81,16 +80,18 @@
 
             <!-- MAIN CONTENT -->
             <div class="p-6 bg-[#F9FAFB] relative min-h-[400px] flex justify-center">
-                <div class="bg-white rounded-3xl p-6 border border-gray-100 h-full w-full max-w-3xl">
+                <div class="bg-white rounded-3xl p-6 border border-gray-100 h-full w-full max-w-4xl shadow-sm">
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="text-[#141F4C] font-bold text-lg">Distribución de tiempo en conversación entrante por
                             agente</h3>
-                        <div class="text-xs text-gray-400 font-medium bg-gray-100 px-3 py-1 rounded-full">
-                            <i class="fas fa-sync-alt mr-1"></i> Tiempo Real
+                        <div
+                            class="text-xs text-gray-400 font-medium bg-gray-100 px-3 py-1 rounded-full flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                            <i class="fas fa-sync-alt ml-1"></i> Tiempo Real
                         </div>
                     </div>
                     <!-- Chart Container -->
-                    <div id="chart-agent-time" class="w-full h-64"></div>
+                    <div id="chart-agent-time" class="w-full h-72"></div>
 
                     <!-- Legend -->
                     <div class="mt-4 flex items-center justify-center gap-6 border-t border-gray-50 pt-4">
@@ -106,6 +107,28 @@
                 </div>
             </div>
         </div>
+
+        <!-- SCALING LOGIC -->
+        <script>
+            function scaleToFit() {
+                const container = document.getElementById('main-app-container');
+                if (!container) return;
+
+                const baseWidth = 1024;
+                const marginBuffer = 40;
+
+                const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+
+                let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+
+                container.style.transform = `translate(-50%, -50%) scale(${scale})`;
+
+                document.body.style.height = '100vh';
+                document.documentElement.style.overflow = 'hidden';
+            }
+            window.addEventListener('resize', scaleToFit);
+            document.addEventListener('DOMContentLoaded', scaleToFit);
+        </script>
 
         <!-- INITIALIZATION -->
         <script>

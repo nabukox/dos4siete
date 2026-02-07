@@ -9,21 +9,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Dev-only centering */
+        /* Dev-only centering for Absolute Pattern */
         html,
         body {
+            height: 100vh;
+            width: 100vw;
             background-color: transparent !important;
-        }
-
-        body {
-            font-family: 'Outfit', sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 500px;
+            overflow: hidden;
+            /* Prevent scrollbars */
+            position: relative;
+            /* Context */
             margin: 0;
             padding: 0;
-            overflow: hidden;
         }
     </style>
 </head>
@@ -38,8 +35,7 @@
     ==========================================================================
 -->
 
-    <div id="widget-crm-contactos-embed"
-        class="relative w-full h-full flex items-center justify-center font-['Outfit']">
+    <div id="widget-crm-contactos-embed" class="relative w-full h-full font-['Outfit']">
 
         <style>
             /* Scoped Styles */
@@ -76,8 +72,9 @@
         </style>
 
         <!-- WIDGET CONTAINER -->
-        <div
-            class="w-full max-w-6xl h-[800px] bg-white rounded-lg overflow-hidden shadow-2xl flex flex-col border border-gray-200">
+        <!-- Fixed width 1152px -->
+        <div id="main-app-container"
+            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1152px] h-[800px] bg-white rounded-lg overflow-hidden shadow-2xl flex flex-col border border-gray-200">
 
             <!-- 1. TOP NAVBAR -->
             <div class="h-14 bg-[#1E293B] flex items-center px-4 justify-between shrink-0">
@@ -350,6 +347,28 @@
             </div>
 
         </div>
+
+        <!-- SCALING SCRIPT -->
+        <script>
+            function scaleToFit() {
+                const container = document.getElementById('main-app-container');
+                if (!container) return;
+
+                const baseWidth = 1152;
+                const marginBuffer = 40;
+
+                const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+
+                let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+
+                container.style.transform = `translate(-50%, -50%) scale(${scale})`;
+
+                document.body.style.height = '100vh';
+                document.documentElement.style.overflow = 'hidden';
+            }
+            window.addEventListener('resize', scaleToFit);
+            document.addEventListener('DOMContentLoaded', scaleToFit);
+        </script>
 
     </div>
 

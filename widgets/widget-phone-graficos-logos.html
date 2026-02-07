@@ -8,20 +8,23 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Dev-only centering for Absolute Pattern */
         html,
         body {
+            height: 100vh;
+            width: 100vw;
             background-color: transparent !important;
+            overflow: hidden;
+            /* Prevent scrollbars */
+            position: relative;
+            /* Context */
+            margin: 0;
+            padding: 0;
         }
 
         body {
             font-family: 'Outfit', sans-serif;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 500px;
-            padding: 0;
-            overflow: hidden;
+            display: block;
         }
 
         /* Floating Animation */
@@ -54,23 +57,50 @@
     ==========================================================================
     -->
 
-    <div id="widget-graficos-logos-embed"
-        class="relative w-full h-full min-h-[550px] md:min-h-[750px] flex items-center justify-center bg-transparent overflow-hidden">
+    <!-- WIDGET CONTAINER -->
+    <div id="main-app-container"
+        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[550px] h-[750px] flex items-center justify-center bg-transparent overflow-hidden">
 
-        <div class="relative w-full h-full flex items-center justify-center p-4">
-            <img src="../assets/img/phone-graficos-logos.png" alt="Phone Gráficos y Logos"
-                class="w-full h-full object-contain animate-float max-w-[500px] border-none shadow-none outline-none ring-0"
-                style="clip-path: inset(2px); -webkit-clip-path: inset(2px); border: none !important; box-shadow: none !important; margin: 0; padding: 0;">
+        <div id="widget-graficos-logos-embed" class="relative w-full h-full flex items-center justify-center">
+
+            <div class="relative w-full h-full flex items-center justify-center p-4">
+                <img src="../assets/img/phone-graficos-logos.png" alt="Phone Gráficos y Logos"
+                    class="w-full h-full object-contain animate-float max-w-[500px] border-none shadow-none outline-none ring-0"
+                    style="clip-path: inset(2px); -webkit-clip-path: inset(2px); border: none !important; box-shadow: none !important; margin: 0; padding: 0;">
+            </div>
+
         </div>
 
-    </div>
-
-    <!-- 
+        <!-- 
     ==========================================================================
     END EMBED CODE
     ==========================================================================
     -->
 
+    </div>
+    <!-- END WIDGET CONTAINER -->
+
+    <script>
+        // --- SCALING LOGIC ---
+        function scaleToFit() {
+            const container = document.getElementById('main-app-container');
+            if (!container) return;
+
+            const baseWidth = 550;
+            const marginBuffer = 40;
+
+            const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+
+            let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+
+            container.style.transform = `translate(-50%, -50%) scale(${scale})`;
+
+            document.body.style.height = '100vh';
+            document.documentElement.style.overflow = 'hidden';
+        }
+        window.addEventListener('resize', scaleToFit);
+        document.addEventListener('DOMContentLoaded', scaleToFit);
+    </script>
 </body>
 
 </html>

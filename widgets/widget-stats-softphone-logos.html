@@ -9,21 +9,23 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Dev-only style to simulate placement */
+        /* Dev-only centering for Absolute Pattern */
         html,
         body {
+            height: 100vh;
+            width: 100vw;
             background-color: transparent !important;
+            overflow: hidden;
+            /* Prevent scrollbars */
+            position: relative;
+            /* Context */
+            margin: 0;
+            padding: 0;
         }
 
         body {
             font-family: 'Outfit', sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 500px;
-            padding: 0;
-            margin: 0;
-            overflow: hidden;
+            display: block;
         }
     </style>
 </head>
@@ -36,34 +38,63 @@
     ==========================================================================
     -->
 
-    <div id="widget-stats-softphone-logos-embed" class="w-full max-w-5xl mx-auto relative font-['Outfit']">
+    <!-- WIDGET CONTAINER -->
+    <div id="main-app-container"
+        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1024px] h-[600px] flex items-center justify-center bg-transparent overflow-hidden">
 
-        <style>
-            #widget-stats-softphone-logos-embed {
-                font-family: 'Outfit', sans-serif;
-            }
+        <div id="widget-stats-softphone-logos-embed" class="w-full max-w-5xl mx-auto relative font-['Outfit']">
 
-            .widget-card {
-                background: white;
-                border-radius: 32px;
-                box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
-                overflow: hidden;
-            }
-        </style>
+            <style>
+                #widget-stats-softphone-logos-embed {
+                    font-family: 'Outfit', sans-serif;
+                }
 
-        <div class="widget-card p-8 md:p-12 flex items-center justify-center">
-            <img src="../assets/img/stats+softphone+logos.png" alt="Estadísticas, Softphone e Integraciones"
-                class="max-w-full h-auto object-contain hover:scale-[1.02] transition-transform duration-500">
+                .widget-card {
+                    background: white;
+                    border-radius: 32px;
+                    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+                    overflow: hidden;
+                }
+            </style>
+
+            <div class="widget-card p-8 md:p-12 flex items-center justify-center">
+                <img src="../assets/img/stats+softphone+logos.png" alt="Estadísticas, Softphone e Integraciones"
+                    class="max-w-full h-auto object-contain hover:scale-[1.02] transition-transform duration-500">
+            </div>
+
         </div>
 
-    </div>
-
-    <!-- 
+        <!-- 
     ==========================================================================
     END EMBED CODE
     ==========================================================================
     -->
 
+    </div>
+    </div>
+    <!-- END WIDGET CONTAINER -->
+
+    <script>
+        // --- SCALING LOGIC ---
+        function scaleToFit() {
+            const container = document.getElementById('main-app-container');
+            if (!container) return;
+
+            const baseWidth = 1024;
+            const marginBuffer = 40;
+
+            const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+
+            let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+
+            container.style.transform = `translate(-50%, -50%) scale(${scale})`;
+
+            document.body.style.height = '100vh';
+            document.documentElement.style.overflow = 'hidden';
+        }
+        window.addEventListener('resize', scaleToFit);
+        document.addEventListener('DOMContentLoaded', scaleToFit);
+    </script>
 </body>
 
 </html>

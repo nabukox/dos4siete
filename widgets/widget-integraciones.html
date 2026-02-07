@@ -11,20 +11,24 @@
     <!-- Dev dependencies -->
     <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
     <style>
-        /* Dev-only centering */
+        /* Dev-only centering for Absolute Pattern */
         html,
         body {
+            height: 100vh;
+            width: 100vw;
             background-color: transparent !important;
+            overflow: hidden;
+            /* Prevent scrollbars */
+            position: relative;
+            /* Context */
+            margin: 0;
+            padding: 0;
         }
 
         body {
             font-family: 'Outfit', sans-serif;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 500px;
-            overflow: hidden;
+            display: block;
+            /* Override flex */
         }
     </style>
 </head>
@@ -45,14 +49,12 @@
     <!-- Dependencies for Embed -->
     <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
 
-    <div id="widget-integraciones-embed"
-        class="relative w-full h-full min-h-[550px] md:min-h-[750px] flex items-center justify-center bg-transparent font-[Outfit] overflow-hidden">
+    <div id="widget-integraciones-embed" class="relative w-full h-full font-[Outfit]">
 
         <style>
             /* Scoped Styles for Widget Integraciones */
             #widget-integraciones-embed {
                 font-family: 'Outfit', sans-serif;
-                overflow: hidden;
             }
 
             /* Floating Animation */
@@ -75,11 +77,37 @@
             }
         </style>
 
-        <div class="relative w-full h-full flex items-center justify-center p-4">
+        <!-- WIDGET CONTAINER -->
+        <!-- Base Width: 550px -->
+        <div id="main-app-container"
+            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[550px] h-auto flex items-center justify-center p-4">
+
             <img src="../assets/img/logos-phone.png" alt="Integraciones Phone"
-                class="w-full h-full object-contain animate-float max-w-[500px] border-none shadow-none outline-none ring-0"
+                class="w-full h-auto object-contain animate-float border-none shadow-none outline-none ring-0"
                 style="clip-path: inset(2px); -webkit-clip-path: inset(2px); border: none !important; box-shadow: none !important; margin: 0; padding: 0;">
         </div>
+
+        <!-- SCALING SCRIPT -->
+        <script>
+            function scaleToFit() {
+                const container = document.getElementById('main-app-container');
+                if (!container) return;
+
+                const baseWidth = 550;
+                const marginBuffer = 20;
+
+                const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+
+                let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+
+                container.style.transform = `translate(-50%, -50%) scale(${scale})`;
+
+                document.body.style.height = '100vh';
+                document.documentElement.style.overflow = 'hidden';
+            }
+            window.addEventListener('resize', scaleToFit);
+            document.addEventListener('DOMContentLoaded', scaleToFit);
+        </script>
 
     </div>
 

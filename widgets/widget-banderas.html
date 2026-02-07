@@ -7,23 +7,22 @@
     <title>Widget Banderas - Dos Siete</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Dev dependencies -->
     <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
     <style>
-        /* Dev-only centering */
+        /* Dev-only centering for Absolute Pattern */
         html,
         body {
+            height: 100vh;
+            width: 100vw;
             background-color: transparent !important;
-        }
-
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 500px;
+            overflow: hidden;
+            /* Prevent scrollbars */
+            position: relative;
+            /* Context */
             margin: 0;
             padding: 0;
-            overflow: hidden;
         }
     </style>
 </head>
@@ -44,7 +43,7 @@
     <!-- Dependencies for Embed -->
     <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
 
-    <div id="widget-banderas-embed" class="relative w-fit h-auto font-['Outfit']">
+    <div id="widget-banderas-embed" class="relative w-full h-full font-['Outfit']">
 
         <style>
             /* Scoped Styles */
@@ -53,62 +52,97 @@
             }
         </style>
 
-        <!-- WIDGET CARD -->
-        <div
-            class="bg-white w-fit p-3 rounded-2xl shadow-xl border border-gray-100 flex flex-col items-center gap-3 transform hover:scale-[1.02] transition-transform duration-300">
+        <!-- MAIN CONTAINER with Absolute Centering -->
+        <!-- Fixed width 380px for flags grid -->
+        <div id="main-app-container"
+            class="absolute top-1/2 left-1/2 shadow-none transform -translate-x-1/2 -translate-y-1/2">
 
-            <!-- FLAGS GRID -->
-            <div class="grid grid-cols-3 gap-4">
-                <!-- Spain -->
-                <div class="flex flex-col items-center gap-2 group cursor-default">
-                    <img src="https://flagcdn.com/w80/es.png" alt="España"
-                        class="w-10 h-10 rounded-full object-cover shadow-sm group-hover:shadow-md transition-shadow border-2 border-white ring-1 ring-gray-100">
-                    <span
-                        class="text-xs font-semibold text-gray-500 group-hover:text-[#29ABE2] transition-colors">ES</span>
+            <!-- WIDGET CARD -->
+            <div
+                class="bg-white w-[380px] p-6 rounded-2xl shadow-xl border border-gray-100 flex flex-col items-center gap-3 transform hover:scale-[1.02] transition-transform duration-300">
+
+                <!-- FLAGS GRID -->
+                <div class="grid grid-cols-3 gap-6">
+                    <!-- Spain -->
+                    <div
+                        class="flex flex-col items-center gap-2 group cursor-pointer hover:-translate-y-1 transition-transform duration-300">
+                        <img src="https://flagcdn.com/w80/es.png" alt="España"
+                            class="w-12 h-12 rounded-full object-cover shadow-sm group-hover:shadow-lg group-hover:ring-2 group-hover:ring-[#29ABE2] transition-all border-2 border-white ring-1 ring-gray-100">
+                        <span
+                            class="text-xs font-bold text-gray-500 group-hover:text-[#29ABE2] transition-colors uppercase tracking-wide">ES</span>
+                    </div>
+
+                    <!-- France -->
+                    <div
+                        class="flex flex-col items-center gap-2 group cursor-pointer hover:-translate-y-1 transition-transform duration-300">
+                        <img src="https://flagcdn.com/w80/fr.png" alt="Francia"
+                            class="w-12 h-12 rounded-full object-cover shadow-sm group-hover:shadow-lg group-hover:ring-2 group-hover:ring-[#29ABE2] transition-all border-2 border-white ring-1 ring-gray-100">
+                        <span
+                            class="text-xs font-bold text-gray-500 group-hover:text-[#29ABE2] transition-colors uppercase tracking-wide">FR</span>
+                    </div>
+
+                    <!-- Germany -->
+                    <div
+                        class="flex flex-col items-center gap-2 group cursor-pointer hover:-translate-y-1 transition-transform duration-300">
+                        <img src="https://flagcdn.com/w80/de.png" alt="Alemania"
+                            class="w-12 h-12 rounded-full object-cover shadow-sm group-hover:shadow-lg group-hover:ring-2 group-hover:ring-[#29ABE2] transition-all border-2 border-white ring-1 ring-gray-100">
+                        <span
+                            class="text-xs font-bold text-gray-500 group-hover:text-[#29ABE2] transition-colors uppercase tracking-wide">DE</span>
+                    </div>
+
+                    <!-- Italy -->
+                    <div
+                        class="flex flex-col items-center gap-2 group cursor-pointer hover:-translate-y-1 transition-transform duration-300">
+                        <img src="https://flagcdn.com/w80/it.png" alt="Italia"
+                            class="w-12 h-12 rounded-full object-cover shadow-sm group-hover:shadow-lg group-hover:ring-2 group-hover:ring-[#29ABE2] transition-all border-2 border-white ring-1 ring-gray-100">
+                        <span
+                            class="text-xs font-bold text-gray-500 group-hover:text-[#29ABE2] transition-colors uppercase tracking-wide">IT</span>
+                    </div>
+
+                    <!-- Portugal -->
+                    <div
+                        class="flex flex-col items-center gap-2 group cursor-pointer hover:-translate-y-1 transition-transform duration-300">
+                        <img src="https://flagcdn.com/w80/pt.png" alt="Portugal"
+                            class="w-12 h-12 rounded-full object-cover shadow-sm group-hover:shadow-lg group-hover:ring-2 group-hover:ring-[#29ABE2] transition-all border-2 border-white ring-1 ring-gray-100">
+                        <span
+                            class="text-xs font-bold text-gray-500 group-hover:text-[#29ABE2] transition-colors uppercase tracking-wide">PT</span>
+                    </div>
+
+                    <!-- United Kingdom -->
+                    <div
+                        class="flex flex-col items-center gap-2 group cursor-pointer hover:-translate-y-1 transition-transform duration-300">
+                        <img src="https://flagcdn.com/w80/gb.png" alt="Reino Unido"
+                            class="w-12 h-12 rounded-full object-cover shadow-sm group-hover:shadow-lg group-hover:ring-2 group-hover:ring-[#29ABE2] transition-all border-2 border-white ring-1 ring-gray-100">
+                        <span
+                            class="text-xs font-bold text-gray-500 group-hover:text-[#29ABE2] transition-colors uppercase tracking-wide">UK</span>
+                    </div>
                 </div>
 
-                <!-- France -->
-                <div class="flex flex-col items-center gap-2 group cursor-default">
-                    <img src="https://flagcdn.com/w80/fr.png" alt="Francia"
-                        class="w-10 h-10 rounded-full object-cover shadow-sm group-hover:shadow-md transition-shadow border-2 border-white ring-1 ring-gray-100">
-                    <span
-                        class="text-xs font-semibold text-gray-500 group-hover:text-[#29ABE2] transition-colors">FR</span>
-                </div>
-
-                <!-- Germany -->
-                <div class="flex flex-col items-center gap-2 group cursor-default">
-                    <img src="https://flagcdn.com/w80/de.png" alt="Alemania"
-                        class="w-10 h-10 rounded-full object-cover shadow-sm group-hover:shadow-md transition-shadow border-2 border-white ring-1 ring-gray-100">
-                    <span
-                        class="text-xs font-semibold text-gray-500 group-hover:text-[#29ABE2] transition-colors">DE</span>
-                </div>
-
-                <!-- Italy -->
-                <div class="flex flex-col items-center gap-2 group cursor-default">
-                    <img src="https://flagcdn.com/w80/it.png" alt="Italia"
-                        class="w-10 h-10 rounded-full object-cover shadow-sm group-hover:shadow-md transition-shadow border-2 border-white ring-1 ring-gray-100">
-                    <span
-                        class="text-xs font-semibold text-gray-500 group-hover:text-[#29ABE2] transition-colors">IT</span>
-                </div>
-
-                <!-- Portugal -->
-                <div class="flex flex-col items-center gap-2 group cursor-default">
-                    <img src="https://flagcdn.com/w80/pt.png" alt="Portugal"
-                        class="w-10 h-10 rounded-full object-cover shadow-sm group-hover:shadow-md transition-shadow border-2 border-white ring-1 ring-gray-100">
-                    <span
-                        class="text-xs font-semibold text-gray-500 group-hover:text-[#29ABE2] transition-colors">PT</span>
-                </div>
-
-                <!-- United Kingdom -->
-                <div class="flex flex-col items-center gap-2 group cursor-default">
-                    <img src="https://flagcdn.com/w80/gb.png" alt="Reino Unido"
-                        class="w-10 h-10 rounded-full object-cover shadow-sm group-hover:shadow-md transition-shadow border-2 border-white ring-1 ring-gray-100">
-                    <span
-                        class="text-xs font-semibold text-gray-500 group-hover:text-[#29ABE2] transition-colors">UK</span>
-                </div>
             </div>
 
         </div>
+
+        <!-- SCALING SCRIPT -->
+        <script>
+            function scaleToFit() {
+                const container = document.getElementById('main-app-container');
+                if (!container) return;
+
+                const baseWidth = 380;
+                const marginBuffer = 20;
+
+                const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+
+                let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+
+                container.style.transform = `translate(-50%, -50%) scale(${scale})`;
+
+                document.body.style.height = '100vh';
+                document.documentElement.style.overflow = 'hidden';
+            }
+            window.addEventListener('resize', scaleToFit);
+            document.addEventListener('DOMContentLoaded', scaleToFit);
+        </script>
 
     </div>
 

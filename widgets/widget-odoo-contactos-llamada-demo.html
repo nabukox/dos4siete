@@ -11,22 +11,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <!-- Dev dependencies -->
     <style>
-        /* Dev-only centering */
+        /* Dev-only centering for Absolute Pattern */
         html,
         body {
+            height: 100vh;
+            width: 100vw;
             background-color: transparent !important;
+            overflow: hidden;
+            /* Prevent scrollbars */
+            position: relative;
+            /* Context */
+            margin: 0;
+            padding: 0;
         }
 
         body {
             font-family: 'Roboto', sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 500px;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            /* cursor: none; Removed to allow user navigation */
+            display: block;
+            /* Removing flex centering */
         }
     </style>
 </head>
@@ -107,8 +109,9 @@
 
 
         <!-- WIDGET CONTAINER -->
-        <div id="demo-window-container"
-            class="w-full max-w-6xl h-[700px] bg-white rounded-lg overflow-hidden shadow-2xl relative flex flex-col border border-gray-200 mx-auto">
+        <!-- Base Width: 1152px -->
+        <div id="main-app-container"
+            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1152px] h-[700px] bg-white rounded-lg overflow-hidden shadow-2xl relative flex flex-col border border-gray-200 mx-auto">
 
             <!-- CURSOR Demo (Inside Window) -->
             <div id="demo-cursor"
@@ -494,6 +497,26 @@
     -->
 
         <script>
+            // --- SCALING LOGIC ---
+            function scaleToFit() {
+                const container = document.getElementById('main-app-container');
+                if (!container) return;
+
+                const baseWidth = 1152;
+                const marginBuffer = 40;
+
+                const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+
+                let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+
+                container.style.transform = `translate(-50%, -50%) scale(${scale})`;
+
+                document.body.style.height = '100vh';
+                document.documentElement.style.overflow = 'hidden';
+            }
+            window.addEventListener('resize', scaleToFit);
+            document.addEventListener('DOMContentLoaded', scaleToFit);
+
             document.addEventListener('DOMContentLoaded', () => {
                 const widgetContainer = document.getElementById('voip-widget-container');
                 const btnClose = document.getElementById('btn-close-widget');
@@ -578,13 +601,49 @@
                 function moveCursorTo(element, duration = 1000, callback) {
                     if (!element) return;
 
-                    const container = document.getElementById('demo-window-container');
+                    const container = document.getElementById('main-app-container');
                     const containerRect = container.getBoundingClientRect();
                     const rect = element.getBoundingClientRect();
 
                     // Calculate position relative to the container
-                    const targetX = (rect.left - containerRect.left) + (rect.width / 2);
-                    const targetY = (rect.top - containerRect.top) + (rect.height / 2);
+                    // Note: Since cursor is inside the container, this calculation is easier
+                    // But we are in a scaled container, so getting bounding client rect is correct
+                    // relative to viewport, but we need relative to the container *inside*.
+                    // Actually, if cursor is absolute top:0 left:0 of container, we need local coordinates.
+
+                    // A better way for scaled containers:
+                    // Since container has transform, elements inside report rects with transform applied.
+
+                    // Simple approach: Calculate offset from container top-left.
+                    // But scaling affects this.
+
+                    // The easiest fix for automation in scaled containers is to put the cursor 
+                    // OUTSIDE the scaled container (fixed to body) and use global coordinates,
+                    // OR adjust math by dividing by scale.
+                    // Given the complexities, let's use global coordinates but keep cursor inside? 
+                    // No, keep cursor FIXED to Viewport is easier if we want it to look "on top".
+                    // But the cursor is inside the component.
+
+                    // Let's rely on standard logic but if it drifts, we might need a fix. 
+                    // However, for this task (Scaling Pattern), the visual implementation is priority.
+
+                    // Let's try to adapt the calculation:
+                    // x relative to container = (rect.left - containerRect.left) / scale
+                    // But the original script didn't account for scale.
+
+                    // Given I can't easily read the scale value in this legacy script easily without parsing transform,
+                    // I will leave the automation script as originally provided but be aware it might drift if scale < 1.
+                    // A quick fix is to get scale from current transform.
+
+                    let scale = 1;
+                    const transform = container.style.transform;
+                    if (transform && transform.includes('scale')) {
+                        const match = transform.match(/scale\(([^)]+)\)/);
+                        if (match) scale = parseFloat(match[1]);
+                    }
+
+                    const targetX = (rect.left - containerRect.left) / scale + (rect.width / scale / 2);
+                    const targetY = (rect.top - containerRect.top) / scale + (rect.height / scale / 2);
 
                     // Visible Cursor
                     cursor.style.opacity = '1';

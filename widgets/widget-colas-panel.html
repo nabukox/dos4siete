@@ -8,20 +8,18 @@
     <!-- Dev dependencies -->
     <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
     <style>
-        /* Dev-only centering */
+        /* Dev-only centering for Absolute Pattern */
         html,
         body {
+            height: 100vh;
+            width: 100vw;
             background-color: transparent !important;
-        }
-
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 500px;
+            overflow: hidden;
+            /* Prevent scrollbars */
+            position: relative;
+            /* Context */
             margin: 0;
             padding: 0;
-            overflow: hidden;
         }
     </style>
 </head>
@@ -50,7 +48,10 @@
             }
         </style>
 
-        <div class="app-container">
+        <!-- MAIN APP CONTAINER with Absolute Centering -->
+        <!-- Fixed width 950px for dashboard layout -->
+        <div id="main-app-container"
+            class="app-container absolute top-1/2 left-1/2 shadow-none w-[950px] transform -translate-x-1/2 -translate-y-1/2">
 
             <!-- HEADER -->
             <div class="app-header">
@@ -185,6 +186,26 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
         <script>
+            // --- SCALING LOGIC ---
+            function scaleToFit() {
+                const container = document.getElementById('main-app-container');
+                if (!container) return;
+
+                const baseWidth = 950;
+                const marginBuffer = 40;
+
+                const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+
+                let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+
+                container.style.transform = `translate(-50%, -50%) scale(${scale})`;
+
+                document.body.style.height = '100vh';
+                document.documentElement.style.overflow = 'hidden';
+            }
+            window.addEventListener('resize', scaleToFit);
+            document.addEventListener('DOMContentLoaded', scaleToFit);
+
             // --- DATA ---
             const staffDirectory = [
                 "2001 - Jose Marti", "2002 - Jose Carrasco", "2003 - Alvaro Valero", "2004 - Daniel Estrada", "2005 - Jean Gomez", "2006 - Maria Garcia", "2007 - Carlos Ruiz"

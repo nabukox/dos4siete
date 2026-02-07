@@ -88,3 +88,72 @@ Every widget file must follow this "Hybrid" structure. Do NOT delete `<html>` or
 *   **Viewport Heights**: Avoid `h-screen`. Use `min-h-[600px]` or specific heights on the container. `h-screen` will force the widget to take the full page height of the host, often breaking layouts.
 *   **Z-Index**: Use explicit z-indexes within your container, but avoid massive values (`z-[9999]`) unless it's a modal overlay intended to cover the *entire* host site.
 *   **Conflicts**: Watch out for generic class names if you aren't using Tailwind. If using standard CSS classes like `.button`, scoping is mandatory.
+
+## 5. Responsive Scaling Patterns (New Standard)
+
+To ensure widgets look perfect on all screen sizes (mobile to desktop) while maintaining their design integrity, use this **Absolute Centering** pattern.
+
+### The Problem
+*   Flexbox centering fails when the scaled element is larger than the viewport (it clips layout or causes scrollbars).
+*   `transform-origin` with flexbox centering is erratic on resize and hard to predict.
+
+### The Solution: Absolute Centering
+This method floats the widget in the exact center of the screen, regardless of size, and scales it down **only** if it exceeds the viewport width.
+
+**1. CSS (in the Dev-only `<style>` block):**
+```css
+html, body {
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    background-color: transparent !important;
+    overflow: hidden; /* Prevent scrollbars */
+    position: relative; /* Context for absolute positioning */
+}
+```
+
+**2. Widget Container CSS:**
+```css
+#UNIQUE-WIDGET-ID {
+    position: absolute;
+    top: 50%; /* Center vertical */
+    left: 50%; /* Center horizontal */
+    /* transform will be applied by JS to center and scale */
+    box-shadow: none !important; /* Avoid double shadows, if any */
+}
+```
+
+**3. JavaScript Scaling Logic:**
+```javascript
+function scaleToFit() {
+    const container = document.getElementById('UNIQUE-WIDGET-ID'); // Replace with your ID
+    if (!container) return;
+
+    // 1. Define Base Width (The width your widget was designed for)
+    //    Add a margin buffer (e.g., 40px) to prevent edge touching
+    const baseWidth = 850; 
+    const marginBuffer = 40; 
+
+    // 2. Get Viewport Width
+    const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+    
+    // 3. Calculate Scale
+    //    - Scale down if window < baseWidth
+    //    - Cap at 1 (never scale up beyond original size) to preserve "floating card" look
+    let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+
+    // 4. Apply Transform
+    //    - translate(-50%, -50%) centers the element perfectly from top/left 50%
+    //    - scale(scale) adjusts the size
+    container.style.transform = `translate(-50%, -50%) scale(${scale})`;
+    
+    // 5. Ensure Body Height (Safety check)
+    document.body.style.height = '100vh';
+    document.documentElement.style.overflow = 'hidden';
+}
+
+// Initialize
+window.addEventListener('resize', scaleToFit);
+document.addEventListener('DOMContentLoaded', scaleToFit);
+```

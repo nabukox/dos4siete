@@ -12,14 +12,23 @@
     <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
 </head>
 
-<body class="min-h-screen p-0 font-['Outfit']"
-    style="background-color: transparent !important; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 500px;">
-    <style>
-        html,
-        body {
-            background-color: transparent !important;
-        }
-    </style>
+<body class="font-['Outfit']">
+    /* Dev-only centering for Absolute Pattern */
+    html,
+    body {
+    height: 100vh;
+    width: 100vw;
+    background-color: transparent !important;
+    overflow: hidden; /* Prevent scrollbars */
+    position: relative; /* Context */
+    margin: 0;
+    padding: 0;
+    }
+
+    body {
+    font-family: 'Outfit', sans-serif;
+    display: block; /* Override flex */
+    }
 
     <!-- 
     ==========================================================================
@@ -35,250 +44,278 @@
     <!-- Dependencies for Embed -->
     <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
 
-    <div id="widget-panel-extensiones-embed" class="relative w-full h-full font-['Outfit']">
+    <!-- WIDGET CONTAINER -->
+    <div id="main-app-container"
+        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1152px] h-[700px] bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 relative mx-auto font-['Outfit']">
 
-        <style>
-            /* Scoped Styles */
-            #widget-panel-extensiones-embed {
-                font-family: 'Outfit', sans-serif;
-            }
+        <div id="widget-panel-extensiones-embed" class="relative w-full h-full font-['Outfit']">
 
-            /* Scoped Scrollbar */
-            #widget-panel-extensiones-embed .custom-scrollbar::-webkit-scrollbar {
-                width: 6px;
-            }
+            <style>
+                /* Scoped Styles */
+                #widget-panel-extensiones-embed {
+                    font-family: 'Outfit', sans-serif;
+                }
 
-            #widget-panel-extensiones-embed .custom-scrollbar::-webkit-scrollbar-track {
-                background: #f1f1f1;
-            }
+                /* Scoped Scrollbar */
+                #widget-panel-extensiones-embed .custom-scrollbar::-webkit-scrollbar {
+                    width: 6px;
+                }
 
-            #widget-panel-extensiones-embed .custom-scrollbar::-webkit-scrollbar-thumb {
-                background: #cbd5e1;
-                border-radius: 3px;
-            }
+                #widget-panel-extensiones-embed .custom-scrollbar::-webkit-scrollbar-track {
+                    background: #f1f1f1;
+                }
 
-            #widget-panel-extensiones-embed .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-                background: #94a3b8;
-            }
-        </style>
+                #widget-panel-extensiones-embed .custom-scrollbar::-webkit-scrollbar-thumb {
+                    background: #cbd5e1;
+                    border-radius: 3px;
+                }
 
-        <!-- MAIN CONTAINER -->
-        <div
-            class="w-full bg-white rounded-3xl shadow-xl overflow-hidden min-h-[600px] flex flex-col border border-gray-100">
+                #widget-panel-extensiones-embed .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                    background: #94a3b8;
+                }
+            </style>
 
-            <!-- TOP BAR -->
+            <!-- MAIN CONTAINER -->
             <div
-                class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-white sticky top-0 z-10">
-                <h1 class="text-[#141F4C] text-xl font-bold">Panel de Extensiones</h1>
+                class="w-full bg-white rounded-3xl shadow-xl overflow-hidden min-h-[600px] flex flex-col border border-gray-100">
 
-                <div class="flex items-center gap-4">
-                    <!-- Search -->
-                    <div class="relative hidden sm:block">
-                        <i
-                            class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
-                        <input type="text" placeholder="Buscar..."
-                            class="pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-64 hover:bg-gray-100 transition-colors">
-                    </div>
+                <!-- TOP BAR -->
+                <div
+                    class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-white sticky top-0 z-10">
+                    <h1 class="text-[#141F4C] text-xl font-bold">Panel de Extensiones</h1>
 
-                    <!-- View Toggles -->
-                    <div class="flex bg-gray-100 p-1 rounded-lg">
-                        <button
-                            class="w-8 h-8 flex items-center justify-center rounded bg-white shadow-sm text-gray-700">
-                            <i class="fas fa-th-large text-xs"></i>
-                        </button>
-                        <button
-                            class="w-8 h-8 flex items-center justify-center rounded text-gray-400 hover:text-gray-600">
-                            <i class="fas fa-list text-xs"></i>
-                        </button>
+                    <div class="flex items-center gap-4">
+                        <!-- Search -->
+                        <div class="relative hidden sm:block">
+                            <i
+                                class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
+                            <input type="text" placeholder="Buscar..."
+                                class="pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-64 hover:bg-gray-100 transition-colors">
+                        </div>
+
+                        <!-- View Toggles -->
+                        <div class="flex bg-gray-100 p-1 rounded-lg">
+                            <button
+                                class="w-8 h-8 flex items-center justify-center rounded bg-white shadow-sm text-gray-700">
+                                <i class="fas fa-th-large text-xs"></i>
+                            </button>
+                            <button
+                                class="w-8 h-8 flex items-center justify-center rounded text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-list text-xs"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- EXTENSIONS GRID -->
-            <div class="p-6 bg-[#FaFaFa] flex-1 overflow-y-auto custom-scrollbar">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                <!-- EXTENSIONS GRID -->
+                <div class="p-6 bg-[#FaFaFa] flex-1 overflow-y-auto custom-scrollbar">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
 
-                    <!-- CARD: AVAILABLE (1104) -->
-                    <div
-                        class="bg-white border boundary-gray-200 rounded-lg shadow-sm overflow-hidden group hover:shadow-md transition-shadow">
-                        <div class="bg-[#dcfce7] px-4 py-2 flex justify-between items-center">
-                            <div class="flex items-center gap-2">
-                                <i class="fas fa-check text-xs text-[#15803d]"></i>
-                                <span class="text-[#14532d] font-semibold text-sm">1023 - Sofía Navarro</span>
-                            </div>
-                            <button
-                                class="w-6 h-6 bg-white rounded flex items-center justify-center text-gray-400 hover:text-green-600 shadow-sm">
-                                <i class="fas fa-phone text-xs transform rotate-90"></i>
-                            </button>
-                        </div>
-                        <div class="h-12 bg-white flex items-center px-4">
-                            <span class="text-xs text-gray-400">Disponible</span>
-                        </div>
-                    </div>
-
-                    <!-- CARD: AVAILABLE (1105) -->
-                    <div
-                        class="bg-white border boundary-gray-200 rounded-lg shadow-sm overflow-hidden group hover:shadow-md transition-shadow">
-                        <div class="bg-[#dcfce7] px-4 py-2 flex justify-between items-center">
-                            <div class="flex items-center gap-2">
-                                <i class="fas fa-check text-xs text-[#15803d]"></i>
-                                <span class="text-[#14532d] font-semibold text-sm">1045 - Carlos Méndez</span>
-                            </div>
-                            <button
-                                class="w-6 h-6 bg-white rounded flex items-center justify-center text-gray-400 hover:text-green-600 shadow-sm">
-                                <i class="fas fa-phone text-xs transform rotate-90"></i>
-                            </button>
-                        </div>
-                        <div class="h-12 bg-white flex items-center px-4">
-                            <span class="text-xs text-gray-400">Disponible</span>
-                        </div>
-                    </div>
-
-                    <!-- CARD: AVAILABLE (1107) -->
-                    <div
-                        class="bg-white border boundary-gray-200 rounded-lg shadow-sm overflow-hidden group hover:shadow-md transition-shadow">
-                        <div class="bg-[#dcfce7] px-4 py-2 flex justify-between items-center">
-                            <div class="flex items-center gap-2">
-                                <i class="fas fa-check text-xs text-[#15803d]"></i>
-                                <span class="text-[#14532d] font-semibold text-sm">1089 - Laura Gil</span>
-                            </div>
-                            <button
-                                class="w-6 h-6 bg-white rounded flex items-center justify-center text-gray-400 hover:text-green-600 shadow-sm">
-                                <i class="fas fa-phone text-xs transform rotate-90"></i>
-                            </button>
-                        </div>
-                        <div class="h-12 bg-white flex items-center px-4">
-                            <span class="text-xs text-gray-400">Disponible</span>
-                        </div>
-                    </div>
-
-                    <!-- CARD: AVAILABLE (1121) -->
-                    <div
-                        class="bg-white border boundary-gray-200 rounded-lg shadow-sm overflow-hidden group hover:shadow-md transition-shadow">
-                        <div class="bg-[#dcfce7] px-4 py-2 flex justify-between items-center">
-                            <div class="flex items-center gap-2">
-                                <i class="fas fa-check text-xs text-[#15803d]"></i>
-                                <span class="text-[#14532d] font-semibold text-sm">1156 - Ana Ruiz</span>
-                            </div>
-                            <button
-                                class="w-6 h-6 bg-white rounded flex items-center justify-center text-gray-400 hover:text-green-600 shadow-sm">
-                                <i class="fas fa-phone text-xs transform rotate-90"></i>
-                            </button>
-                        </div>
-                        <div class="h-12 bg-white flex items-center px-4">
-                            <span class="text-xs text-gray-400">Disponible</span>
-                        </div>
-                    </div>
-
-                    <!-- CARD: BUSY (2142) -->
-                    <div
-                        class="bg-white border border-red-200 rounded-lg shadow-sm overflow-hidden group hover:shadow-md transition-shadow">
-                        <div class="bg-[#fee2e2] px-4 py-2 flex justify-between items-center">
-                            <div class="flex items-center gap-2">
-                                <i class="far fa-comments text-xs text-[#b91c1c]"></i>
-                                <span class="text-[#7f1d1d] font-semibold text-sm">2301 - Javier Ortiz</span>
-                            </div>
-                            <button
-                                class="w-6 h-6 bg-white rounded flex items-center justify-center text-gray-400 hover:text-red-600 shadow-sm">
-                                <i class="fas fa-phone text-xs transform rotate-90"></i>
-                            </button>
-                        </div>
-                        <!-- Busy State Details -->
-                        <div class="p-3">
-                            <div class="flex justify-between items-center text-xs text-gray-600 mb-1">
-                                <div class="flex items-center gap-1">
-                                    <i class="fas fa-phone-alt animate-pulse text-gray-500"></i>
-                                    <span>17:58</span>
-                                    <span class="bg-gray-600 text-white px-1.5 rounded text-[10px]">1m 28s</span>
+                        <!-- CARD: AVAILABLE (1104) -->
+                        <div
+                            class="bg-white border boundary-gray-200 rounded-lg shadow-sm overflow-hidden group hover:shadow-md transition-shadow">
+                            <div class="bg-[#dcfce7] px-4 py-2 flex justify-between items-center">
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-check text-xs text-[#15803d]"></i>
+                                    <span class="text-[#14532d] font-semibold text-sm">1023 - Sofía Navarro</span>
                                 </div>
                                 <button
-                                    class="w-5 h-5 flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded">
-                                    <i class="fas fa-ellipsis-h text-xs"></i>
+                                    class="w-6 h-6 bg-white rounded flex items-center justify-center text-gray-400 hover:text-green-600 shadow-sm">
+                                    <i class="fas fa-phone text-xs transform rotate-90"></i>
                                 </button>
                             </div>
-                            <div class="text-xs text-gray-800 font-medium pl-4">
-                                Javier Ortiz 600123456
+                            <div class="h-12 bg-white flex items-center px-4">
+                                <span class="text-xs text-gray-400">Disponible</span>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- CARD: BUSY (1212) -->
-                    <div
-                        class="bg-white border border-red-200 rounded-lg shadow-sm overflow-hidden group hover:shadow-md transition-shadow">
-                        <div class="bg-[#fee2e2] px-4 py-2 flex justify-between items-center">
-                            <div class="flex items-center gap-2">
-                                <i class="far fa-comments text-xs text-[#b91c1c]"></i>
-                                <span class="text-[#7f1d1d] font-semibold text-sm">1414 - Elena Castro</span>
+                        <!-- CARD: AVAILABLE (1105) -->
+                        <div
+                            class="bg-white border boundary-gray-200 rounded-lg shadow-sm overflow-hidden group hover:shadow-md transition-shadow">
+                            <div class="bg-[#dcfce7] px-4 py-2 flex justify-between items-center">
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-check text-xs text-[#15803d]"></i>
+                                    <span class="text-[#14532d] font-semibold text-sm">1045 - Carlos Méndez</span>
+                                </div>
+                                <button
+                                    class="w-6 h-6 bg-white rounded flex items-center justify-center text-gray-400 hover:text-green-600 shadow-sm">
+                                    <i class="fas fa-phone text-xs transform rotate-90"></i>
+                                </button>
                             </div>
-                            <button
-                                class="w-6 h-6 bg-white rounded flex items-center justify-center text-gray-400 hover:text-red-600 shadow-sm">
-                                <i class="fas fa-phone text-xs transform rotate-90"></i>
-                            </button>
+                            <div class="h-12 bg-white flex items-center px-4">
+                                <span class="text-xs text-gray-400">Disponible</span>
+                            </div>
                         </div>
-                        <!-- Busy State Details -->
-                        <div class="p-3">
-                            <div class="flex justify-between items-center text-xs text-gray-600 mb-1">
-                                <div class="flex items-center gap-1">
-                                    <i class="fas fa-phone-alt animate-pulse text-gray-500"></i>
-                                    <span>17:01</span>
-                                    <span class="bg-gray-600 text-white px-1.5 rounded text-[10px]">9m 28s</span>
+
+                        <!-- CARD: AVAILABLE (1107) -->
+                        <div
+                            class="bg-white border boundary-gray-200 rounded-lg shadow-sm overflow-hidden group hover:shadow-md transition-shadow">
+                            <div class="bg-[#dcfce7] px-4 py-2 flex justify-between items-center">
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-check text-xs text-[#15803d]"></i>
+                                    <span class="text-[#14532d] font-semibold text-sm">1089 - Laura Gil</span>
+                                </div>
+                                <button
+                                    class="w-6 h-6 bg-white rounded flex items-center justify-center text-gray-400 hover:text-green-600 shadow-sm">
+                                    <i class="fas fa-phone text-xs transform rotate-90"></i>
+                                </button>
+                            </div>
+                            <div class="h-12 bg-white flex items-center px-4">
+                                <span class="text-xs text-gray-400">Disponible</span>
+                            </div>
+                        </div>
+
+                        <!-- CARD: AVAILABLE (1121) -->
+                        <div
+                            class="bg-white border boundary-gray-200 rounded-lg shadow-sm overflow-hidden group hover:shadow-md transition-shadow">
+                            <div class="bg-[#dcfce7] px-4 py-2 flex justify-between items-center">
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-check text-xs text-[#15803d]"></i>
+                                    <span class="text-[#14532d] font-semibold text-sm">1156 - Ana Ruiz</span>
+                                </div>
+                                <button
+                                    class="w-6 h-6 bg-white rounded flex items-center justify-center text-gray-400 hover:text-green-600 shadow-sm">
+                                    <i class="fas fa-phone text-xs transform rotate-90"></i>
+                                </button>
+                            </div>
+                            <div class="h-12 bg-white flex items-center px-4">
+                                <span class="text-xs text-gray-400">Disponible</span>
+                            </div>
+                        </div>
+
+                        <!-- CARD: BUSY (2142) -->
+                        <div
+                            class="bg-white border border-red-200 rounded-lg shadow-sm overflow-hidden group hover:shadow-md transition-shadow">
+                            <div class="bg-[#fee2e2] px-4 py-2 flex justify-between items-center">
+                                <div class="flex items-center gap-2">
+                                    <i class="far fa-comments text-xs text-[#b91c1c]"></i>
+                                    <span class="text-[#7f1d1d] font-semibold text-sm">2301 - Javier Ortiz</span>
+                                </div>
+                                <button
+                                    class="w-6 h-6 bg-white rounded flex items-center justify-center text-gray-400 hover:text-red-600 shadow-sm">
+                                    <i class="fas fa-phone text-xs transform rotate-90"></i>
+                                </button>
+                            </div>
+                            <!-- Busy State Details -->
+                            <div class="p-3">
+                                <div class="flex justify-between items-center text-xs text-gray-600 mb-1">
+                                    <div class="flex items-center gap-1">
+                                        <i class="fas fa-phone-alt animate-pulse text-gray-500"></i>
+                                        <span>17:58</span>
+                                        <span class="bg-gray-600 text-white px-1.5 rounded text-[10px]">1m 28s</span>
+                                    </div>
+                                    <button
+                                        class="w-5 h-5 flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded">
+                                        <i class="fas fa-ellipsis-h text-xs"></i>
+                                    </button>
+                                </div>
+                                <div class="text-xs text-gray-800 font-medium pl-4">
+                                    Javier Ortiz 600123456
                                 </div>
                             </div>
-                            <div class="text-xs text-gray-800 font-medium pl-4">
-                                Llamada Saliente
+                        </div>
+
+                        <!-- CARD: BUSY (1212) -->
+                        <div
+                            class="bg-white border border-red-200 rounded-lg shadow-sm overflow-hidden group hover:shadow-md transition-shadow">
+                            <div class="bg-[#fee2e2] px-4 py-2 flex justify-between items-center">
+                                <div class="flex items-center gap-2">
+                                    <i class="far fa-comments text-xs text-[#b91c1c]"></i>
+                                    <span class="text-[#7f1d1d] font-semibold text-sm">1414 - Elena Castro</span>
+                                </div>
+                                <button
+                                    class="w-6 h-6 bg-white rounded flex items-center justify-center text-gray-400 hover:text-red-600 shadow-sm">
+                                    <i class="fas fa-phone text-xs transform rotate-90"></i>
+                                </button>
+                            </div>
+                            <!-- Busy State Details -->
+                            <div class="p-3">
+                                <div class="flex justify-between items-center text-xs text-gray-600 mb-1">
+                                    <div class="flex items-center gap-1">
+                                        <i class="fas fa-phone-alt animate-pulse text-gray-500"></i>
+                                        <span>17:01</span>
+                                        <span class="bg-gray-600 text-white px-1.5 rounded text-[10px]">9m 28s</span>
+                                    </div>
+                                </div>
+                                <div class="text-xs text-gray-800 font-medium pl-4">
+                                    Llamada Saliente
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- CARD: AVAILABLE (1528) -->
-                    <div
-                        class="bg-white border boundary-gray-200 rounded-lg shadow-sm overflow-hidden group hover:shadow-md transition-shadow">
-                        <div class="bg-[#dcfce7] px-4 py-2 flex justify-between items-center">
-                            <div class="flex items-center gap-2">
-                                <i class="fas fa-check text-xs text-[#15803d]"></i>
-                                <span class="text-[#14532d] font-semibold text-sm">1672 - Miguel Ángel</span>
+                        <!-- CARD: AVAILABLE (1528) -->
+                        <div
+                            class="bg-white border boundary-gray-200 rounded-lg shadow-sm overflow-hidden group hover:shadow-md transition-shadow">
+                            <div class="bg-[#dcfce7] px-4 py-2 flex justify-between items-center">
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-check text-xs text-[#15803d]"></i>
+                                    <span class="text-[#14532d] font-semibold text-sm">1672 - Miguel Ángel</span>
+                                </div>
+                                <button
+                                    class="w-6 h-6 bg-white rounded flex items-center justify-center text-gray-400 hover:text-green-600 shadow-sm">
+                                    <i class="fas fa-phone text-xs transform rotate-90"></i>
+                                </button>
                             </div>
-                            <button
-                                class="w-6 h-6 bg-white rounded flex items-center justify-center text-gray-400 hover:text-green-600 shadow-sm">
-                                <i class="fas fa-phone text-xs transform rotate-90"></i>
-                            </button>
-                        </div>
-                        <div class="h-12 bg-white flex items-center px-4">
-                            <span class="text-xs text-gray-400">Disponible</span>
-                        </div>
-                    </div>
-
-                    <!-- CARD: AVAILABLE (1744) -->
-                    <div
-                        class="bg-white border boundary-gray-200 rounded-lg shadow-sm overflow-hidden group hover:shadow-md transition-shadow">
-                        <div class="bg-[#dcfce7] px-4 py-2 flex justify-between items-center">
-                            <div class="flex items-center gap-2">
-                                <i class="fas fa-check text-xs text-[#15803d]"></i>
-                                <span class="text-[#14532d] font-semibold text-sm">1890 - Pablo Herrera</span>
+                            <div class="h-12 bg-white flex items-center px-4">
+                                <span class="text-xs text-gray-400">Disponible</span>
                             </div>
-                            <button
-                                class="w-6 h-6 bg-white rounded flex items-center justify-center text-gray-400 hover:text-green-600 shadow-sm">
-                                <i class="fas fa-phone text-xs transform rotate-90"></i>
-                            </button>
                         </div>
-                        <div class="h-12 bg-white flex items-center px-4">
-                            <span class="text-xs text-gray-400">Disponible</span>
-                        </div>
-                    </div>
 
+                        <!-- CARD: AVAILABLE (1744) -->
+                        <div
+                            class="bg-white border boundary-gray-200 rounded-lg shadow-sm overflow-hidden group hover:shadow-md transition-shadow">
+                            <div class="bg-[#dcfce7] px-4 py-2 flex justify-between items-center">
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-check text-xs text-[#15803d]"></i>
+                                    <span class="text-[#14532d] font-semibold text-sm">1890 - Pablo Herrera</span>
+                                </div>
+                                <button
+                                    class="w-6 h-6 bg-white rounded flex items-center justify-center text-gray-400 hover:text-green-600 shadow-sm">
+                                    <i class="fas fa-phone text-xs transform rotate-90"></i>
+                                </button>
+                            </div>
+                            <div class="h-12 bg-white flex items-center px-4">
+                                <span class="text-xs text-gray-400">Disponible</span>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
+
             </div>
 
         </div>
 
-    </div>
-
-    <!-- 
+        <!-- 
     ==========================================================================
     END EMBED CODE
     ==========================================================================
 -->
 
+    </div>
+    <!-- END WIDGET CONTAINER -->
+
+    <script>
+        // --- SCALING LOGIC ---
+        function scaleToFit() {
+            const container = document.getElementById('main-app-container');
+            if (!container) return;
+
+            const baseWidth = 1152;
+            const marginBuffer = 40;
+
+            const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+
+            let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+
+            container.style.transform = `translate(-50%, -50%) scale(${scale})`;
+
+            document.body.style.height = '100vh';
+            document.documentElement.style.overflow = 'hidden';
+        }
+        window.addEventListener('resize', scaleToFit);
+        document.addEventListener('DOMContentLoaded', scaleToFit);
+    </script>
 </body>
 
 </html>

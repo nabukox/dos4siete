@@ -16,15 +16,22 @@
             background-color: transparent !important;
         }
 
+        /* Dev-only centering for Absolute Pattern */
+        html,
         body {
-            font-family: 'Roboto', sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 500px;
+            height: 100vh;
+            width: 100vw;
+            background-color: transparent !important;
+            overflow: hidden;
+            /* Prevent scrollbars */
+            position: relative;
+            /* Context */
             margin: 0;
             padding: 0;
-            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
         }
     </style>
 </head>
@@ -114,8 +121,9 @@
         </style>
 
         <!-- WIDGET CONTAINER (Screen representation) -->
-        <div
-            class="w-full max-w-6xl h-[700px] odoo-bg rounded-lg overflow-hidden shadow-2xl relative flex flex-col border border-gray-200">
+        <!-- WIDGET CONTAINER (Screen representation) -->
+        <div id="main-app-container"
+            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1152px] h-[700px] odoo-bg rounded-lg overflow-hidden shadow-2xl relative flex flex-col border border-gray-200 mx-auto">
 
             <!-- 1. TOP NAVBAR -->
             <div class="h-10 flex items-center justify-between px-4 shrink-0">
@@ -543,6 +551,27 @@
     ==========================================================================
 -->
 
+    <script>
+        // --- SCALING LOGIC ---
+        function scaleToFit() {
+            const container = document.getElementById('main-app-container');
+            if (!container) return;
+
+            const baseWidth = 1152;
+            const marginBuffer = 40;
+
+            const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+
+            let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+
+            container.style.transform = `translate(-50%, -50%) scale(${scale})`;
+
+            document.body.style.height = '100vh';
+            document.documentElement.style.overflow = 'hidden';
+        }
+        window.addEventListener('resize', scaleToFit);
+        document.addEventListener('DOMContentLoaded', scaleToFit);
+    </script>
 </body>
 
 </html>

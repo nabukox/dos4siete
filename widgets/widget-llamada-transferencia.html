@@ -12,21 +12,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="../assets/js/dos4siete-widgets.js"></script>
     <style>
-        /* Dev-only centering */
+        /* Dev-only centering for Absolute Pattern */
         html,
         body {
+            height: 100vh;
+            width: 100vw;
             background-color: transparent !important;
+            overflow: hidden;
+            /* Prevent scrollbars */
+            position: relative;
+            /* Context */
+            margin: 0;
+            padding: 0;
         }
 
         body {
             font-family: 'Outfit', sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 500px;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
+            display: block;
         }
     </style>
 </head>
@@ -50,8 +52,7 @@
     <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
     <script src="../assets/js/dos4siete-widgets.js"></script>
 
-    <div id="widget-llamada-transferencia-embed"
-        class="relative w-full h-full flex items-center justify-center font-['Outfit']">
+    <div id="widget-llamada-transferencia-embed" class="relative w-full h-full font-['Outfit']">
 
         <style>
             /* Scoped Styles */
@@ -157,8 +158,9 @@
         </style>
 
         <!-- WIDGET CONTAINER -->
-        <div
-            class="flex w-full max-w-4xl h-[850px] bg-white rounded-3xl overflow-hidden shadow-2xl border border-gray-100 relative">
+        <!-- Base Width: 896px (max-w-4xl) -->
+        <div id="main-app-container"
+            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex w-[896px] h-[850px] bg-white rounded-3xl overflow-hidden shadow-2xl border border-gray-100">
 
             <!-- SIDEBAR: EXTENSIONS -->
             <div class="w-1/3 bg-gray-50 border-r border-gray-200 flex flex-col">
@@ -673,190 +675,154 @@
 
         </div>
 
-        <!-- Init Script inside Embed to ensure auto-start -->
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                // Initialize logic locally to avoid dependency issues and implement new AI flow
-                initAiRecordingFlow();
-            });
-
-            function initAiRecordingFlow() {
-                const btnRecord = document.querySelector('button i.fa-microphone-slash').parentNode.nextElementSibling.nextElementSibling.nextElementSibling; // Finding Record button by index or we should add ID.
-                // Let's rely on adding IDs in a previous step or selecting by content/icon if IDs are missing.
-                // Actually, let's select by text content for robustness or add IDs.
-                // The record button has "Grabar" text.
-
-                const buttons = document.querySelectorAll('button');
-                let btnRecordEl = null;
-                buttons.forEach(btn => {
-                    if (btn.innerText.includes('GRABAR')) btnRecordEl = btn;
-                });
-
-                const btnHangup = document.getElementById('btn-hangup');
-                const summaryModal = document.getElementById('summary-modal');
-                const summaryContent = document.getElementById('summary-modal-content');
-                let isRecording = false;
-                let recordingInterval;
-
-                // 1. Setup Record Button Interaction
-                if (btnRecordEl) {
-                    btnRecordEl.addEventListener('click', () => {
-                        toggleRecording(btnRecordEl);
-                    });
-                }
-
-                // 2. Setup Hangup Interaction
-                if (btnHangup) {
-                    btnHangup.addEventListener('click', () => {
-                        showSummaryModal();
-                    });
-                }
-
-                // Internal Functions
-                function toggleRecording(btn) {
-                    isRecording = !isRecording;
-                    const dot = btn.querySelector('div.bg-gray-600, div.bg-red-500'); // inner dot
-                    const border = btn.querySelector('div.border-gray-600, div.border-red-500'); // outer ring
-
-                    if (isRecording) {
-                        // Activate Visuals
-                        if (dot) {
-                            dot.classList.remove('bg-gray-600');
-                            dot.classList.add('bg-red-500', 'animate-pulse');
-                        }
-                        if (border) {
-                            border.classList.remove('border-gray-600');
-                            border.classList.add('border-red-500');
-                        }
-                        // Add "REC" indicator to stage
-                        const statusText = document.getElementById('stage-status-text');
-                        if (statusText) {
-                            const recTag = document.createElement('span');
-                            recTag.id = 'rec-indicator';
-                            recTag.className = 'ml-2 text-red-500 font-bold animate-pulse';
-                            recTag.innerText = '● REC';
-                            statusText.appendChild(recTag);
-                        }
-                    } else {
-                        // Deactivate
-                        if (dot) {
-                            dot.classList.add('bg-gray-600');
-                            dot.classList.remove('bg-red-500', 'animate-pulse');
-                        }
-                        if (border) {
-                            border.classList.add('border-gray-600');
-                            border.classList.remove('border-red-500');
-                        }
-                        const recTag = document.getElementById('rec-indicator');
-                        if (recTag) recTag.remove();
-                    }
-                }
-
-                function showSummaryModal() {
-                    const btnSave = document.querySelector('#summary-modal button.bg-indigo-600');
-                    if (summaryModal) {
-                        summaryModal.classList.remove('hidden');
-
-                        // 1. Reset State: Show Skeleton, Hide Real Content, Reset Animations
-                        const skeleton = document.getElementById('summary-skeleton');
-                        const content = document.getElementById('summary-real-content');
-
-                        if (skeleton) skeleton.classList.remove('hidden');
-                        if (content) {
-                            content.classList.add('hidden');
-                            content.querySelectorAll('.anim-item').forEach(el => {
-                                el.classList.remove('animate-slide-up');
-                            });
-                        }
-
-                        // 2. Animate Modal Entry
-                        setTimeout(() => {
-                            summaryModal.classList.remove('opacity-0');
-                            if (summaryContent) {
-                                summaryContent.classList.remove('scale-95');
-                                summaryContent.classList.add('scale-100');
-                            }
-
-                            // 3. Wait for 0.8s (Skeleton magic time)
-                            setTimeout(() => {
-                                if (skeleton) skeleton.classList.add('hidden');
-                                if (content) {
-                                    content.classList.remove('hidden');
-
-                                    // 4. Staggered Entry of Content
-                                    const items = content.querySelectorAll('.anim-item');
-                                    items.forEach((item, index) => {
-                                        setTimeout(() => {
-                                            item.classList.add('animate-slide-up');
-                                        }, index * 150); // 150ms delay between items
-                                    });
-                                }
-                            }, 800);
-
-                        }, 50);
-                    }
-                }
-
-                // --- AUTOMATION DEMO (Optional, if user wants to see it play out) ---
-                // We'll run a simple sequence: Wait -> Record -> Wait -> Hangup
-                setTimeout(runDemo, 2000);
-
-                async function runDemo() {
-                    const cursor = document.createElement('div');
-                    cursor.innerHTML = '<i class="fas fa-hand-pointer text-gray-900 text-3xl drop-shadow-xl border-white" style="-webkit-text-stroke: 1px white;"></i>';
-                    cursor.style.position = 'fixed';
-                    cursor.style.zIndex = '9999';
-                    cursor.style.pointerEvents = 'none';
-                    cursor.style.transition = 'all 1s ease-in-out';
-                    cursor.style.top = '100%';
-                    cursor.style.left = '100%';
-                    document.body.appendChild(cursor);
-
-                    const sleep = ms => new Promise(r => setTimeout(r, ms));
-
-                    // Move to Record
-                    if (btnRecordEl) {
-                        const rect = btnRecordEl.getBoundingClientRect();
-                        cursor.style.top = (rect.top + 20) + 'px';
-                        cursor.style.left = (rect.left + 30) + 'px';
-                        await sleep(1500);
-
-                        // Click Record
-                        cursor.style.transform = 'scale(0.8)';
-                        toggleRecording(btnRecordEl);
-                        await sleep(200);
-                        cursor.style.transform = 'scale(1)';
-                        await sleep(3000); // Record for 3s
-                    }
-
-                    // Move to Hangup
-                    if (btnHangup) {
-                        const rect = btnHangup.getBoundingClientRect();
-                        cursor.style.top = (rect.top + 30) + 'px';
-                        cursor.style.left = (rect.left + 30) + 'px';
-                        await sleep(1500);
-
-                        // Click Hangup
-                        cursor.style.transform = 'scale(0.8)';
-                        showSummaryModal();
-                        await sleep(200);
-                        cursor.style.transform = 'scale(1)';
-                    }
-
-                    // Move away
-                    cursor.style.top = '100%';
-                    cursor.style.left = '100%';
-                }
-            }
-        </script>
-
     </div>
 
-    <!-- 
-    ==========================================================================
-    END EMBED CODE
-    ==========================================================================
--->
+    <!-- Init Script inside Embed to ensure auto-start -->
+    <script>
+        // --- SCALING LOGIC ---
+        function scaleToFit() {
+            const container = document.getElementById('main-app-container');
+            if (!container) return;
+
+            const baseWidth = 896;
+            const marginBuffer = 40;
+
+            const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+
+            let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+
+            container.style.transform = `translate(-50%, -50%) scale(${scale})`;
+
+            // Ensure body allows centering
+            document.body.style.height = '100vh';
+            document.documentElement.style.overflow = 'hidden';
+        }
+        window.addEventListener('resize', scaleToFit);
+        document.addEventListener('DOMContentLoaded', scaleToFit);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize logic locally to avoid dependency issues and implement new AI flow
+            initAiRecordingFlow();
+        });
+
+        function initAiRecordingFlow() {
+            const btnRecord = document.querySelector('button i.fa-microphone-slash').parentNode.nextElementSibling.nextElementSibling.nextElementSibling; // Finding Record button by index or we should add ID.
+            // Let's rely on adding IDs in a previous step or selecting by content/icon if IDs are missing.
+            // Actually, let's select by text content for robustness or add IDs.
+            // The record button has "Grabar" text.
+
+            const buttons = document.querySelectorAll('button');
+            let btnRecordEl = null;
+            buttons.forEach(btn => {
+                if (btn.innerText.includes('GRABAR')) btnRecordEl = btn;
+            });
+
+            const btnHangup = document.getElementById('btn-hangup');
+            const summaryModal = document.getElementById('summary-modal');
+            const summaryContent = document.getElementById('summary-modal-content');
+            let isRecording = false;
+            let recordingInterval;
+
+            // 1. Setup Record Button Interaction
+            if (btnRecordEl) {
+                btnRecordEl.addEventListener('click', () => {
+                    toggleRecording(btnRecordEl);
+                });
+            }
+
+            // 2. Setup Hangup Interaction
+            if (btnHangup) {
+                btnHangup.addEventListener('click', () => {
+                    showSummaryModal();
+                });
+            }
+
+            // Internal Functions
+            function toggleRecording(btn) {
+                isRecording = !isRecording;
+                const dot = btn.querySelector('div.bg-gray-600, div.bg-red-500'); // inner dot
+                const border = btn.querySelector('div.border-gray-600, div.border-red-500'); // outer ring
+
+                if (isRecording) {
+                    // Activate Visuals
+                    if (dot) {
+                        dot.classList.remove('bg-gray-600');
+                        dot.classList.add('bg-red-500', 'animate-pulse');
+                    }
+                    if (border) {
+                        border.classList.remove('border-gray-600');
+                        border.classList.add('border-red-500');
+                    }
+                    // Add "REC" indicator to stage
+                    const statusText = document.getElementById('stage-status-text');
+                    if (statusText) {
+                        const recTag = document.createElement('span');
+                        recTag.id = 'rec-indicator';
+                        recTag.className = 'ml-2 text-red-500 font-bold animate-pulse';
+                        recTag.innerText = '● REC';
+                        statusText.appendChild(recTag);
+                    }
+                } else {
+                    // Deactivate
+                    if (dot) {
+                        dot.classList.add('bg-gray-600');
+                        dot.classList.remove('bg-red-500', 'animate-pulse');
+                    }
+                    if (border) {
+                        border.classList.add('border-gray-600');
+                        border.classList.remove('border-red-500');
+                    }
+                    const recTag = document.getElementById('rec-indicator');
+                    if (recTag) recTag.remove();
+                }
+            }
+
+            function showSummaryModal() {
+                const btnSave = document.querySelector('#summary-modal button.bg-indigo-600');
+                if (summaryModal) {
+                    summaryModal.classList.remove('hidden');
+
+                    // 1. Reset State: Show Skeleton, Hide Real Content, Reset Animations
+                    const skeleton = document.getElementById('summary-skeleton');
+                    const content = document.getElementById('summary-real-content');
+
+                    if (skeleton) skeleton.classList.remove('hidden');
+                    if (content) {
+                        content.classList.add('hidden');
+                        content.querySelectorAll('.anim-item').forEach(el => {
+                            el.classList.remove('animate-slide-up');
+                        });
+                    }
+
+                    // 2. Animate Modal Entry
+                    setTimeout(() => {
+                        summaryModal.classList.remove('opacity-0');
+                        if (summaryContent) {
+                            summaryContent.classList.remove('scale-95');
+                            summaryContent.classList.add('scale-100');
+                        }
+
+                        // 3. Wait for 0.8s (Skeleton magic time)
+                        setTimeout(() => {
+                            if (skeleton) skeleton.classList.add('hidden');
+                            if (content) {
+                                content.classList.remove('hidden');
+
+                                // 4. Staggered Entry of Content
+                                const items = content.querySelectorAll('.anim-item');
+                                items.forEach((item, index) => {
+                                    setTimeout(() => {
+                                        item.classList.add('animate-slide-up');
+                                    }, index * 150); // 150ms delay between items
+                                });
+                            }
+                        }, 800);
+
+                    }, 50);
+                }
+            }
+        }
+    </script>
 
 </body>
 

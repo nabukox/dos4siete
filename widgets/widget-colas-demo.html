@@ -15,17 +15,15 @@
         /* Dev-only centering */
         html,
         body {
+            height: 100vh;
+            width: 100vw;
             background-color: transparent !important;
-        }
-
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 500px;
+            overflow: hidden;
+            /* Prevent scrollbars */
+            position: relative;
+            /* Context */
             margin: 0;
             padding: 0;
-            overflow: hidden;
         }
     </style>
 </head>
@@ -63,7 +61,10 @@
             <i class="fas fa-hand-pointer text-3xl" style="text-shadow: 2px 2px 0px white;"></i>
         </div>
 
-        <div class="app-container">
+        <!-- MAIN APP CONTAINER with Absolute Centering -->
+        <!-- Fixed width 950px for dashboard layout -->
+        <div id="main-app-container"
+            class="app-container absolute top-1/2 left-1/2 shadow-none w-[950px] transform -translate-x-1/2 -translate-y-1/2">
 
             <!-- HEADER -->
             <div class="app-header">
@@ -206,6 +207,28 @@
             </div>
 
         </div>
+
+        <!-- SCALING SCRIPT -->
+        <script>
+            function scaleToFit() {
+                const container = document.getElementById('main-app-container');
+                if (!container) return;
+
+                const baseWidth = 950;
+                const marginBuffer = 40;
+
+                const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+
+                let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+
+                container.style.transform = `translate(-50%, -50%) scale(${scale})`;
+
+                document.body.style.height = '100vh';
+                document.documentElement.style.overflow = 'hidden';
+            }
+            window.addEventListener('resize', scaleToFit);
+            document.addEventListener('DOMContentLoaded', scaleToFit);
+        </script>
 
         <!-- INITIALIZATION -->
         <script>

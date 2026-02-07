@@ -13,24 +13,18 @@
     <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
     <script src="../assets/js/dos4siete-widgets.js"></script>
     <style>
-        /* Dev-only styles */
+        /* Dev-only styles for Absolute Centering Pattern */
         html,
         body {
+            height: 100vh;
+            width: 100vw;
             background-color: transparent !important;
-        }
-
-        body {
-            font-family: 'Outfit', sans-serif;
-            /* background-image removed for transparency */
-            background: transparent;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 500px;
-            padding: 0;
-            position: relative;
             overflow: hidden;
+            /* Prevent scrollbars */
+            position: relative;
+            /* Context */
             margin: 0;
+            padding: 0;
         }
 
         .backdrop-overlay {
@@ -112,41 +106,19 @@
                 -ms-overflow-style: none;
                 scrollbar-width: none;
             }
-
-            /* Responsive Scaling */
-            @media (max-width: 640px) {
-                .softphone-wrapper {
-                    transform: scale(0.85);
-                    transform-origin: center top;
-                }
-            }
-
-            @media (max-width: 520px) {
-                .softphone-wrapper {
-                    transform: scale(0.65);
-                    transform-origin: center top;
-                    margin-bottom: -150px;
-                }
-            }
-
-            @media (max-width: 400px) {
-                .softphone-wrapper {
-                    transform: scale(0.55);
-                    transform-origin: center top;
-                    margin-bottom: -200px;
-                }
-            }
         </style>
 
-        <div class="flex items-center justify-center w-full h-full p-4 md:p-10 transition-all">
+        <!-- MAIN CONTAINER FOR ABSOLUTE CENTERING -->
+        <div id="main-app-container"
+            class="absolute top-1/2 left-1/2 p-10 transform -translate-x-1/2 -translate-y-1/2 shadow-none">
 
-            <!-- WRAPPER for Relative Positioning -->
-            <div class="relative group softphone-wrapper">
+            <!-- WRAPPER for Relative Positioning of Flags -->
+            <div class="relative group softphone-wrapper w-[420px] mx-auto">
 
                 <!-- 2. SOFTPHONE WIDGET (Main Call Stage) -->
                 <!-- Added relative and z-10 to ensure stacking context -->
                 <div
-                    class="w-[420px] h-fit min-h-[580px] bg-white rounded-[40px] overflow-hidden shadow-2xl border border-white/50 relative z-10 transform transition-transform hover:scale-[1.005] flex flex-col">
+                    class="w-full h-fit min-h-[580px] bg-white rounded-[40px] overflow-hidden shadow-2xl border border-white/50 relative z-10 transform transition-transform hover:scale-[1.005] flex flex-col">
 
                     <!-- Signal / Header -->
                     <div class="absolute top-8 right-8 flex items-center gap-2 z-10">
@@ -350,8 +322,36 @@
                 </div>
 
             </div>
-
         </div>
+
+        <!-- SCALING SCRIPT -->
+        <script>
+            function scaleToFit() {
+                const container = document.getElementById('main-app-container');
+                if (!container) return;
+
+                // Base width: Softphone (420) + Flags Offset (~100) + Padding (~30)
+                const baseWidth = 550;
+                const marginBuffer = 20;
+
+                const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+
+                // Scale Logic: Cap at 1
+                let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+
+                // Apply Transform: Center using translate(-50%, -50%) AND Scale
+                container.style.transform = `translate(-50%, -50%) scale(${scale})`;
+
+                // Ensure body allows centering
+                document.body.style.height = '100vh';
+                document.body.style.minHeight = '0px';
+                document.documentElement.style.height = '100vh';
+                document.documentElement.style.overflow = 'hidden';
+            }
+
+            window.addEventListener('resize', scaleToFit);
+            document.addEventListener('DOMContentLoaded', scaleToFit);
+        </script>
 
     </div>
 
