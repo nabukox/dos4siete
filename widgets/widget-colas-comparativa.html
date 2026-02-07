@@ -7,25 +7,23 @@
     <title>Comparativa Colas - Dos Siete</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Dev usage -->
-    <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
-    <script src="../assets/js/dos4siete-widgets.js"></script>
+    <!-- Dev usage (Moved to body/embed) -->
     <style>
         /* Dev-only centering */
         html,
         body {
+            height: 100vh;
+            width: 100vw;
             background-color: transparent !important;
+            overflow: hidden;
+            /* Prevent scrollbars from layout overflow */
         }
 
         body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: auto;
-            min-height: 500px;
+            position: relative;
+            /* For absolute centering context */
             margin: 0;
             padding: 0;
-            overflow: visible;
         }
     </style>
 </head>
@@ -58,12 +56,14 @@
         </style>
 
         <!-- APP CONTAINER -->
+        <!-- Added !shadow-none to remove external shadow from app-container class -->
+        <!-- Added absolute centering classes -->
         <div id="main-app-container"
-            class="app-container w-[500px] h-auto flex flex-col bg-transparent relative origin-top-left">
+            class="app-container !shadow-none w-[850px] h-auto flex flex-col bg-transparent absolute top-1/2 left-1/2">
 
             <!-- MAIN CONTENT -->
             <div class="relative flex-1 flex flex-col justify-center">
-                <div class="bg-white rounded-3xl p-6 border border-gray-100 h-full w-full shadow-xl">
+                <div class="bg-white rounded-3xl p-6 h-full w-full shadow-xl">
                     <div class="flex justify-between items-center mb-6">
                         <div class="flex items-center gap-3">
                             <img src="../assets/img/logo.svg" alt="Dos Siete" class="h-6 w-auto">
@@ -85,7 +85,7 @@
                     <!-- Chart Container -->
                     <div id="chart-comparative"
                         class="w-full h-64 bg-gray-50 rounded-xl flex items-center justify-center">
-                        <span class="text-gray-400 italic">Cargando...</span>
+                        <span class="text-gray-400 italic" id="chart-status">Cargando...</span>
                     </div>
 
                     <!-- Legend -->
@@ -122,43 +122,66 @@
                 const container = document.getElementById('main-app-container');
                 if (!container) return;
 
-                // Desired base width
-                const baseWidth = 500;
+                // Desired base width from design (850px content + margin buffer)
+                const baseWidth = 850;
+                const marginBuffer = 40; // Buffer for margins
 
-                // Current window width
-                const windowWidth = window.innerWidth;
+                // Current dimensions
+                const windowWidth = document.documentElement.clientWidth || window.innerWidth;
 
-                container.style.transform = `scale(${scale})`;
+                // Calculate scale
+                // Respect max-width by capping scale at 1.
+                let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
 
-                // Since origin is top-left, we might need to center if width > 500? 
-                // But we set width to 500px fixed.
-                // If window is 1000px, scale is 2. 500*2 = 1000. Fits perfectly.
-                // If window is 250px, scale is 0.5. 500*0.5 = 250. Fits perfectly.
+                // Apply scale with ABSOLUTE CENTERING logic
+                // translate(-50%, -50%) centers it. scale() adjusts size.
+                container.style.transform = `translate(-50%, -50%) scale(${scale})`;
 
-                // Adjust height of container to match view?
-                // The scaled height will be 500 * scale.
-                // If the iframe has fixed height 500px (CSS), and scale is 0.5, visual height is 250px. 
-                // The rest is empty. 
-                // If user wants to fill the iframe 500px, we might need to stretch height or use a different scale logic.
-                // But user emphasized "ancho" (width).
-
-                // Let's stick to width scaling as requested.
+                // Ensure body allows centering
+                document.body.style.height = '100vh';
+                document.body.style.minHeight = '0px';
+                document.documentElement.style.height = '100vh';
+                document.documentElement.style.overflow = 'hidden';
             }
 
             window.addEventListener('resize', scaleToFit);
+
+            // Initialization Logic
             document.addEventListener('DOMContentLoaded', () => {
                 scaleToFit();
 
-                if (window.Dos4Siete && window.Dos4Siete.initComparativeStats) {
-                    window.Dos4Siete.initComparativeStats();
-                }
+                // Retry initialization to ensure Dos4Siete is loaded
+                const initApp = () => {
+                    if (window.Dos4Siete && window.Dos4Siete.initComparativeStats) {
+                        try {
+                            console.log("Initializing Dos4Siete Comparative Stats...");
+                            window.Dos4Siete.initComparativeStats();
+                        } catch (e) {
+                            console.error("Error initComparativeStats:", e);
+                            const status = document.getElementById('chart-status');
+                            if (status) status.innerText = "Error: " + e.message;
+                        }
+                    } else {
+                        console.log("Dos4Siete not ready, retrying...");
+                        setTimeout(initApp, 100);
+                    }
+                };
 
-                // Start Demo
+                initApp();
+
+                // Start Demo Animation
                 setTimeout(runComparativeDemo, 1500);
             });
 
-            // Demo Logic
+            // Demo Animation Logic
             async function runComparativeDemo() {
+                // Ensure Dos4Siete is ready for interactions
+                if (!window.Dos4Siete) {
+                    // Retry demo if not ready
+                    setTimeout(runComparativeDemo, 500);
+                    return;
+                }
+
                 // Check if cursor exists
                 if (document.getElementById('demo-cursor')) return;
 
@@ -179,6 +202,7 @@
                 const moveCursorTo = async (selector) => {
                     const el = document.querySelector(selector);
                     if (!el) return;
+                    // Note: getBoundingClientRect works with scaled/translated elements relative to viewport
                     const rect = el.getBoundingClientRect();
                     cursor.style.left = (rect.left + rect.width / 2) + 'px';
                     cursor.style.top = (rect.top + rect.height / 2) + 'px';
@@ -205,7 +229,11 @@
 
                     // TRIGGER CHART UPDATE
                     if (window.Dos4Siete && window.Dos4Siete.toggleComparativeSeries) {
-                        window.Dos4Siete.toggleComparativeSeries(index);
+                        try {
+                            window.Dos4Siete.toggleComparativeSeries(index);
+                        } catch (e) {
+                            console.error("Error toggling series:", e);
+                        }
                     }
 
                     await sleep(600);
@@ -221,15 +249,13 @@
                     }
 
                     // Move Away
-                    // Check if we can move away effectively (coordinates might be tricky with scaling, but fixed position handles it relative to viewport)
                     cursor.style.left = '90%';
                     cursor.style.top = '90%';
 
-                    // Wait at the end (User requested "pocos segundos al final")
+                    // Wait at the end
                     await sleep(3000);
 
                     // RESET for Loop
-                    // Turn everything OFF
                     for (let i = 0; i < 5; i++) {
                         const el = document.querySelector(`#btn-legend-${i}`);
                         if (el) {
