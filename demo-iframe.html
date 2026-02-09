@@ -345,6 +345,246 @@
         </div>
     </section>
 
+    <!-- SECTION 7: AGENT DISTRIBUTION (New) -->
+    <section class="w-full min-h-screen bg-gray-50 flex items-center justify-center p-8 md:p-16 relative">
+        <div class="max-w-[1400px] w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+            <!-- Text Content (Left side) -->
+            <div class="space-y-6 order-2 lg:order-1">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-sm font-medium">
+                    <i class="fas fa-users-cog"></i>
+                    <span>Gestión de Recursos</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                    Optimización de <span class="text-indigo-600">Recursos</span> y Personal
+                </h2>
+                <p class="text-lg text-gray-600 leading-relaxed">
+                    Balanceo de carga eficiente y análisis de rendimiento por agente. Asegura que tu equipo esté siempre
+                    en su máximo potencial.
+                </p>
+
+                <ul class="space-y-4 pt-4">
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="mt-1 w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span class="text-gray-700">Monitorización de ocupación en tiempo real</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="mt-1 w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span class="text-gray-700">Identificación de cuellos de botella</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="mt-1 w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span class="text-gray-700">Distribución inteligente de llamadas</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Widget Container (Right side) -->
+            <!-- Adjusted Aspect Ratio to 1024/600 to fit taller chart comfortably -->
+            <div class="relative w-full aspect-[1024/600] flex items-center justify-center order-1 lg:order-2">
+                <!-- Background decorative elements -->
+                <div class="absolute -right-4 -top-4 w-24 h-24 bg-indigo-100 rounded-full blur-2xl opacity-60"></div>
+                <div class="absolute -left-4 -bottom-4 w-32 h-32 bg-blue-100 rounded-full blur-2xl opacity-60"></div>
+
+                <div class="w-full h-full bg-transparent relative">
+                    <iframe src="widgets/widget-colas-agentes.html" class="w-full h-full border-0 rounded-xl"
+                        title="Agent Distribution Demo" allow="microphone; camera; midi; encrypted-media;"></iframe>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 8: COMPARATIVE STATS (New) -->
+    <section class="w-full min-h-screen bg-white flex items-center justify-center p-8 md:p-16 relative">
+        <div class="max-w-[1400px] w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+            <!-- Widget Container (Left side) -->
+            <div class="relative w-full aspect-[850/500] flex items-center justify-center order-1">
+                <!-- Background decorative elements -->
+                <div class="absolute -left-4 -top-4 w-24 h-24 bg-cyan-100 rounded-full blur-2xl opacity-60"></div>
+                <div class="absolute -right-4 -bottom-4 w-32 h-32 bg-teal-100 rounded-full blur-2xl opacity-60"></div>
+
+                <div
+                    class="w-full h-full bg-transparent relative drop-shadow-xl hover:scale-[1.01] transition-transform duration-500">
+                    <iframe src="widgets/widget-colas-comparativa.html" class="w-full h-full border-0 rounded-xl"
+                        title="Comparative Stats Demo" allow="microphone; camera; midi; encrypted-media;"></iframe>
+                </div>
+            </div>
+
+            <!-- Text Content (Right side) -->
+            <div class="space-y-6 order-2">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-100 text-cyan-700 text-sm font-medium">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Toma de Decisiones</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                    Análisis <span class="text-cyan-600">Comparativo</span> e Histórico
+                </h2>
+                <p class="text-lg text-gray-600 leading-relaxed">
+                    Visualiza métricas cruzadas para entender la correlación entre distintos canales y periodos. Detecta
+                    tendencias y anticipa necesidades.
+                </p>
+
+                <ul class="space-y-4 pt-4">
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="mt-1 w-6 h-6 rounded-full bg-cyan-100 text-cyan-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span class="text-gray-700">Correlación entre llamadas entrantes y salientes</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="mt-1 w-6 h-6 rounded-full bg-cyan-100 text-cyan-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span class="text-gray-700">Análisis de tiempos de espera vs abandono</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="mt-1 w-6 h-6 rounded-full bg-cyan-100 text-cyan-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span class="text-gray-700">Visión global del rendimiento del contact center</span>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 9: MENU OPTIONS (New) -->
+    <section class="w-full min-h-screen bg-gray-50 flex items-center justify-center p-8 md:p-16 relative">
+        <div class="max-w-[1400px] w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+            <!-- Text Content (Left side) -->
+            <div class="space-y-6 order-2 lg:order-1">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-sm font-medium">
+                    <i class="fas fa-sitemap"></i>
+                    <span>Configuración IVR</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                    Gestión Intuitiva de <span class="text-emerald-600">Opciones de Menú</span>
+                </h2>
+                <p class="text-lg text-gray-600 leading-relaxed">
+                    Administra fácilmente los flujos de llamadas y atajos del IVR. Visualiza y edita las opciones de
+                    enrutamiento en tiempo real.
+                </p>
+
+                <ul class="space-y-4 pt-4">
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="mt-1 w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span class="text-gray-700">Edición rápida de destinos y etiquetas</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="mt-1 w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span class="text-gray-700">Interfaz drag-and-drop simplificada</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="mt-1 w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span class="text-gray-700">Visualización clara de jerarquías</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Widget Container (Right side) -->
+            <div class="relative w-full aspect-[650/600] flex items-center justify-center order-1 lg:order-2">
+                <!-- Background decorative elements -->
+                <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-100 rounded-full blur-2xl opacity-60"></div>
+                <div class="absolute -left-4 -bottom-4 w-32 h-32 bg-green-100 rounded-full blur-2xl opacity-60"></div>
+
+                <div
+                    class="w-full h-full bg-transparent relative drop-shadow-lg hover:scale-[1.01] transition-transform duration-500">
+                    <iframe src="widgets/widget-opciones-menu.html" class="w-full h-full border-0 rounded-xl"
+                        title="Menu Options Demo" allow="microphone; camera; midi; encrypted-media;"></iframe>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 10: VOICEOVER MANAGER (New) -->
+    <section class="w-full min-h-screen bg-white flex items-center justify-center p-8 md:p-16 relative">
+        <div class="max-w-[1400px] w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+            <!-- Widget Container (Left side) -->
+            <div class="relative w-full aspect-[800/700] flex items-center justify-center order-1">
+                <!-- Background decorative elements -->
+                <div class="absolute -left-4 -top-4 w-24 h-24 bg-blue-100 rounded-full blur-2xl opacity-60"></div>
+                <div class="absolute -right-4 -bottom-4 w-32 h-32 bg-cyan-100 rounded-full blur-2xl opacity-60"></div>
+
+                <div
+                    class="w-full h-full bg-transparent relative drop-shadow-md hover:scale-[1.01] transition-transform duration-500">
+                    <iframe src="widgets/widget-locuciones.html" class="w-full h-full border-0 rounded-xl"
+                        title="Voiceover Manager Demo" allow="microphone; camera; midi; encrypted-media;"></iframe>
+                </div>
+            </div>
+
+            <!-- Text Content (Right side) -->
+            <div class="space-y-6 order-2">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium">
+                    <i class="fas fa-microphone-alt"></i>
+                    <span>IA de Voz</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                    Gestor de <span class="text-blue-600">Locuciones</span> Inteligente
+                </h2>
+                <p class="text-lg text-gray-600 leading-relaxed">
+                    Personaliza la voz de tu marca en segundos. Convierte texto a audio con voces neuronales ultra
+                    realistas y gestiona tus mensajes.
+                </p>
+
+                <ul class="space-y-4 pt-4">
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="mt-1 w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span class="text-gray-700">Tecnología Text-to-Speech neuronal</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="mt-1 w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span class="text-gray-700">Generación automática de audios</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="mt-1 w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span class="text-gray-700">Gestión centralizada de mensajes y festivos</span>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
     <!-- CONTENT SECTION (Placeholder) -->
     <section class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white">
         <div class="text-center mb-16">

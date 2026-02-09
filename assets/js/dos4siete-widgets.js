@@ -698,8 +698,9 @@ window.Dos4Siete = (function () {
                 return { id: id, name: a, value: this.getRandom(500, 1600) }; // Values roughly 0-1600 like screenshot
             });
 
-            // Sort by ID to look organized like screenshot
-            agents.sort((a, b) => a.id - b.id);
+            // Limit to top 4 agents for cleaner view (as requested)
+            // Sort by ID is one way, or we could just take first 4 from directory
+            agents = agents.slice(0, 4);
 
             // Find Max for scaling (Fixed snaps like 1600, 1400...)
             const rawMax = Math.max(...agents.map(a => a.value));
@@ -721,7 +722,7 @@ window.Dos4Siete = (function () {
                 const heightPercent = (agent.value / maxVal) * 100;
 
                 const barGroup = document.createElement('div');
-                barGroup.className = 'flex flex-col items-center justify-end h-full group relative w-12';
+                barGroup.className = 'flex flex-col items-center justify-end h-full group relative w-24'; // Wider bars (w-24)
                 barGroup.style.height = '100%';
 
                 barGroup.innerHTML = `
@@ -737,7 +738,7 @@ window.Dos4Siete = (function () {
 
                     <!-- Bar Container for Alignment -->
                     <div class="w-full flex items-end justify-center flex-1 pb-6"> <!-- Padding bottom for labels -->
-                         <div class="w-10 rounded-t-sm transition-all duration-300 ease-out hover:brightness-110 relative"
+                         <div class="w-20 rounded-t-sm transition-all duration-300 ease-out hover:brightness-110 relative"
                               style="background-color: ${baseColor}; height: 0%;"
                               data-height="${heightPercent}%">
                             
@@ -836,8 +837,8 @@ window.Dos4Siete = (function () {
             // Sort by time descending
             agents.sort((a, b) => b.value - a.value);
 
-            // Limited to top 10 for better width/density match
-            const topAgents = agents.slice(0, 10);
+            // Limited to top 4 for better width/density match (AS REQUESTED)
+            const topAgents = agents.slice(0, 4);
 
             this.drawBarChart('chart-agent-time', topAgents, 'Minutos en Conversación');
         },
@@ -847,9 +848,11 @@ window.Dos4Siete = (function () {
             if (!container) return;
 
             const width = container.clientWidth || 400;
-            const height = 250; // Taller for better "reach"
-            // Increased left padding for Y-axis values
-            const padding = { top: 30, bottom: 30, left: 40, right: 10 };
+            // Use slightly less height to ensure no overflow clipping in tight containers
+            const height = container.clientHeight || 450;
+
+            // Adjusted padding to ensure text doesn't get cut off
+            const padding = { top: 40, bottom: 40, left: 60, right: 30 };
 
             const maxVal = Math.max(...data.map(d => d.value));
             // Round up maxVal to nice number for grid
@@ -858,14 +861,14 @@ window.Dos4Siete = (function () {
             const chartWidth = width - padding.left - padding.right;
             const chartHeight = height - padding.top - padding.bottom;
 
-            const barWidth = (chartWidth / data.length) * 0.5; // Thinner bars
-            const gap = (chartWidth / data.length) * 0.5;
+            const barWidth = (chartWidth / data.length) * 0.4; // Controlled width (0.4 ratio for gaps)
+            const gap = (chartWidth / data.length) * 0.6;
 
             let html = `<svg viewBox="0 0 ${width} ${height}" style="width:100%; height:100%;">`;
 
             // Y-Axis Label
             if (yLabel) {
-                html += `<text x="10" y="15" fill="#6B7280" font-size="10" font-weight="bold">${yLabel}</text>`;
+                html += `<text x="10" y="20" fill="#6B7280" font-size="14" font-weight="bold">${yLabel}</text>`;
             }
 
             // Grid lines & Y-Axis Values (4 lines)
@@ -878,27 +881,29 @@ window.Dos4Siete = (function () {
                 html += `<line x1="${padding.left}" y1="${y}" x2="${width}" y2="${y}" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4 4" />`;
 
                 // Y-Value Text
-                html += `<text x="${padding.left - 8}" y="${y + 3}" text-anchor="end" fill="#9CA3AF" font-size="10">${value}</text>`;
+                html += `<text x="${padding.left - 8}" y="${y + 5}" text-anchor="end" fill="#9CA3AF" font-size="12">${value}</text>`;
             }
 
             // Bars
             data.forEach((d, i) => {
                 const h = (d.value / gridMax) * chartHeight;
-                const x = padding.left + (i * (barWidth + gap)) + (gap / 2);
+                // Center bars in their slot
+                const slotWidth = chartWidth / data.length;
+                const x = padding.left + (i * slotWidth) + (slotWidth - barWidth) / 2;
                 const y = padding.top + (chartHeight - h);
 
                 // Rounded Bar
-                html += `<rect x="${x}" y="${y}" width="${barWidth}" height="${h}" rx="2" fill="#E5E7EB" class="hover:fill-[#2000D6] transition-colors duration-300">
+                html += `<rect x="${x}" y="${y}" width="${barWidth}" height="${h}" rx="4" fill="#E5E7EB" class="hover:fill-[#2000D6] transition-colors duration-300">
                     <title>[${d.id}] ${d.label}: ${d.value} min</title>
                 </rect>`;
 
                 // Active/High volume styling
                 if (d.value > (gridMax * 0.7)) {
-                    html += `<rect x="${x}" y="${y}" width="${barWidth}" height="${h}" rx="2" fill="#2000D6" opacity="0.9"></rect>`;
+                    html += `<rect x="${x}" y="${y}" width="${barWidth}" height="${h}" rx="4" fill="#2000D6" opacity="0.9"></rect>`;
                 }
 
                 // X-Axis ID Label
-                html += `<text x="${x + barWidth / 2}" y="${height - 10}" text-anchor="middle" fill="#6B7280" font-size="10" font-weight="500">${d.id}</text>`;
+                html += `<text x="${x + barWidth / 2}" y="${height - 10}" text-anchor="middle" fill="#6B7280" font-size="14" font-weight="600">${d.id}</text>`;
             });
 
             html += `</svg>`;

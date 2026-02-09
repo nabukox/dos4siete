@@ -56,7 +56,7 @@
 
     <!-- WIDGET CONTAINER -->
     <div id="main-app-container"
-        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[550px] h-auto font-sans shadow-2xl rounded-3xl border border-gray-100 bg-white overflow-hidden">
+        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-auto font-sans shadow-lg rounded-3xl border border-gray-100 bg-white overflow-hidden">
 
         <!-- APP CONTAINER -->
         <div class="app-container w-full h-full flex flex-col relative mx-auto">
@@ -84,7 +84,7 @@
                     <div class="flex items-center gap-4">
                         <!-- Key Badge -->
                         <div
-                            class="w-10 h-10 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 font-bold text-lg flex items-center justify-center shadow-inner group-hover:bg-cyan-50 group-hover:text-cyan-600 group-hover:border-cyan-200 transition-colors">
+                            class="w-10 h-10 shrink-0 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 font-bold text-lg flex items-center justify-center shadow-inner group-hover:bg-cyan-50 group-hover:text-cyan-600 group-hover:border-cyan-200 transition-colors">
                             1
                         </div>
 
@@ -111,7 +111,7 @@
                     class="group bg-white p-4 rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-cyan-100 transition-all flex items-center justify-between cursor-pointer">
                     <div class="flex items-center gap-4">
                         <div
-                            class="w-10 h-10 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 font-bold text-lg flex items-center justify-center shadow-inner group-hover:bg-cyan-50 group-hover:text-cyan-600 group-hover:border-cyan-200 transition-colors">
+                            class="w-10 h-10 shrink-0 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 font-bold text-lg flex items-center justify-center shadow-inner group-hover:bg-cyan-50 group-hover:text-cyan-600 group-hover:border-cyan-200 transition-colors">
                             2
                         </div>
                         <div class="flex items-center gap-3">
@@ -135,7 +135,7 @@
                     class="group bg-white p-4 rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-cyan-100 transition-all flex items-center justify-between cursor-pointer">
                     <div class="flex items-center gap-4">
                         <div
-                            class="w-10 h-10 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 font-bold text-lg flex items-center justify-center shadow-inner group-hover:bg-cyan-50 group-hover:text-cyan-600 group-hover:border-cyan-200 transition-colors">
+                            class="w-10 h-10 shrink-0 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 font-bold text-lg flex items-center justify-center shadow-inner group-hover:bg-cyan-50 group-hover:text-cyan-600 group-hover:border-cyan-200 transition-colors">
                             3
                         </div>
                         <div class="flex items-center gap-3">
@@ -159,7 +159,7 @@
                     class="group bg-white p-4 rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-cyan-100 transition-all flex items-center justify-between cursor-pointer">
                     <div class="flex items-center gap-4">
                         <div
-                            class="w-10 h-10 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 font-bold text-lg flex items-center justify-center shadow-inner group-hover:bg-cyan-50 group-hover:text-cyan-600 group-hover:border-cyan-200 transition-colors">
+                            class="w-10 h-10 shrink-0 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 font-bold text-lg flex items-center justify-center shadow-inner group-hover:bg-cyan-50 group-hover:text-cyan-600 group-hover:border-cyan-200 transition-colors">
                             5
                         </div>
                         <div class="flex items-center gap-3">
@@ -183,7 +183,7 @@
                     class="group bg-white p-4 rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-cyan-100 transition-all flex items-center justify-between cursor-pointer">
                     <div class="flex items-center gap-4">
                         <div
-                            class="w-10 h-10 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 font-bold text-lg flex items-center justify-center shadow-inner group-hover:bg-cyan-50 group-hover:text-cyan-600 group-hover:border-cyan-200 transition-colors">
+                            class="w-10 h-10 shrink-0 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 font-bold text-lg flex items-center justify-center shadow-inner group-hover:bg-cyan-50 group-hover:text-cyan-600 group-hover:border-cyan-200 transition-colors">
                             8
                         </div>
                         <div class="flex items-center gap-3">
@@ -214,7 +214,7 @@
             const container = document.getElementById('main-app-container');
             if (!container) return;
 
-            const baseWidth = 550;
+            const baseWidth = 600;
             const marginBuffer = 40;
 
             const windowWidth = document.documentElement.clientWidth || window.innerWidth;
