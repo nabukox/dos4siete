@@ -85,7 +85,7 @@
             </div>
 
             <!-- MAIN SCROLLABLE CONTENT -->
-            <div class="p-6 bg-[#F9FAFB] space-y-6 relative overflow-y-auto max-h-[85vh]">
+            <div class="p-6 bg-[#F9FAFB] space-y-6 relative">
 
                 <!-- NO TABS ONLY SUMMARY -->
                 <div class="mb-4">
@@ -95,7 +95,7 @@
                 <!-- TAB 1: SUMMARY (Existing Dashboard) -->
                 <div id="tab-summary" class="space-y-6 transition-opacity duration-300">
                     <!-- FILTER & KPI HEADER -->
-                    <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+                    <div class="flex flex-row gap-4 items-center justify-between">
                         <!-- Filter -->
                         <div
                             class="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border border-gray-100">
@@ -160,7 +160,7 @@
 
                     <!-- LIVE STATUS GRID -->
                     <!-- Using Masonry/Grid logic but flattened for simplicity -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="grid grid-cols-4 gap-4">
 
                         <!-- COL 1: CALLS -->
                         <div class="space-y-4">
@@ -264,7 +264,7 @@
                     <!-- TOTALS COMPARISON FOOTER -->
                     <div class="mt-8 bg-gray-50 rounded-3xl p-6 border border-gray-100">
                         <!-- Charts Grid -->
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="grid grid-cols-3 gap-8">
 
                             <!-- Chart 1: Volume -->
                             <div class="flex flex-col items-center relative">
@@ -332,7 +332,7 @@
                 if (!container) return;
 
                 const baseWidth = 1024;
-                const marginBuffer = 40;
+                const marginBuffer = 80;
 
                 const windowWidth = document.documentElement.clientWidth || window.innerWidth;
 
