@@ -26,20 +26,12 @@
             margin: 0;
             padding: 0;
         }
-
-        .backdrop-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(8px);
-            z-index: -1;
-        }
     </style>
 </head>
 
 <body>
 
-    <div class="backdrop-overlay"></div>
+
 
     <!-- 
     ==========================================================================
@@ -330,14 +322,19 @@
                 const container = document.getElementById('main-app-container');
                 if (!container) return;
 
-                // Base width: Softphone (420) + Flags Offset (~100) + Padding (~30)
                 const baseWidth = 550;
-                const marginBuffer = 20;
+                const baseHeight = 700;
+                const marginBuffer = 80;
 
                 const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+                const windowHeight = document.documentElement.clientHeight || window.innerHeight;
 
                 // Scale Logic: Cap at 1
-                let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+                let scale = Math.min(
+                    windowWidth / (baseWidth + marginBuffer),
+                    windowHeight / (baseHeight + marginBuffer),
+                    1
+                );
 
                 // Apply Transform: Center using translate(-50%, -50%) AND Scale
                 container.style.transform = `translate(-50%, -50%) scale(${scale})`;

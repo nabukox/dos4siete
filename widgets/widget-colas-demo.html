@@ -215,11 +215,17 @@
                 if (!container) return;
 
                 const baseWidth = 950;
+                const baseHeight = 700; // Estimated height based on content
                 const marginBuffer = 40;
 
                 const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+                const windowHeight = document.documentElement.clientHeight || window.innerHeight;
 
-                let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+                let scale = Math.min(
+                    windowWidth / (baseWidth + marginBuffer),
+                    windowHeight / (baseHeight + marginBuffer),
+                    1
+                );
 
                 container.style.transform = `translate(-50%, -50%) scale(${scale})`;
 

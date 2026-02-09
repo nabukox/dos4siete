@@ -76,55 +76,11 @@
             </div>
 
             <!-- Right Content: Widget Preview -->
-            <div class="relative">
-                <!-- Browser/App Container Look -->
-                <div
-                    class="relative bg-gray-900/50 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl overflow-hidden aspect-[4/5] lg:aspect-square group">
-
-                    <!-- Header of the "App" -->
-                    <div
-                        class="absolute top-0 left-0 w-full h-12 bg-white/5 border-b border-white/5 flex items-center px-4 gap-2 z-20">
-                        <div class="flex gap-1.5">
-                            <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
-                            <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
-                            <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
-                        </div>
-                        <div
-                            class="ml-4 px-3 py-1 bg-black/20 rounded-md text-[10px] text-gray-400 font-mono w-40 text-center">
-                            widget-softphone-combinado.html
-                        </div>
-                    </div>
-
-                    <!-- IFRAME CONTAINER -->
-                    <div class="w-full h-full pt-12 bg-transparent relative">
-                        <!-- 
-                            Note: Using 'src' relative path. 
-                            'scrolling="no"' to prevent double scrollbars if handled inside.
-                            style='color-scheme: normal' to prevent dark mode inheritance issues if any.
-                         -->
-                        <iframe src="widgets/widget-softphone-combinado.html" class="w-full h-full border-0"
-                            title="Widget Demo" allow="microphone; camera; midi; encrypted-media;"></iframe>
-                    </div>
-
-                    <!-- Overlay decorative (optional) -->
-                    <div
-                        class="absolute inset-0 pointer-events-none border border-white/10 rounded-3xl ring-1 ring-white/5">
-                    </div>
-                </div>
-
-                <!-- Floating Badge decorative -->
-                <div
-                    class="absolute -bottom-6 -right-6 bg-white p-4 rounded-2xl shadow-xl flex items-center gap-3 animate-bounce shadow-blue-900/20 z-30 hidden lg:flex">
-                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7">
-                            </path>
-                        </svg>
-                    </div>
-                    <div>
-                        <div class="text-xs text-gray-400 font-semibold uppercase">Estado</div>
-                        <div class="text-sm font-bold text-gray-800">Widget Activo</div>
-                    </div>
+            <div class="relative w-full aspect-[4/5] flex items-center justify-center">
+                <!-- Transparent IFRAME CONTAINER -->
+                <div class="w-full h-full bg-transparent relative">
+                    <iframe src="widgets/widget-softphone-combinado.html" class="w-full h-full border-0"
+                        title="Widget Demo" allow="microphone; camera; midi; encrypted-media;"></iframe>
                 </div>
             </div>
 
@@ -134,8 +90,159 @@
         <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-gray-50 to-transparent z-10"></div>
     </section>
 
+    </section>
+
+    <!-- SECTION 2: Queue Management Widget -->
+    <section class="py-20 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+                <!-- Right Content (Widget) - Order 1 on mobile, 2 on desktop? No, let's alternate. -->
+                <!-- Let's keep widget on right for consistency or alternate for variety. User didn't specify, variety is better. -->
+                <!-- Actually, user said "continuar trabajando en una segunda seccion... embeber este widget". -->
+                <!-- I'll put text left, widget right for consistency first, or maybe alternate. Let's alternate to look like a landing page. -->
+
+                <!-- Widget Container (Left side this time?) -->
+                <div
+                    class="order-2 lg:order-1 relative w-full aspect-[4/5] lg:aspect-square flex items-center justify-center">
+                    <div class="w-full h-full bg-transparent relative">
+                        <iframe src="widgets/widget-colas-demo.html" class="w-full h-full border-0"
+                            title="Queue Management Demo" allow="microphone; camera; midi; encrypted-media;"></iframe>
+                    </div>
+                </div>
+
+                <!-- Text Content (Right side) -->
+                <div class="order-1 lg:order-2 space-y-6">
+                    <div
+                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 border border-purple-100 text-sm font-medium text-purple-600">
+                        <span class="w-2 h-2 rounded-full bg-purple-500"></span>
+                        Gestión en Tiempo Real
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                        Supervisión de Colas <br />
+                        <span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600">Inteligente</span>
+                    </h2>
+                    <p class="text-lg text-gray-500 max-w-lg leading-relaxed">
+                        Monitorea el estado de tus agentes y llamadas en espera con nuestro dashboard interactivo.
+                        Visualiza métricas clave y gestiona tu equipo sin salir de la aplicación.
+                    </p>
+                    <ul class="space-y-4 pt-4">
+                        <li class="flex items-center gap-3 text-gray-600">
+                            <i class="fas fa-check-circle text-purple-500"></i>
+                            <span>Métricas de disponibilidad en vivo</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-gray-600">
+                            <i class="fas fa-check-circle text-purple-500"></i>
+                            <span>Gestión de estados de agentes</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-gray-600">
+                            <i class="fas fa-check-circle text-purple-500"></i>
+                            <span>Visualización de llamadas en cola</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    </section>
+
+    <!-- SECTION 3: Transfer Widget -->
+    <section class="py-20 bg-gray-50 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+                <!-- Text Content (Left side) -->
+                <div class="space-y-6">
+                    <div
+                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-sm font-medium text-blue-600">
+                        <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                        Flujos de Llamada
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                        Transferencias <br />
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">Sin
+                            Interrupciones</span>
+                    </h2>
+                    <p class="text-lg text-gray-500 max-w-lg leading-relaxed">
+                        Gestiona llamadas activas con facilidad. Transfiere, pausa o graba conversaciones con una
+                        interfaz intuitiva diseñada para la eficiencia.
+                    </p>
+                    <div class="flex flex-wrap gap-3 pt-2">
+                        <span
+                            class="px-3 py-1 bg-white border border-gray-200 rounded-lg text-sm text-gray-600 shadow-sm">📞
+                            Hold & Resume</span>
+                        <span
+                            class="px-3 py-1 bg-white border border-gray-200 rounded-lg text-sm text-gray-600 shadow-sm">🔄
+                            Smart Transfer</span>
+                        <span
+                            class="px-3 py-1 bg-white border border-gray-200 rounded-lg text-sm text-gray-600 shadow-sm">🎙️
+                            Call Recording</span>
+                    </div>
+                </div>
+
+                <!-- Widget Container (Right side) -->
+                <div class="relative w-full aspect-[4/5] lg:aspect-square flex items-center justify-center">
+                    <div class="w-full h-full bg-transparent relative">
+                        <iframe src="widgets/widget-transferencia-demo.html" class="w-full h-full border-0"
+                            title="Call Transfer Demo" allow="microphone; camera; midi; encrypted-media;"></iframe>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: Visual Stats Widget -->
+    <section class="py-20 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+                <!-- Widget Container (Left side) - Order 1 on LG, Order 2 on Mobile -->
+                <div class="relative w-full aspect-[1152/700] flex items-center justify-center order-2 lg:order-1">
+                    <div class="w-full h-full bg-transparent relative">
+                        <iframe src="widgets/widget-stats-visual.html" class="w-full h-full border-0"
+                            title="Visual Stats Demo" allow="microphone; camera; midi; encrypted-media;"></iframe>
+                    </div>
+                </div>
+
+                <!-- Text Content (Right side) - Order 1 on Mobile, Order 2 on LG -->
+                <div class="space-y-6 order-1 lg:order-2">
+                    <div
+                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-50 border border-cyan-100 text-sm font-medium text-cyan-600">
+                        <span class="w-2 h-2 rounded-full bg-cyan-500"></span>
+                        Analítica en Tiempo Real
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                        Toma Decisiones <br />
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-600">Basadas
+                            en Datos</span>
+                    </h2>
+                    <p class="text-lg text-gray-500 max-w-lg leading-relaxed">
+                        Visualiza el rendimiento de tu equipo al instante. Gráficos interactivos, métricas clave y
+                        diseño intuitivo para una supervisión efectiva.
+                    </p>
+                    <div class="flex flex-wrap gap-3 pt-2">
+                        <span
+                            class="px-3 py-1 bg-white border border-gray-200 rounded-lg text-sm text-gray-600 shadow-sm">📊
+                            Interactive Charts</span>
+                        <span
+                            class="px-3 py-1 bg-white border border-gray-200 rounded-lg text-sm text-gray-600 shadow-sm">⚡
+                            Live Metrics</span>
+                        <span
+                            class="px-3 py-1 bg-white border border-gray-200 rounded-lg text-sm text-gray-600 shadow-sm">📅
+                            Date Filtering</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
     <!-- CONTENT SECTION (Placeholder) -->
-    <section class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white">
         <div class="text-center mb-16">
             <h2 class="text-3xl font-bold text-gray-900">Más Widgets</h2>
             <p class="text-gray-500 mt-2">Explore la colección completa de componentes.</p>

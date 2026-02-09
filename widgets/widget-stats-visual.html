@@ -66,15 +66,14 @@
             <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
             <script src="../assets/js/dos4siete-widgets.js"></script>
 
-            <!-- Wrapper Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 w-full max-w-6xl items-start mx-auto">
+            <!-- Wrapper Grid - FORCED HORIZONTAL LAYOUT -->
+            <div class="flex flex-row gap-8 w-[1152px] items-start mx-auto p-8">
 
-                <!-- Card Principal (Chart) - Spans 2 cols -->
-                <div
-                    class="lg:col-span-2 bg-white rounded-[32px] shadow-xl w-full p-8 lg:p-12 relative overflow-hidden">
+                <!-- Card Principal (Chart) - Fixed Width -->
+                <div class="w-[740px] shrink-0 bg-white rounded-[32px] shadow-xl p-12 relative overflow-hidden">
 
                     <!-- Header: Título y Filtro -->
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
+                    <div class="flex flex-row justify-between items-center mb-10 gap-6">
                         <!-- Título Visual -->
                         <div class="space-y-2">
                             <!-- Logo kept or removed based on embed context, enabling it for now -->
@@ -231,6 +230,7 @@
                 });
 
                 // Demo logic (included locally to ensure it runs if not in global js)
+                // Demo logic (included locally to ensure it runs if not in global js)
                 async function runDemo() {
                     // Check if cursor already exists
                     if (document.getElementById('demo-cursor')) return;
@@ -279,46 +279,68 @@
                         await sleep(1000); // Pause after click
                     };
 
-                    // SEQUENCE
+                    // INFINITE LOOP
+                    while (true) {
+                        // Reset State (Ensure all filters are active or reset to expected start)
+                        // If toggleSeries functionality is available, ensure we start clean if needed
+                        // For this demo, clicking them toggles them off/on. 
+                        // Let's assume the loop wants to show interaction.
 
-                    // 1. Click Total
-                    await moveCursorTo('#btn-total');
-                    await clickElement('#btn-total');
-
-                    // 2. Click Answered
-                    await moveCursorTo('#btn-answered');
-                    await clickElement('#btn-answered');
-
-                    // 3. Click Wait Time
-                    await moveCursorTo('#btn-wait');
-                    await clickElement('#btn-wait');
-
-                    // 4. Change Date
-                    await moveCursorTo('#datePicker', 20, 0); // Offset slightly
-
-                    // Simulate Click & Change
-                    cursor.style.transform = 'scale(0.8)';
-                    await sleep(150);
-                    cursor.style.transform = 'scale(1)';
-
-                    // Programmatic Date Change
-                    const input = document.getElementById('datePicker');
-                    if (input) {
-                        input.focus();
-                        // input.showPicker && input.showPicker(); // Visual only
                         await sleep(1000);
-                        input.value = '2025-11-20'; // Change date
-                        input.dispatchEvent(new Event('change')); // Trigger any listeners
+
+                        // SEQUENCE
+
+                        // 1. Click Total
+                        await moveCursorTo('#btn-total');
+                        await clickElement('#btn-total');
+
+                        // 2. Click Answered
+                        await moveCursorTo('#btn-answered');
+                        await clickElement('#btn-answered');
+
+                        // 3. Click Wait Time
+                        await moveCursorTo('#btn-wait');
+                        await clickElement('#btn-wait');
+
+                        // 4. Change Date
+                        await moveCursorTo('#datePicker', 20, 0); // Offset slightly
+
+                        // Simulate Click & Change
+                        cursor.style.transform = 'scale(0.8)';
+                        await sleep(150);
+                        cursor.style.transform = 'scale(1)';
+
+                        // Programmatic Date Change
+                        const input = document.getElementById('datePicker');
+                        if (input) {
+                            input.focus();
+                            // input.showPicker && input.showPicker(); // Visual only
+                            await sleep(1000);
+
+                            // Iterate dates for variety
+                            const dates = ['2026-01-09', '2025-11-20', '2025-12-15'];
+                            const currentVal = input.value;
+                            const nextDate = dates.find(d => d !== currentVal) || dates[0];
+
+                            input.value = nextDate;
+                            input.dispatchEvent(new Event('change')); // Trigger any listeners
+                        }
+
+                        await sleep(1500);
+
+                        // 5. Restore toggles (Click again to show them back if they were hidden)
+                        // Or just loop the toggling interaction
+                        await moveCursorTo('#btn-total');
+                        await clickElement('#btn-total');
+
+                        await moveCursorTo('#btn-answered');
+                        await clickElement('#btn-answered');
+
+                        await moveCursorTo('#btn-wait');
+                        await clickElement('#btn-wait');
+
+                        await sleep(2000); // Pause before restarting loop
                     }
-
-                    await sleep(500);
-
-                    // 5. Move away for view
-                    cursor.style.left = '90%';
-                    cursor.style.top = '90%';
-
-                    await sleep(1000);
-                    cursor.style.opacity = '0'; // Fade out
                 }
             </script>
         </div>

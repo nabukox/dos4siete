@@ -1490,8 +1490,8 @@ window.Dos4Siete = (function () {
 
             await this.wait(4000);
 
-            // Loop (Optional)
-            // window.location.reload();
+            // Loop (Reload to reset complex state)
+            window.location.reload();
         }
     };
 

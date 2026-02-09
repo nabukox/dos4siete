@@ -117,28 +117,6 @@
             }
 
             /* Responsive Scaling */
-            @media (max-width: 768px) {
-                .transfer-demo-wrapper {
-                    height: auto !important;
-                    min-height: 600px;
-                    flex-direction: column;
-                }
-            }
-
-            @media (max-width: 500px) {
-                .transfer-demo-wrapper {
-                    transform: scale(0.8);
-                    transform-origin: center top;
-                    margin-bottom: -150px;
-                }
-            }
-
-            @media (max-width: 380px) {
-                .transfer-demo-wrapper {
-                    transform: scale(0.65);
-                    margin-bottom: -250px;
-                }
-            }
         </style>
 
         <!-- Dependencies for Embed -->
@@ -147,13 +125,13 @@
 
         <!-- WIDGET CONTAINER -->
         <div id="main-app-container"
-            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[896px] h-[850px] bg-transparent overflow-hidden flex items-center justify-center">
+            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[950px] h-[1000px] bg-transparent flex items-center justify-center">
 
             <div
-                class="flex w-full max-w-4xl h-[850px] bg-white rounded-3xl overflow-hidden shadow-2xl border border-gray-100 relative mx-auto transfer-demo-wrapper">
+                class="flex w-[896px] h-[850px] bg-white rounded-3xl overflow-hidden shadow-2xl border border-gray-100 relative transfer-demo-wrapper">
 
                 <!-- SIDEBAR: EXTENSIONS -->
-                <div class="w-1/3 bg-gray-50 border-r border-gray-200 hidden md:flex flex-col">
+                <div class="w-1/3 bg-gray-50 border-r border-gray-200 flex flex-col">
                     <!-- Header Search -->
                     <div class="p-6 border-b border-gray-100">
                         <div class="relative">
@@ -254,18 +232,7 @@
                         </div>
 
                         <!-- Demos Cursor (Standardized Pattern) -->
-                        <div id="demo-cursor"
-                            class="fixed top-0 left-0 z-[9999] pointer-events-none transition-transform duration-700 ease-in-out flex items-center justify-center opacity-0"
-                            style="display: flex;">
 
-                            <!-- Cursor Icon (Font Awesome) -->
-                            <i
-                                class="fas fa-mouse-pointer text-black text-2xl drop-shadow-xl transform rotate-[-15deg] transition-transform duration-150"></i>
-
-                            <!-- Click Ripple Effect -->
-                            <div class="absolute w-12 h-12 bg-white/30 rounded-full animate-ping -z-10 hidden"
-                                id="click-effect"></div>
-                        </div>
                         <!-- Volume Slider -->
                         <div class="w-2/3 max-w-sm mb-12 flex items-center gap-4 transition-opacity duration-300"
                             id="stage-volume">
@@ -539,18 +506,37 @@
     </div>
     <!-- END WIDGET CONTAINER -->
 
+    <!-- Demos Cursor (Standardized Pattern) -->
+    <div id="demo-cursor"
+        class="fixed top-0 left-0 z-[9999] pointer-events-none transition-transform duration-700 ease-in-out flex items-center justify-center opacity-0"
+        style="display: flex;">
+
+        <!-- Cursor Icon (Font Awesome) -->
+        <i
+            class="fas fa-mouse-pointer text-black text-2xl drop-shadow-xl transform rotate-[-15deg] transition-transform duration-150"></i>
+
+        <!-- Click Ripple Effect -->
+        <div class="absolute w-12 h-12 bg-white/30 rounded-full animate-ping -z-10 hidden" id="click-effect"></div>
+    </div>
+
     <script>
         // --- SCALING LOGIC ---
         function scaleToFit() {
             const container = document.getElementById('main-app-container');
             if (!container) return;
 
-            const baseWidth = 896;
-            const marginBuffer = 40;
+            const baseWidth = 950;
+            const baseHeight = 1000;
+            const marginBuffer = 80;
 
             const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+            const windowHeight = document.documentElement.clientHeight || window.innerHeight;
 
-            let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+            let scale = Math.min(
+                windowWidth / (baseWidth + marginBuffer),
+                windowHeight / (baseHeight + marginBuffer),
+                1
+            );
 
             container.style.transform = `translate(-50%, -50%) scale(${scale})`;
 
