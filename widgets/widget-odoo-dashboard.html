@@ -502,14 +502,14 @@
                     // STEP 3: TYPE SUMMARY
                     await moveCursorTo('#input-summary', 40, 10); // Clic inside input
                     await animateClick();
-                    document.getElementById('input-summary').focus();
+                    // document.getElementById('input-summary').focus(); // Removed to prevent scroll jumps
                     await typeText('input-summary', 'Renovación de Contrato');
                     await new Promise(r => setTimeout(r, 500));
 
                     // STEP 4: TYPE NOTES
                     await moveCursorTo('#input-notes', 40, 20);
                     await animateClick();
-                    document.getElementById('input-notes').focus();
+                    // document.getElementById('input-notes').focus(); // Removed to prevent scroll jumps
                     await typeText('input-notes', 'Cliente satisfecho. Enviar propuesta.');
                     await new Promise(r => setTimeout(r, 500));
 
@@ -574,6 +574,7 @@
                     el.value = '';
                     for (let char of text) {
                         el.value += char;
+                        el.dispatchEvent(new Event('input', { bubbles: true }));
                         await new Promise(r => setTimeout(r, 30 + Math.random() * 30));
                     }
                 }

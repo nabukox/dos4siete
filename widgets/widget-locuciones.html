@@ -521,8 +521,8 @@
                 const el = document.querySelector(selector);
                 if (!el) return;
 
-                el.focus();
-                el.value = ''; // Clear first
+                // el.focus(); // Removed to prevent scroll jumps on parent page
+                el.value = ''; // Clear first to reset animation
 
                 for (let char of text) {
                     el.value += char;

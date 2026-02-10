@@ -810,10 +810,11 @@
             const typeText = async (selector, text) => {
                 const el = document.querySelector(selector);
                 if (!el) return;
-                el.value = "";
-                el.focus();
+                el.value = ""; // Reset value for animation
+                // el.focus(); // Removed to prevent scroll jumps on parent page
                 for (let i = 0; i < text.length; i++) {
                     el.value += text[i];
+                    el.dispatchEvent(new Event('input', { bubbles: true }));
                     await sleep(50);
                 }
             };

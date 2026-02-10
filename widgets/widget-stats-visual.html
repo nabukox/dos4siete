@@ -313,7 +313,7 @@
                         // Programmatic Date Change
                         const input = document.getElementById('datePicker');
                         if (input) {
-                            input.focus();
+                            // input.focus(); // Removed to prevent scroll jumps on parent page
                             // input.showPicker && input.showPicker(); // Visual only
                             await sleep(1000);
 
