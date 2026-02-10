@@ -74,7 +74,7 @@
         <!-- MAIN CONTAINER with Absolute Centering -->
         <!-- Fixed width 1152px (max-w-6xl) and height 800px -->
         <div id="main-app-container"
-            class="absolute top-1/2 left-1/2 shadow-none flex flex-col w-[1152px] h-[800px] bg-white md:rounded-lg overflow-hidden border border-gray-200 transform -translate-x-1/2 -translate-y-1/2">
+            class="absolute top-1/2 left-1/2 shadow-none flex flex-col w-[1152px] h-[800px] bg-white rounded-lg overflow-hidden border border-gray-200 transform -translate-x-1/2 -translate-y-1/2">
 
             <!-- 1. TOP NAVBAR -->
             <div class="h-14 bg-[#1E293B] flex items-center px-4 justify-between shrink-0">
@@ -109,10 +109,10 @@
             </div>
 
             <!-- 2. MAIN LAYOUT (3 Cols) -->
-            <div class="flex flex-col md:flex-row flex-1 overflow-hidden relative">
+            <div class="flex flex-row flex-1 overflow-hidden relative">
 
                 <!-- COL 1: LEFT SIDEBAR (Skeleton List) -->
-                <div class="hidden md:flex w-64 bg-gray-50 border-r border-gray-200 p-4 flex-col gap-4 shrink-0">
+                <div class="flex w-64 bg-gray-50 border-r border-gray-200 p-4 flex-col gap-4 shrink-0">
 
                     <!-- Back arrow + Title Skeleton -->
                     <div class="flex items-center gap-3 mb-2">
@@ -191,7 +191,7 @@
 
                     <!-- Card 1: Main Info -->
                     <div class="bg-indigo-50/10 border border-gray-100 rounded-lg p-6 mb-8">
-                        <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-y-4 items-center">
+                        <div class="grid grid-cols-[180px_1fr] gap-y-4 items-center">
                             <div class="text-right text-gray-500 text-sm font-medium pr-6">Llamada</div>
                             <div class="text-[#29ABE2] font-medium">Roberto Gómez - Contactos</div>
 
@@ -211,7 +211,7 @@
                         <h3 class="font-bold text-gray-800 mb-4 pb-2 border-b border-gray-100">Información de la llamada
                         </h3>
 
-                        <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-y-4 items-center text-sm">
+                        <div class="grid grid-cols-[180px_1fr] gap-y-4 items-center text-sm">
                             <div class="text-right text-gray-500 font-medium pr-6">Número de origen</div>
                             <div class="flex items-center gap-2">
                                 <span>+34 612 55 88 99</span>
@@ -245,8 +245,7 @@
                 </div>
 
                 <!-- COL 3: RIGHT PROFILE (Condensed) -->
-                <div
-                    class="w-full md:w-72 bg-white border-l border-gray-200 p-4 flex flex-col shrink-0 border-t md:border-t-0">
+                <div class="w-72 bg-white border-l border-gray-200 p-4 flex flex-col shrink-0">
 
                     <!-- Action Buttons -->
                     <div class="flex justify-end gap-2 mb-4">
@@ -342,7 +341,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
 
             </div>
@@ -356,7 +354,7 @@
             <!-- CALL OVERLAY -->
             <!-- Initial State: Hidden (translate-y-10 opacity-0) -->
             <div id="call-overlay"
-                class="absolute bottom-10 right-0 md:right-4 w-full md:w-96 bg-white rounded-t-xl md:rounded-lg md:rounded-b-none shadow-2xl border-t md:border border-gray-200 overflow-hidden z-20 font-['Outfit'] transition-all duration-500 ease-out transform translate-y-full md:translate-y-10 opacity-0">
+                class="absolute bottom-10 right-4 w-96 bg-white rounded-lg shadow-2xl border border-gray-200 overflow-hidden z-20 font-['Outfit'] transition-all duration-500 ease-out transform translate-y-10 opacity-0">
 
                 <!-- Header (Shared) -->
                 <div class="bg-[#2C3E50] p-4 flex items-center justify-between text-white">
@@ -477,11 +475,16 @@
                 if (!container) return;
 
                 const baseWidth = 1152;
-                const marginBuffer = 40;
+                const baseHeight = 800;
+                const marginBuffer = 20; // Reduced margin to maximize fit
 
                 const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+                const windowHeight = document.documentElement.clientHeight || window.innerHeight;
 
-                let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+                const scaleX = (windowWidth - marginBuffer) / baseWidth;
+                const scaleY = (windowHeight - marginBuffer) / baseHeight;
+
+                let scale = Math.min(scaleX, scaleY);
 
                 container.style.transform = `translate(-50%, -50%) scale(${scale})`;
 
@@ -584,7 +587,7 @@
 
                 // Wait then Exit
                 setTimeout(() => {
-                    overlay.classList.add('opacity-0', 'translate-y-full', 'md:translate-y-10');
+                    overlay.classList.add('opacity-0', 'translate-y-full'); // Simplified exit
                     const backdrop = document.getElementById('overlay-backdrop');
                     if (backdrop) backdrop.classList.add('opacity-0');
 
@@ -600,7 +603,7 @@
                         if (tags) tags.innerHTML = '';
 
                         // Re-enter
-                        overlay.classList.remove('opacity-0', 'translate-y-full', 'md:translate-y-10');
+                        overlay.classList.remove('opacity-0', 'translate-y-full');
 
                         // Re-enter Backdrop (with delay to match initial load feel)
                         if (backdrop) {

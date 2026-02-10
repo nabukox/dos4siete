@@ -94,11 +94,16 @@
                 if (!container) return;
 
                 const baseWidth = 550;
+                const baseHeight = 600; // Estimated height based on aspect ratio or content
                 const marginBuffer = 20;
 
                 const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+                const windowHeight = document.documentElement.clientHeight || window.innerHeight;
 
-                let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+                const scaleX = (windowWidth - marginBuffer) / baseWidth;
+                const scaleY = (windowHeight - marginBuffer) / baseHeight;
+
+                let scale = Math.min(scaleX, scaleY, 1);
 
                 container.style.transform = `translate(-50%, -50%) scale(${scale})`;
 

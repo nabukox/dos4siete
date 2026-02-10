@@ -128,7 +128,8 @@
             <div class="flex flex-1 overflow-hidden relative">
 
                 <!-- COL 1: LEFT SIDEBAR (Skeleton List) -->
-                <div class="hidden md:flex w-52 bg-gray-50 border-r border-gray-200 p-4 flex-col gap-4 shrink-0">
+                <!-- Removed hidden md:flex -> flex -->
+                <div class="flex w-52 bg-gray-50 border-r border-gray-200 p-4 flex-col gap-4 shrink-0">
 
                     <!-- Back arrow + Title Skeleton -->
                     <div class="flex items-center gap-3 mb-2">
@@ -229,8 +230,9 @@
                     <div
                         class="h-12 border-b border-gray-200 flex items-center justify-between px-4 md:px-6 shrink-0 bg-white">
                         <div class="flex items-center gap-4 text-sm text-gray-600">
-                            <div class="hidden md:block">Registros totales <span class="font-bold">17</span></div>
-                            <div class="hidden md:block h-4 w-px bg-gray-300"></div>
+                            <!-- Removed hidden md:block -->
+                            <div class="block">Registros totales <span class="font-bold">17</span></div>
+                            <div class="block h-4 w-px bg-gray-300"></div>
                             <div class="cursor-pointer hover:text-[#29ABE2]">Ordenar por <span
                                     class="font-medium">Correo...</span></div>
                         </div>
@@ -251,22 +253,21 @@
                         <table class="w-full text-left border-collapse text-xs">
                             <thead class="bg-gray-50 text-gray-500 font-medium sticky top-0 z-10 shadow-sm">
                                 <tr>
-                                    <th class="p-3 w-10 pl-6 hidden md:table-cell"><input type="checkbox"
+                                    <!-- Removed hidden md:table-cell -->
+                                    <th class="p-3 w-10 pl-6 table-cell"><input type="checkbox"
                                             class="rounded border-gray-300 text-[#29ABE2] focus:ring-[#29ABE2]"></th>
                                     <th class="p-3 font-medium cursor-pointer hover:text-gray-700">Nombre de...</th>
-                                    <th class="p-3 font-medium cursor-pointer hover:text-gray-700 hidden md:table-cell">
+                                    <th class="p-3 font-medium cursor-pointer hover:text-gray-700 table-cell">
                                         Empresa</th>
                                     <th class="p-3 font-medium cursor-pointer hover:text-gray-700">
                                         Correo electrónico *
                                     </th>
-                                    <th
-                                        class="p-3 font-medium cursor-pointer hover:text-gray-700 text-right md:text-left">
+                                    <th class="p-3 font-medium cursor-pointer hover:text-gray-700 text-left">
                                         Teléfono</th>
-                                    <th class="p-3 font-medium cursor-pointer hover:text-gray-700 hidden md:table-cell">
+                                    <th class="p-3 font-medium cursor-pointer hover:text-gray-700 table-cell">
                                         Fuente de Posible...
                                     </th>
-                                    <th
-                                        class="p-3 font-medium cursor-pointer hover:text-gray-700 pr-6 hidden md:table-cell">
+                                    <th class="p-3 font-medium cursor-pointer hover:text-gray-700 pr-6 table-cell">
                                         Propietario de
                                         P...
                                     </th>
@@ -275,151 +276,151 @@
                             <tbody class="divide-y divide-gray-100 text-gray-700">
                                 <!-- Row 1 -->
                                 <tr class="hover:bg-gray-50 transition-colors group">
-                                    <td class="p-3 pl-6 hidden md:table-cell"><input type="checkbox"
+                                    <td class="p-3 pl-6 table-cell"><input type="checkbox"
                                             class="rounded border-gray-300 text-[#29ABE2] focus:ring-[#29ABE2]"></td>
                                     <td class="p-3 text-[#29ABE2] hover:underline cursor-pointer">Elena Gómez</td>
-                                    <td class="p-3 text-gray-500 hidden md:table-cell">Grayson</td>
+                                    <td class="p-3 text-gray-500 table-cell">Grayson</td>
                                     <td class="p-3">
                                         <div class="w-32 h-3 skeleton-bar rounded"></div>
                                     </td>
                                     <td class="p-3">
-                                        <div class="flex items-center justify-end md:justify-start gap-2">
-                                            <span class="hidden md:inline">+34 611 22 33 44</span>
+                                        <div class="flex items-center justify-start gap-2">
+                                            <span class="inline">+34 611 22 33 44</span>
                                             <button
                                                 class="w-6 h-6 rounded-full bg-[#16a34a] text-white flex items-center justify-center hover:bg-green-700 transition-colors shadow-sm opacity-100">
                                                 <i class="fas fa-phone text-[10px] transform rotate-90"></i>
                                             </button>
                                         </div>
                                     </td>
-                                    <td class="p-3 hidden md:table-cell">
+                                    <td class="p-3 table-cell">
                                         <div class="w-24 h-3 skeleton-bar rounded"></div>
                                     </td>
-                                    <td class="p-3 pr-6 hidden md:table-cell">
+                                    <td class="p-3 pr-6 table-cell">
                                         <div class="w-20 h-3 skeleton-bar rounded"></div>
                                     </td>
                                 </tr>
 
                                 <!-- Row 2 -->
                                 <tr class="hover:bg-gray-50 transition-colors group">
-                                    <td class="p-3 pl-6 hidden md:table-cell"><input type="checkbox"
+                                    <td class="p-3 pl-6 table-cell"><input type="checkbox"
                                             class="rounded border-gray-300 text-[#29ABE2] focus:ring-[#29ABE2]"></td>
                                     <td class="p-3 text-[#29ABE2] hover:underline cursor-pointer">Roberto Díaz</td>
-                                    <td class="p-3 text-gray-500 hidden md:table-cell">-</td>
+                                    <td class="p-3 text-gray-500 table-cell">-</td>
                                     <td class="p-3">
                                         <div class="w-28 h-3 skeleton-bar rounded"></div>
                                     </td>
                                     <td class="p-3">
-                                        <div class="flex items-center justify-end md:justify-start gap-2">
-                                            <span class="hidden md:inline">+34 699 88 77 66</span>
+                                        <div class="flex items-center justify-start gap-2">
+                                            <span class="inline">+34 699 88 77 66</span>
                                             <button
                                                 class="w-6 h-6 rounded-full bg-[#16a34a] text-white flex items-center justify-center hover:bg-green-700 transition-colors shadow-sm opacity-100">
                                                 <i class="fas fa-phone text-[10px] transform rotate-90"></i>
                                             </button>
                                         </div>
                                     </td>
-                                    <td class="p-3 hidden md:table-cell">
+                                    <td class="p-3 table-cell">
                                         <div class="w-28 h-3 skeleton-bar rounded"></div>
                                     </td>
-                                    <td class="p-3 pr-6 hidden md:table-cell">
+                                    <td class="p-3 pr-6 table-cell">
                                         <div class="w-24 h-3 skeleton-bar rounded"></div>
                                     </td>
                                 </tr>
 
                                 <!-- Row 3: With Phone Action -->
                                 <tr class="hover:bg-gray-50 transition-colors group">
-                                    <td class="p-3 pl-6 hidden md:table-cell"><input type="checkbox"
+                                    <td class="p-3 pl-6 table-cell"><input type="checkbox"
                                             class="rounded border-gray-300 text-[#29ABE2] focus:ring-[#29ABE2]"></td>
                                     <td class="p-3 text-[#29ABE2] hover:underline cursor-pointer">Carmen Ruiz</td>
-                                    <td class="p-3 text-gray-500 hidden md:table-cell">Morlong Associates</td>
+                                    <td class="p-3 text-gray-500 table-cell">Morlong Associates</td>
                                     <td class="p-3">
                                         <div class="w-36 h-3 skeleton-bar rounded"></div>
                                     </td>
                                     <td class="p-3">
-                                        <div class="flex items-center justify-end md:justify-start gap-2">
-                                            <span class="hidden md:inline">+34 655 44 33 22</span>
+                                        <div class="flex items-center justify-start gap-2">
+                                            <span class="inline">+34 655 44 33 22</span>
                                             <button
                                                 class="w-6 h-6 rounded-full bg-[#16a34a] text-white flex items-center justify-center hover:bg-green-700 transition-colors shadow-sm opacity-100">
                                                 <i class="fas fa-phone text-[10px] transform rotate-90"></i>
                                             </button>
                                         </div>
                                     </td>
-                                    <td class="p-3 hidden md:table-cell">
+                                    <td class="p-3 table-cell">
                                         <div class="w-24 h-3 skeleton-bar rounded"></div>
                                     </td>
-                                    <td class="p-3 pr-6 hidden md:table-cell">
+                                    <td class="p-3 pr-6 table-cell">
                                         <div class="w-20 h-3 skeleton-bar rounded"></div>
                                     </td>
                                 </tr>
 
                                 <!-- Row 4 -->
                                 <tr class="hover:bg-gray-50 transition-colors group">
-                                    <td class="p-3 pl-6 hidden md:table-cell"><input type="checkbox"
+                                    <td class="p-3 pl-6 table-cell"><input type="checkbox"
                                             class="rounded border-gray-300 text-[#29ABE2] focus:ring-[#29ABE2]"></td>
                                     <td class="p-3 text-[#29ABE2] hover:underline cursor-pointer">Pablo Moreno</td>
-                                    <td class="p-3 text-gray-500 hidden md:table-cell">Dal Tile Corporation</td>
+                                    <td class="p-3 text-gray-500 table-cell">Dal Tile Corporation</td>
                                     <td class="p-3">
                                         <div class="w-30 h-3 skeleton-bar rounded"></div>
                                     </td>
                                     <td class="p-3">
-                                        <div class="flex items-center justify-end md:justify-start gap-2">
-                                            <span class="hidden md:inline">+34 633 55 77 99</span>
+                                        <div class="flex items-center justify-start gap-2">
+                                            <span class="inline">+34 633 55 77 99</span>
                                             <button
                                                 class="w-6 h-6 rounded-full bg-[#16a34a] text-white flex items-center justify-center hover:bg-green-700 transition-colors shadow-sm opacity-100">
                                                 <i class="fas fa-phone text-[10px] transform rotate-90"></i>
                                             </button>
                                         </div>
                                     </td>
-                                    <td class="p-3 hidden md:table-cell">
+                                    <td class="p-3 table-cell">
                                         <div class="w-20 h-3 skeleton-bar rounded"></div>
                                     </td>
-                                    <td class="p-3 pr-6 hidden md:table-cell">
+                                    <td class="p-3 pr-6 table-cell">
                                         <div class="w-24 h-3 skeleton-bar rounded"></div>
                                     </td>
                                 </tr>
 
                                 <!-- Row 5: Ruben Tarantino (Recursive/Self) demo -->
                                 <tr class="hover:bg-gray-50 transition-colors group font-medium bg-blue-50/30">
-                                    <td class="p-3 pl-6 hidden md:table-cell"><input type="checkbox"
+                                    <td class="p-3 pl-6 table-cell"><input type="checkbox"
                                             class="rounded border-gray-300 text-[#29ABE2] focus:ring-[#29ABE2]"></td>
                                     <td class="p-3 text-[#29ABE2] hover:underline cursor-pointer">Diego Morales</td>
-                                    <td class="p-3 text-gray-500 hidden md:table-cell">Iberia Systems</td>
+                                    <td class="p-3 text-gray-500 table-cell">Iberia Systems</td>
                                     <td class="p-3">diego.morales@iberiasys.com</td>
                                     <td class="p-3">
-                                        <div class="flex items-center justify-end md:justify-start gap-2">
-                                            <span class="hidden md:inline">+34 612 98 76 54</span>
+                                        <div class="flex items-center justify-start gap-2">
+                                            <span class="inline">+34 612 98 76 54</span>
                                             <button
                                                 class="w-6 h-6 rounded-full bg-[#16a34a] text-white flex items-center justify-center hover:bg-green-700 transition-colors shadow-sm opacity-100 animate-pulse">
                                                 <i class="fas fa-phone text-[10px] transform rotate-90"></i>
                                             </button>
                                         </div>
                                     </td>
-                                    <td class="p-3 hidden md:table-cell">Web Download</td>
-                                    <td class="p-3 pr-6 hidden md:table-cell">Diego Morales</td>
+                                    <td class="p-3 table-cell">Web Download</td>
+                                    <td class="p-3 pr-6 table-cell">Diego Morales</td>
                                 </tr>
 
                                 <!-- Row 6 -->
                                 <tr class="hover:bg-gray-50 transition-colors group">
-                                    <td class="p-3 pl-6 hidden md:table-cell"><input type="checkbox"
+                                    <td class="p-3 pl-6 table-cell"><input type="checkbox"
                                             class="rounded border-gray-300 text-[#29ABE2] focus:ring-[#29ABE2]"></td>
                                     <td class="p-3 text-[#29ABE2] hover:underline cursor-pointer">Laura Gil
                                     </td>
-                                    <td class="p-3 text-gray-500 hidden md:table-cell">Aula Futuro Formación</td>
+                                    <td class="p-3 text-gray-500 table-cell">Aula Futuro Formación</td>
                                     <td class="p-3">
                                         <div class="w-32 h-3 skeleton-bar rounded"></div>
                                     </td>
                                     <td class="p-3">
-                                        <div class="flex items-center justify-end md:justify-start gap-2">
-                                            <span class="hidden md:inline">+34 677 11 22 33</span>
+                                        <div class="flex items-center justify-start gap-2">
+                                            <span class="inline">+34 677 11 22 33</span>
                                             <button
                                                 class="w-6 h-6 rounded-full bg-[#16a34a] text-white flex items-center justify-center hover:bg-green-700 transition-colors shadow-sm opacity-100">
                                                 <i class="fas fa-phone text-[10px] transform rotate-90"></i>
                                             </button>
                                         </div>
                                     </td>
-                                    <td class="p-3 hidden md:table-cell">
+                                    <td class="p-3 table-cell">
                                         <div class="w-28 h-3 skeleton-bar rounded"></div>
                                     </td>
-                                    <td class="p-3 pr-6 hidden md:table-cell">
+                                    <td class="p-3 pr-6 table-cell">
                                         <div class="w-22 h-3 skeleton-bar rounded"></div>
                                     </td>
                                 </tr>
@@ -475,7 +476,7 @@
 
                         <!-- Accept -->
                         <div class="flex flex-col items-center gap-2">
-                            <button onclick="acceptCall()"
+                            <button id="btn-accept-call" onclick="acceptCall()"
                                 class="w-16 h-16 rounded-full bg-[#16a34a] text-white flex items-center justify-center hover:bg-green-600 transition-transform hover:scale-110 shadow-lg animate-pulse hover:animate-none group">
                                 <i
                                     class="fas fa-phone text-2xl transform rotate-90 group-active:scale-90 transition-transform"></i>
@@ -608,19 +609,23 @@
             if (!container) return;
 
             const baseWidth = 1152;
-            const marginBuffer = 40;
+            const baseHeight = 800;
+            const marginBuffer = 60; // Increased to prevent shadow clipping
 
             const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+            const windowHeight = document.documentElement.clientHeight || window.innerHeight;
 
-            let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+            const scaleX = (windowWidth - marginBuffer) / baseWidth;
+            const scaleY = (windowHeight - marginBuffer) / baseHeight;
+
+            // Updated: removed limit of 1
+            let scale = Math.min(scaleX, scaleY);
 
             container.style.transform = `translate(-50%, -50%) scale(${scale})`;
 
             // Ensure body allows centering
             document.body.style.height = '100vh';
             document.documentElement.style.overflow = 'hidden';
-
-            // Adjust body positioning
             document.body.style.display = 'block';
         }
         window.addEventListener('resize', scaleToFit);
@@ -634,10 +639,9 @@
             // Keep scaling in sync
             scaleToFit();
 
-            // Start Incoming Call Flow after delay
-            setTimeout(() => {
-                showIncomingCall();
-            }, 1000);
+            // Start Animation Loop
+            // The automation will handle the state transitions
+            runCrmDemo();
 
             // Manual Tag Logic
             const dropdown = document.getElementById('dropdown-followup');
@@ -652,16 +656,29 @@
             }
         });
 
+        // Independent State Functions for Manual Interaction (if user clicks)
         function showIncomingCall() {
             const overlay = document.getElementById('call-overlay');
             const backdrop = document.getElementById('overlay-backdrop');
+            const incomingState = document.getElementById('state-incoming-call');
+            const activeState = document.getElementById('state-active-call');
+            const dispState = document.getElementById('state-disposition');
+            const successState = document.getElementById('state-success');
+
+
+            // Reset all states
+            incomingState.classList.remove('hidden');
+            activeState.classList.add('hidden');
+            activeState.classList.remove('opacity-0', '-translate-y-4'); // Reset fade/slide
+            dispState.classList.add('hidden', 'opacity-0', 'translate-y-4');
+            successState.classList.add('hidden', 'opacity-0');
 
             // Show Backdrop
             if (backdrop) backdrop.classList.remove('opacity-0');
 
             // Slide Up Overlay
             if (overlay) {
-                overlay.classList.remove('translate-y-10', 'translate-y-full', 'opacity-0');
+                overlay.classList.remove('translate-y-10', 'translate-y-full', 'opacity-0', 'md:translate-y-10');
             }
         }
 
@@ -682,9 +699,6 @@
 
             // Start Timer
             startTimer();
-
-            // Start Demo Automation Logic if needed
-            setTimeout(runCrmDemo, 1000);
         }
 
         function startTimer() {
@@ -738,24 +752,19 @@
             requestAnimationFrame(() => successState.classList.remove('opacity-0'));
 
             setTimeout(() => {
-                overlay.classList.add('opacity-0', 'translate-y-full', 'md:translate-y-10');
-                if (backdrop) backdrop.classList.add('opacity-0');
+                overlay.classList.add('opacity-0', 'translate-y-full'); // Hide overlay
+                if (backdrop) backdrop.classList.add('opacity-0'); // Hide backdrop
 
-                // Reset for demo loop? Or just stop. User didn't request infinite loop.
-                // Let's reset nicely just in case.
-                setTimeout(() => {
-                    successState.classList.add('hidden', 'opacity-0');
-                    dispState.classList.add('hidden', 'opacity-0', 'translate-y-4');
-
-                    // Reset to incoming?
-                    // document.getElementById('state-incoming-call').classList.remove('hidden');
-                }, 1000);
+                // Clean DOM state for next run happens in start of showIncomingCall
             }, 2000);
         }
 
-        // --- AUTOMATION DEMO (Adapted for this flow) ---
+        // --- AUTOMATION DEMO ---
         async function runCrmDemo() {
-            // ... (Simple logic to simulate End Call -> Disposition)
+            // Wait for load
+            const sleep = ms => new Promise(r => setTimeout(r, ms));
+            await sleep(1000);
+
             if (document.getElementById('demo-cursor')) return;
 
             // Create Cursor
@@ -768,32 +777,32 @@
             cursor.style.transition = 'all 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
             cursor.style.bottom = '-50px';
             cursor.style.right = '-50px';
-            document.body.appendChild(cursor);
+            document.body.appendChild(cursor); // Use body to be on top
 
-            const sleep = ms => new Promise(r => setTimeout(r, ms));
             const moveCursorTo = async (selector) => {
-                // Since everything is scaled with transform, getBoundingClientRect returns the scaled values.
-                // The cursor is fixed, so we might need to adjust or put cursor inside the container?
-                // Actually putting cursor inside main-app-container is better for scaled coordinates.
-                // But for now let's try appending to body (fixed) and relying on client rects which should match screen pos.
-
                 const el = document.querySelector(selector);
                 if (!el) return false;
                 const rect = el.getBoundingClientRect();
                 if (rect.width === 0) return false;
 
-                cursor.style.left = (rect.left + rect.width / 2) + 'px';
-                cursor.style.top = (rect.top + rect.height / 2) + 'px';
+                // Add jitter/human-like movement? No, keep smooth.
+                cursor.style.left = (rect.left + rect.width / 2) + 10 + 'px'; // +10 offset for visual match
+                cursor.style.top = (rect.top + rect.height / 2) + 10 + 'px';
                 cursor.style.opacity = '1';
                 await sleep(800);
                 return true;
             };
+
             const clickElement = async (selector) => {
                 const el = document.querySelector(selector);
                 if (!el) return;
+
+                // Click Effect
                 cursor.style.transform = 'scale(0.8)';
                 await sleep(150);
                 cursor.style.transform = 'scale(1)';
+
+                // Trigger Event
                 el.click();
                 await sleep(500);
             };
@@ -809,17 +818,28 @@
                 }
             };
 
-            // Loop
+            // MAIN ANIMATION LOOP
             while (true) {
-                // Wait during active call
+                // 1. Start with Incoming Call
+                showIncomingCall();
+                await sleep(2000); // Wait for viewer to see incoming call
+
+                // 2. Accept Call
+                if (await moveCursorTo('#btn-accept-call')) {
+                    await clickElement('#btn-accept-call');
+                }
+
+                // 3. Talk Time (Wait)
                 await sleep(3000);
 
-                // End Call
-                if (await moveCursorTo('#btn-end-call')) await clickElement('#btn-end-call');
+                // 4. End Call
+                if (await moveCursorTo('#btn-end-call')) {
+                    await clickElement('#btn-end-call');
+                }
 
-                await sleep(1000);
+                await sleep(1000); // Wait for transition
 
-                // Disposition
+                // 5. Disposition - Type text
                 if (await moveCursorTo('#input-disposition')) {
                     await clickElement('#input-disposition');
                     await typeText('#input-disposition', "Cliente interesado, agendar seguimiento.");
@@ -827,10 +847,33 @@
 
                 await sleep(500);
 
-                // Finish
-                if (await moveCursorTo('#btn-finish-disposition')) await clickElement('#btn-finish-disposition');
+                // 6. Disposition - Add Tag (Optional but cool)
+                if (await moveCursorTo('#btn-followup-trigger')) {
+                    // Hover trigger (simulated by just moving there, but we might need to click to open dropdown in this implementation?)
+                    // The CSS says group-hover:block, so moving cursor *should* work if pointer-events weren't none. 
+                    // But our cursor has pointer-events: none. 
+                    // So we must manually trigger the dropdown or click it if it was a click-dropdown.
+                    // The code has a click handler on options, but the dropdown open is hover.
+                    // To make it robust, let's just target the textarea and finish, or simulate the hover via class?
+                    // Let's skip the tag for simplicity or try to force it.
 
-                await sleep(5000); // Wait for reset
+                    // Let's just finish the disposition.
+                }
+
+                // 7. Finish
+                if (await moveCursorTo('#btn-finish-disposition')) {
+                    await clickElement('#btn-finish-disposition');
+                }
+
+                // 8. Wait for Success and Reset
+                await sleep(4000);
+
+                // Loop restarts, showIncomingCall() will be called at top of loop
+                cursor.style.bottom = '-50px';
+                cursor.style.right = '-50px';
+                cursor.style.left = '';
+                cursor.style.top = '';
+                await sleep(1000);
             }
         }
     </script>

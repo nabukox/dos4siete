@@ -54,14 +54,6 @@
             /* Scoped Styles */
             #widget-odoo-contactos-embed {
                 font-family: 'Roboto', sans-serif;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 100%;
-                height: 100vh;
-                margin: 0;
-                padding: 0;
-                overflow: hidden;
             }
 
             #widget-odoo-contactos-embed .odoo-header {
@@ -106,7 +98,7 @@
 
         <!-- WIDGET CONTAINER -->
         <div id="main-app-container"
-            class="relative w-[1152px] h-[700px] bg-white rounded-lg overflow-hidden shadow-lg flex flex-col border border-gray-200 shrink-0">
+            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1152px] h-[700px] bg-white rounded-lg overflow-hidden shadow-lg flex flex-col border border-gray-200 shrink-0">
 
             <!-- 1. ODOO HEADER -->
             <div class="h-12 odoo-header flex items-center justify-between px-4 text-white shrink-0 z-20">
@@ -116,7 +108,7 @@
                         <i class="fas fa-th text-white/70"></i>
                         <span>CRM</span>
                     </div>
-                    <div class="flex text-sm gap-4 text-white/90 font-medium hidden md:flex">
+                    <div class="flex text-sm gap-4 text-white/90 font-medium flex">
                         <span class="opacity-100">Ventas</span>
                         <span class="opacity-80 hover:opacity-100 cursor-pointer">Informar</span>
                         <span class="opacity-80 hover:opacity-100 cursor-pointer">Configuración</span>
@@ -131,7 +123,7 @@
                     <div class="flex items-center gap-2">
                         <img src="https://ui-avatars.com/api/?name=Nicole+Martinez&background=random"
                             class="w-7 h-7 rounded-full">
-                        <span class="text-sm font-medium hidden sm:block">Nicole Martínez</span>
+                        <span class="text-sm font-medium block">Nicole Martínez</span>
                     </div>
                 </div>
             </div>
@@ -140,8 +132,8 @@
             <div class="bg-white border-b border-gray-200 px-4 py-3 flex flex-col gap-3 shrink-0 z-10 shadow-sm">
 
                 <!-- Row 1: Title & Search -->
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div class="flex flex-col md:flex-row md:items-center gap-4">
+                <div class="flex flex-row items-center justify-between gap-4">
+                    <div class="flex flex-row items-center gap-4">
                         <h2 class="text-xl text-gray-700 font-normal">Clientes</h2>
                         <button
                             class="odoo-btn-create text-white text-sm font-medium px-4 py-1.5 rounded shadow-sm uppercase tracking-wide">
@@ -150,7 +142,7 @@
                     </div>
 
                     <!-- Search Bar -->
-                    <div class="flex items-center bg-transparent border-b border-gray-300 w-full md:w-80 pb-1">
+                    <div class="flex items-center bg-transparent border-b border-gray-300 w-80 pb-1">
                         <input type="text" placeholder="Buscar..."
                             class="w-full outline-none bg-transparent text-sm text-gray-600 placeholder-gray-400">
                         <i class="fas fa-search text-gray-400 text-xs"></i>
@@ -160,7 +152,7 @@
                 <!-- Row 2: Filters & Pagination -->
                 <div class="flex items-center justify-between text-gray-500 text-sm">
                     <!-- Left Filters -->
-                    <div class="flex items-center gap-4 hidden md:flex">
+                    <div class="flex items-center gap-4 flex">
                         <div class="flex items-center gap-1 cursor-pointer hover:text-gray-800 transition-colors"><i
                                 class="fas fa-filter text-gray-600"></i> Filtros</div>
                         <div class="flex items-center gap-1 cursor-pointer hover:text-gray-800 transition-colors"><i
@@ -195,7 +187,7 @@
 
             <!-- 3. CONTACTS GRID -->
             <div class="flex-1 overflow-y-auto p-6 bg-[#F0F0F0] custom-scrollbar">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="grid grid-cols-3 gap-6">
 
                     <!-- CARD 1 -->
                     <div
@@ -436,8 +428,8 @@
             // Use the smaller scale to fit entirely
             let scale = Math.min(scaleX, scaleY);
 
-            // Apply scale ONLY (Flexbox handles centering)
-            container.style.transform = `scale(${scale})`;
+            // Apply Center & Scale
+            container.style.transform = `translate(-50%, -50%) scale(${scale})`;
 
             // Ensure body allows centering but prevents scroll if content fits
             document.body.style.height = '100vh';

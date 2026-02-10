@@ -127,7 +127,7 @@
                         <i class="fas fa-th text-white/70"></i>
                         <span>CRM</span>
                     </div>
-                    <div class="flex text-sm gap-4 text-white/90 font-medium hidden md:flex">
+                    <div class="flex text-sm gap-4 text-white/90 font-medium flex">
                         <span class="opacity-100">Ventas</span>
                         <span class="opacity-80 hover:opacity-100 cursor-pointer">Informar</span>
                         <span class="opacity-80 hover:opacity-100 cursor-pointer">Configuración</span>
@@ -170,7 +170,7 @@
                 <!-- Row 2: Filters & Pagination -->
                 <div class="flex items-center justify-between text-gray-500 text-sm">
                     <!-- Left Filters -->
-                    <div class="flex items-center gap-4 hidden md:flex">
+                    <div class="flex items-center gap-4 flex">
                         <div class="flex items-center gap-1 cursor-pointer hover:text-gray-800 transition-colors"><i
                                 class="fas fa-filter text-gray-600"></i> Filtros</div>
                         <div class="flex items-center gap-1 cursor-pointer hover:text-gray-800 transition-colors"><i
@@ -205,7 +205,7 @@
 
             <!-- 3. CONTACTS GRID -->
             <div class="flex-1 overflow-y-auto p-6 bg-[#F0F0F0] custom-scrollbar">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="grid grid-cols-3 gap-6">
 
                     <!-- We add IDs to the buttons we want to automate -->
 
@@ -507,7 +507,13 @@
 
                 const windowWidth = document.documentElement.clientWidth || window.innerWidth;
 
-                let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+                // Updated: removed limit of 1
+                let scale = Math.min(windowWidth / (baseWidth + marginBuffer), (window.innerHeight - 20) / 700);
+
+                // Use the safer min logic
+                const scaleX = (windowWidth - marginBuffer) / baseWidth;
+                const scaleY = (window.innerHeight - marginBuffer) / 700;
+                scale = Math.min(scaleX, scaleY);
 
                 container.style.transform = `translate(-50%, -50%) scale(${scale})`;
 
@@ -635,15 +641,13 @@
                     // I will leave the automation script as originally provided but be aware it might drift if scale < 1.
                     // A quick fix is to get scale from current transform.
 
-                    let scale = 1;
-                    const transform = container.style.transform;
-                    if (transform && transform.includes('scale')) {
-                        const match = transform.match(/scale\(([^)]+)\)/);
-                        if (match) scale = parseFloat(match[1]);
-                    }
+                    // Calculate Scale dynamically from container state
+                    const currentScale = container.getBoundingClientRect().width / 1152;
 
-                    const targetX = (rect.left - containerRect.left) / scale + (rect.width / scale / 2);
-                    const targetY = (rect.top - containerRect.top) / scale + (rect.height / scale / 2);
+                    // Convert target rect (viewport coords) to container-relative (unscaled)
+                    // We need (targetViewport - containerViewportLeft) / scale
+                    const targetX = (rect.left - containerRect.left) / currentScale + (rect.width / currentScale / 2);
+                    const targetY = (rect.top - containerRect.top) / currentScale + (rect.height / currentScale / 2);
 
                     // Visible Cursor
                     cursor.style.opacity = '1';
