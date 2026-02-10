@@ -8,27 +8,30 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Dev dependencies -->
-    <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
+    <style>
+        /* Dev-only centering for Absolute Pattern */
+        html,
+        body {
+            height: 100vh;
+            width: 100vw;
+            background-color: transparent !important;
+            overflow: hidden;
+            /* Prevent scrollbars */
+            position: relative;
+            /* Context */
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            display: block;
+            /* Override flex */
+        }
+    </style>
 </head>
 
 <body class="font-['Outfit']">
-    /* Dev-only centering for Absolute Pattern */
-    html,
-    body {
-    height: 100vh;
-    width: 100vw;
-    background-color: transparent !important;
-    overflow: hidden; /* Prevent scrollbars */
-    position: relative; /* Context */
-    margin: 0;
-    padding: 0;
-    }
-
-    body {
-    font-family: 'Outfit', sans-serif;
-    display: block; /* Override flex */
-    }
 
     <!-- 
     ==========================================================================
@@ -46,7 +49,7 @@
 
     <!-- WIDGET CONTAINER -->
     <div id="main-app-container"
-        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1152px] h-[700px] bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 relative mx-auto font-['Outfit']">
+        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 relative mx-auto font-['Outfit']">
 
         <div id="widget-panel-extensiones-embed" class="relative w-full h-full font-['Outfit']">
 
@@ -76,8 +79,7 @@
             </style>
 
             <!-- MAIN CONTAINER -->
-            <div
-                class="w-full bg-white rounded-3xl shadow-xl overflow-hidden min-h-[600px] flex flex-col border border-gray-100">
+            <div class="w-full h-full bg-transparent overflow-hidden flex flex-col">
 
                 <!-- TOP BAR -->
                 <div
@@ -109,7 +111,7 @@
 
                 <!-- EXTENSIONS GRID -->
                 <div class="p-6 bg-[#FaFaFa] flex-1 overflow-y-auto custom-scrollbar">
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    <div class="grid grid-cols-3 gap-4">
 
                         <!-- CARD: AVAILABLE (1104) -->
                         <div
@@ -117,7 +119,7 @@
                             <div class="bg-[#dcfce7] px-4 py-2 flex justify-between items-center">
                                 <div class="flex items-center gap-2">
                                     <i class="fas fa-check text-xs text-[#15803d]"></i>
-                                    <span class="text-[#14532d] font-semibold text-sm">1023 - Sofía Navarro</span>
+                                    <span class="text-[#14532d] font-semibold text-sm">2056 - Andrés Torres</span>
                                 </div>
                                 <button
                                     class="w-6 h-6 bg-white rounded flex items-center justify-center text-gray-400 hover:text-green-600 shadow-sm">
@@ -135,7 +137,7 @@
                             <div class="bg-[#dcfce7] px-4 py-2 flex justify-between items-center">
                                 <div class="flex items-center gap-2">
                                     <i class="fas fa-check text-xs text-[#15803d]"></i>
-                                    <span class="text-[#14532d] font-semibold text-sm">1045 - Carlos Méndez</span>
+                                    <span class="text-[#14532d] font-semibold text-sm">3012 - Beatriz Gómez</span>
                                 </div>
                                 <button
                                     class="w-6 h-6 bg-white rounded flex items-center justify-center text-gray-400 hover:text-green-600 shadow-sm">
@@ -153,7 +155,7 @@
                             <div class="bg-[#dcfce7] px-4 py-2 flex justify-between items-center">
                                 <div class="flex items-center gap-2">
                                     <i class="fas fa-check text-xs text-[#15803d]"></i>
-                                    <span class="text-[#14532d] font-semibold text-sm">1089 - Laura Gil</span>
+                                    <span class="text-[#14532d] font-semibold text-sm">1589 - Fernando Ruiz</span>
                                 </div>
                                 <button
                                     class="w-6 h-6 bg-white rounded flex items-center justify-center text-gray-400 hover:text-green-600 shadow-sm">
@@ -171,7 +173,7 @@
                             <div class="bg-[#dcfce7] px-4 py-2 flex justify-between items-center">
                                 <div class="flex items-center gap-2">
                                     <i class="fas fa-check text-xs text-[#15803d]"></i>
-                                    <span class="text-[#14532d] font-semibold text-sm">1156 - Ana Ruiz</span>
+                                    <span class="text-[#14532d] font-semibold text-sm">4023 - Carmen Soto</span>
                                 </div>
                                 <button
                                     class="w-6 h-6 bg-white rounded flex items-center justify-center text-gray-400 hover:text-green-600 shadow-sm">
@@ -189,7 +191,7 @@
                             <div class="bg-[#fee2e2] px-4 py-2 flex justify-between items-center">
                                 <div class="flex items-center gap-2">
                                     <i class="far fa-comments text-xs text-[#b91c1c]"></i>
-                                    <span class="text-[#7f1d1d] font-semibold text-sm">2301 - Javier Ortiz</span>
+                                    <span class="text-[#7f1d1d] font-semibold text-sm">2110 - Ricardo Vega</span>
                                 </div>
                                 <button
                                     class="w-6 h-6 bg-white rounded flex items-center justify-center text-gray-400 hover:text-red-600 shadow-sm">
@@ -210,7 +212,7 @@
                                     </button>
                                 </div>
                                 <div class="text-xs text-gray-800 font-medium pl-4">
-                                    Javier Ortiz 600123456
+                                    Ricardo Vega 600987654
                                 </div>
                             </div>
                         </div>
@@ -221,7 +223,7 @@
                             <div class="bg-[#fee2e2] px-4 py-2 flex justify-between items-center">
                                 <div class="flex items-center gap-2">
                                     <i class="far fa-comments text-xs text-[#b91c1c]"></i>
-                                    <span class="text-[#7f1d1d] font-semibold text-sm">1414 - Elena Castro</span>
+                                    <span class="text-[#7f1d1d] font-semibold text-sm">3345 - Isabel Vargas</span>
                                 </div>
                                 <button
                                     class="w-6 h-6 bg-white rounded flex items-center justify-center text-gray-400 hover:text-red-600 shadow-sm">
@@ -249,7 +251,7 @@
                             <div class="bg-[#dcfce7] px-4 py-2 flex justify-between items-center">
                                 <div class="flex items-center gap-2">
                                     <i class="fas fa-check text-xs text-[#15803d]"></i>
-                                    <span class="text-[#14532d] font-semibold text-sm">1672 - Miguel Ángel</span>
+                                    <span class="text-[#14532d] font-semibold text-sm">1998 - Hugo Silva</span>
                                 </div>
                                 <button
                                     class="w-6 h-6 bg-white rounded flex items-center justify-center text-gray-400 hover:text-green-600 shadow-sm">
@@ -267,7 +269,7 @@
                             <div class="bg-[#dcfce7] px-4 py-2 flex justify-between items-center">
                                 <div class="flex items-center gap-2">
                                     <i class="fas fa-check text-xs text-[#15803d]"></i>
-                                    <span class="text-[#14532d] font-semibold text-sm">1890 - Pablo Herrera</span>
+                                    <span class="text-[#14532d] font-semibold text-sm">2567 - Daniela Rojas</span>
                                 </div>
                                 <button
                                     class="w-6 h-6 bg-white rounded flex items-center justify-center text-gray-400 hover:text-green-600 shadow-sm">
@@ -301,17 +303,29 @@
             const container = document.getElementById('main-app-container');
             if (!container) return;
 
-            const baseWidth = 1152;
+            const baseWidth = 900;
+            const baseHeight = 600; // Define base height
             const marginBuffer = 40;
 
             const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+            const windowHeight = document.documentElement.clientHeight || window.innerHeight;
 
-            let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+            // Calculate scale based on both width and height to ensure it fits in viewport
+            const widthRatio = (windowWidth - marginBuffer) / baseWidth;
+            const heightRatio = (windowHeight - marginBuffer) / baseHeight;
+
+            let scale = Math.min(widthRatio, heightRatio, 1); // Use the smaller ratio
 
             container.style.transform = `translate(-50%, -50%) scale(${scale})`;
 
+            // Ensure body takes full height and no scrollbars appear
             document.body.style.height = '100vh';
             document.documentElement.style.overflow = 'hidden';
+
+            // Optional: Center vertically via flexbox on body if absolute positioning fails context (backup)
+            document.body.style.display = 'flex';
+            document.body.style.alignItems = 'center';
+            document.body.style.justifyContent = 'center';
         }
         window.addEventListener('resize', scaleToFit);
         document.addEventListener('DOMContentLoaded', scaleToFit);

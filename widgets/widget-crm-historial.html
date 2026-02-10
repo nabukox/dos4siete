@@ -90,7 +90,7 @@
         <!-- WIDGET CONTAINER -->
         <!-- Fixed width 1152px -->
         <div id="main-app-container"
-            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1152px] h-[800px] bg-white rounded-lg overflow-hidden shadow-2xl flex flex-col border border-gray-200">
+            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1152px] h-[800px] bg-white rounded-lg overflow-hidden shadow-lg flex flex-col border border-gray-200">
 
             <!-- 1. TOP NAVBAR -->
             <div class="h-14 bg-[#1E293B] flex items-center px-4 justify-between shrink-0">
@@ -392,17 +392,27 @@
                 const container = document.getElementById('main-app-container');
                 if (!container) return;
 
-                const baseWidth = 1152; 
-                const marginBuffer = 40; 
+                const baseWidth = 1152;
+                const baseHeight = 800; // Define base height
+                const marginBuffer = 40;
 
                 const windowWidth = document.documentElement.clientWidth || window.innerWidth;
-                
-                let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+                const windowHeight = document.documentElement.clientHeight || window.innerHeight;
+
+                const widthRatio = (windowWidth - marginBuffer) / baseWidth;
+                const heightRatio = (windowHeight - marginBuffer) / baseHeight;
+
+                let scale = Math.min(widthRatio, heightRatio, 1);
 
                 container.style.transform = `translate(-50%, -50%) scale(${scale})`;
-                
+
                 document.body.style.height = '100vh';
                 document.documentElement.style.overflow = 'hidden';
+
+                // Optional: Backup centering
+                document.body.style.display = 'flex';
+                document.body.style.alignItems = 'center';
+                document.body.style.justifyContent = 'center';
             }
             window.addEventListener('resize', scaleToFit);
             document.addEventListener('DOMContentLoaded', scaleToFit);

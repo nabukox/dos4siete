@@ -585,6 +585,126 @@
         </div>
     </section>
 
+    <!-- SECTION 11: EXTENSION PANEL (New) -->
+    <section class="w-full min-h-screen bg-gray-50 flex items-center justify-center p-8 md:p-16 relative">
+        <div class="max-w-[1400px] w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+            <!-- Text Content (Left side) -->
+            <div class="space-y-6 order-2 lg:order-1">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-medium">
+                    <i class="fas fa-th-list"></i>
+                    <span>Monitorización en Tiempo Real</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                    Panel de <span class="text-green-600">Extensiones</span> Interactivo
+                </h2>
+                <p class="text-lg text-gray-600 leading-relaxed">
+                    Visualiza el estado de todas las extensiones de la empresa. Identifica quién está disponible,
+                    ocupado o ausente de un vistazo rápido.
+                </p>
+
+                <ul class="space-y-4 pt-4">
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="mt-1 w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span class="text-gray-700">Estado en tiempo real (BLF) de cada extensión</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="mt-1 w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span class="text-gray-700">Marcación rápida (Click-to-Call)</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="mt-1 w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span class="text-gray-700">Filtro de búsqueda por nombre o número</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Widget Container (Right side) -->
+            <div class="relative w-full aspect-[900/600] flex items-center justify-center order-1 lg:order-2">
+                <!-- Background decorative elements -->
+                <div class="absolute -right-4 -top-4 w-24 h-24 bg-green-100 rounded-full blur-2xl opacity-60"></div>
+                <div class="absolute -left-4 -bottom-4 w-32 h-32 bg-emerald-100 rounded-full blur-2xl opacity-60"></div>
+
+                <div
+                    class="w-full h-full bg-transparent relative drop-shadow-md hover:scale-[1.01] transition-transform duration-500">
+                    <iframe src="widgets/widget-panel-extensiones.html" class="w-full h-full border-0 rounded-xl"
+                        title="Extension Panel Demo" allow="microphone; camera; midi; encrypted-media;"></iframe>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 12: CRM CONTACTS (New) -->
+    <section class="w-full min-h-screen bg-white flex items-center justify-center p-8 md:p-16 relative">
+        <div class="max-w-[1400px] w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+            <!-- Widget Container (Left side) -->
+            <div class="relative w-full aspect-[1152/800] flex items-center justify-center order-1">
+                <!-- Background decorative elements -->
+                <div class="absolute -left-4 -top-4 w-24 h-24 bg-blue-100 rounded-full blur-2xl opacity-60"></div>
+                <div class="absolute -right-4 -bottom-4 w-32 h-32 bg-indigo-100 rounded-full blur-2xl opacity-60"></div>
+
+                <div
+                    class="w-full h-full bg-transparent relative drop-shadow-sm hover:scale-[1.01] transition-transform duration-500">
+                    <iframe src="widgets/widget-crm-contactos.html" class="w-full h-full border-0 rounded-xl"
+                        title="CRM Contacts Demo" allow="microphone; camera; midi; encrypted-media;"></iframe>
+                </div>
+            </div>
+
+            <!-- Text Content (Right side) -->
+            <div class="space-y-6 order-2">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium">
+                    <i class="fas fa-address-book"></i>
+                    <span>Gestión de Contactos 360º</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                    Integración Profunda con <span class="text-blue-600">CRM</span>
+                </h2>
+                <p class="text-lg text-gray-600 leading-relaxed">
+                    Historial de interacciones unificado en tiempo real. Accede a toda la información de tus clientes
+                    mientras hablas con ellos.
+                </p>
+
+                <ul class="space-y-4 pt-4">
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="mt-1 w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span class="text-gray-700">Identificación automática de clientes (Screen Pop)</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="mt-1 w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span class="text-gray-700">Acceso instantáneo a tratos y actividades</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="mt-1 w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span class="text-gray-700">Registro automático de llamadas y grabaciones</span>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
     <!-- CONTENT SECTION (Placeholder) -->
     <section class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white">
         <div class="text-center mb-16">
@@ -603,6 +723,194 @@
             <div class="p-10 border-2 border-dashed border-gray-200 rounded-2xl">
                 Widget 4 (Próximamente)
             </div>
+        </div>
+    </section>
+
+    <!-- SECTION 13: CRM HISTORY (New) -->
+    <section class="w-full min-h-screen bg-gray-50 flex items-center justify-center p-8 md:p-16 relative">
+        <div class="max-w-[1400px] w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+            <!-- Text Content (Left side) -->
+            <div class="space-y-6 order-2 lg:order-1">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium">
+                    <i class="far fa-clock"></i>
+                    <span>Trazabilidad Completa</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                    Cronología de <span class="text-blue-600">Relaciones</span>
+                </h2>
+                <p class="text-lg text-gray-600 leading-relaxed">
+                    Seguimiento detallado de cada interacción en el tiempo. Entiende el contexto completo de cada
+                    cliente antes de contestar.
+                </p>
+
+                <ul class="space-y-4 pt-4">
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="mt-1 w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span class="text-gray-700">Línea de tiempo interactiva con llamadas, notas y tareas</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="mt-1 w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span class="text-gray-700">Acciones rápidas desde el historial</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="mt-1 w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span class="text-gray-700">Visión 360º del ciclo de vida del cliente</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Widget Container (Right side) -->
+            <div class="relative w-full aspect-[1152/800] flex items-center justify-center order-1 lg:order-2">
+                <!-- Background decorative elements -->
+                <div class="absolute -right-4 -top-4 w-24 h-24 bg-blue-100 rounded-full blur-2xl opacity-60"></div>
+                <div class="absolute -left-4 -bottom-4 w-32 h-32 bg-indigo-100 rounded-full blur-2xl opacity-60"></div>
+
+                <div
+                    class="w-full h-full bg-transparent relative drop-shadow-sm hover:scale-[1.01] transition-transform duration-500">
+                    <iframe src="widgets/widget-crm-historial.html" class="w-full h-full border-0 rounded-xl"
+                        title="CRM History Demo" allow="microphone; camera; midi; encrypted-media;"></iframe>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 14: AI INSIGHTS (New) -->
+    <section class="w-full min-h-screen bg-white flex items-center justify-center p-8 md:p-16 relative">
+        <div class="max-w-[1400px] w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+            <!-- Widget Container (Left side) -->
+            <div class="relative w-full aspect-[900/1000] flex items-center justify-center order-1 lg:order-1">
+                <!-- Background decorative elements -->
+                <div class="absolute -right-4 -top-4 w-24 h-24 bg-purple-100 rounded-full blur-2xl opacity-60"></div>
+                <div class="absolute -left-4 -bottom-4 w-32 h-32 bg-indigo-100 rounded-full blur-2xl opacity-60"></div>
+
+                <div
+                    class="w-full h-full bg-transparent relative drop-shadow-sm hover:scale-[1.01] transition-transform duration-500">
+                    <iframe src="widgets/widget-llamada-transferencia.html" class="w-full h-full border-0 rounded-xl"
+                        title="AI Call Insights Demo" allow="microphone; camera; midi; encrypted-media;"></iframe>
+                </div>
+            </div>
+
+            <!-- Text Content (Right side) -->
+            <div class="space-y-6 order-2 lg:order-2">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-sm font-medium">
+                    <i class="fas fa-robot"></i>
+                    <span>Análisis Automático</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                    Inteligencia Artificial <span class="text-indigo-600">Conversacional</span>
+                </h2>
+                <p class="text-lg text-gray-600 leading-relaxed">
+                    Transforma cada conversación en datos procesables. Nuestra IA analiza sentimientos, resume puntos
+                    clave y extrae tareas automáticamente.
+                </p>
+
+                <ul class="space-y-4 pt-4">
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="mt-1 w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span class="text-gray-700">Detección de sentimiento y temas en tiempo real</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="mt-1 w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span class="text-gray-700">Resumen ejecutivo automático post-llamada</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="mt-1 w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span class="text-gray-700">Extracción inteligente de tareas y recordatorios</span>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 15: ODOO DASHBOARD -->
+    <section class="w-full min-h-screen bg-gray-50 flex items-center justify-center p-8 md:p-16 relative">
+        <div class="max-w-[1400px] w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+            <!-- Text Content (Left side) -->
+            <div class="space-y-6 order-2 lg:order-1">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-sm font-medium">
+                    <i class="fas fa-th-large"></i>
+                    <span>Ecosistema Integrado</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                    Tu Central de Mando <span class="text-indigo-600">Unificada</span>
+                </h2>
+                <p class="text-lg text-gray-600 leading-relaxed">
+                    Accede a todas tus herramientas empresariales desde un único lugar. Nuestra integración con Odoo
+                    centraliza CRM, Ventas, Inventario y Comunicaciones en un dashboard intuitivo.
+                </p>
+
+                <ul class="space-y-4 pt-4">
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="mt-1 w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span class="text-gray-700">Acceso directo a módulos clave (CRM, Ventas, Proyectos)</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="mt-1 w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span class="text-gray-700">Notificaciones de llamadas VoIP integradas en pantalla</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="mt-1 w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span class="text-gray-700">Interfaz fluida y consistente con tu identidad corporativa</span>
+                    </li>
+                </ul>
+
+                <div class="pt-4">
+                    <a href="#"
+                        class="inline-flex items-center gap-2 text-indigo-600 font-semibold hover:text-indigo-800 transition-colors group">
+                        Explorar Integraciones <i
+                            class="fas fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Widget Container (Right side) -->
+            <div class="relative w-full aspect-[1152/700] flex items-center justify-center order-1 lg:order-2">
+                <!-- Background decorative elements -->
+                <div class="absolute -right-10 -top-10 w-64 h-64 bg-purple-200 rounded-full blur-3xl opacity-30"></div>
+                <div class="absolute -left-10 -bottom-10 w-64 h-64 bg-blue-200 rounded-full blur-3xl opacity-30"></div>
+
+                <div
+                    class="w-full h-full bg-transparent relative drop-shadow-sm hover:scale-[1.01] transition-transform duration-500">
+                    <iframe src="widgets/widget-odoo-dashboard.html" class="w-full h-full border-0 rounded-xl"
+                        title="Odoo Dashboard Demo" allow="microphone; camera; midi; encrypted-media;"></iframe>
+                </div>
+            </div>
+
         </div>
     </section>
 

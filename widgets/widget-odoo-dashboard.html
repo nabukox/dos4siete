@@ -46,13 +46,21 @@
     ==========================================================================
 -->
 
-    <div id="widget-odoo-dashboard-embed"
-        class="relative w-full h-full flex items-center justify-center font-['Roboto']">
+    <div id="widget-odoo-dashboard-embed" class="relative w-full h-full font-['Roboto'] overflow-hidden">
 
         <style>
             /* Scoped Styles for Widget */
             #widget-odoo-dashboard-embed {
                 font-family: 'Roboto', sans-serif;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                height: 100vh;
+                /* Force full viewport height */
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
             }
 
             /* Odoo-like Background Gradient */
@@ -123,7 +131,7 @@
         <!-- WIDGET CONTAINER (Screen representation) -->
         <!-- WIDGET CONTAINER (Screen representation) -->
         <div id="main-app-container"
-            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1152px] h-[700px] odoo-bg rounded-lg overflow-hidden shadow-2xl relative flex flex-col border border-gray-200 mx-auto">
+            class="relative w-[1152px] h-[700px] odoo-bg rounded-lg overflow-hidden shadow-lg flex flex-col border border-gray-200 shrink-0">
 
             <!-- 1. TOP NAVBAR -->
             <div class="h-10 flex items-center justify-between px-4 shrink-0">
@@ -414,164 +422,203 @@
                 </div>
             </div>
 
-            <!-- 5. DEMO CURSOR (Scoped Inside) -->
-            <div id="demo-cursor"
-                class="absolute top-0 left-0 z-[9999] pointer-events-none transition-transform duration-700 ease-in-out flex items-center justify-center opacity-0"
-                style="display: flex;">
-                <!-- Cursor Icon -->
-                <i class="fas fa-hand-pointer text-black text-2xl drop-shadow-xl transform -rotate-[15deg] transition-transform duration-150 border-white"
-                    style="-webkit-text-stroke: 1px white;"></i>
-                <!-- Ripple -->
-                <div class="absolute w-8 h-8 bg-black/10 rounded-full animate-ping -z-10 hidden" id="click-effect">
-                </div>
-            </div>
 
-            <!-- Animation Logic -->
-            <script>
-                document.addEventListener('DOMContentLoaded', () => {
-                    // Scope lookup to strictly inside the widget (optional but good practice)
-                    // However, document.getElementById is global. Just ensure IDs are unique enough or context is clear.
-                    // In a real framework, we'd use Refs. Here, unique IDs in standard might be needed if multiple widgets on one page.
-                    // For now, assuming one widget per page or distinct IDs.
 
-                    const cursor = document.getElementById('demo-cursor');
-                    const btnAnswer = document.getElementById('btn-answer-call');
-
-                    // ... (rest of js is generic enough, but IDs should ideally be namespaced if collision risk)
-                    // Leaving IDs as is for now as per "apply structure" instruction, not "namespace everything" instruction which would be huge.
-                    // But the user *did* say "evalua fallas" which includes ID collisions.
-                    // For this refactor, I will keep IDs as is to avoid breaking internal logic, but in SKILL I verified this risk.
-                    // The prompt asks to apply the structure.
-
-                    const incomingView = document.getElementById('voip-incoming');
-                    const activeView = document.getElementById('voip-active-call');
-                    const targetBtn = document.getElementById('btn-schedule-activity');
-                    const clickEffect = document.getElementById('click-effect');
-                    const modal = document.getElementById('modal-activity');
-                    if (!modal) return; // safety
-                    const modalContent = modal.querySelector('div');
-
-                    setTimeout(() => {
-                        runDemo();
-                    }, 1000);
-
-                    async function runDemo() {
-                        cursor.style.transition = 'opacity 0.5s';
-                        cursor.style.opacity = '1';
-
-                        // ANSWER
-                        await moveCursorTo('#btn-answer-call', 0, 0);
-                        await animateClick();
-                        incomingView.classList.add('hidden');
-                        activeView.classList.remove('hidden');
-                        await new Promise(r => setTimeout(r, 1000));
-
-                        // OPEN TASK
-                        await moveCursorTo('#btn-schedule-activity', 0, 0);
-                        await animateClick();
-                        targetBtn.classList.add('bg-gray-300');
-                        modal.classList.remove('hidden');
-                        modalContent.classList.remove('scale-95');
-                        modalContent.classList.add('scale-100');
-
-                        // FILL FORM
-                        await moveCursorTo('#input-summary', 10, 10);
-                        await animateClick();
-                        document.getElementById('input-summary').focus();
-                        await typeText('input-summary', 'Renovación de Contrato');
-
-                        await moveCursorTo('#input-notes', 20, 20);
-                        await animateClick();
-                        document.getElementById('input-notes').focus();
-                        await typeText('input-notes', 'El cliente confirma interés. Enviar propuesta mañana.');
-
-                        await moveCursorTo('#btn-schedule-submit', 20, 10);
-                        await animateClick();
-
-                        // SUBMIT
-                        document.getElementById('btn-schedule-submit').classList.add('opacity-75');
-                        setTimeout(() => {
-                            modalContent.classList.remove('scale-100');
-                            modalContent.classList.add('scale-95');
-                            setTimeout(() => {
-                                modal.classList.add('hidden');
-                            }, 200);
-                        }, 300);
-
-                        // EXIT
-                        const rectFinal = document.getElementById('btn-schedule-submit').getBoundingClientRect();
-                        cursor.style.transform = `translate(${rectFinal.left + 300}px, ${rectFinal.top + 300}px)`;
-                        cursor.style.opacity = '0';
-                    }
-
-                    function moveCursorTo(selector, offsetX = 0, offsetY = 0) {
-                        return new Promise(resolve => {
-                            const el = document.querySelector(selector);
-                            if (!el) { resolve(); return; }
-                            const rect = el.getBoundingClientRect();
-                            const x = rect.left + (rect.width / 2) + offsetX;
-                            const y = rect.top + (rect.height / 2) + offsetY;
-
-                            if (!cursor.style.transform) {
-                                cursor.style.transform = `translate(${x + 100}px, ${y + 100}px)`;
-                                cursor.getBoundingClientRect();
-                            }
-                            cursor.style.transform = `translate(${x}px, ${y}px)`;
-                            setTimeout(resolve, 800 + 300);
-                        });
-                    }
-
-                    async function animateClick() {
-                        cursor.querySelector('i').classList.add('scale-90');
-                        clickEffect.classList.remove('hidden');
-                        await new Promise(r => setTimeout(r, 150));
-                        cursor.querySelector('i').classList.remove('scale-90');
-                        clickEffect.classList.add('hidden');
-                        await new Promise(r => setTimeout(r, 200));
-                    }
-
-                    async function typeText(elementId, text) {
-                        const el = document.getElementById(elementId);
-                        el.value = '';
-                        for (let char of text) {
-                            el.value += char;
-                            await new Promise(r => setTimeout(r, 30 + Math.random() * 30));
-                        }
-                        await new Promise(r => setTimeout(r, 400));
-                    }
-                });
-            </script>
         </div>
 
-    </div>
+        <!-- 5. DEMO CURSOR (Scoped Inside) -->
+        <div id="demo-cursor"
+            class="absolute top-0 left-0 z-[9999] pointer-events-none transition-transform duration-700 ease-in-out flex items-center justify-center opacity-0"
+            style="display: flex;">
+            <!-- Cursor Icon -->
+            <i class="fas fa-hand-pointer text-black text-2xl drop-shadow-xl transform -rotate-[15deg] transition-transform duration-150 border-white"
+                style="-webkit-text-stroke: 1px white;"></i>
+            <!-- Ripple -->
+            <div class="absolute w-8 h-8 bg-black/10 rounded-full animate-ping -z-10 hidden" id="click-effect">
+            </div>
+        </div>
 
-    <!-- 
+        <!-- Animation Logic -->
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const cursor = document.getElementById('demo-cursor');
+                const incomingView = document.getElementById('voip-incoming');
+                const activeView = document.getElementById('voip-active-call');
+                const targetBtn = document.getElementById('btn-schedule-activity');
+                const clickEffect = document.getElementById('click-effect');
+                const modal = document.getElementById('modal-activity');
+
+                if (!modal) return;
+                const modalContent = modal.querySelector('div');
+
+                // Start loop
+                setTimeout(runDemo, 1000);
+
+                async function runDemo() {
+                    // --- RESET STATE ---
+                    // 1. Reset Views
+                    incomingView.classList.remove('hidden');
+                    activeView.classList.add('hidden');
+                    modal.classList.add('hidden');
+                    modalContent.classList.remove('scale-100');
+                    modalContent.classList.add('scale-95');
+
+                    // 2. Reset Buttons & Inputs
+                    targetBtn.classList.remove('bg-gray-300');
+                    document.getElementById('btn-schedule-submit').classList.remove('opacity-75');
+                    document.getElementById('input-summary').value = '';
+                    document.getElementById('input-notes').value = '';
+
+                    // 3. Reset Cursor Position (Start from center-ish or off-screen)
+                    cursor.style.transition = 'none'; // Snap
+                    cursor.style.opacity = '0';
+                    cursor.style.transform = 'translate(600px, 400px)'; // Center start
+
+                    await new Promise(r => setTimeout(r, 100));
+                    cursor.style.transition = 'transform 0.8s ease-in-out, opacity 0.5s';
+                    cursor.style.opacity = '1';
+
+                    // --- ANIMATION SEQUENCE ---
+
+                    // STEP 1: ANSWER CALL
+                    await moveCursorTo('#btn-answer-call', 0, 0);
+                    await animateClick();
+                    incomingView.classList.add('hidden');
+                    activeView.classList.remove('hidden');
+                    await new Promise(r => setTimeout(r, 1500)); // Talk for a bit
+
+                    // STEP 2: OPEN SCHEDULE ACTIVITY
+                    await moveCursorTo('#btn-schedule-activity', 0, 0);
+                    await animateClick();
+                    targetBtn.classList.add('bg-gray-300');
+                    modal.classList.remove('hidden');
+                    // Modal Enter Animation
+                    setTimeout(() => {
+                        modalContent.classList.remove('scale-95');
+                        modalContent.classList.add('scale-100');
+                    }, 50);
+                    await new Promise(r => setTimeout(r, 1000));
+
+                    // STEP 3: TYPE SUMMARY
+                    await moveCursorTo('#input-summary', 40, 10); // Clic inside input
+                    await animateClick();
+                    document.getElementById('input-summary').focus();
+                    await typeText('input-summary', 'Renovación de Contrato');
+                    await new Promise(r => setTimeout(r, 500));
+
+                    // STEP 4: TYPE NOTES
+                    await moveCursorTo('#input-notes', 40, 20);
+                    await animateClick();
+                    document.getElementById('input-notes').focus();
+                    await typeText('input-notes', 'Cliente satisfecho. Enviar propuesta.');
+                    await new Promise(r => setTimeout(r, 500));
+
+                    // STEP 5: SUBMIT
+                    await moveCursorTo('#btn-schedule-submit', 30, 15);
+                    await animateClick();
+                    document.getElementById('btn-schedule-submit').classList.add('opacity-75');
+
+                    // Close Modal Animation
+                    setTimeout(() => {
+                        modalContent.classList.remove('scale-100');
+                        modalContent.classList.add('scale-95');
+                        setTimeout(() => {
+                            modal.classList.add('hidden');
+                        }, 200);
+                    }, 400);
+
+                    // STEP 6: HANGUP (Optional, or just loop)
+                    // Let's move cursor away and restart
+                    await new Promise(r => setTimeout(r, 1500));
+
+                    // Exit cursor
+                    const rectFinal = document.getElementById('btn-schedule-submit').getBoundingClientRect();
+                    cursor.style.opacity = '0';
+
+                    // RESTART LOOP
+                    setTimeout(runDemo, 2000);
+                }
+
+                // --- HELPERS ---
+
+                function moveCursorTo(selector, offsetX = 0, offsetY = 0) {
+                    return new Promise(resolve => {
+                        const el = document.querySelector(selector);
+                        if (!el) { resolve(); return; }
+                        const rect = el.getBoundingClientRect();
+
+                        // Since cursor is fixed/absolute to viewport (or body behaving as viewport),
+                        // and getBoundingClientRect returns viewport coordinates,
+                        // we just use rect.left and rect.top directly.
+
+                        const x = rect.left + (rect.width / 2) + offsetX;
+                        const y = rect.top + (rect.height / 2) + offsetY;
+
+                        cursor.style.transform = `translate(${x}px, ${y}px)`;
+                        setTimeout(resolve, 800 + 400); // Duration + pause
+                    });
+                }
+
+                async function animateClick() {
+                    const icon = cursor.querySelector('i');
+                    icon.classList.add('scale-75'); // Press effect
+                    clickEffect.classList.remove('hidden');
+                    await new Promise(r => setTimeout(r, 150));
+                    icon.classList.remove('scale-75');
+                    clickEffect.classList.add('hidden');
+                    await new Promise(r => setTimeout(r, 200));
+                }
+
+                async function typeText(elementId, text) {
+                    const el = document.getElementById(elementId);
+                    el.value = '';
+                    for (let char of text) {
+                        el.value += char;
+                        await new Promise(r => setTimeout(r, 30 + Math.random() * 30));
+                    }
+                }
+            });
+        </script>
+
+        <!-- 
     ==========================================================================
     END EMBED CODE
     ==========================================================================
 -->
 
-    <script>
-        // --- SCALING LOGIC ---
-        function scaleToFit() {
-            const container = document.getElementById('main-app-container');
-            if (!container) return;
+        <script>
+            // --- SCALING LOGIC ---
+            // --- SCALING LOGIC ---
+            function scaleToFit() {
+                const container = document.getElementById('main-app-container');
+                if (!container) return;
 
-            const baseWidth = 1152;
-            const marginBuffer = 40;
+                // Original dimensions
+                const baseWidth = 1152;
+                const baseHeight = 700;
+                const marginBuffer = 60; // Moderate margin
 
-            const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+                // Available space
+                const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+                const windowHeight = document.documentElement.clientHeight || window.innerHeight;
 
-            let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+                // Calculate scales
+                const scaleX = (windowWidth - marginBuffer) / baseWidth;
+                const scaleY = (windowHeight - marginBuffer) / baseHeight;
 
-            container.style.transform = `translate(-50%, -50%) scale(${scale})`;
+                // Use the smaller scale to fit entirely
+                let scale = Math.min(scaleX, scaleY);
 
-            document.body.style.height = '100vh';
-            document.documentElement.style.overflow = 'hidden';
-        }
-        window.addEventListener('resize', scaleToFit);
-        document.addEventListener('DOMContentLoaded', scaleToFit);
-    </script>
+                // Apply scale ONLY (Flexbox handles centering)
+                container.style.transform = `scale(${scale})`;
+
+                // Ensure body allows centering but prevents scroll if content fits
+                document.body.style.height = '100vh';
+                document.documentElement.style.overflow = 'hidden';
+            }
+            window.addEventListener('resize', scaleToFit);
+            document.addEventListener('DOMContentLoaded', scaleToFit);
+        </script>
 </body>
 
 </html>
