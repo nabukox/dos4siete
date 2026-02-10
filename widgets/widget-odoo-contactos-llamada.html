@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Odoo - Contactos (Llamada)</title>
+    <title>Odoo - Contactos</title>
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -43,77 +43,62 @@
     <!-- 
     ==========================================================================
     START EMBED CODE
+    Copy from here to "END EMBED CODE" to include this widget in another page.
+    Ensure Tailwind CSS and FontAwesome are loaded in the host page.
     ==========================================================================
-    -->
+-->
 
-    <div id="widget-odoo-contactos-llamada-embed" class="relative w-full h-full font-sans">
+    <div id="widget-odoo-contactos-embed" class="relative w-full h-full font-sans overflow-hidden">
 
         <style>
             /* Scoped Styles */
-            #widget-odoo-contactos-llamada-embed {
+            #widget-odoo-contactos-embed {
                 font-family: 'Roboto', sans-serif;
             }
 
-            #widget-odoo-contactos-llamada-embed .odoo-header {
+            #widget-odoo-contactos-embed .odoo-header {
                 background-color: #714B67;
             }
 
-            #widget-odoo-contactos-llamada-embed .odoo-btn-create {
+            #widget-odoo-contactos-embed .odoo-btn-create {
                 background-color: #008784;
             }
 
-            #widget-odoo-contactos-llamada-embed .odoo-btn-create:hover {
+            #widget-odoo-contactos-embed .odoo-btn-create:hover {
                 background-color: #00706d;
             }
 
             /* Green Call Button Style */
-            #widget-odoo-contactos-llamada-embed .btn-call-green {
+            #widget-odoo-contactos-embed .btn-call-green {
                 background-color: #25D366;
                 color: white;
                 transition: transform 0.2s, background-color 0.2s;
             }
 
-            #widget-odoo-contactos-llamada-embed .btn-call-green:hover {
+            #widget-odoo-contactos-embed .btn-call-green:hover {
                 background-color: #20BA56;
                 transform: scale(1.05);
             }
 
             /* Scrollbar hiding for cleaner look */
-            #widget-odoo-contactos-llamada-embed .custom-scrollbar::-webkit-scrollbar {
+            #widget-odoo-contactos-embed .custom-scrollbar::-webkit-scrollbar {
                 width: 6px;
                 height: 6px;
             }
 
-            #widget-odoo-contactos-llamada-embed .custom-scrollbar::-webkit-scrollbar-thumb {
+            #widget-odoo-contactos-embed .custom-scrollbar::-webkit-scrollbar-thumb {
                 background: #cbd5e1;
                 border-radius: 4px;
             }
 
-            #widget-odoo-contactos-llamada-embed .custom-scrollbar::-webkit-scrollbar-track {
+            #widget-odoo-contactos-embed .custom-scrollbar::-webkit-scrollbar-track {
                 background: transparent;
-            }
-
-            /* --- VoIP Widget Styles (Imported) --- */
-            #widget-odoo-contactos-llamada-embed .animate-pulse-soft {
-                animation: keyframe-pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-            }
-
-            @keyframes keyframe-pulse-soft {
-
-                0%,
-                100% {
-                    opacity: 1;
-                }
-
-                50% {
-                    opacity: 0.8;
-                }
             }
         </style>
 
         <!-- WIDGET CONTAINER -->
         <div id="main-app-container"
-            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1152px] h-[700px] bg-white rounded-lg overflow-hidden shadow-2xl relative flex flex-col border border-gray-200 mx-auto">
+            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1152px] h-[700px] bg-white rounded-lg overflow-hidden shadow-lg flex flex-col border border-gray-200 shrink-0">
 
             <!-- 1. ODOO HEADER -->
             <div class="h-12 odoo-header flex items-center justify-between px-4 text-white shrink-0 z-20">
@@ -123,7 +108,7 @@
                         <i class="fas fa-th text-white/70"></i>
                         <span>CRM</span>
                     </div>
-                    <div class="flex text-sm gap-4 text-white/90 font-medium hidden md:flex">
+                    <div class="flex text-sm gap-4 text-white/90 font-medium flex">
                         <span class="opacity-100">Ventas</span>
                         <span class="opacity-80 hover:opacity-100 cursor-pointer">Informar</span>
                         <span class="opacity-80 hover:opacity-100 cursor-pointer">Configuración</span>
@@ -138,16 +123,17 @@
                     <div class="flex items-center gap-2">
                         <img src="https://ui-avatars.com/api/?name=Nicole+Martinez&background=random"
                             class="w-7 h-7 rounded-full">
-                        <span class="text-sm font-medium hidden sm:block">Nicole Martínez</span>
+                        <span class="text-sm font-medium block">Nicole Martínez</span>
                     </div>
                 </div>
             </div>
 
             <!-- 2. CONTROL BAR -->
             <div class="bg-white border-b border-gray-200 px-4 py-3 flex flex-col gap-3 shrink-0 z-10 shadow-sm">
+
                 <!-- Row 1: Title & Search -->
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div class="flex flex-col md:flex-row md:items-center gap-4">
+                <div class="flex flex-row items-center justify-between gap-4">
+                    <div class="flex flex-row items-center gap-4">
                         <h2 class="text-xl text-gray-700 font-normal">Clientes</h2>
                         <button
                             class="odoo-btn-create text-white text-sm font-medium px-4 py-1.5 rounded shadow-sm uppercase tracking-wide">
@@ -156,7 +142,7 @@
                     </div>
 
                     <!-- Search Bar -->
-                    <div class="flex items-center bg-transparent border-b border-gray-300 w-full md:w-80 pb-1">
+                    <div class="flex items-center bg-transparent border-b border-gray-300 w-80 pb-1">
                         <input type="text" placeholder="Buscar..."
                             class="w-full outline-none bg-transparent text-sm text-gray-600 placeholder-gray-400">
                         <i class="fas fa-search text-gray-400 text-xs"></i>
@@ -166,7 +152,7 @@
                 <!-- Row 2: Filters & Pagination -->
                 <div class="flex items-center justify-between text-gray-500 text-sm">
                     <!-- Left Filters -->
-                    <div class="flex items-center gap-4 hidden md:flex">
+                    <div class="flex items-center gap-4 flex">
                         <div class="flex items-center gap-1 cursor-pointer hover:text-gray-800 transition-colors"><i
                                 class="fas fa-filter text-gray-600"></i> Filtros</div>
                         <div class="flex items-center gap-1 cursor-pointer hover:text-gray-800 transition-colors"><i
@@ -201,36 +187,36 @@
 
             <!-- 3. CONTACTS GRID -->
             <div class="flex-1 overflow-y-auto p-6 bg-[#F0F0F0] custom-scrollbar">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-                    <!-- TEMPLATE CARD -->
-                    <!-- We need IDs or data attributes to grab info -->
+                <div class="grid grid-cols-3 gap-6">
 
                     <!-- CARD 1 -->
-                    <div class="bg-white border border-gray-200 rounded shadow-sm hover:shadow-md transition-shadow p-3 flex gap-3 items-center group contact-card"
-                        data-name="Jorge Jiménez" data-phone="+34 936 06 12 33" data-role="Cliente VIP"
-                        data-img="https://ui-avatars.com/api/?name=Jorge+Jimenez&background=c7d2fe&color=3730a3&size=128">
+                    <div
+                        class="bg-white border border-gray-200 rounded shadow-sm hover:shadow-md transition-shadow p-3 flex gap-3 items-center group">
+                        <!-- Image -->
                         <div class="w-16 h-16 shrink-0 bg-gray-200 rounded-sm overflow-hidden">
                             <img src="https://ui-avatars.com/api/?name=Jorge+Jimenez&background=c7d2fe&color=3730a3&size=128"
                                 class="w-full h-full object-cover">
                         </div>
+                        <!-- Info -->
                         <div class="flex-1 min-w-0">
                             <h3 class="font-bold text-gray-800 text-sm truncate">Jorge Jiménez</h3>
                             <div class="flex items-center justify-between mt-1">
                                 <span class="text-sm font-medium text-[#008784] truncate">+34 936 06 12 33</span>
+                                <!-- Green Call Button -->
                                 <button
                                     class="btn-call-green w-8 h-8 rounded-full flex items-center justify-center shadow-sm shrink-0">
                                     <i class="fas fa-phone text-sm transform -rotate-90"></i>
                                 </button>
                             </div>
-                            <div class="mt-1"><i class="far fa-clock text-yellow-400 text-xs"></i></div>
+                            <div class="mt-1">
+                                <i class="far fa-clock text-yellow-400 text-xs"></i>
+                            </div>
                         </div>
                     </div>
 
                     <!-- CARD 2 -->
-                    <div class="bg-white border border-gray-200 rounded shadow-sm hover:shadow-md transition-shadow p-3 flex gap-3 items-center group contact-card"
-                        data-name="Pedro Romero" data-phone="+34 932 71 81 14" data-role="Distribuidor"
-                        data-img="https://ui-avatars.com/api/?name=Pedro+Romero&background=fed7aa&color=9a3412&size=128">
+                    <div
+                        class="bg-white border border-gray-200 rounded shadow-sm hover:shadow-md transition-shadow p-3 flex gap-3 items-center group">
                         <div class="w-16 h-16 shrink-0 bg-gray-200 rounded-sm overflow-hidden">
                             <img src="https://ui-avatars.com/api/?name=Pedro+Romero&background=fed7aa&color=9a3412&size=128"
                                 class="w-full h-full object-cover">
@@ -244,14 +230,15 @@
                                     <i class="fas fa-phone text-sm transform -rotate-90"></i>
                                 </button>
                             </div>
-                            <div class="mt-1"><i class="far fa-clock text-gray-300 text-xs"></i></div>
+                            <div class="mt-1">
+                                <i class="far fa-clock text-gray-300 text-xs"></i>
+                            </div>
                         </div>
                     </div>
 
                     <!-- CARD 3 -->
-                    <div class="bg-white border border-gray-200 rounded shadow-sm hover:shadow-md transition-shadow p-3 flex gap-3 items-center group contact-card"
-                        data-name="Sara García" data-phone="+34 936 26 20 65" data-role="Lead Calif."
-                        data-img="https://ui-avatars.com/api/?name=Sara+Garcia&background=bbf7d0&color=166534&size=128">
+                    <div
+                        class="bg-white border border-gray-200 rounded shadow-sm hover:shadow-md transition-shadow p-3 flex gap-3 items-center group">
                         <div class="w-16 h-16 shrink-0 bg-gray-200 rounded-sm overflow-hidden">
                             <img src="https://ui-avatars.com/api/?name=Sara+Garcia&background=bbf7d0&color=166534&size=128"
                                 class="w-full h-full object-cover">
@@ -265,14 +252,15 @@
                                     <i class="fas fa-phone text-sm transform -rotate-90"></i>
                                 </button>
                             </div>
-                            <div class="mt-1"><i class="far fa-clock text-green-500 text-xs"></i></div>
+                            <div class="mt-1">
+                                <i class="far fa-clock text-green-500 text-xs"></i>
+                            </div>
                         </div>
                     </div>
 
                     <!-- CARD 4 -->
-                    <div class="bg-white border border-gray-200 rounded shadow-sm hover:shadow-md transition-shadow p-3 flex gap-3 items-center group contact-card"
-                        data-name="Daniella Martinez" data-phone="+34 518 90 05 59" data-role="Cliente"
-                        data-img="https://ui-avatars.com/api/?name=Daniella+Martinez&background=e9d5ff&color=6b21a8&size=128">
+                    <div
+                        class="bg-white border border-gray-200 rounded shadow-sm hover:shadow-md transition-shadow p-3 flex gap-3 items-center group">
                         <div class="w-16 h-16 shrink-0 bg-gray-200 rounded-sm overflow-hidden">
                             <img src="https://ui-avatars.com/api/?name=Daniella+Martinez&background=e9d5ff&color=6b21a8&size=128"
                                 class="w-full h-full object-cover">
@@ -286,16 +274,18 @@
                                     <i class="fas fa-phone text-sm transform -rotate-90"></i>
                                 </button>
                             </div>
-                            <div class="mt-1"><i class="far fa-clock text-green-500 text-xs"></i></div>
+                            <div class="mt-1">
+                                <i class="far fa-clock text-green-500 text-xs"></i>
+                            </div>
                         </div>
                     </div>
 
                     <!-- CARD 5 -->
-                    <div class="bg-white border border-gray-200 rounded shadow-sm hover:shadow-md transition-shadow p-3 flex gap-3 items-center group contact-card"
-                        data-name="Valentina González" data-phone="+34 936 06 87 10" data-role="Lead"
-                        data-img="https://ui-avatars.com/api/?name=Valentina+Gonzalez&background=fcd34d&color=b45309&size=128">
+                    <div
+                        class="bg-white border border-gray-200 rounded shadow-sm hover:shadow-md transition-shadow p-3 flex gap-3 items-center group">
                         <div
                             class="w-16 h-16 shrink-0 bg-amber-300 rounded-sm overflow-hidden flex items-center justify-center">
+                            <!-- Using just color background as seen in image sometimes, or simple avatar -->
                             <img src="https://ui-avatars.com/api/?name=Valentina+Gonzalez&background=fcd34d&color=b45309&size=128"
                                 class="w-full h-full object-cover opacity-90">
                         </div>
@@ -308,14 +298,15 @@
                                     <i class="fas fa-phone text-sm transform -rotate-90"></i>
                                 </button>
                             </div>
-                            <div class="mt-1"><i class="far fa-clock text-green-500 text-xs"></i></div>
+                            <div class="mt-1">
+                                <i class="far fa-clock text-green-500 text-xs"></i>
+                            </div>
                         </div>
                     </div>
 
                     <!-- CARD 6 -->
-                    <div class="bg-white border border-gray-200 rounded shadow-sm hover:shadow-md transition-shadow p-3 flex gap-3 items-center group contact-card"
-                        data-name="Benjamin Fernández" data-phone="+34 910 47 00 99" data-role="Cliente"
-                        data-img="https://ui-avatars.com/api/?name=Benjamin+Fernandez&background=d1d5db&color=1f2937&size=128">
+                    <div
+                        class="bg-white border border-gray-200 rounded shadow-sm hover:shadow-md transition-shadow p-3 flex gap-3 items-center group">
                         <div class="w-16 h-16 shrink-0 bg-gray-200 rounded-sm overflow-hidden">
                             <img src="https://ui-avatars.com/api/?name=Benjamin+Fernandez&background=d1d5db&color=1f2937&size=128"
                                 class="w-full h-full object-cover">
@@ -329,14 +320,15 @@
                                     <i class="fas fa-phone text-sm transform -rotate-90"></i>
                                 </button>
                             </div>
-                            <div class="mt-1"><i class="far fa-clock text-green-500 text-xs"></i></div>
+                            <div class="mt-1">
+                                <i class="far fa-clock text-green-500 text-xs"></i>
+                            </div>
                         </div>
                     </div>
 
                     <!-- CARD 7 -->
-                    <div class="bg-white border border-gray-200 rounded shadow-sm hover:shadow-md transition-shadow p-3 flex gap-3 items-center group contact-card"
-                        data-name="Natalia Sánchez" data-phone="+34 932 71 85 36" data-role="Cliente"
-                        data-img="https://ui-avatars.com/api/?name=Natalia+Sanchez&background=fbcfe8&color=9d174d&size=128">
+                    <div
+                        class="bg-white border border-gray-200 rounded shadow-sm hover:shadow-md transition-shadow p-3 flex gap-3 items-center group">
                         <div class="w-16 h-16 shrink-0 bg-gray-200 rounded-sm overflow-hidden">
                             <img src="https://ui-avatars.com/api/?name=Natalia+Sanchez&background=fbcfe8&color=9d174d&size=128"
                                 class="w-full h-full object-cover">
@@ -350,14 +342,15 @@
                                     <i class="fas fa-phone text-sm transform -rotate-90"></i>
                                 </button>
                             </div>
-                            <div class="mt-1"><i class="far fa-clock text-green-500 text-xs"></i></div>
+                            <div class="mt-1">
+                                <i class="far fa-clock text-green-500 text-xs"></i>
+                            </div>
                         </div>
                     </div>
 
                     <!-- CARD 8 -->
-                    <div class="bg-white border border-gray-200 rounded shadow-sm hover:shadow-md transition-shadow p-3 flex gap-3 items-center group contact-card"
-                        data-name="Camila Ortega-Lee" data-phone="+34 684 46 34 53" data-role="Cliente"
-                        data-img="https://ui-avatars.com/api/?name=Camila+Ortega&background=a5f3fc&color=164e63&size=128">
+                    <div
+                        class="bg-white border border-gray-200 rounded shadow-sm hover:shadow-md transition-shadow p-3 flex gap-3 items-center group">
                         <div class="w-16 h-16 shrink-0 bg-gray-200 rounded-sm overflow-hidden">
                             <img src="https://ui-avatars.com/api/?name=Camila+Ortega&background=a5f3fc&color=164e63&size=128"
                                 class="w-full h-full object-cover">
@@ -371,14 +364,15 @@
                                     <i class="fas fa-phone text-sm transform -rotate-90"></i>
                                 </button>
                             </div>
-                            <div class="mt-1"><i class="far fa-clock text-yellow-500 text-xs"></i></div>
+                            <div class="mt-1">
+                                <i class="far fa-clock text-yellow-500 text-xs"></i>
+                            </div>
                         </div>
                     </div>
 
                     <!-- CARD 9 -->
-                    <div class="bg-white border border-gray-200 rounded shadow-sm hover:shadow-md transition-shadow p-3 flex gap-3 items-center group contact-card"
-                        data-name="Gabriel Ruiz" data-phone="+34 932 71 69 55" data-role="Cliente"
-                        data-img="https://ui-avatars.com/api/?name=Gabriel+Ruiz&background=e5e7eb&color=374151&size=128">
+                    <div
+                        class="bg-white border border-gray-200 rounded shadow-sm hover:shadow-md transition-shadow p-3 flex gap-3 items-center group">
                         <div class="w-16 h-16 shrink-0 bg-gray-200 rounded-sm overflow-hidden">
                             <img src="https://ui-avatars.com/api/?name=Gabriel+Ruiz&background=e5e7eb&color=374151&size=128"
                                 class="w-full h-full object-cover">
@@ -392,93 +386,12 @@
                                     <i class="fas fa-phone text-sm transform -rotate-90"></i>
                                 </button>
                             </div>
-                            <div class="mt-1"><i class="far fa-clock text-pink-500 text-xs"></i></div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- 4. VOIP WIDGET (Initially Hidden) -->
-            <div id="voip-widget-container"
-                class="absolute bottom-6 right-6 w-[300px] bg-white rounded-lg shadow-2xl border border-gray-300 flex flex-col overflow-hidden z-20 hidden transition-all duration-300 transform translate-y-4 opacity-0">
-
-                <!-- Header -->
-                <div class="h-9 bg-[#714B67] flex items-center justify-between px-3 text-white shrink-0">
-                    <div class="flex items-center gap-2 font-medium text-sm">
-                        <i class="fas fa-phone-alt text-xs"></i> VoIP
-                    </div>
-                    <i class="fas fa-times text-xs opacity-70 hover:opacity-100 cursor-pointer"
-                        id="btn-close-widget"></i>
-                </div>
-
-                <!-- ACTIVE CALL STATE (Simulated Outgoing/Active) -->
-                <div id="voip-active-call" class="flex flex-col">
-                    <!-- Green Info Section -->
-                    <div class="bg-[#dcedc8] p-4 flex flex-col items-center text-center pb-6">
-                        <!-- Avatar Image -->
-                        <div class="w-16 h-16 bg-white rounded overflow-hidden shadow-sm mb-2 border border-green-100">
-                            <img id="voip-contact-img" src="" alt="Contact" class="w-full h-full object-cover">
-                        </div>
-
-                        <div id="voip-contact-name" class="text-[#2E4033] font-bold text-sm leading-tight"></div>
-                        <div id="voip-contact-role" class="text-[#4E5D52] text-xs mt-1"></div>
-                        <div class="text-[#2E7D32] text-xs mt-1 font-medium">Llamando... <span
-                                id="call-timer">00:00</span></div>
-                        <div id="voip-contact-phone" class="text-[#2E4033] text-sm mt-3 font-semibold"></div>
-                    </div>
-
-                    <!-- Actions Section -->
-                    <div class="bg-white p-4 flex flex-col gap-4">
-                        <!-- Documentos Row -->
-                        <div>
-                            <div class="text-xs text-gray-500 mb-2 font-medium">Documentos</div>
-                            <div class="flex justify-center gap-6">
-                                <button
-                                    class="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors">
-                                    <i class="far fa-envelope text-sm"></i>
-                                </button>
-                                <button
-                                    class="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors">
-                                    <i class="far fa-user text-sm"></i>
-                                </button>
-                                <button
-                                    class="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors">
-                                    <i class="far fa-clock text-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Llamada Row -->
-                        <div>
-                            <div class="text-xs text-gray-500 mb-2 font-medium">Llamada</div>
-                            <div class="flex justify-center gap-6">
-                                <button
-                                    class="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors">
-                                    <i class="fas fa-exchange-alt text-sm"></i>
-                                </button>
-                                <button
-                                    class="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors">
-                                    <i class="fas fa-microphone text-sm"></i>
-                                </button>
-                                <button
-                                    class="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors">
-                                    <i class="fas fa-pause text-sm"></i>
-                                </button>
+                            <div class="mt-1">
+                                <i class="far fa-clock text-pink-500 text-xs"></i>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Footer (Keypad + Hangup) -->
-                    <div class="border-t border-gray-100 p-3 flex justify-between items-center px-8">
-                        <button class="text-gray-400 hover:text-gray-600">
-                            <i class="fas fa-th text-lg"></i>
-                        </button>
-                        <!-- Hangup -->
-                        <button id="btn-hangup" class="text-[#D32F2F] hover:text-red-700 transform rotate-90 text-xl">
-                            <i class="fas fa-phone"></i>
-                        </button>
-                    </div>
                 </div>
             </div>
 
@@ -490,100 +403,35 @@
     ==========================================================================
     END EMBED CODE
     ==========================================================================
-    -->
+-->
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const widgetContainer = document.getElementById('voip-widget-container');
-            const btnClose = document.getElementById('btn-close-widget');
-            const btnHangup = document.getElementById('btn-hangup');
-
-            // UI Elements to update
-            const elName = document.getElementById('voip-contact-name');
-            const elRole = document.getElementById('voip-contact-role');
-            const elPhone = document.getElementById('voip-contact-phone');
-            const elImg = document.getElementById('voip-contact-img');
-            const elTimer = document.getElementById('call-timer');
-
-            let callInterval;
-
-            // 1. Handle Contact Call Clicks
-            document.querySelectorAll('.btn-call-green').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Prevent card click if any
-
-                    // Find parent card
-                    const card = btn.closest('.contact-card');
-                    if (card) {
-                        const name = card.dataset.name;
-                        const phone = card.dataset.phone;
-                        const role = card.dataset.role || 'Contacto';
-                        const img = card.dataset.img;
-
-                        startCall(name, phone, role, img);
-                    }
-                });
-            });
-
-            // 2. Start Call Function
-            function startCall(name, phone, role, img) {
-                // Update UI
-                elName.textContent = name;
-                elPhone.textContent = phone;
-                elRole.textContent = role;
-                elImg.src = img;
-
-                // Reset timer
-                clearInterval(callInterval);
-                let seconds = 0;
-                elTimer.textContent = "00:00";
-
-                // Show Widget
-                widgetContainer.classList.remove('hidden');
-                // Small delay for CSS transition
-                setTimeout(() => {
-                    widgetContainer.classList.remove('translate-y-4', 'opacity-0');
-                }, 10);
-
-                // Start timer simulation
-                callInterval = setInterval(() => {
-                    seconds++;
-                    const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
-                    const secs = (seconds % 60).toString().padStart(2, '0');
-                    elTimer.textContent = `${mins}:${secs}`;
-                }, 1000);
-            }
-
-            // 3. Close / Hangup
-            function closeWidget() {
-                widgetContainer.classList.add('translate-y-4', 'opacity-0');
-                clearInterval(callInterval);
-
-                setTimeout(() => {
-                    widgetContainer.classList.add('hidden');
-                }, 300); // Wait for transition
-            }
-
-            // Listeners
-            btnClose.addEventListener('click', closeWidget);
-            btnHangup.addEventListener('click', closeWidget);
-        });
-    </script>
-    <script>
+        // --- SCALING LOGIC ---
         // --- SCALING LOGIC ---
         function scaleToFit() {
             const container = document.getElementById('main-app-container');
             if (!container) return;
 
+            // Original dimensions
             const baseWidth = 1152;
-            const marginBuffer = 40;
+            const baseHeight = 700;
+            const marginBuffer = 60; // Moderate margin
 
+            // Available space
             const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+            const windowHeight = document.documentElement.clientHeight || window.innerHeight;
 
-            let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
+            // Calculate scales
+            const scaleX = (windowWidth - marginBuffer) / baseWidth;
+            const scaleY = (windowHeight - marginBuffer) / baseHeight;
 
+            // Use the smaller scale to fit entirely
+            let scale = Math.min(scaleX, scaleY);
+
+            // Apply Center & Scale
             container.style.transform = `translate(-50%, -50%) scale(${scale})`;
 
+            // Ensure body allows centering but prevents scroll if content fits
             document.body.style.height = '100vh';
             document.documentElement.style.overflow = 'hidden';
         }
