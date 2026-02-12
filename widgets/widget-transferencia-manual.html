@@ -7,34 +7,24 @@
     <title>Dos Siete - Escena Transferencia (Demo)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome for Icons (Abstracted usage) -->
+    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Dev dependencies -->
     <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
     <style>
-        /* Dev styles */
-        /* Dev-only centering for Absolute Pattern */
         html,
         body {
             height: 100vh;
             width: 100vw;
             background-color: transparent !important;
             overflow: hidden;
-            /* Prevent scrollbars */
             position: relative;
-            /* Context */
             margin: 0;
             padding: 0;
         }
 
         body {
             display: block;
-        }
-
-        @media (min-width: 1024px) {
-            body {
-                padding: 3rem;
-            }
         }
     </style>
 </head>
@@ -44,67 +34,33 @@
     <!-- 
     ==========================================================================
     START EMBED CODE
-    Copy from here to "END EMBED CODE" to include this widget in another page.
-    Ensure Tailwind CSS and FontAwesome are loaded in the host page.
-    
-    IMPORTANT: This widget depends on local assets:
-    - css/dos4siete-core.css
     ==========================================================================
 -->
 
     <!-- WIDGET CONTAINER -->
     <div id="main-app-container"
-        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1152px] h-[700px] bg-transparent overflow-hidden flex items-center justify-center">
+        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[750px] bg-transparent overflow-hidden flex items-center justify-center">
 
         <div id="widget-transferencia-manual-embed" class="w-full h-full font-sans border-0">
 
             <style>
                 /* Scoped Styles */
-                /* #widget-transferencia-manual-embed { } */
-
-                /* Cursor Animation Styles */
                 #demo-cursor {
                     transition: top 0.8s cubic-bezier(0.25, 1, 0.5, 1), left 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.2s;
                     z-index: 9999;
                     pointer-events: none;
                     position: fixed;
-                    /* Fixed to viewport to float over everything */
                 }
             </style>
 
             <!-- Dependencies for Embed -->
             <link rel="stylesheet" href="../assets/css/dos4siete-core.css">
 
-            <!-- CONTENEDOR HERO (50% Split Style) -->
-            <div class="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mx-auto">
+            <!-- CONTENEDOR HERO (Centered for Widget Only) -->
+            <div class="w-full h-full flex items-center justify-center mx-auto relative z-10">
 
-                <!-- COLUMNA IZQUIERDA: Texto Contexto -->
-                <div class="space-y-6 text-left order-2 lg:order-1 relative z-10">
-                    <!-- LOGO: Assuming it might be present in embed or removed. Keeping it here. -->
-                    <img src="../assets/img/logo.svg" alt="Dos Siete" class="h-10 mb-4 opacity-90">
-                    <span
-                        class="inline-block px-3 py-1 rounded-full bg-[#29ABE2]/10 text-[#29ABE2] text-sm font-bold tracking-wider">
-                        GESTIÓN INTELIGENTE
-                    </span>
-                    <h1 class="text-4xl lg:text-5xl font-bold text-[#141F4C] leading-tight">
-                        Continuidad diseñada para tu PYME.
-                    </h1>
-                    <p class="text-lg text-[#2376C9] max-w-md leading-relaxed">
-                        Transfiere llamadas entre departamentos con un solo clic. Sin hardware, sin esperas. La interfaz
-                        que
-                        potencia tu equipo.
-                    </p>
-
-                    <!-- Indicador de estado para el usuario -->
-                    <div class="pt-8 flex items-center gap-3 text-sm text-[#141F4C]/50">
-                        <div class="w-2 h-2 rounded-full bg-[#29ABE2] animate-pulse"></div>
-                        <span class="font-semibold text-blue-600">Demo Automática en curso...</span>
-                    </div>
-                </div>
-
-                <!-- COLUMNA DERECHA: Escena Simplified UI -->
-                <div
-                    class="relative w-full h-[500px] flex items-center justify-center order-1 lg:order-2 perspective-1000">
+                <!-- ESCENA WIDGET -->
+                <div class="relative w-full max-w-lg h-[650px] flex items-center justify-center perspective-1000">
 
                     <!-- Fondo decorativo abstracto (Vesica sutil) -->
                     <div
@@ -112,7 +68,6 @@
                     </div>
 
                     <!-- UI CONTAINER: Call Card -->
-                    <!-- Initial State: Incoming Call -->
                     <div id="call-card"
                         class="relative bg-white w-72 h-auto shape-card elevation-low flex flex-col items-center text-center transition-all-smooth z-20 overflow-hidden min-h-[350px] justify-center">
 
@@ -129,7 +84,6 @@
                                 <div class="absolute inset-0 rounded-full bg-[#29ABE2]/20 animate-pulse-call"></div>
                                 <div
                                     class="w-20 h-20 rounded-full bg-[#E5E7EB] overflow-hidden flex items-center justify-center">
-                                    <!-- Geometric Abstract Avatar -->
                                     <div class="w-full h-full bg-[#2376C9] opacity-20 relative">
                                         <div
                                             class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-12 h-12 bg-[#2376C9] rounded-full">
@@ -139,18 +93,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Icono llamada entrante -->
                                 <div
                                     class="absolute -bottom-2 -right-2 w-10 h-10 bg-[#29ABE2] rounded-full flex items-center justify-center border-4 border-white shadow-sm z-20">
                                     <i class="fas fa-phone text-white text-sm"></i>
                                 </div>
                             </div>
 
-                            <!-- Datos (Excepción: Texto real) -->
                             <h2 class="text-[#141F4C] text-xl font-bold mb-1">Roberto Núñez</h2>
                             <p class="text-[#2376C9] text-sm mb-8">Cliente Nuevo • +56 9 8543 2100</p>
 
-                            <!-- Botón Action -->
                             <button id="btn-answer" onclick="answerCall()"
                                 class="w-full py-3 bg-[#29ABE2] hover:bg-[#2376C9] text-white rounded-full font-semibold shadow-lg transition-transform transform active:scale-95 flex items-center justify-center gap-2 group">
                                 <i class="fas fa-phone-alt"></i>
@@ -162,7 +113,6 @@
                         <div id="state-active"
                             class="w-full hidden flex-col items-center justify-start pt-8 z-10 opacity-0 transition-opacity duration-500 absolute inset-0">
 
-                            <!-- Avatar Pequeño (Moved up) -->
                             <div class="flex flex-col items-center mb-6 mt-4">
                                 <div
                                     class="w-16 h-16 rounded-full border-4 border-white bg-[#E5E7EB] overflow-hidden shadow-sm mb-3">
@@ -182,19 +132,15 @@
                                 </div>
                             </div>
 
-                            <!-- Grid de Acciones -->
                             <div class="grid grid-cols-3 gap-4 w-full px-6 mb-6">
-                                <!-- Mute -->
                                 <div
                                     class="flex flex-col items-center gap-2 cursor-pointer opacity-50 hover:opacity-100 transition-opacity">
                                     <div
                                         class="w-12 h-12 rounded-full bg-[#F2F2F2] flex items-center justify-center text-[#141F4C]">
                                         <i class="fas fa-microphone-slash"></i>
                                     </div>
-                                    <!-- Greeking label -->
                                     <div class="greeking-title w-8 bg-[#141F4C]"></div>
                                 </div>
-                                <!-- Keypad -->
                                 <div
                                     class="flex flex-col items-center gap-2 cursor-pointer opacity-50 hover:opacity-100 transition-opacity">
                                     <div
@@ -203,7 +149,6 @@
                                     </div>
                                     <div class="greeking-title w-10 bg-[#141F4C]"></div>
                                 </div>
-                                <!-- Transfer (Highlighted) -->
                                 <div id="btn-transfer" onclick="openTransferModal()"
                                     class="flex flex-col items-center gap-2 cursor-pointer transform hover:scale-105 transition-transform">
                                     <div
@@ -220,8 +165,7 @@
                             </button>
                         </div>
 
-                        <!-- ESTADO: SUCCESS (Clean State) -->
-                        <!-- Removed background color/blur to sit cleanly on white card -->
+                        <!-- ESTADO: SUCCESS -->
                         <div id="state-success"
                             class="absolute inset-0 z-50 hidden flex flex-col items-center justify-center opacity-0 transition-all duration-500">
                             <div
@@ -242,15 +186,12 @@
                     <!-- MODAL FLOTANTE (Transfer List) -->
                     <div id="transfer-modal"
                         class="absolute top-1/2 left-1/2 transform -translate-x-1/2 translate-y-20 opacity-0 pointer-events-none w-64 bg-white shape-card elevation-high p-4 z-30 transition-all-smooth">
-                        <!-- Header Modal -->
                         <div class="flex items-center justify-between mb-4 border-b border-gray-100 pb-2">
                             <span class="text-xs font-bold text-[#141F4C] uppercase tracking-wide">Contactos</span>
                             <div class="w-2 h-2 rounded-full bg-[#29ABE2]"></div>
                         </div>
 
-                        <!-- Lista de Contactos -->
                         <div class="space-y-2">
-                            <!-- Contacto 1 -->
                             <div
                                 class="flex items-center gap-3 p-2 rounded-lg hover:bg-[#F2F2F2] cursor-pointer transition-colors group">
                                 <div
@@ -264,7 +205,6 @@
                                 <div class="w-2 h-2 rounded-full bg-green-400"></div>
                             </div>
 
-                            <!-- Contacto 2 (Target) -->
                             <div id="btn-contact-target" onclick="completeTransfer()"
                                 class="flex items-center gap-3 p-2 rounded-lg hover:bg-[#F2F2F2] cursor-pointer transition-colors group ring-1 ring-transparent hover:ring-[#29ABE2]/30">
                                 <div
@@ -278,7 +218,6 @@
                                 <i class="fas fa-chevron-right text-gray-300 group-hover:text-[#29ABE2] text-xs"></i>
                             </div>
 
-                            <!-- Contacto 3 -->
                             <div
                                 class="flex items-center gap-3 p-2 rounded-lg hover:bg-[#F2F2F2] cursor-pointer transition-colors group">
                                 <div
@@ -298,30 +237,21 @@
 
             <!-- CURSOR ELEMENT -->
             <div id="demo-cursor" class="fixed top-0 left-0 hidden items-center justify-center">
-                <!-- Pointer Icon -->
                 <i class="fas fa-hand-pointer text-gray-800 text-3xl drop-shadow-xl border-white"
                     style="-webkit-text-stroke: 1px white;"></i>
             </div>
 
             <script>
-                // --- LOGIC FOR THE SCENE & AUTOMATION ---
-
                 function answerCall() {
-                    const callCard = document.getElementById('call-card');
                     const cardHeader = document.getElementById('card-header');
                     const stateIncoming = document.getElementById('state-incoming');
                     const stateActive = document.getElementById('state-active');
 
-                    // 1. Hide Incoming
                     stateIncoming.style.opacity = '0';
                     setTimeout(() => {
                         stateIncoming.classList.add('hidden');
                         stateActive.classList.remove('hidden');
-
-                        // 2. Expand Header (Morph effect)
                         cardHeader.style.height = '175px';
-
-                        // 3. Show Active controls
                         setTimeout(() => {
                             stateActive.style.opacity = '1';
                         }, 100);
@@ -330,9 +260,8 @@
 
                 function openTransferModal() {
                     const transferModal = document.getElementById('transfer-modal');
-                    // Float the modal in
                     transferModal.classList.remove('pointer-events-none', 'translate-y-20', 'opacity-0', 'hidden');
-                    transferModal.classList.add('translate-y-12', 'opacity-100'); // Slightly offset
+                    transferModal.classList.add('translate-y-12', 'opacity-100');
                 }
 
                 function completeTransfer() {
@@ -341,7 +270,6 @@
                     const cardHeader = document.getElementById('card-header');
                     const stateSuccess = document.getElementById('state-success');
 
-                    // 1. Ocultar Modal (Desaparece)
                     transferModal.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
                     transferModal.classList.remove('translate-y-12');
 
@@ -349,23 +277,14 @@
                         transferModal.classList.add('hidden');
                     }, 500);
 
-                    // 2. Limpiar la tarjeta (Fade out controles activos y retraer header)
                     stateActive.style.opacity = '0';
-                    cardHeader.style.height = '0'; // Vuelve a blanco
+                    cardHeader.style.height = '0';
 
                     setTimeout(() => {
-                        // Ocultar estructura activa para asegurar limpieza
                         stateActive.classList.add('hidden');
-
-                        // 3. Mostrar Success Overlay Centrado
                         stateSuccess.classList.remove('hidden');
-                        // Forzar reflow
                         void stateSuccess.offsetWidth;
-
                         stateSuccess.style.opacity = '1';
-                        // Animación de entrada para el icono
-                        const icon = stateSuccess.querySelector('div');
-                        icon.classList.add('bounce-in');
                     }, 300);
                 }
 
@@ -376,21 +295,14 @@
                     const cardHeader = document.getElementById('card-header');
                     const stateIncoming = document.getElementById('state-incoming');
 
-                    // Reset everything to initial state
                     stateSuccess.style.opacity = '0';
                     transferModal.classList.add('pointer-events-none', 'translate-y-20', 'opacity-0');
 
-                    const icon = stateSuccess.querySelector('div');
-                    icon.classList.remove('bounce-in');
-
                     setTimeout(() => {
                         stateSuccess.classList.add('hidden');
-
                         stateActive.style.opacity = '0';
                         cardHeader.style.height = '0';
                         stateActive.classList.add('hidden');
-
-                        // Volver a Incoming
                         stateIncoming.classList.remove('hidden');
                         setTimeout(() => {
                             stateIncoming.style.opacity = '1';
@@ -398,8 +310,7 @@
                     }, 300);
                 }
 
-                // --- AUTOMATION SCRIPT ---
-
+                // --- AUTOMATION ---
                 const cursor = document.getElementById('demo-cursor');
                 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
@@ -407,113 +318,71 @@
                     const el = document.querySelector(selector);
                     if (!el) return;
                     const rect = el.getBoundingClientRect();
-
-                    // Show cursor if hidden
                     cursor.classList.remove('hidden');
                     cursor.classList.add('flex');
-
                     const targetX = rect.left + rect.width / 2 + offsetX;
                     const targetY = rect.top + rect.height / 2 + offsetY;
-
                     cursor.style.left = `${targetX}px`;
                     cursor.style.top = `${targetY}px`;
-
-                    await sleep(900); // Wait for movement to complete
+                    await sleep(900);
                 }
 
                 async function clickElement(selector) {
                     const el = document.querySelector(selector);
                     if (!el) return;
-
-                    // Visual Click
                     cursor.style.transform = 'scale(0.8)';
                     await sleep(150);
                     cursor.style.transform = 'scale(1)';
-
-                    // Actual Click
                     el.click();
-                    await sleep(500); // Post click pause
+                    await sleep(500);
                 }
 
                 async function runDemoLoop() {
-                    while (true) { // Infinite Loop
-
-                        // 0. Wait Initial
+                    while (true) {
                         await sleep(1500);
-
-                        // 1. Click Answer
                         await moveCursorTo('#btn-answer');
                         await sleep(500);
                         await clickElement('#btn-answer');
-
-                        // 2. Wait for transition to active call
                         await sleep(2000);
-
-                        // 3. Click Transfer
-                        // Need to locate the transfer button carefully as it might move slightly or transform
                         await moveCursorTo('#btn-transfer');
                         await sleep(500);
                         await clickElement('#btn-transfer');
-
-                        // 4. Wait for modal
                         await sleep(1500);
-
-                        // 5. Click Target Contact
                         await moveCursorTo('#btn-contact-target');
                         await sleep(500);
                         await clickElement('#btn-contact-target');
-
-                        // 6. Wait for Success
                         await sleep(3000);
-
-                        // 7. Click Reset
                         await moveCursorTo('#btn-reset');
                         await sleep(500);
                         await clickElement('#btn-reset');
-
-                        // 8. Wait for reset
                         await sleep(2000);
-
-                        // Loop continues...
                     }
                 }
 
-                // Start Demo on Load
                 document.addEventListener('DOMContentLoaded', () => {
-                    // Initial cursor position (off screen or somewhere safe)
                     cursor.style.left = '50%';
                     cursor.style.top = '110%';
                     setTimeout(runDemoLoop, 1000);
                 });
-
             </script>
         </div>
 
-        <!-- 
+    </div>
+    <!-- 
     ==========================================================================
     END EMBED CODE
     ==========================================================================
 -->
 
-    </div>
-    </div>
-    <!-- END WIDGET CONTAINER -->
-
     <script>
-        // --- SCALING LOGIC ---
         function scaleToFit() {
             const container = document.getElementById('main-app-container');
             if (!container) return;
-
-            const baseWidth = 1152;
+            const baseWidth = 600;
             const marginBuffer = 40;
-
             const windowWidth = document.documentElement.clientWidth || window.innerWidth;
-
             let scale = Math.min(windowWidth / (baseWidth + marginBuffer), 1);
-
             container.style.transform = `translate(-50%, -50%) scale(${scale})`;
-
             document.body.style.height = '100vh';
             document.documentElement.style.overflow = 'hidden';
         }

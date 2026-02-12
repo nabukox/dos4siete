@@ -52,6 +52,27 @@
             /* Scoped Styles */
             #widget-colas-demo-embed {
                 font-family: 'Outfit', sans-serif;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+                /* Safety margin for shadows */
+                box-sizing: border-box;
+            }
+
+            #main-app-container {
+                width: 100% !important;
+                max-width: 1100px !important;
+                /* Optional max-width for very wide screens */
+                height: auto !important;
+                max-height: 100% !important;
+                /* Restore aesthetics from core.css */
+                border-radius: var(--r-card) !important;
+                border: 1px solid var(--c-border) !important;
+                box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.1) !important;
+                overflow: hidden;
             }
         </style>
 
@@ -61,10 +82,10 @@
             <i class="fas fa-hand-pointer text-3xl" style="text-shadow: 2px 2px 0px white;"></i>
         </div>
 
-        <!-- MAIN APP CONTAINER with Absolute Centering -->
-        <!-- Fixed width 950px for dashboard layout -->
-        <div id="main-app-container"
-            class="app-container absolute top-1/2 left-1/2 shadow-none w-[950px] transform -translate-x-1/2 -translate-y-1/2">
+        <!-- MAIN APP CONTAINER -->
+
+        <div id="main-app-container" class="app-container relative w-full h-full transition-all duration-300">
+
 
             <!-- HEADER -->
             <div class="app-header">
@@ -208,33 +229,7 @@
 
         </div>
 
-        <!-- SCALING SCRIPT -->
-        <script>
-            function scaleToFit() {
-                const container = document.getElementById('main-app-container');
-                if (!container) return;
 
-                const baseWidth = 950;
-                const baseHeight = 700; // Estimated height based on content
-                const marginBuffer = 40;
-
-                const windowWidth = document.documentElement.clientWidth || window.innerWidth;
-                const windowHeight = document.documentElement.clientHeight || window.innerHeight;
-
-                let scale = Math.min(
-                    windowWidth / (baseWidth + marginBuffer),
-                    windowHeight / (baseHeight + marginBuffer),
-                    1
-                );
-
-                container.style.transform = `translate(-50%, -50%) scale(${scale})`;
-
-                document.body.style.height = '100vh';
-                document.documentElement.style.overflow = 'hidden';
-            }
-            window.addEventListener('resize', scaleToFit);
-            document.addEventListener('DOMContentLoaded', scaleToFit);
-        </script>
 
         <!-- INITIALIZATION -->
         <script>
