@@ -57,8 +57,8 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                padding: 20px;
-                /* Safety margin for shadows */
+                padding: 30px;
+                /* Increased safety margin for shadows */
                 box-sizing: border-box;
             }
 
@@ -68,10 +68,10 @@
                 /* Optional max-width for very wide screens */
                 height: auto !important;
                 max-height: 100% !important;
-                /* Restore aesthetics from core.css */
+                /* Compact aesthetics */
                 border-radius: var(--r-card) !important;
                 border: 1px solid var(--c-border) !important;
-                box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.1) !important;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;
                 overflow: hidden;
             }
         </style>
@@ -92,9 +92,7 @@
                 <div>
                     <div class="header-title">
                         <img src="../assets/img/logo.svg" alt="Dos Siete" class="logo-small h-6 w-auto">
-                        <span style="color: var(--c-brand-dark);">Soporte</span> <span class="header-subtitle">(De
-                            arriba a
-                            abajo)</span>
+                        <span style="color: var(--c-brand-dark);">Soporte</span>
                     </div>
                     <div style="font-size: 11px; color: var(--c-text-light); margin-top: 4px;">
                         Agentes: <b id="total-agents">4</b> &bull; Capacidad: 0.00%
