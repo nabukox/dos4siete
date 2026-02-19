@@ -244,43 +244,43 @@
 
             <!-- 3. VOIP WIDGET (Bottom Left Absolute) -->
             <div
-                class="absolute bottom-6 left-6 w-[380px] bg-white rounded-lg shadow-2xl border border-gray-300 flex flex-col overflow-hidden z-20">
+                class="absolute bottom-6 left-6 w-[460px] bg-white rounded-xl shadow-2xl border border-gray-300 flex flex-col overflow-hidden z-20">
 
                 <!-- Header -->
-                <div class="h-12 bg-[#714B67] flex items-center justify-between px-4 text-white shrink-0">
-                    <div class="flex items-center gap-2 font-medium text-base">
-                        <i class="fas fa-phone-alt text-sm"></i> VoIP
+                <div class="h-14 bg-[#714B67] flex items-center justify-between px-5 text-white shrink-0">
+                    <div class="flex items-center gap-3 font-medium text-lg">
+                        <i class="fas fa-phone-alt text-base"></i> VoIP
                     </div>
-                    <i class="fas fa-times text-xs opacity-70 hover:opacity-100 cursor-pointer"></i>
+                    <i class="fas fa-times text-sm opacity-70 hover:opacity-100 cursor-pointer"></i>
                 </div>
 
                 <!-- INCOMING CALL STATE (Initially Visible) -->
                 <div id="voip-incoming" class="flex flex-col flex-1 h-full bg-[#E8F5E9] animate-pulse-soft">
-                    <div class="flex-1 flex flex-col items-center justify-center p-6 text-center">
-                        <div class="text-[#2E4033] text-base mb-6 font-medium">Llamada entrante...</div>
+                    <div class="flex-1 flex flex-col items-center justify-center p-8 text-center">
+                        <div class="text-[#2E4033] text-lg mb-8 font-medium">Llamada entrante...</div>
 
                         <!-- Avatar Image -->
                         <div
-                            class="w-24 h-24 bg-white rounded overflow-hidden shadow-sm mb-4 border-2 border-green-100 animate-bounce-soft">
+                            class="w-32 h-32 bg-white rounded-full overflow-hidden shadow-sm mb-6 border-4 border-green-100 animate-bounce-soft">
                             <img src="https://ui-avatars.com/api/?name=Daniel+Estrada&background=fff&color=333&size=128"
                                 alt="Daniel" class="w-full h-full object-cover">
                         </div>
 
-                        <div class="text-[#1A2E22] font-bold text-xl leading-tight mb-2">Daniel Estrada</div>
-                        <div class="text-sm text-gray-500 mb-3">Técnico Dos4siete</div>
-                        <div class="text-[#2E4033] text-base font-mono">621 227 447</div>
+                        <div class="text-[#1A2E22] font-bold text-3xl leading-tight mb-3">Daniel Estrada</div>
+                        <div class="text-base text-gray-500 mb-4">Técnico Dos4siete</div>
+                        <div class="text-[#2E4033] text-xl font-mono tracking-wider">621 227 447</div>
                     </div>
 
                     <!-- Footer Call Actions -->
-                    <div class="bg-white h-24 flex items-center justify-center gap-10 px-8 border-t border-gray-100">
+                    <div class="bg-white h-28 flex items-center justify-center gap-12 px-10 border-t border-gray-100">
                         <button
-                            class="w-14 h-14 rounded-full bg-[#D32F2F] text-white shadow-md flex items-center justify-center">
-                            <i class="fas fa-phone-slash text-xl transform rotate-90"></i>
+                            class="w-16 h-16 rounded-full bg-[#D32F2F] text-white shadow-md flex items-center justify-center hover:bg-red-700 transition-colors">
+                            <i class="fas fa-phone-slash text-2xl transform rotate-90"></i>
                         </button>
 
                         <button id="btn-answer-call"
-                            class="w-14 h-14 rounded-full bg-[#2E7D32] text-white shadow-md hover:bg-green-600 transition-colors flex items-center justify-center animate-pulse">
-                            <i class="fas fa-phone text-xl transform rotate-90"></i>
+                            class="w-16 h-16 rounded-full bg-[#2E7D32] text-white shadow-md hover:bg-green-600 transition-colors flex items-center justify-center animate-pulse">
+                            <i class="fas fa-phone text-2xl transform rotate-90"></i>
                         </button>
                     </div>
                 </div>
@@ -289,64 +289,65 @@
                 <div id="voip-active-call" class="flex flex-col hidden">
 
                     <!-- Green Info Section -->
-                    <div class="bg-[#dcedc8] p-6 flex flex-col items-center text-center pb-8">
+                    <div class="bg-[#dcedc8] p-8 flex flex-col items-center text-center pb-10">
                         <!-- Avatar Image -->
-                        <div class="w-20 h-20 bg-white rounded overflow-hidden shadow-sm mb-3 border border-green-100">
+                        <div
+                            class="w-28 h-28 bg-white rounded overflow-hidden shadow-sm mb-4 border-2 border-green-100">
                             <img src="https://ui-avatars.com/api/?name=Daniel+Estrada&background=fff&color=333&size=128"
                                 alt="Daniel" class="w-full h-full object-cover">
                         </div>
 
-                        <div class="text-[#2E4033] font-bold text-base leading-tight">Daniel Estrada - Técnico Dos4siete
+                        <div class="text-[#2E4033] font-bold text-xl leading-tight">Daniel Estrada - Técnico Dos4siete
                         </div>
-                        <div class="text-[#4E5D52] text-sm mt-2">Llamada de Daniel Estrada - Técnico Dos4siete</div>
-                        <div class="text-[#2E7D32] text-sm mt-2 font-medium">Duración de la llamada: <span
+                        <div class="text-[#4E5D52] text-base mt-3">Llamada de Daniel Estrada - Técnico Dos4siete</div>
+                        <div class="text-[#2E7D32] text-base mt-3 font-medium">Duración de la llamada: <span
                                 id="call-timer">00:19</span></div>
-                        <div class="text-[#2E4033] text-base mt-4 font-semibold">621227447</div>
+                        <div class="text-[#2E4033] text-xl mt-5 font-semibold tracking-wider">621227447</div>
                     </div>
 
                     <!-- Actions Section -->
-                    <div class="bg-white p-6 flex flex-col gap-6">
+                    <div class="bg-white p-8 flex flex-col gap-8">
 
                         <!-- Documentos Row -->
                         <div>
-                            <div class="text-sm text-gray-500 mb-3 font-medium">Documentos</div>
-                            <div class="flex justify-center gap-8">
+                            <div class="text-base text-gray-500 mb-4 font-medium">Documentos</div>
+                            <div class="flex justify-center gap-10">
                                 <!-- Email -->
                                 <button
-                                    class="w-12 h-12 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors">
-                                    <i class="far fa-envelope text-base"></i>
+                                    class="w-14 h-14 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors">
+                                    <i class="far fa-envelope text-lg"></i>
                                 </button>
                                 <!-- User Profile -->
                                 <button
-                                    class="w-12 h-12 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors">
-                                    <i class="far fa-user text-base"></i>
+                                    class="w-14 h-14 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors">
+                                    <i class="far fa-user text-lg"></i>
                                 </button>
                                 <!-- Schedule Activity (CLOCK) -->
                                 <button id="btn-schedule-activity"
-                                    class="w-12 h-12 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors relative">
-                                    <i class="far fa-clock text-base"></i>
+                                    class="w-14 h-14 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors relative">
+                                    <i class="far fa-clock text-lg"></i>
                                 </button>
                             </div>
                         </div>
 
                         <!-- Llamada Row -->
                         <div>
-                            <div class="text-sm text-gray-500 mb-3 font-medium">Llamada</div>
-                            <div class="flex justify-center gap-8">
+                            <div class="text-base text-gray-500 mb-4 font-medium">Llamada</div>
+                            <div class="flex justify-center gap-10">
                                 <!-- Transfer -->
                                 <button
-                                    class="w-12 h-12 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors">
-                                    <i class="fas fa-exchange-alt text-base"></i>
+                                    class="w-14 h-14 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors">
+                                    <i class="fas fa-exchange-alt text-lg"></i>
                                 </button>
                                 <!-- Mute -->
                                 <button
-                                    class="w-12 h-12 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors">
-                                    <i class="fas fa-microphone text-base"></i>
+                                    class="w-14 h-14 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors">
+                                    <i class="fas fa-microphone text-lg"></i>
                                 </button>
                                 <!-- Pause -->
                                 <button
-                                    class="w-12 h-12 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors">
-                                    <i class="fas fa-pause text-base"></i>
+                                    class="w-14 h-14 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors">
+                                    <i class="fas fa-pause text-lg"></i>
                                 </button>
                             </div>
                         </div>
@@ -354,12 +355,12 @@
                     </div>
 
                     <!-- Footer (Keypad + Hangup) -->
-                    <div class="border-t border-gray-100 p-4 flex justify-between items-center px-10">
+                    <div class="border-t border-gray-100 p-5 flex justify-between items-center px-12">
                         <button class="text-gray-400 hover:text-gray-600">
-                            <i class="fas fa-th text-2xl"></i>
+                            <i class="fas fa-th text-3xl"></i>
                         </button>
                         <!-- Hangup -->
-                        <button class="text-[#D32F2F] hover:text-red-700 transform rotate-90 text-2xl">
+                        <button class="text-[#D32F2F] hover:text-red-700 transform rotate-90 text-3xl">
                             <i class="fas fa-phone"></i>
                         </button>
                     </div>
@@ -371,53 +372,54 @@
             <div id="modal-activity"
                 class="absolute inset-0 bg-black/20 z-50 hidden flex items-center justify-center backdrop-blur-[1px]">
                 <div
-                    class="bg-white w-[600px] rounded xl shadow-2xl flex flex-col animate-scale-in transform scale-95 transition-transform duration-200">
+                    class="bg-white w-[750px] rounded-2xl shadow-2xl flex flex-col animate-scale-in transform scale-95 transition-transform duration-200">
                     <!-- Modal Header -->
                     <div
-                        class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50 rounded-t">
-                        <h3 class="font-medium text-lg text-gray-700">Planificar Actividad</h3>
-                        <button id="close-modal" class="text-gray-400 hover:text-gray-600 text-xl"><i
+                        class="px-8 py-5 border-b border-gray-200 flex justify-between items-center bg-gray-50 rounded-t-2xl">
+                        <h3 class="font-medium text-xl text-gray-700">Planificar Actividad</h3>
+                        <button id="close-modal" class="text-gray-400 hover:text-gray-600 text-2xl"><i
                                 class="fas fa-times"></i></button>
                     </div>
                     <!-- Modal Body -->
-                    <div class="p-8">
-                        <div class="mb-5">
-                            <label class="block text-sm font-bold text-gray-500 uppercase tracking-wide mb-2">Tipo de
+                    <div class="p-10">
+                        <div class="mb-6">
+                            <label class="block text-base font-bold text-gray-500 uppercase tracking-wide mb-3">Tipo de
                                 Actividad</label>
-                            <select class="w-full border border-gray-300 rounded p-3 text-base text-gray-700 bg-white">
+                            <select class="w-full border border-gray-300 rounded p-4 text-lg text-gray-700 bg-white">
                                 <option>Llamada</option>
                                 <option>Correo electrónico</option>
                                 <option>Reunión</option>
                                 <option>Por hacer</option>
                             </select>
                         </div>
-                        <div class="mb-5">
-                            <div class="mb-5">
+                        <div class="mb-6">
+                            <div class="mb-6">
                                 <label
-                                    class="block text-sm font-bold text-gray-500 uppercase tracking-wide mb-2">Resumen</label>
+                                    class="block text-base font-bold text-gray-500 uppercase tracking-wide mb-3">Resumen</label>
                                 <input type="text" id="input-summary" value=""
-                                    class="w-full border border-gray-300 rounded p-3 text-base text-gray-700 focus:border-indigo-500 outline-none">
+                                    class="w-full border border-gray-300 rounded p-4 text-lg text-gray-700 focus:border-indigo-500 outline-none">
                             </div>
-                            <div class="mb-5">
-                                <label class="block text-sm font-bold text-gray-500 uppercase tracking-wide mb-2">Fecha
+                            <div class="mb-6">
+                                <label
+                                    class="block text-base font-bold text-gray-500 uppercase tracking-wide mb-3">Fecha
                                     de vencimiento</label>
                                 <input type="date"
-                                    class="w-full border border-gray-300 rounded p-3 text-base text-gray-700">
+                                    class="w-full border border-gray-300 rounded p-4 text-lg text-gray-700">
                             </div>
                             <div class="mb-0">
                                 <label
-                                    class="block text-sm font-bold text-gray-500 uppercase tracking-wide mb-2">Notas</label>
+                                    class="block text-base font-bold text-gray-500 uppercase tracking-wide mb-3">Notas</label>
                                 <textarea id="input-notes"
-                                    class="w-full border border-gray-300 rounded p-3 text-base text-gray-700 h-28 resize-none"></textarea>
+                                    class="w-full border border-gray-300 rounded p-4 text-lg text-gray-700 h-32 resize-none"></textarea>
                             </div>
                         </div>
                         <!-- Modal Footer -->
                         <div
-                            class="px-6 py-4 border-t border-gray-200 bg-gray-50 rounded-b flex justify-end gap-3 mt-4">
+                            class="px-8 py-5 border-t border-gray-200 bg-gray-50 rounded-b-2xl flex justify-end gap-4 mt-6">
                             <button
-                                class="px-5 py-2.5 text-base text-gray-600 hover:text-gray-800 font-medium">Descartar</button>
+                                class="px-6 py-3 text-lg text-gray-600 hover:text-gray-800 font-medium">Descartar</button>
                             <button id="btn-schedule-submit"
-                                class="px-5 py-2.5 text-base bg-[#714B67] text-white rounded hover:bg-[#5D3D55] font-medium shadow-sm">Planificar</button>
+                                class="px-6 py-3 text-lg bg-[#714B67] text-white rounded-lg hover:bg-[#5D3D55] font-medium shadow-sm">Planificar</button>
                         </div>
                     </div>
                 </div>
