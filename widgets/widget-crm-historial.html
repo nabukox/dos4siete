@@ -41,6 +41,14 @@
             /* Scoped Styles */
             #widget-crm-historial-embed {
                 font-family: 'Outfit', sans-serif;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                height: 100vh;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
             }
 
             /* Skeleton Pulse Animation */
@@ -85,12 +93,24 @@
             #widget-crm-historial-embed .timeline-item:last-child .timeline-line::before {
                 display: none;
             }
+
+            /* Pop-out Animation Styles */
+            .popout-animate-in {
+                opacity: 1 !important;
+                transform: translate(-50%, -50%) scale(1) !important;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            }
+
+            .popout-animate-out {
+                opacity: 0 !important;
+                transform: translate(-50%, -50%) scale(0.8) !important;
+            }
         </style>
 
         <!-- WIDGET CONTAINER -->
-        <!-- Fixed width 1152px -->
+        <!-- Fixed width 900px, flex centered -->
         <div id="main-app-container"
-            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1152px] h-[800px] bg-white rounded-lg overflow-hidden shadow-lg flex flex-col border border-gray-200">
+            class="relative w-[900px] h-[900px] bg-white rounded-lg overflow-hidden shadow-2xl flex flex-col border border-gray-200 shrink-0 mx-auto">
 
             <!-- 1. TOP NAVBAR -->
             <div class="h-14 bg-[#1E293B] flex items-center px-4 justify-between shrink-0">
@@ -126,68 +146,10 @@
             </div>
 
             <!-- 2. MAIN LAYOUT -->
-            <div class="flex flex-1 overflow-hidden">
+            <div class="flex flex-1 overflow-hidden relative">
 
-                <!-- COL 1: LEFT SIDEBAR (Skeleton List) -->
-                <div class="w-64 bg-gray-50 border-r border-gray-200 p-4 flex flex-col gap-4 shrink-0">
-
-                    <!-- Back arrow + Title Skeleton -->
-                    <div class="flex items-center gap-3 mb-2">
-                        <div class="w-4 h-4 skeleton-bar"></div>
-                        <div class="w-32 h-4 skeleton-bar"></div>
-                    </div>
-
-                    <!-- List Items -->
-                    <div class="space-y-3">
-                        <!-- Item 1 -->
-                        <div
-                            class="flex justify-between items-center p-2 rounded bg-white border border-gray-100 shadow-sm">
-                            <div class="space-y-2">
-                                <div class="w-24 h-3 skeleton-bar"></div>
-                                <div class="w-16 h-2 skeleton-bar opacity-60"></div>
-                            </div>
-                            <div class="w-8 h-3 skeleton-bar"></div>
-                        </div>
-                        <!-- Item 2 -->
-                        <div
-                            class="flex justify-between items-center p-2 rounded bg-white border border-gray-100 shadow-sm opacity-60">
-                            <div class="space-y-2">
-                                <div class="w-20 h-3 skeleton-bar"></div>
-                                <div class="w-12 h-2 skeleton-bar opacity-60"></div>
-                            </div>
-                            <div class="w-8 h-3 skeleton-bar"></div>
-                        </div>
-                        <!-- Item 3 -->
-                        <div
-                            class="flex justify-between items-center p-2 rounded bg-white border border-gray-100 shadow-sm opacity-60">
-                            <div class="space-y-2">
-                                <div class="w-22 h-3 skeleton-bar"></div>
-                                <div class="w-14 h-2 skeleton-bar opacity-60"></div>
-                            </div>
-                            <div class="w-8 h-3 skeleton-bar"></div>
-                        </div>
-                        <!-- Item 4 -->
-                        <div
-                            class="flex justify-between items-center p-2 rounded bg-white border border-gray-100 shadow-sm opacity-60">
-                            <div class="space-y-2">
-                                <div class="w-24 h-3 skeleton-bar"></div>
-                                <div class="w-10 h-2 skeleton-bar opacity-60"></div>
-                            </div>
-                            <div class="w-8 h-3 skeleton-bar"></div>
-                        </div>
-
-                        <!-- More skeleton items to resemble the "Lista relacionada" vertical menu -->
-                        <div class="pt-4 border-t border-gray-200 mt-4 space-y-3">
-                            <div class="w-32 h-3 skeleton-bar"></div>
-                            <div class="w-28 h-3 skeleton-bar"></div>
-                            <div class="w-24 h-3 skeleton-bar"></div>
-                            <div class="w-30 h-3 skeleton-bar"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- COL 2: MAIN CONTENT (Timeline) -->
-                <div class="flex-1 bg-white p-6 overflow-y-auto">
+                <!-- MAIN CONTENT (Timeline) -->
+                <div class="flex-1 bg-white p-8 overflow-y-auto">
 
                     <!-- Header Info -->
                     <div class="mb-6 flex justify-between items-start">
@@ -386,14 +348,93 @@
 
         </div>
 
-        <!-- SCALING SCRIPT -->
+        <!-- POP-OUT HISTORY CARD (ZOOMED TIMELINE) -->
+        <div id="history-popout-card"
+            class="absolute top-1/2 left-1/2 w-[420px] bg-white rounded-2xl shadow-2xl border border-gray-200 z-50 p-6 transition-all duration-700 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] opacity-0 transform -translate-x-1/2 -translate-y-1/2 scale-75 pointer-events-none">
+
+            <div class="mb-4 border-b-2 border-gray-100 pb-2 flex justify-between items-end">
+                <h3 class="font-bold text-gray-800 text-base border-b-4 border-transparent inline-block pb-1">
+                    Historial
+                </h3>
+                <div class="bg-blue-50 text-[#29ABE2] px-2 py-0.5 rounded-full text-[10px] font-bold animate-pulse">
+                    Nuevos Eventos
+                </div>
+            </div>
+
+            <div class="space-y-4 relative mb-1">
+                <!-- Timeline Connector Line -->
+                <div class="absolute top-4 bottom-4 left-[14px] w-1 bg-gray-200 z-0 rounded-full"></div>
+
+                <!-- Timeline Item 1 -->
+                <div class="relative pl-12 bg-blue-50/30 -ml-2 p-2 rounded-lg border border-blue-100/50">
+                    <!-- Icon -->
+                    <div
+                        class="absolute left-2 top-2 w-8 h-8 rounded-full border-2 border-red-200 bg-white flex items-center justify-center z-10 shadow-sm">
+                        <i class="fas fa-phone-slash text-red-500 text-sm transform rotate-90"></i>
+                    </div>
+
+                    <div class="flex gap-2.5 items-start">
+                        <span class="text-gray-500 text-[11px] font-semibold w-8 pt-1 text-right mt-0.5">14:31</span>
+                        <div>
+                            <div class="text-[13px] text-gray-800 mb-0.5 leading-snug">
+                                <span class="font-bold">Llamada añadido</span> - <span
+                                    class="text-[#29ABE2] hover:underline cursor-pointer">Llamada perdida de Juan Pérez
+                                    (+34 600...)</span>
+                            </div>
+                            <div class="text-[10px] text-gray-500 font-medium">por Agente Soporte Ene 14, 2026</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 2 -->
+                <div class="relative pl-12 bg-white -ml-2 p-2">
+                    <!-- Icon -->
+                    <div
+                        class="absolute left-2 top-2 w-8 h-8 rounded-full border-2 border-blue-200 bg-white flex items-center justify-center z-10 shadow-sm">
+                        <i class="fas fa-phone text-blue-500 text-sm transform rotate-90"></i>
+                    </div>
+
+                    <div class="flex gap-2.5 items-start">
+                        <span class="text-gray-500 text-[11px] font-semibold w-8 pt-1 text-right mt-0.5">14:25</span>
+                        <div>
+                            <div class="text-[13px] text-gray-800 mb-0.5 leading-snug">
+                                <span class="font-bold">Llamada perdida</span>
+                            </div>
+                            <div class="text-[10px] text-gray-500 font-medium">por Ene 14, 2026</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 3 -->
+                <div class="relative pl-12 bg-white -ml-2 p-2">
+                    <!-- Icon -->
+                    <div
+                        class="absolute left-2 top-2 w-8 h-8 rounded-full border-2 border-blue-200 bg-white flex items-center justify-center z-10 shadow-sm">
+                        <i class="fas fa-phone text-blue-500 text-sm transform rotate-90"></i>
+                    </div>
+
+                    <div class="flex gap-2.5 items-start">
+                        <span class="text-gray-500 text-[11px] font-semibold w-8 pt-1 text-right mt-0.5">14:23</span>
+                        <div>
+                            <div class="text-[13px] text-gray-800 mb-0.5 leading-snug">
+                                <span class="font-bold">Llamada perdida</span>
+                            </div>
+                            <div class="text-[10px] text-gray-500 font-medium">por Ene 14, 2026</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- SCALING & ANIMATION SCRIPT -->
         <script>
             function scaleToFit() {
                 const container = document.getElementById('main-app-container');
                 if (!container) return;
 
-                const baseWidth = 1152;
-                const baseHeight = 800; // Define base height
+                const baseWidth = 900;
+                const baseHeight = 900;
                 const marginBuffer = 40;
 
                 const windowWidth = document.documentElement.clientWidth || window.innerWidth;
@@ -404,18 +445,49 @@
 
                 let scale = Math.min(widthRatio, heightRatio, 1);
 
-                container.style.transform = `translate(-50%, -50%) scale(${scale})`;
+                container.style.transform = `scale(${scale})`;
+                container.style.transformOrigin = 'center center';
 
+                // Ensure body allows centering
                 document.body.style.height = '100vh';
                 document.documentElement.style.overflow = 'hidden';
-
-                // Optional: Backup centering
-                document.body.style.display = 'flex';
-                document.body.style.alignItems = 'center';
-                document.body.style.justifyContent = 'center';
             }
+
+            // Pop-out Animation Sequence Loop
+            function startHistoryAnimation() {
+                const card = document.getElementById('history-popout-card');
+                if (!card) return;
+
+                function playCycle() {
+                    // Reset classes hidden state
+                    card.classList.remove('popout-animate-out', 'popout-animate-in');
+                    card.classList.add('opacity-0', 'scale-75');
+
+                    // 1. Show
+                    setTimeout(() => {
+                        card.classList.remove('opacity-0', 'scale-75');
+                        card.classList.add('popout-animate-in');
+
+                        // 2. Hide after 4 seconds
+                        setTimeout(() => {
+                            card.classList.remove('popout-animate-in');
+                            card.classList.add('popout-animate-out');
+                        }, 4000);
+                    }, 500); // 500ms delay before showing
+                }
+
+                // Initial play
+                playCycle();
+
+                // Loop every 5.5 seconds (500ms delay + 4000ms show + 1000ms hide transition time)
+                setInterval(playCycle, 5500);
+            }
+
             window.addEventListener('resize', scaleToFit);
-            document.addEventListener('DOMContentLoaded', scaleToFit);
+            document.addEventListener('DOMContentLoaded', () => {
+                scaleToFit();
+                startHistoryAnimation();
+            });
         </script>
 
     </div>
