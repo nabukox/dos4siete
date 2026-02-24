@@ -351,8 +351,8 @@
             </div>
 
             <!-- 4. VOIP WIDGET (Transferred & Positioned Bottom Right) -->
-            <div
-                class="absolute bottom-6 right-6 w-[460px] bg-white rounded-xl shadow-2xl border border-gray-300 flex flex-col overflow-hidden z-20">
+            <div id="voip-container"
+                class="absolute bottom-6 right-6 w-[460px] bg-white rounded-xl shadow-2xl border border-gray-300 flex flex-col overflow-hidden z-20 opacity-0 translate-y-8 transition-all duration-700 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] pointer-events-none">
 
                 <!-- Header -->
                 <div class="h-14 bg-[#714B67] flex items-center justify-between px-5 text-white shrink-0">
@@ -554,33 +554,49 @@
             }
 
             function runDemoLoop() {
-                // 1. Initial wait
+                const voipContainer = document.getElementById('voip-container');
+
+                // 1. Initial wait (3 seconds) to view contacts
                 setTimeout(() => {
-                    // 2. Move to Answer Button
-                    moveCursorTo(btnAnswer, 1500, () => {
-                        // 3. Click
-                        clickAnimation(btnAnswer);
+                    // 2. Show VOIP Window
+                    if (voipContainer) {
+                        voipContainer.classList.remove('opacity-0', 'translate-y-8', 'pointer-events-none');
+                        voipContainer.classList.add('opacity-100', 'translate-y-0');
+                    }
 
-                        // 4. Wait for call to "connect" and run a bit
-                        setTimeout(() => {
-                            // 5. Move to Hangup Button
-                            moveCursorTo(btnHangup, 1500, () => {
-                                // 6. Click Hangup
-                                clickAnimation(btnHangup);
+                    // 3. Move to Answer Button after VOIP appears
+                    setTimeout(() => {
+                        moveCursorTo(btnAnswer, 1500, () => {
+                            // 4. Click
+                            clickAnimation(btnAnswer);
 
-                                // 7. Reset and Loop
-                                setTimeout(() => {
-                                    // Move cursor away
-                                    cursor.style.left = "-50px";
-                                    cursor.style.top = "50%";
+                            // 5. Wait for call to "connect" and run a bit
+                            setTimeout(() => {
+                                // 6. Move to Hangup Button
+                                moveCursorTo(btnHangup, 1500, () => {
+                                    // 7. Click Hangup
+                                    clickAnimation(btnHangup);
 
-                                    // Restart loop
-                                    runDemoLoop();
-                                }, 1000);
-                            });
-                        }, 4000); // Call lasts 4 seconds
-                    });
-                }, 1000);
+                                    // 8. Reset and Loop
+                                    setTimeout(() => {
+                                        // Move cursor away
+                                        cursor.style.left = "-50px";
+                                        cursor.style.top = "50%";
+
+                                        // Hide VOIP Window
+                                        if (voipContainer) {
+                                            voipContainer.classList.add('opacity-0', 'translate-y-8', 'pointer-events-none');
+                                            voipContainer.classList.remove('opacity-100', 'translate-y-0');
+                                        }
+
+                                        // Restart loop
+                                        setTimeout(runDemoLoop, 1000);
+                                    }, 1000);
+                                });
+                            }, 4000); // Call lasts 4 seconds
+                        });
+                    }, 1000); // Wait 1s for VOIP animation to settle
+                }, 3000); // 3 seconds viewing contacts
             }
 
             // Start Demo
