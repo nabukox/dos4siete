@@ -170,7 +170,7 @@
                     <!-- App 1: Discuss (Orange) -->
                     <div class="flex flex-col items-center gap-2 cursor-pointer group">
                         <div
-                            class="w-16 h-16 bg-[#F0AD4E] rounded-xl flex items-center justify-center text-white text-3xl shadow-sm app-icon">
+                            class="w-24 h-24 bg-[#F0AD4E] rounded-2xl flex items-center justify-center text-white text-4xl shadow-sm app-icon">
                             <i class="fas fa-comments"></i>
                         </div>
                     </div>
@@ -178,39 +178,39 @@
                     <!-- App 2: Calendar (Yellow) -->
                     <div class="flex flex-col items-center gap-2 cursor-pointer group">
                         <div
-                            class="w-16 h-16 bg-[#F0AD4E] rounded-xl flex items-center justify-center text-white text-3xl shadow-sm app-icon bg-gradient-to-br from-yellow-400 to-orange-400">
+                            class="w-24 h-24 bg-[#F0AD4E] rounded-2xl flex items-center justify-center text-white text-4xl shadow-sm app-icon bg-gradient-to-br from-yellow-400 to-orange-400">
                             <i class="fas fa-calendar-alt"></i>
                         </div>
                     </div>
 
-                    <!-- App 3: Contacts (Green) -->
+                    <!-- App 3: TOP RIGHT - Dos4Siete Logo (White Background) -->
                     <div class="flex flex-col items-center gap-2 cursor-pointer group">
                         <div
-                            class="w-16 h-16 bg-[#5CB85C] rounded-xl flex items-center justify-center text-white text-3xl shadow-sm app-icon">
-                            <i class="fas fa-address-book"></i>
+                            class="w-24 h-24 bg-white rounded-2xl flex items-center justify-center shadow-lg app-icon border border-gray-100 p-4">
+                            <img src="../assets/img/logo.svg" alt="Dos4Siete" class="w-full h-full object-contain">
                         </div>
                     </div>
 
                     <!-- App 4: CRM (Purple/Blue Gradient) -->
                     <div class="flex flex-col items-center gap-2 cursor-pointer group">
                         <div
-                            class="w-16 h-16 bg-gradient-to-br from-[#7C7BAD] to-[#9A67A2] rounded-xl flex items-center justify-center text-white text-3xl shadow-sm app-icon">
+                            class="w-24 h-24 bg-gradient-to-br from-[#7C7BAD] to-[#9A67A2] rounded-2xl flex items-center justify-center text-white text-4xl shadow-sm app-icon">
                             <i class="fas fa-handshake"></i>
                         </div>
                     </div>
 
-                    <!-- App 5: CENTER - Dos4Siete Logo (White Background) -->
+                    <!-- App 5: Contacts (Green) (SWAPPED TO CENTER) -->
                     <div class="flex flex-col items-center gap-2 cursor-pointer group">
                         <div
-                            class="w-16 h-16 bg-white rounded-xl flex items-center justify-center shadow-lg app-icon border border-gray-100 p-3">
-                            <img src="../assets/img/logo.svg" alt="Dos4Siete" class="w-full h-full object-contain">
+                            class="w-24 h-24 bg-[#5CB85C] rounded-2xl flex items-center justify-center text-white text-4xl shadow-sm app-icon">
+                            <i class="fas fa-address-book"></i>
                         </div>
                     </div>
 
                     <!-- App 6: Website (Cyan) -->
                     <div class="flex flex-col items-center gap-2 cursor-pointer group">
                         <div
-                            class="w-16 h-16 bg-[#5BC0DE] rounded-xl flex items-center justify-center text-white text-3xl shadow-sm app-icon">
+                            class="w-24 h-24 bg-[#5BC0DE] rounded-2xl flex items-center justify-center text-white text-4xl shadow-sm app-icon">
                             <i class="fas fa-globe"></i>
                         </div>
                     </div>
@@ -218,7 +218,7 @@
                     <!-- App 7: Inventory (Orange Dark) -->
                     <div class="flex flex-col items-center gap-2 cursor-pointer group">
                         <div
-                            class="w-16 h-16 bg-[#E67E22] rounded-xl flex items-center justify-center text-white text-3xl shadow-sm app-icon">
+                            class="w-24 h-24 bg-[#E67E22] rounded-2xl flex items-center justify-center text-white text-4xl shadow-sm app-icon">
                             <i class="fas fa-boxes"></i>
                         </div>
                     </div>
@@ -226,7 +226,7 @@
                     <!-- App 8: Accounting (Teal) -->
                     <div class="flex flex-col items-center gap-2 cursor-pointer group">
                         <div
-                            class="w-16 h-16 bg-[#009688] rounded-xl flex items-center justify-center text-white text-3xl shadow-sm app-icon">
+                            class="w-24 h-24 bg-[#009688] rounded-2xl flex items-center justify-center text-white text-4xl shadow-sm app-icon">
                             <i class="fas fa-file-invoice-dollar"></i>
                         </div>
                     </div>
@@ -234,7 +234,7 @@
                     <!-- App 9: Projects (Blue) -->
                     <div class="flex flex-col items-center gap-2 cursor-pointer group">
                         <div
-                            class="w-16 h-16 bg-[#337AB7] rounded-xl flex items-center justify-center text-white text-3xl shadow-sm app-icon">
+                            class="w-24 h-24 bg-[#337AB7] rounded-2xl flex items-center justify-center text-white text-4xl shadow-sm app-icon">
                             <i class="fas fa-project-diagram"></i>
                         </div>
                     </div>
@@ -243,8 +243,8 @@
             </div>
 
             <!-- 3. VOIP WIDGET (Bottom Left Absolute) -->
-            <div
-                class="absolute bottom-6 left-6 w-[460px] bg-white rounded-xl shadow-2xl border border-gray-300 flex flex-col overflow-hidden z-20">
+            <div id="voip-container"
+                class="absolute bottom-6 left-6 w-[460px] bg-white rounded-xl shadow-2xl border border-gray-300 flex flex-col overflow-hidden z-20 opacity-0 translate-y-8 transition-all duration-700 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] pointer-events-none">
 
                 <!-- Header -->
                 <div class="h-14 bg-[#714B67] flex items-center justify-between px-5 text-white shrink-0">
@@ -453,6 +453,7 @@
 
                 if (!modal) return;
                 const modalContent = modal.querySelector('div');
+                const voipContainer = document.getElementById('voip-container');
 
                 // Start loop
                 setTimeout(runDemo, 1000);
@@ -477,7 +478,22 @@
                     cursor.style.opacity = '0';
                     cursor.style.transform = 'translate(600px, 400px)'; // Center start
 
-                    await new Promise(r => setTimeout(r, 100));
+                    // 4. Reset VoIP Container Hide State
+                    if (voipContainer) {
+                        voipContainer.classList.add('opacity-0', 'translate-y-8', 'pointer-events-none');
+                        voipContainer.classList.remove('opacity-100', 'translate-y-0');
+                    }
+
+                    // --- NEW: WAIT 3 SECONDS VIEWING DASHBOARD ---
+                    await new Promise(r => setTimeout(r, 3000));
+
+                    // --- SHOW VOIP ---
+                    if (voipContainer) {
+                        voipContainer.classList.remove('opacity-0', 'translate-y-8', 'pointer-events-none');
+                        voipContainer.classList.add('opacity-100', 'translate-y-0');
+                    }
+
+                    await new Promise(r => setTimeout(r, 1000)); // wait for popup animation to settle
                     cursor.style.transition = 'transform 0.8s ease-in-out, opacity 0.5s';
                     cursor.style.opacity = '1';
 
@@ -538,8 +554,16 @@
                     const rectFinal = document.getElementById('btn-schedule-submit').getBoundingClientRect();
                     cursor.style.opacity = '0';
 
+                    await new Promise(r => setTimeout(r, 1000)); // Short pause before hiding VoIP
+
+                    // --- HIDE VOIP ---
+                    if (voipContainer) {
+                        voipContainer.classList.add('opacity-0', 'translate-y-8', 'pointer-events-none');
+                        voipContainer.classList.remove('opacity-100', 'translate-y-0');
+                    }
+
                     // RESTART LOOP
-                    setTimeout(runDemo, 2000);
+                    setTimeout(runDemo, 1500);
                 }
 
                 // --- HELPERS ---
